@@ -15,9 +15,7 @@ app.on('activate', () => {
 
 function createWindow() {
 
-  window = new BrowserWindow({
-    fullscreen: true
-  });
+  window = new BrowserWindow();
 
   window.loadURL(
     url.format({
@@ -26,6 +24,9 @@ function createWindow() {
       slashes: true,
     })
   );
+
+  window.setMenuBarVisibility(false);
+  window.maximize();
 
   window.webContents.openDevTools();
 

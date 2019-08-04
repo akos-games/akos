@@ -27,6 +27,8 @@ function createWindow() {
     })
   );
 
+  window.removeMenu();
+
   window.webContents.openDevTools();
 
   window.on('closed', () => {
