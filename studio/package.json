@@ -1,5 +1,5 @@
 {
-  "name": "studio",
+  "name": "akos-studio",
   "version": "0.1.0",
   "main": "electron/dist/main.js",
   "scripts": {
@@ -14,16 +14,20 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~8.2.0",
+    "@angular/cdk": "~8.1.2",
     "@angular/common": "~8.2.0",
     "@angular/compiler": "~8.2.0",
     "@angular/core": "~8.2.0",
     "@angular/forms": "~8.2.0",
+    "@angular/material": "^8.1.2",
     "@angular/platform-browser": "~8.2.0",
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
-    "core-js": "^2.5.4",
+    "core-js": "^2.6.9",
+    "material-design-icons": "^3.0.1",
     "rxjs": "~6.5.2",
-    "tslib": "^1.9.0",
+    "tslib": "^1.10.0",
+    "typeface-roboto": "0.0.75",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
@@ -43,7 +47,7 @@
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.0.0",
     "karma-chrome-launcher": "~2.2.0",
-    "karma-coverage-istanbul-reporter": "^2.0.6",
+    "karma-coverage-istanbul-reporter": "^2.1.0",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.4.0",

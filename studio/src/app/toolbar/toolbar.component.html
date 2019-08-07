@@ -1,0 +1,28 @@
+<mat-menu #rootMenu="matMenu">
+  <button mat-menu-item disabled>New</button>
+  <button mat-menu-item disabled>Open</button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item disabled>Documentation</button>
+  <button mat-menu-item disabled>About</button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item disabled>Quit</button>
+</mat-menu>
+
+<mat-toolbar color="primary">
+  <button mat-raised-button color="warn" [matMenuTriggerFor]="rootMenu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <button mat-raised-button disabled>
+    <mat-icon>play_arrow</mat-icon>
+    Run game
+  </button>
+  <button mat-raised-button disabled>
+    <mat-icon>build</mat-icon>
+    Build game
+  </button>
+  <span class="spacer"></span>
+  <button mat-raised-button color="accent" disabled>
+    <mat-icon>report_problem</mat-icon>
+    Problems
+  </button>
+</mat-toolbar>
