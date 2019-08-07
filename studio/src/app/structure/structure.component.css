@@ -1,0 +1,21 @@
+ul, li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.mat-tree-node {
+  user-select: none;
+}
+
+.leaf span {
+  cursor: default;
+}
+
+.candy-icon {
+  line-height: 40px !important;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
