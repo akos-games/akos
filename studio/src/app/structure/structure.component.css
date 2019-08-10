@@ -4,18 +4,18 @@ ul, li {
   list-style-type: none;
 }
 
-.mat-tree-node {
-  user-select: none;
+li {
+  cursor: pointer;
 }
 
-.leaf span {
-  cursor: default;
+.mat-tree-node {
+  user-select: none;
 }
 
 .candy-icon {
   line-height: 40px !important;
 }
 
-.spacer {
+.name {
   flex: 1 1 auto;
 }

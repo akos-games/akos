@@ -7,6 +7,6 @@ mat-toolbar > * {
   margin-right: 20px;
 }
 
-.spacer {
+.name {
   flex: 1 1 auto;
 }
