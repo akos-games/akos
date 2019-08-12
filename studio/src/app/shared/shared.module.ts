@@ -1,35 +1,13 @@
 import {NgModule} from '@angular/core';
-import {
-  MatButtonModule, MatDividerModule,
-  MatIconModule, MatMenuModule, MatRippleModule,
-  MatSidenavModule,
-  MatTabsModule, MatToolbarModule,
-  MatTreeModule
-} from '@angular/material';
+import {MaterialModule} from './material.module';
 
 
 @NgModule({
   imports: [
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
-    MatMenuModule,
-    MatRippleModule,
-    MatSidenavModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatTreeModule
+    MaterialModule
   ],
   exports: [
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
-    MatMenuModule,
-    MatRippleModule,
-    MatSidenavModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatTreeModule
+    MaterialModule
   ]
 })
 export class SharedModule {
