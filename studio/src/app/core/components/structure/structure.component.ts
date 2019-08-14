@@ -1,11 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatMenuTrigger, MatTreeNestedDataSource} from '@angular/material';
+import {GameDescriptorService} from '../../services/game-descriptor.service';
+import {GameDescriptor} from '../../models/game-descriptor';
 
 interface StructureNode {
+  uid?: number;
   name: string;
   icon?: string;
   addAction?: boolean;
+  addHander?: string;
   deleteAction?: boolean;
   copyAction?: boolean;
   children?: StructureNode[];
@@ -18,24 +22,7 @@ interface StructureNode {
 })
 export class StructureComponent implements OnInit {
 
-  private structure: StructureNode[] = [{
-    name: 'Game metadata',
-    icon: 'list_alt'
-  }, {
-    name: 'Scenes',
-    addAction: true,
-    children: [{
-      name: 'Scene 1',
-      icon: 'movie_creation',
-      copyAction: true,
-      deleteAction: true
-    }, {
-      name: 'Scene 2',
-      icon: 'movie_creation',
-      copyAction: true,
-      deleteAction: true
-    }]
-  }];
+  private structure: StructureNode[] = [];
 
   private treeControl: NestedTreeControl<StructureNode> = new NestedTreeControl<StructureNode>(
     node => node.children
@@ -48,7 +35,8 @@ export class StructureComponent implements OnInit {
 
   private contextMenuPosition = {x: '0px', y: '0px'};
 
-  constructor() {
+  constructor(private gameDescriptorService: GameDescriptorService) {
+    this.buildStructure();
     this.dataSource.data = this.structure;
   }
 
@@ -68,7 +56,45 @@ export class StructureComponent implements OnInit {
     }
   }
 
+  onAdd(node: StructureNode): void {
+    this.treeControl.expand(node);
+    this[node.addHander](node);
+    this.refreshTree();
+  }
+
   isCategory(index: number, node: StructureNode): boolean {
     return !!node.children;
+  }
+
+  private buildStructure(): void {
+
+    let gameDescriptor: GameDescriptor = this.gameDescriptorService.getGameDescriptor();
+
+    this.structure.push({
+      uid: gameDescriptor.gameMetadata.uid,
+      name: 'Game metadata',
+      icon: 'list_alt'
+    }, {
+      name: 'Scenes',
+      addAction: true,
+      addHander: 'addScene',
+      children: []
+    });
+  }
+
+  private refreshTree(): void {
+    this.dataSource.data = null;
+    this.dataSource.data = this.structure;
+  }
+
+  private addScene(scenes: StructureNode): void {
+
+    scenes.children.push({
+      uid: this.gameDescriptorService.addScene(),
+      name: 'New scene',
+      icon: 'movie_creation',
+      copyAction: true,
+      deleteAction: true
+    });
   }
 }
