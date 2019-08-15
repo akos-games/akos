@@ -34,10 +34,10 @@ export class GameDescriptorService {
     this.gameDescriptorLoaded$.emit(this.gameDescriptor);
   }
 
-  public createScene(name?: string): Scene {
+  public createScene(): Scene {
 
     let scene: Scene = this.createNode();
-    scene.name = name;
+    scene.name = 'New scene';
     this.gameDescriptor.scenes[scene.uid] = scene;
 
     return scene;
@@ -45,7 +45,8 @@ export class GameDescriptorService {
 
   public copyScene(uid: string): Scene {
 
-    let scene = this.copyNode(this.gameDescriptor.scenes[uid]);
+    let scene: Scene = this.copyNode(this.gameDescriptor.scenes[uid]);
+    scene.name = scene.name + ' copy';
     this.gameDescriptor.scenes[scene.uid] = scene;
 
     return scene;

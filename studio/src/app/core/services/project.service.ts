@@ -16,11 +16,13 @@ export class ProjectService {
 
   private projectStructureUpdated$: EventEmitter<ProjectNode[]>;
   private nodeOpen$: EventEmitter<ProjectNode>;
+  private nodeDeleted$: EventEmitter<ProjectNode>;
 
   constructor(private gameDescriptorService: GameDescriptorService) {
 
     this.projectStructureUpdated$ = new EventEmitter<ProjectNode[]>();
     this.nodeOpen$ = new EventEmitter<ProjectNode>();
+    this.nodeDeleted$ = new EventEmitter<ProjectNode>();
 
     this.gameDescriptorService.subscribeGameDescriptorLoaded(gameDescriptor => this.onGameDescriptorLoaded(gameDescriptor));
   }
@@ -31,6 +33,10 @@ export class ProjectService {
 
   public subscribeNodeOpen(handler: any) {
     this.nodeOpen$.subscribe(handler);
+  }
+
+  public subscribeNodeDeleted(handler: any) {
+    this.nodeDeleted$.subscribe(handler);
   }
 
   public openNode(node: ProjectNode): void {
@@ -92,7 +98,7 @@ export class ProjectService {
   }
 
   private createScene(): void {
-    let scene = this.gameDescriptorService.createScene('New scene');
+    let scene = this.gameDescriptorService.createScene();
     this.addScene(scene);
   }
 
@@ -120,6 +126,7 @@ export class ProjectService {
   private deleteNode(node: ProjectNode) {
     node.parent.children.splice(node.parent.children.indexOf(node), 1);
     this.deleteIndex(node.gameDescriptorNode.uid);
+    this.nodeDeleted$.emit(node);
     this.projectStructureUpdated$.emit(this.projectStructure);
   }
 

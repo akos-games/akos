@@ -54,6 +54,14 @@ export class StructureComponent implements OnInit {
     this.projectService.executeNodeHandler(node.createHandler, node);
   }
 
+  onCopy(node: ProjectNode): void {
+    this.projectService.executeNodeHandler(node.copyHandler, node);
+  }
+
+  onDelete(node: ProjectNode): void {
+    this.projectService.executeNodeHandler(node.deleteHandler, node);
+  }
+
   private onProjectStructureUpdated(projectStructure: ProjectNode[]): void {
     this.dataSource.data = null;
     this.dataSource.data = projectStructure;

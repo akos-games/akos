@@ -14,6 +14,7 @@ export class ContentComponent implements OnInit {
 
   constructor(private projectService: ProjectService) {
     projectService.subscribeNodeOpen(node => this.onNodeOpen(node));
+    projectService.subscribeNodeDeleted(node => this.onNodeDeleted(node));
   }
 
   ngOnInit() {
@@ -38,5 +39,9 @@ export class ContentComponent implements OnInit {
     }
 
     this.activeNode = node;
+  }
+
+  private onNodeDeleted(node: ProjectNode): void {
+    this.onClose(node);
   }
 }

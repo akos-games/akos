@@ -53,12 +53,12 @@
 
   <ng-template matMenuContent let-node="node">
 
-    <button mat-menu-item *ngIf="node.copyHandler" disabled>
+    <button mat-menu-item *ngIf="node.copyHandler" (click)="onCopy(node)">
       <mat-icon>file_copy</mat-icon>
       Copy
     </button>
 
-    <button mat-menu-item *ngIf="node.deleteHandler" disabled>
+    <button mat-menu-item *ngIf="node.deleteHandler" (click)="onDelete(node)">
       <mat-icon>delete</mat-icon>
       Delete
     </button>
