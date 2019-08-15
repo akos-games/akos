@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {GameDescriptor} from '../models/game-descriptor';
 import {GameDescriptorNode} from '../models/game-descriptor-node';
 import {Scene} from '../models/scene';
@@ -9,19 +9,24 @@ import {Scene} from '../models/scene';
 export class GameDescriptorService {
 
   private gameDescriptor: GameDescriptor;
-  private index: {[uid: string]: GameDescriptorNode} = {};
+  private readonly index: {[uid: string]: GameDescriptorNode};
+
+  public gameDescriptorLoaded: EventEmitter<GameDescriptor>;
 
   constructor() {
-    this.createGameDescriptor();
+    this.index = {};
+    this.gameDescriptorLoaded = new EventEmitter<GameDescriptor>();
   }
 
-  private createGameDescriptor(): void {
+  public createGameDescriptor(): void {
 
     this.gameDescriptor = new GameDescriptor();
-
     this.gameDescriptor.gameMetadata = {
       uid: this.generateUid()
     };
+
+    this.indexAll();
+    this.gameDescriptorLoaded.emit(this.gameDescriptor);
   }
 
   public addScene(): number {
@@ -60,9 +65,5 @@ export class GameDescriptorService {
   private indexAll(): void {
     this.addIndex(this.gameDescriptor.gameMetadata);
     this.gameDescriptor.scenes.forEach(this.addIndex);
-  }
-
-  public getGameDescriptor(): GameDescriptor {
-    return this.gameDescriptor;
   }
 }

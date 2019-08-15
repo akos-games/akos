@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GameDescriptorService} from '../../services/game-descriptor.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private gameDescriptorService: GameDescriptorService) { }
 
   ngOnInit() {
   }
 
+  onNew() {
+    this.gameDescriptorService.createGameDescriptor();
+  }
 }
