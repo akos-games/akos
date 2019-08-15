@@ -9,61 +9,69 @@ import {Scene} from '../models/scene';
 export class GameDescriptorService {
 
   private gameDescriptor: GameDescriptor;
-  private readonly index: {[uid: string]: GameDescriptorNode};
-
-  public gameDescriptorLoaded: EventEmitter<GameDescriptor>;
+  private gameDescriptorLoaded$: EventEmitter<GameDescriptor>;
 
   constructor() {
-    this.index = {};
-    this.gameDescriptorLoaded = new EventEmitter<GameDescriptor>();
+    this.gameDescriptorLoaded$ = new EventEmitter<GameDescriptor>();
+  }
+
+  public subscribeGameDescriptorLoaded(handler: any): void {
+    this.gameDescriptorLoaded$.subscribe(handler);
   }
 
   public createGameDescriptor(): void {
 
-    this.gameDescriptor = new GameDescriptor();
-    this.gameDescriptor.gameMetadata = {
-      uid: this.generateUid()
+    this.gameDescriptor = {
+      uidSequence: 0,
+      gameMetadata: {
+        uid: ''
+      },
+      scenes: {}
     };
 
-    this.indexAll();
-    this.gameDescriptorLoaded.emit(this.gameDescriptor);
+    this.gameDescriptor.gameMetadata.uid = this.generateUid();
+
+    this.gameDescriptorLoaded$.emit(this.gameDescriptor);
   }
 
-  public addScene(): number {
+  public createScene(name?: string): Scene {
 
-    let scene = {
-      uid: this.generateUid()
-    };
+    let scene: Scene = this.createNode();
+    scene.name = name;
+    this.gameDescriptor.scenes[scene.uid] = scene;
 
-    this.gameDescriptor.scenes.push(scene);
-    this.addIndex(scene);
-
-    return scene.uid;
+    return scene;
   }
 
-  public removeScene(scene: Scene): void {
-    this.removeIndex(scene.uid);
-    this.gameDescriptor.scenes.splice(this.gameDescriptor.scenes.indexOf(scene), 1);
+  public copyScene(uid: string): Scene {
+
+    let scene = this.copyNode(this.gameDescriptor.scenes[uid]);
+    this.gameDescriptor.scenes[scene.uid] = scene;
+
+    return scene;
   }
 
-  private generateUid(): number {
+  public deleteScene(uid: string): void {
+    delete this.gameDescriptor.scenes[uid];
+  }
 
-    let uid = this.gameDescriptor.uidSequence;
+  private generateUid(): string {
+
+    let uid = 'n' + this.gameDescriptor.uidSequence;
     this.gameDescriptor.uidSequence++;
 
     return uid;
   }
 
-  private addIndex(node: GameDescriptorNode): void {
-    this.index['n' + node.uid] = node;
+  private createNode(): GameDescriptorNode {
+    return {uid: this.generateUid()};
   }
 
-  private removeIndex(uid: number): void {
-    delete this.index['n' + uid];
-  }
+  private copyNode(node: GameDescriptorNode): GameDescriptorNode {
 
-  private indexAll(): void {
-    this.addIndex(this.gameDescriptor.gameMetadata);
-    this.gameDescriptor.scenes.forEach(this.addIndex);
+    let copy = JSON.parse(JSON.stringify(node));
+    copy.uid = this.generateUid();
+
+    return copy;
   }
 }

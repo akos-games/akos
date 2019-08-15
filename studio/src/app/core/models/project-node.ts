@@ -1,9 +1,12 @@
+import {GameDescriptorNode} from './game-descriptor-node';
+
 export interface ProjectNode {
-  uid?: number;
   name: string;
   icon?: string;
-  addAction?: string;
-  deleteAction?: string;
-  copyAction?: string;
+  gameDescriptorNode?: GameDescriptorNode;
+  createHandler?: Function;
+  copyHandler?: Function;
+  deleteHandler?: Function;
+  parent?: ProjectNode,
   children?: ProjectNode[];
 }

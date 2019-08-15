@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-content',
@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentComponent implements OnInit {
 
-  constructor() { }
+  private openTabs: string[];
+
+  constructor() {
+    this.openTabs = [];
+  }
 
   ngOnInit() {
   }
-
 }

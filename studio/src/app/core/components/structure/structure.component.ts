@@ -23,7 +23,7 @@ export class StructureComponent implements OnInit {
     this.treeControl = new NestedTreeControl<ProjectNode>(node => node.children);
     this.dataSource = new MatTreeNestedDataSource<ProjectNode>();
 
-    projectService.projectStructureUpdated.subscribe(projectStructure => this.onProjectStructureUpdated(projectStructure));
+    projectService.subscribeProjectStructureUpdated(projectStructure => this.onProjectStructureUpdated(projectStructure));
   }
 
   ngOnInit() {
@@ -37,7 +37,7 @@ export class StructureComponent implements OnInit {
 
     event.preventDefault();
 
-    if (node.copyAction || node.deleteAction) {
+    if (node.copyHandler || node.deleteHandler) {
       this.contextMenuPosition.x = event.clientX + 'px';
       this.contextMenuPosition.y = event.clientY + 'px';
       this.contextMenu.menuData = {node};
@@ -45,9 +45,9 @@ export class StructureComponent implements OnInit {
     }
   }
 
-  onAdd(node: ProjectNode): void {
+  onCreate(node: ProjectNode): void {
     this.treeControl.expand(node);
-    this.projectService.executeNodeAction(node, node.addAction);
+    this.projectService.executeNodeHandler(node.createHandler, node);
   }
 
   private onProjectStructureUpdated(projectStructure: ProjectNode[]): void {

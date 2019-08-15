@@ -1,3 +1,3 @@
 export interface GameDescriptorNode {
-  uid: number;
+  uid: string;
 }

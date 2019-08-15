@@ -28,7 +28,7 @@
 
       <span class="name" matTreeNodeToggle>{{node.name}}</span>
 
-      <button mat-icon-button *ngIf="node.addAction" (click)="onAdd(node)" (mousedown)="$event.stopPropagation()">
+      <button mat-icon-button *ngIf="node.createHandler" (click)="onCreate(node)" (mousedown)="$event.stopPropagation()">
         <mat-icon>add</mat-icon>
       </button>
 
@@ -53,12 +53,12 @@
 
   <ng-template matMenuContent let-node="node">
 
-    <button mat-menu-item *ngIf="node.copyAction" disabled>
+    <button mat-menu-item *ngIf="node.copyHandler" disabled>
       <mat-icon>file_copy</mat-icon>
       Copy
     </button>
 
-    <button mat-menu-item *ngIf="node.deleteAction" disabled>
+    <button mat-menu-item *ngIf="node.deleteHandler" disabled>
       <mat-icon>delete</mat-icon>
       Delete
     </button>
