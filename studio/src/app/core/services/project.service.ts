@@ -3,7 +3,6 @@ import {ProjectNode} from '../models/project-node';
 import {GameDescriptorService} from './game-descriptor.service';
 import {GameDescriptor} from '../models/game-descriptor';
 import {Scene} from '../models/scene';
-import {promisify} from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +15,26 @@ export class ProjectService {
   private scenes: ProjectNode;
 
   private projectStructureUpdated$: EventEmitter<ProjectNode[]>;
+  private nodeOpen$: EventEmitter<ProjectNode>;
 
   constructor(private gameDescriptorService: GameDescriptorService) {
+
     this.projectStructureUpdated$ = new EventEmitter<ProjectNode[]>();
+    this.nodeOpen$ = new EventEmitter<ProjectNode>();
+
     this.gameDescriptorService.subscribeGameDescriptorLoaded(gameDescriptor => this.onGameDescriptorLoaded(gameDescriptor));
   }
 
   public subscribeProjectStructureUpdated(handler: any) {
     this.projectStructureUpdated$.subscribe(handler);
+  }
+
+  public subscribeNodeOpen(handler: any) {
+    this.nodeOpen$.subscribe(handler);
+  }
+
+  public openNode(node: ProjectNode): void {
+    this.nodeOpen$.emit(node);
   }
 
   public executeNodeHandler(handler: Function, node?: ProjectNode): void {
@@ -37,7 +48,8 @@ export class ProjectService {
     let gameMetadata = {
       name: 'Game metadata',
       icon: 'list_alt',
-      gameDescriptorNode: gameDescriptor.gameMetadata
+      gameDescriptorNode: gameDescriptor.gameMetadata,
+      component: 'game-metadata'
     };
 
     this.addIndex(gameMetadata);
@@ -60,11 +72,11 @@ export class ProjectService {
     };
 
     for (let uid in scenes) {
-      this.addScene(scenes[uid], false);
+      this.addScene(scenes[uid], true);
     }
   }
 
-  private addScene(scene: Scene, notifySubscribers: boolean = true): void {
+  private addScene(scene: Scene, silent?: boolean): void {
 
     let node = {
       name: scene.name,
@@ -72,10 +84,11 @@ export class ProjectService {
       gameDescriptorNode: scene,
       copyHandler: this.copyScene,
       deleteHandler: this.deleteScene,
+      component: 'scene',
       parent: this.scenes
     };
 
-    this.addNode(node, notifySubscribers);
+    this.addNode(node, silent);
   }
 
   private createScene(): void {
@@ -93,13 +106,14 @@ export class ProjectService {
     this.deleteNode(scene);
   }
 
-  private addNode(node: ProjectNode, notifySubscribers: boolean): void {
+  private addNode(node: ProjectNode, silent: boolean): void {
 
     node.parent.children.push(node);
     this.addIndex(node);
 
-    if (notifySubscribers) {
+    if (!silent) {
       this.projectStructureUpdated$.emit(this.projectStructure);
+      this.openNode(node);
     }
   }
 

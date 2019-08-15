@@ -33,6 +33,10 @@ export class StructureComponent implements OnInit {
     return !!node.children;
   }
 
+  onClick(node: ProjectNode): void {
+    this.projectService.openNode(node);
+  }
+
   onContextMenu(event: MouseEvent, node: ProjectNode): void {
 
     event.preventDefault();

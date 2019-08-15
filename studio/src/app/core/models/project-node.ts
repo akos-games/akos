@@ -7,6 +7,7 @@ export interface ProjectNode {
   createHandler?: Function;
   copyHandler?: Function;
   deleteHandler?: Function;
+  component?: string;
   parent?: ProjectNode,
   children?: ProjectNode[];
 }

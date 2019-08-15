@@ -1,0 +1,10 @@
+.node-icon, .node-name {
+  margin-right: 8px;
+}
+
+button {
+  width: 24px;
+}
+
+/* A part of this component CSS is in the global styles.css file as a workaround to this issue */
+/* https://github.com/angular/components/issues/9290 */

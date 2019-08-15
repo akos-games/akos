@@ -3,3 +3,12 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Workaround to the issue described here */
+/* https://github.com/angular/components/issues/9290 */
+/* This style belongs to the core/component/content view */
+.content-tabs .mat-tab-label {
+  padding-left: 12px !important;
+  padding-right: 3px !important;
+  min-width: 0 !important;
+}
