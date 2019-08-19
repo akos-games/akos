@@ -11,12 +11,12 @@ import {ProjectService} from '../../services/project.service';
 })
 export class StructureComponent implements OnInit {
 
-  private treeControl: NestedTreeControl<ProjectNode>;
-  private dataSource: MatTreeNestedDataSource<ProjectNode>;
+  treeControl: NestedTreeControl<ProjectNode>;
+  dataSource: MatTreeNestedDataSource<ProjectNode>;
 
   @ViewChild(MatMenuTrigger, {static: false})
   private contextMenu: MatMenuTrigger;
-  private contextMenuPosition = {x: '0px', y: '0px'};
+  contextMenuPosition = {x: '0px', y: '0px'};
 
   constructor(private projectService: ProjectService) {
 

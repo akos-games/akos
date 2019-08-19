@@ -9,8 +9,8 @@ import {ProjectNode} from '../../models/project-node';
 })
 export class ContentComponent implements OnInit {
 
-  private openNodes: ProjectNode[];
-  private activeNode: ProjectNode;
+  openNodes: ProjectNode[];
+  activeNode: ProjectNode;
 
   constructor(private projectService: ProjectService) {
     projectService.subscribeNodeOpen(node => this.onNodeOpen(node));

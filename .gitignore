@@ -3,4 +3,5 @@
 *.iml
 
 # Build output
-dist
+**/dist
+**/out-tsc
