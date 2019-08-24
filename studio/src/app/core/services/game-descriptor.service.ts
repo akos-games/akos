@@ -35,8 +35,8 @@ export class GameDescriptorService {
     this.gameDescriptorLoaded$.emit(this.gameDescriptor);
   }
 
-  public async saveGameDescriptor(projectFolder: string): Promise<void> {
-    return this.fileService.writeFile('game-descriptor.akg', projectFolder, JSON.stringify(this.gameDescriptor));
+  public async saveGameDescriptor(projectFile: string): Promise<void> {
+    return this.fileService.writeFile(projectFile, JSON.stringify(this.gameDescriptor));
   }
 
   public createScene(): Scene {

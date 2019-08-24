@@ -5,11 +5,11 @@
   "main": "dist/studio/electron/main.js",
   "scripts": {
     "build": "npm run compile && electron-builder --dir",
-    "compile": "ng build --prod --base-href ./ && tsc -p electron && gulp",
+    "compile": "ng build --prod --base-href ./ && tsc -p src/electron && gulp",
     "e2e": "ng e2e",
     "lint": "ng lint",
     "ng": "ng",
-    "serve:electron": "wait-on http-get://localhost:4200/ && tsc -p electron && electron --inspect=5858 . -s",
+    "serve:electron": "wait-on http-get://localhost:4200/ && tsc -p src/electron && electron --inspect=5858 . -s",
     "serve:web": "ng serve",
     "start": "npm-run-all -p serve:web serve:electron",
     "test": "ng test"

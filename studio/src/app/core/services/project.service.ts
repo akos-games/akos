@@ -10,7 +10,9 @@ import {FileService} from './file.service';
 })
 export class ProjectService {
 
+  private projectFile: string;
   private projectFolder: string;
+
   private projectStructure: ProjectNode[];
   private index: { [uid: string]: ProjectNode };
 
@@ -43,37 +45,33 @@ export class ProjectService {
 
   public saveProject(): void {
 
-    if (!this.projectFolder) {
-      this.selectProjectFolder().then(() => {
-        this.saveProjectFiles();
+    if (!this.projectFile) {
+      this.selectProjectFile().then(() => {
+        this.saveProjectFile();
       });
     } else {
-      this.saveProjectFiles();
+      this.saveProjectFile();
     }
   }
 
   public saveProjectAs(): void {
-    this.selectProjectFolder().then(() => {
-      this.saveProjectFiles();
+    this.selectProjectFile().then(() => {
+      this.saveProjectFile();
     });
   }
 
-  private selectProjectFolder(): Promise<void> {
+  private async selectProjectFile(): Promise<void> {
 
-    return new Promise<void>(resolve => {
-      this.fileService.selectFolder().then(folder => {
-        this.projectFolder = folder;
-        resolve();
-      });
-    });
-  }
+    this.projectFile = await this.fileService.selectFile([{name: 'Akos Project', extensions: ['akp']}]);
 
-  private saveProjectFiles(): void {
-
-    // Folder selection could have been cancelled by user
-    if (this.projectFolder) {
-      this.gameDescriptorService.saveGameDescriptor(this.projectFolder).then();
+    // File selection could have been cancelled by user
+    if (this.projectFile) {
+      this.projectFolder = this.projectFile.slice(this.projectFile.lastIndexOf('/'));
     }
+  }
+
+  private async saveProjectFile(): Promise<void> {
+      await this.gameDescriptorService.saveGameDescriptor(this.projectFile);
   }
 
   public openNode(node: ProjectNode): void {

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {IpcRenderer} from 'electron';
+import {IpcRenderer, FileFilter} from 'electron';
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +12,19 @@ export class FileService {
     this.ipc = (<any> window).require('electron').ipcRenderer;
   }
 
-  public async selectFolder(): Promise<string> {
+  public async writeFile(file: string, data: any): Promise<void> {
 
-    return new Promise<string>(resolve => {
-      this.ipc.once('selectFolderResponse', (event, path) => {debugger;resolve(path)});
-      this.ipc.send('selectFolder');
+    return new Promise<void>(resolve => {
+      this.ipc.once('fileWritten', () => resolve());
+      this.ipc.send('writeFile', file, data);
     });
   }
 
-  public async writeFile(filename: string, folder: string, data: any): Promise<void> {
+  public async selectFile(filters?: FileFilter[]): Promise<string> {
 
-    return new Promise<void>(resolve => {
-      this.ipc.once('writeFileResponse', () => resolve());
-      this.ipc.send('writeFile', filename, folder, data);
+    return new Promise<string>(resolve => {
+      this.ipc.once('fileSelected', (event, path) => resolve(path));
+      this.ipc.send('selectFile', filters);
     });
   }
 }
