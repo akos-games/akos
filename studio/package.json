@@ -9,7 +9,7 @@
     "e2e": "ng e2e",
     "lint": "ng lint",
     "ng": "ng",
-    "serve:electron": "wait-on http-get://localhost:4200/ && tsc -p electron && electron . -s",
+    "serve:electron": "wait-on http-get://localhost:4200/ && tsc -p electron && electron --inspect=5858 . -s",
     "serve:web": "ng serve",
     "start": "npm-run-all -p serve:web serve:electron",
     "test": "ng test"

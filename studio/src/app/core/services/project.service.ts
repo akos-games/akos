@@ -3,14 +3,16 @@ import {ProjectNode} from '../models/project-node';
 import {GameDescriptorService} from './game-descriptor.service';
 import {GameDescriptor} from '../models/game-descriptor';
 import {Scene} from '../models/scene';
+import {FileService} from './file.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
+  private projectFolder: string;
   private projectStructure: ProjectNode[];
-  private index: {[uid: string]: ProjectNode};
+  private index: { [uid: string]: ProjectNode };
 
   private scenes: ProjectNode;
 
@@ -18,7 +20,7 @@ export class ProjectService {
   private nodeOpen$: EventEmitter<ProjectNode>;
   private nodeDeleted$: EventEmitter<ProjectNode>;
 
-  constructor(private gameDescriptorService: GameDescriptorService) {
+  constructor(private gameDescriptorService: GameDescriptorService, private fileService: FileService) {
 
     this.projectStructureUpdated$ = new EventEmitter<ProjectNode[]>();
     this.nodeOpen$ = new EventEmitter<ProjectNode>();
@@ -37,6 +39,41 @@ export class ProjectService {
 
   public subscribeNodeDeleted(handler: any) {
     this.nodeDeleted$.subscribe(handler);
+  }
+
+  public saveProject(): void {
+
+    if (!this.projectFolder) {
+      this.selectProjectFolder().then(() => {
+        this.saveProjectFiles();
+      });
+    } else {
+      this.saveProjectFiles();
+    }
+  }
+
+  public saveProjectAs(): void {
+    this.selectProjectFolder().then(() => {
+      this.saveProjectFiles();
+    });
+  }
+
+  private selectProjectFolder(): Promise<void> {
+
+    return new Promise<void>(resolve => {
+      this.fileService.selectFolder().then(folder => {
+        this.projectFolder = folder;
+        resolve();
+      });
+    });
+  }
+
+  private saveProjectFiles(): void {
+
+    // Folder selection could have been cancelled by user
+    if (this.projectFolder) {
+      this.gameDescriptorService.saveGameDescriptor(this.projectFolder).then();
+    }
   }
 
   public openNode(node: ProjectNode): void {
@@ -69,7 +106,7 @@ export class ProjectService {
     this.projectStructureUpdated$.emit(this.projectStructure);
   }
 
-  private addScenes(scenes: {[uid: string]: Scene}): void {
+  private addScenes(scenes: { [uid: string]: Scene }): void {
 
     this.scenes = {
       name: 'Scenes',

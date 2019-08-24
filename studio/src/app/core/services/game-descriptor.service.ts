@@ -2,6 +2,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {GameDescriptor} from '../models/game-descriptor';
 import {GameDescriptorNode} from '../models/game-descriptor-node';
 import {Scene} from '../models/scene';
+import {FileService} from './file.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class GameDescriptorService {
   private gameDescriptor: GameDescriptor;
   private gameDescriptorLoaded$: EventEmitter<GameDescriptor>;
 
-  constructor() {
+  constructor(private fileService: FileService) {
     this.gameDescriptorLoaded$ = new EventEmitter<GameDescriptor>();
   }
 
@@ -32,6 +33,10 @@ export class GameDescriptorService {
     this.gameDescriptor.gameMetadata.uid = this.generateUid();
 
     this.gameDescriptorLoaded$.emit(this.gameDescriptor);
+  }
+
+  public async saveGameDescriptor(projectFolder: string): Promise<void> {
+    return this.fileService.writeFile('game-descriptor.akg', projectFolder, JSON.stringify(this.gameDescriptor));
   }
 
   public createScene(): Scene {

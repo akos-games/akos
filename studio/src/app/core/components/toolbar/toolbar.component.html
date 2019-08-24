@@ -37,6 +37,18 @@
 
   <mat-divider></mat-divider>
 
+  <button mat-menu-item (click)="onSave()">
+    <mat-icon>save_alt</mat-icon>
+    Save
+  </button>
+
+  <button mat-menu-item (click)="onSaveAs()">
+    <mat-icon></mat-icon>
+    Save as...
+  </button>
+
+  <mat-divider></mat-divider>
+
   <button mat-menu-item disabled>
     <mat-icon>library_books</mat-icon>
     Documentation

@@ -1,7 +1,9 @@
 import {app, BrowserWindow} from 'electron';
 import * as url from 'url';
+import {FileService} from './file.service';
 
 let window: BrowserWindow;
+let fileService: FileService = new FileService();
 let args = {
   serve: false
 };
@@ -44,16 +46,25 @@ function createWindow() {
     });
   }
 
-  window = new BrowserWindow();
-  window.loadURL(loadUrl);
-  window.setMenuBarVisibility(false);
-  window.maximize();
+  window = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
 
-  if (args.serve) {
-    window.webContents.openDevTools();
-  }
+  window.loadURL(loadUrl).then(() => {
 
-  window.on('closed', () => {
-    window = null;
+    window.setMenuBarVisibility(false);
+    window.maximize();
+
+    if (args.serve) {
+      window.webContents.openDevTools();
+    }
+
+    window.on('closed', () => {
+      window = null;
+    });
+
+    fileService.listen(window);
   });
 }
