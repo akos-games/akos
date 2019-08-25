@@ -2,7 +2,6 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {GameDescriptor} from '../models/game-descriptor';
 import {GameDescriptorNode} from '../models/game-descriptor-node';
 import {Scene} from '../models/scene';
-import {FileService} from './file.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +9,11 @@ import {FileService} from './file.service';
 export class GameDescriptorService {
 
   private gameDescriptor: GameDescriptor;
+  private uidSequence: number;
+
   private gameDescriptorLoaded$: EventEmitter<GameDescriptor>;
 
-  constructor(private fileService: FileService) {
+  constructor() {
     this.gameDescriptorLoaded$ = new EventEmitter<GameDescriptor>();
   }
 
@@ -22,21 +23,23 @@ export class GameDescriptorService {
 
   public createGameDescriptor(): void {
 
+    this.uidSequence = 0;
     this.gameDescriptor = {
-      uidSequence: 0,
-      gameMetadata: {
-        uid: ''
+      metadata: {
+        uid: this.generateUid()
       },
       scenes: {}
     };
 
-    this.gameDescriptor.gameMetadata.uid = this.generateUid();
-
     this.gameDescriptorLoaded$.emit(this.gameDescriptor);
   }
 
-  public async saveGameDescriptor(projectFile: string): Promise<void> {
-    return this.fileService.writeFile(projectFile, JSON.stringify(this.gameDescriptor));
+  public loadGameDescriptor(gameDescriptor: GameDescriptor, uidSequence: number): void {
+
+    this.gameDescriptor = gameDescriptor;
+    this.uidSequence = uidSequence;
+
+    this.gameDescriptorLoaded$.emit(this.gameDescriptor);
   }
 
   public createScene(): Scene {
@@ -61,14 +64,6 @@ export class GameDescriptorService {
     delete this.gameDescriptor.scenes[uid];
   }
 
-  private generateUid(): string {
-
-    let uid = 'n' + this.gameDescriptor.uidSequence;
-    this.gameDescriptor.uidSequence++;
-
-    return uid;
-  }
-
   private createNode(): GameDescriptorNode {
     return {uid: this.generateUid()};
   }
@@ -79,5 +74,21 @@ export class GameDescriptorService {
     copy.uid = this.generateUid();
 
     return copy;
+  }
+
+  private generateUid(): string {
+
+    let uid = 'n' + this.uidSequence;
+    this.uidSequence++;
+
+    return uid;
+  }
+
+  public getGameDescriptor(): GameDescriptor {
+    return this.gameDescriptor;
+  }
+
+  public getUidSequence(): number {
+    return this.uidSequence;
   }
 }

@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {GameDescriptorService} from '../../services/game-descriptor.service';
+import {Component, OnInit} from '@angular/core';
 import {ProjectService} from '../../services/project.service';
 
 @Component({
@@ -9,13 +8,14 @@ import {ProjectService} from '../../services/project.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private projectService: ProjectService, private gameDescriptorService: GameDescriptorService) { }
+  constructor(private projectService: ProjectService) {
+  }
 
   ngOnInit() {
   }
 
   onNew() {
-    this.gameDescriptorService.createGameDescriptor();
+    this.projectService.createProject();
   }
 
   onSave() {

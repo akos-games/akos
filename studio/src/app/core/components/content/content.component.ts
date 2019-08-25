@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ProjectService} from '../../services/project.service';
 import {ProjectNode} from '../../models/project-node';
+import {UiService} from '../../services/ui.service';
+import {GameDescriptorService} from '../../services/game-descriptor.service';
 
 @Component({
   selector: 'app-content',
@@ -12,9 +13,10 @@ export class ContentComponent implements OnInit {
   openNodes: ProjectNode[];
   activeNode: ProjectNode;
 
-  constructor(private projectService: ProjectService) {
-    projectService.subscribeNodeOpen(node => this.onNodeOpen(node));
-    projectService.subscribeNodeDeleted(node => this.onNodeDeleted(node));
+  constructor(private uiService: UiService, private gameDescriptorService: GameDescriptorService) {
+    uiService.subscribeNodeOpen(node => this.onNodeOpen(node));
+    uiService.subscribeNodeDeleted(node => this.onNodeDeleted(node));
+    gameDescriptorService.subscribeGameDescriptorLoaded(() => this.closeAll());
   }
 
   ngOnInit() {
@@ -43,5 +45,10 @@ export class ContentComponent implements OnInit {
 
   private onNodeDeleted(node: ProjectNode): void {
     this.onClose(node);
+  }
+
+  private closeAll(): void {
+    this.openNodes = [];
+    this.activeNode = null;
   }
 }
