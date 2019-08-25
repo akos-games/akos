@@ -1,9 +1,7 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {ProjectNode} from '../models/project-node';
+import {Injectable} from '@angular/core';
 import {GameDescriptorService} from './game-descriptor.service';
-import {GameDescriptor} from '../models/game-descriptor';
-import {Scene} from '../models/scene';
 import {FileService} from './file.service';
+import {Project} from '../models/project';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +20,26 @@ export class ProjectService {
     this.gameDescriptorService.createGameDescriptor();
   }
 
+  public openProject(): void {
+
+    (async () => {
+
+      await this.selectProjectFile();
+      if (this.projectFile) {
+        let data = await this.fileService.readFile(this.projectFile);
+        let project: Project = JSON.parse(data);
+        this.gameDescriptorService.loadGameDescriptor(project.gameDescriptor, project.uidSequence);
+      }
+
+    })();
+  }
+
   public saveProject(): void {
 
     (async () => {
 
       if (!this.projectFile) {
-        await this.selectProjectFile();
+        await this.selectProjectFile(true);
       }
 
       this.saveProjectFile();
@@ -37,22 +49,34 @@ export class ProjectService {
   public saveProjectAs(): void {
 
     (async () => {
-      await this.selectProjectFile();
+      await this.selectProjectFile(true);
       this.saveProjectFile();
     })();
   }
 
-  private async selectProjectFile(): Promise<void> {
+  private async selectProjectFile(allowCreate?: boolean): Promise<void> {
 
-    this.projectFile = await this.fileService.selectFile([{name: 'Akos Project', extensions: ['akp']}]);
+    let filters =  [{name: 'Akos Project', extensions: ['akp']}];
+    let file = null;
+
+    if (allowCreate) {
+      file = await this.fileService.selectNewFile(filters);
+    } else {
+      file = await this.fileService.selectExistingFile(filters);
+    }
 
     // File selection could have been cancelled by user
-    if (this.projectFile) {
-      this.projectFolder = this.projectFile.slice(this.projectFile.lastIndexOf('/'));
+    if (file) {
+      this.projectFile = file;
+      this.projectFolder = file.slice(file.lastIndexOf('/'));
     }
   }
 
   private async saveProjectFile(): Promise<void> {
+
+    if (!this.projectFile) {
+      return;
+    }
 
     await this.fileService.writeFile(this.projectFile, JSON.stringify({
       uidSequence: this.gameDescriptorService.getUidSequence(),

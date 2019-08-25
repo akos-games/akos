@@ -12,6 +12,14 @@ export class FileService {
     this.ipc = (<any> window).require('electron').ipcRenderer;
   }
 
+  public async readFile(file: string): Promise<any> {
+
+    return new Promise<any>(resolve => {
+      this.ipc.once('fileRead', (event, data) => resolve(data));
+      this.ipc.send('readFile', file);
+    });
+  }
+
   public async writeFile(file: string, data: any): Promise<void> {
 
     return new Promise<void>(resolve => {
@@ -20,11 +28,19 @@ export class FileService {
     });
   }
 
-  public async selectFile(filters?: FileFilter[]): Promise<string> {
+  public async selectNewFile(filters?: FileFilter[]): Promise<string> {
 
     return new Promise<string>(resolve => {
-      this.ipc.once('fileSelected', (event, path) => resolve(path));
-      this.ipc.send('selectFile', filters);
+      this.ipc.once('newFileSelected', (event, path) => resolve(path));
+      this.ipc.send('selectNewFile', filters);
+    });
+  }
+
+  public async selectExistingFile(filters?: FileFilter[]): Promise<string> {
+
+    return new Promise<string>(resolve => {
+      this.ipc.once('existingFileSelected', (event, path) => resolve(path));
+      this.ipc.send('selectExistingFile', filters);
     });
   }
 }
