@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ProjectNode} from '../../models/project-node';
-import {UiService} from '../../services/ui.service';
-import {GameDescriptorService} from '../../services/game-descriptor.service';
+import {ProjectNode} from '../../core/models/project-node';
+import {UiService} from '../../core/services/ui.service';
+import {GameDescriptorService} from '../../core/services/game-descriptor.service';
 
 @Component({
   selector: 'app-content',

@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatMenuTrigger, MatTreeNestedDataSource} from '@angular/material';
-import {ProjectNode} from '../../models/project-node';
-import {UiService} from '../../services/ui.service';
+import {ProjectNode} from '../../core/models/project-node';
+import {UiService} from '../../core/services/ui.service';
 
 @Component({
   selector: 'app-structure',
