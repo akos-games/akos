@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {GameDescriptorService} from './game-descriptor.service';
 import {FileService} from './file.service';
-import {Project} from '../models/project';
+import {Project} from '../types/project';
 
 @Injectable({
   providedIn: 'root'

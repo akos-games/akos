@@ -1,32 +1,31 @@
 import {Component, OnInit} from '@angular/core';
-import {ProjectService} from '../../core/services/project.service';
 
 @Component({
-  selector: 'app-toolbar',
+  selector: 'project-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private projectService: ProjectService) {
+  constructor() {
   }
 
   ngOnInit() {
   }
 
   onNew() {
-    this.projectService.createProject();
+    // this.projectService.createProject();
   }
 
   onOpen() {
-    this.projectService.openProject();
+    // this.projectService.openProject();
   }
 
   onSave() {
-    this.projectService.saveProject();
+    // this.projectService.saveProject();
   }
 
   onSaveAs() {
-    this.projectService.saveProjectAs();
+    // this.projectService.saveProjectAs();
   }
 }

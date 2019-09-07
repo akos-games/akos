@@ -1,8 +1,8 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {GameDescriptorService} from './game-descriptor.service';
-import {ProjectNode} from '../models/project-node';
-import {GameDescriptor} from '../models/game-descriptor';
-import {Scene} from '../models/scene';
+import {ProjectNode} from '../types/project-node';
+import {GameDescriptor} from '../types/game-descriptor';
+import {Scene} from '../types/scene';
 
 @Injectable({
   providedIn: 'root'

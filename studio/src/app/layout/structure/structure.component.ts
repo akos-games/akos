@@ -1,11 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatMenuTrigger, MatTreeNestedDataSource} from '@angular/material';
-import {ProjectNode} from '../../core/models/project-node';
-import {UiService} from '../../core/services/ui.service';
+import {ProjectNode} from '../../core/types/project-node';
 
 @Component({
-  selector: 'app-structure',
+  selector: 'project-structure',
   templateUrl: './structure.component.html',
   styleUrls: ['./structure.component.css']
 })
@@ -18,12 +17,12 @@ export class StructureComponent implements OnInit {
   private contextMenu: MatMenuTrigger;
   contextMenuPosition = {x: '0px', y: '0px'};
 
-  constructor(private uiService: UiService) {
+  constructor() {
 
     this.treeControl = new NestedTreeControl<ProjectNode>(node => node.children);
     this.dataSource = new MatTreeNestedDataSource<ProjectNode>();
 
-    uiService.subscribeProjectStructureUpdated(projectStructure => this.onProjectStructureUpdated(projectStructure));
+    // uiService.subscribeProjectStructureUpdated(projectStructure => this.onProjectStructureUpdated(projectStructure));
   }
 
   ngOnInit() {
@@ -34,7 +33,7 @@ export class StructureComponent implements OnInit {
   }
 
   onClick(node: ProjectNode): void {
-    this.uiService.openNode(node);
+    // this.uiService.openNode(node);
   }
 
   onContextMenu(event: MouseEvent, node: ProjectNode): void {
@@ -51,15 +50,15 @@ export class StructureComponent implements OnInit {
 
   onCreate(node: ProjectNode): void {
     this.treeControl.expand(node);
-    this.uiService.executeNodeHandler(node.createHandler, node);
+    // this.uiService.executeNodeHandler(node.createHandler, node);
   }
 
   onCopy(node: ProjectNode): void {
-    this.uiService.executeNodeHandler(node.copyHandler, node);
+    // this.uiService.executeNodeHandler(node.copyHandler, node);
   }
 
   onDelete(node: ProjectNode): void {
-    this.uiService.executeNodeHandler(node.deleteHandler, node);
+    // this.uiService.executeNodeHandler(node.deleteHandler, node);
   }
 
   private onProjectStructureUpdated(projectStructure: ProjectNode[]): void {

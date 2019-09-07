@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ProjectNode} from '../../core/models/project-node';
-import {UiService} from '../../core/services/ui.service';
-import {GameDescriptorService} from '../../core/services/game-descriptor.service';
+import {ProjectNode} from '../../core/types/project-node';
 
 @Component({
-  selector: 'app-content',
+  selector: 'project-content',
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.css']
 })
@@ -13,10 +11,10 @@ export class ContentComponent implements OnInit {
   openNodes: ProjectNode[];
   activeNode: ProjectNode;
 
-  constructor(private uiService: UiService, private gameDescriptorService: GameDescriptorService) {
-    uiService.subscribeNodeOpen(node => this.onNodeOpen(node));
-    uiService.subscribeNodeDeleted(node => this.onNodeDeleted(node));
-    gameDescriptorService.subscribeGameDescriptorLoaded(() => this.closeAll());
+  constructor() {
+    // uiService.subscribeNodeOpen(node => this.onNodeOpen(node));
+    // uiService.subscribeNodeDeleted(node => this.onNodeDeleted(node));
+    // gameDescriptorService.subscribeGameDescriptorLoaded(() => this.closeAll());
   }
 
   ngOnInit() {

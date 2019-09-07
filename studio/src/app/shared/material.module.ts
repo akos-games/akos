@@ -1,9 +1,13 @@
 import {NgModule} from '@angular/core';
 import {
-  MatButtonModule, MatDividerModule,
-  MatIconModule, MatMenuModule, MatRippleModule,
+  MatButtonModule,
+  MatDividerModule,
+  MatIconModule,
+  MatMenuModule,
+  MatRippleModule,
   MatSidenavModule,
-  MatTabsModule, MatToolbarModule,
+  MatTabsModule,
+  MatToolbarModule,
   MatTreeModule
 } from '@angular/material';
 
