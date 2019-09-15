@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {IpcRenderer, FileFilter} from 'electron';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,34 +13,34 @@ export class FileService {
     this.ipc = (<any> window).require('electron').ipcRenderer;
   }
 
-  public async readFile(file: string): Promise<any> {
+  public readFile(file: string): Observable<any> {
 
-    return new Promise<any>(resolve => {
-      this.ipc.once('fileRead', (event, data) => resolve(data));
+    return new Observable<any>(subscriber => {
+      this.ipc.once('fileRead', (event, data) => subscriber.next(data));
       this.ipc.send('readFile', file);
     });
   }
 
-  public async writeFile(file: string, data: any): Promise<void> {
+  public writeFile(file: string, data: any): Observable<void> {
 
-    return new Promise<void>(resolve => {
-      this.ipc.once('fileWritten', () => resolve());
+    return new Observable<void>(subscriber => {
+      this.ipc.once('fileWritten', () => subscriber.next());
       this.ipc.send('writeFile', file, data);
     });
   }
 
-  public async selectNewFile(filters?: FileFilter[]): Promise<string> {
+  public selectNewFile(filters?: FileFilter[]): Observable<string> {
 
-    return new Promise<string>(resolve => {
-      this.ipc.once('newFileSelected', (event, path) => resolve(path));
+    return new Observable<string>(subscriber => {
+      this.ipc.once('newFileSelected', (event, path) => subscriber.next(path));
       this.ipc.send('selectNewFile', filters);
     });
   }
 
-  public async selectExistingFile(filters?: FileFilter[]): Promise<string> {
+  public selectExistingFile(filters?: FileFilter[]): Observable<string> {
 
-    return new Promise<string>(resolve => {
-      this.ipc.once('existingFileSelected', (event, path) => resolve(path));
+    return new Observable<string>(subscriber => {
+      this.ipc.once('existingFileSelected', (event, path) => subscriber.next(path));
       this.ipc.send('selectExistingFile', filters);
     });
   }
