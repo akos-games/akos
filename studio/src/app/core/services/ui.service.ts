@@ -1,6 +1,7 @@
+/*
 import {EventEmitter, Injectable} from '@angular/core';
 import {GameDescriptorService} from './game-descriptor.service';
-import {ProjectNode} from '../types/project-node';
+import {Node} from '../../layout/types/node';
 import {GameDescriptor} from '../types/game-descriptor';
 import {Scene} from '../types/scene';
 
@@ -9,18 +10,18 @@ import {Scene} from '../types/scene';
 })
 export class UiService {
 
-  private projectStructure: ProjectNode[];
-  private scenes: ProjectNode;
+  private projectStructure: Node[];
+  private scenes: Node;
 
-  private projectStructureUpdated$: EventEmitter<ProjectNode[]>;
-  private nodeOpen$: EventEmitter<ProjectNode>;
-  private nodeDeleted$: EventEmitter<ProjectNode>;
+  private projectStructureUpdated$: EventEmitter<Node[]>;
+  private nodeOpen$: EventEmitter<Node>;
+  private nodeDeleted$: EventEmitter<Node>;
 
   constructor(private gameDescriptorService: GameDescriptorService) {
 
-    this.projectStructureUpdated$ = new EventEmitter<ProjectNode[]>();
-    this.nodeOpen$ = new EventEmitter<ProjectNode>();
-    this.nodeDeleted$ = new EventEmitter<ProjectNode>();
+    this.projectStructureUpdated$ = new EventEmitter<Node[]>();
+    this.nodeOpen$ = new EventEmitter<Node>();
+    this.nodeDeleted$ = new EventEmitter<Node>();
 
     this.gameDescriptorService.subscribeGameDescriptorLoaded(gameDescriptor => this.onGameDescriptorLoaded(gameDescriptor));
   }
@@ -37,11 +38,11 @@ export class UiService {
     this.nodeDeleted$.subscribe(handler);
   }
 
-  public openNode(node: ProjectNode): void {
+  public openNode(node: Node): void {
     this.nodeOpen$.emit(node);
   }
 
-  public executeNodeHandler(handler: Function, node?: ProjectNode): void {
+  public executeNodeHandler(handler: Function, node?: Node): void {
     handler.bind(this)(node);
   }
 
@@ -68,7 +69,7 @@ export class UiService {
 
     this.scenes = {
       name: 'Scenes',
-      createHandler: this.createScene,
+      createAction: this.createScene,
       children: []
     };
 
@@ -97,17 +98,17 @@ export class UiService {
     this.addScene(scene);
   }
 
-  private copyScene(scene: ProjectNode): void {
+  private copyScene(scene: Node): void {
     let copy = this.gameDescriptorService.copyScene(scene.gameDescriptorNode.uid);
     this.addScene(copy);
   }
 
-  private deleteScene(scene: ProjectNode): void {
+  private deleteScene(scene: Node): void {
     this.gameDescriptorService.deleteScene(scene.gameDescriptorNode.uid);
     this.deleteNode(scene);
   }
 
-  private addNode(node: ProjectNode, silent: boolean): void {
+  private addNode(node: Node, silent: boolean): void {
 
     node.parent.children.push(node);
 
@@ -117,9 +118,10 @@ export class UiService {
     }
   }
 
-  private deleteNode(node: ProjectNode) {
+  private deleteNode(node: Node) {
     node.parent.children.splice(node.parent.children.indexOf(node), 1);
     this.nodeDeleted$.emit(node);
     this.projectStructureUpdated$.emit(this.projectStructure);
   }
 }
+*/

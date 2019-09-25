@@ -1,0 +1,13 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+  <!-- Child nodes -->
+  <mat-tree-node *matTreeNodeDef="let node">
+    <project-node [node]="node" (select)="onSelect(node)" (copy)="onCopy(node)" (delete)="onDelete(node)"></project-node>
+  </mat-tree-node>
+
+  <!-- Parent nodes -->
+  <mat-nested-tree-node *matTreeNodeDef="let node; when isParent">
+    <project-node [node]="node" [expanded]="treeControl.isExpanded(node)" (create)="onCreate(node)"></project-node>
+  </mat-nested-tree-node>
+
+</mat-tree>

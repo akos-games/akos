@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ProjectNode} from '../../core/types/project-node';
+import {Node} from '../../types/node';
 
 @Component({
   selector: 'project-content',
@@ -8,8 +8,8 @@ import {ProjectNode} from '../../core/types/project-node';
 })
 export class ContentComponent implements OnInit {
 
-  openNodes: ProjectNode[];
-  activeNode: ProjectNode;
+  openNodes: Node[];
+  activeNode: Node;
 
   constructor() {
     // uiService.subscribeNodeOpen(node => this.onNodeOpen(node));
@@ -21,7 +21,7 @@ export class ContentComponent implements OnInit {
     this.openNodes = [];
   }
 
-  onClose(node: ProjectNode): void {
+  onClose(node: Node): void {
 
     let nodeIndex = this.openNodes.indexOf(node);
     this.openNodes.splice(nodeIndex, 1);
@@ -32,7 +32,7 @@ export class ContentComponent implements OnInit {
     }
   }
 
-  private onNodeOpen(node: ProjectNode): void {
+  private onNodeOpen(node: Node): void {
 
     if (this.openNodes.indexOf(node) < 0) {
       this.openNodes.push(node);
@@ -41,7 +41,7 @@ export class ContentComponent implements OnInit {
     this.activeNode = node;
   }
 
-  private onNodeDeleted(node: ProjectNode): void {
+  private onNodeDeleted(node: Node): void {
     this.onClose(node);
   }
 

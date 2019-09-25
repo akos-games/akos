@@ -1,3 +1,4 @@
+/*
 import {Injectable} from '@angular/core';
 import {GameDescriptorService} from './game-descriptor.service';
 import {FileService} from './file.service';
@@ -28,7 +29,7 @@ export class ProjectService {
       if (this.projectFile) {
         let data = await this.fileService.readFile(this.projectFile);
         let project: Project = JSON.parse(data);
-        this.gameDescriptorService.loadGameDescriptor(project.gameDescriptor, project.uidSequence);
+        // this.gameDescriptorService.loadGameDescriptor(project.gameDescriptor, project.uidSequence);
       }
 
     })();
@@ -84,3 +85,4 @@ export class ProjectService {
     }));
   }
 }
+*/

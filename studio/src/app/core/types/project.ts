@@ -1,6 +1,6 @@
-import {GameDescriptor} from './game-descriptor';
+import {Metadata} from './metadata';
 
 export interface Project {
-  uidSequence: number,
-  gameDescriptor: GameDescriptor
+  file: string;
+  metadata: Metadata
 }

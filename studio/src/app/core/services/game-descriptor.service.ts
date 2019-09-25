@@ -1,3 +1,4 @@
+/*
 import {EventEmitter, Injectable} from '@angular/core';
 import {GameDescriptor} from '../types/game-descriptor';
 import {GameDescriptorNode} from '../types/game-descriptor-node';
@@ -92,3 +93,4 @@ export class GameDescriptorService {
     return this.uidSequence;
   }
 }
+*/
