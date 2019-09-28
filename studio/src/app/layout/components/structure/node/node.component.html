@@ -1,7 +1,5 @@
 <!-- Child nodes -->
-<ng-template [ngIf]="!node.children" [ngIfElse]="parent">
-
-  <li class="mat-tree-node leaf" matRipple (click)="onClick()" (contextmenu)="onContextMenu($event)">
+<li *ngIf="!isParent()" class="mat-tree-node leaf" matRipple (click)="onClick()" (contextmenu)="onContextMenu($event)">
 
     <span class="mat-icon-button">
       <mat-icon class="candy-icon">{{node.icon}}</mat-icon>
@@ -9,32 +7,26 @@
 
     <span class="name">{{node.name}}</span>
 
-  </li>
-
-</ng-template>
+</li>
 
 <!-- Parent nodes -->
-<ng-template #parent>
+<li *ngIf="isParent()" class="mat-tree-node" matRipple>
 
-  <li class="mat-tree-node" matRipple>
+  <button mat-icon-button matTreeNodeToggle [disabled]="!isExpandable()" (mousedown)="$event.stopPropagation()">
+    <mat-icon>{{expanded ? 'expand_more' : 'chevron_right'}}</mat-icon>
+  </button>
 
-    <button mat-icon-button matTreeNodeToggle [disabled]="node.children.length === 0" (mousedown)="$event.stopPropagation()">
-      <mat-icon>{{expanded ? 'expand_more' : 'chevron_right'}}</mat-icon>
-    </button>
+  <span class="name" matTreeNodeToggle>
+    <span (click)="isExpandable() || $event.stopPropagation()">
+      {{node.name}}
+    </span>
+  </span>
 
-    <span class="name" matTreeNodeToggle>{{node.name}}</span>
+  <button mat-icon-button *ngIf="node.getCreateAction" (click)="onCreate()" (mousedown)="$event.stopPropagation()">
+    <mat-icon>add</mat-icon>
+  </button>
 
-    <button mat-icon-button *ngIf="node.createAction" (click)="onCreate()" (mousedown)="$event.stopPropagation()">
-      <mat-icon>add</mat-icon>
-    </button>
-
-  </li>
-
-  <ul *ngIf="expanded">
-    <ng-container matTreeNodeOutlet></ng-container>
-  </ul>
-
-</ng-template>
+</li>
 
 <!-- Nodes context menu -->
 <div style="visibility: hidden; position: fixed"
@@ -47,12 +39,12 @@
 
   <ng-template matMenuContent let-node="node">
 
-    <button mat-menu-item *ngIf="node.copyAction" (click)="onCopy()">
+    <button mat-menu-item *ngIf="node.getCopyAction" (click)="onCopy()">
       <mat-icon>file_copy</mat-icon>
       Copy
     </button>
 
-    <button mat-menu-item *ngIf="node.deleteAction" (click)="onDelete()">
+    <button mat-menu-item *ngIf="node.getDeleteAction" (click)="onDelete()">
       <mat-icon>delete</mat-icon>
       Delete
     </button>

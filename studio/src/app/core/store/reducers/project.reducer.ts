@@ -4,6 +4,7 @@ import {Project} from '../../types/project';
 import {deepCopy} from '../../../shared/utils/object';
 
 export const initialState: Project = {
+  version: '0.1',
   file: null,
   metadata: {}
 };

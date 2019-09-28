@@ -2,12 +2,6 @@
   width: 100%;
 }
 
-ul, li {
-  margin-top: 0;
-  margin-bottom: 0;
-  list-style-type: none;
-}
-
 li {
   cursor: pointer;
 }
@@ -18,4 +12,8 @@ li {
 
 .name {
   flex: 1 1 auto;
+}
+
+.name span {
+  display: block;
 }

@@ -7,9 +7,12 @@ import {select, Store} from '@ngrx/store';
 import {Ui} from '../../../core/types/ui';
 import {openNode} from '../../../core/store/actions/ui.actions';
 import {getMetadata} from '../../../core/store/selectors/project.selectors';
-import {merge, Observable} from 'rxjs';
+import {BehaviorSubject, merge, Observable} from 'rxjs';
 import {Metadata} from '../../../core/types/metadata';
 import {NodeHelper} from '../../helpers/node.helper';
+import {EntityState} from '@ngrx/entity';
+import {Scene} from '../../../core/types/scene';
+import {getAllScenes} from '../../../core/store/selectors/scene.selectors';
 
 @Component({
   selector: 'project-structure',
@@ -21,20 +24,39 @@ export class StructureComponent implements OnInit {
   treeControl: NestedTreeControl<Node>;
   dataSource: MatTreeNestedDataSource<Node>;
 
-  private metadata: Observable<Metadata> = new Observable<Metadata>();
+  private metadata$: Observable<Metadata>;
+  private scenes$: BehaviorSubject<Scene[]> = new BehaviorSubject<Scene[]>([]);
 
-  constructor(private projectStore: Store<{project: Project}>, private uiStore: Store<{ui: Ui}>) {
+  constructor(
+    private projectStore: Store<{project: Project}>,
+    private uiStore: Store<{ui: Ui}>,
+    private scenesStore: Store<{scenes: EntityState<Scene>}>
+  ) {
     this.treeControl = new NestedTreeControl<Node>(node => node.children);
     this.dataSource = new MatTreeNestedDataSource<Node>();
   }
 
   ngOnInit() {
-    this.metadata = this.projectStore.pipe(select(getMetadata));
-    merge(this.metadata).subscribe(() => this.updateStructure());
+
+    this.initStructure();
+
+    this.metadata$ = this.projectStore.pipe(select(getMetadata));
+    this.scenesStore.pipe(select(getAllScenes)).subscribe(this.scenes$);
+
+    merge(this.metadata$, this.scenes$).subscribe(() => this.updateStructure());
   }
 
   isParent(index: number, node: Node): boolean {
     return !!node.children;
+  }
+
+  isExpanded(node: Node): boolean {
+
+    if (node.children.length === 0) {
+      this.treeControl.collapse(node);
+    }
+
+    return this.treeControl.isExpanded(node);
   }
 
   onSelect(node: Node): void {
@@ -43,24 +65,34 @@ export class StructureComponent implements OnInit {
 
   onCreate(node: Node): void {
     this.treeControl.expand(node);
-    this.projectStore.dispatch(node.createAction);
+    this.projectStore.dispatch(node.getCreateAction());
   }
 
   onCopy(node: Node): void {
-    this.projectStore.dispatch(node.copyAction);
+    this.projectStore.dispatch(node.getCopyAction());
   }
 
   onDelete(node: Node): void {
-    this.projectStore.dispatch(node.deleteAction);
+    this.projectStore.dispatch(node.getDeleteAction());
   }
 
-  private updateStructure(): void {
+  private initStructure(): void {
 
     let structure: Node[] = [];
 
     structure.push(NodeHelper.getMetadataNode());
+    structure.push(NodeHelper.getScenesParentNode());
 
     this.dataSource.data = null;
     this.dataSource.data = structure;
+  }
+
+  private updateStructure(): void {
+
+    this.dataSource.data[1].children = NodeHelper.getScenesNodes(this.scenes$.getValue());
+
+    let data = this.dataSource.data;
+    this.dataSource.data = null;
+    this.dataSource.data = data;
   }
 }

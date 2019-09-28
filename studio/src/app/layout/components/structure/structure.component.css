@@ -1,3 +1,8 @@
-.mat-tree-node {
+.mat-tree-node, .mat-nested-tree-node {
   user-select: none;
+}
+
+ul {
+  margin-top: 0;
+  margin-bottom: 0;
 }

@@ -27,6 +27,14 @@ export class NodeComponent implements OnInit {
   ngOnInit() {
   }
 
+  isParent() {
+    return !!this.node.children;
+  }
+
+  isExpandable() {
+    return this.node.children.length > 0;
+  }
+
   onClick() {
     this.select.emit(this.node);
   }
@@ -47,7 +55,7 @@ export class NodeComponent implements OnInit {
 
     event.preventDefault();
 
-    if (this.node.copyAction || this.node.deleteAction) {
+    if (this.node.getCopyAction || this.node.getDeleteAction) {
       this.contextMenuPosition.x = event.clientX + 'px';
       this.contextMenuPosition.y = event.clientY + 'px';
       this.contextMenu.menuData = {node: this.node};
