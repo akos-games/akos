@@ -1,11 +1,11 @@
-<mat-tab-group [selectedIndex]="openNodes.indexOf(activeNode)" class="content-tabs">
+<mat-tab-group [selectedIndex]="openNodes.indexOf(activeNode)" (selectedIndexChange)="onSelect($event.valueOf())" class="content-tabs">
 
   <mat-tab *ngFor="let node of openNodes" style="padding: 0 12px !important;">
 
     <ng-template mat-tab-label>
 
       <mat-icon class="node-icon">{{node.icon}}</mat-icon>
-      <span class="node-name">{{node.name}}</span>
+      <span class="node-name" [routerLink]="node.route">{{node.name}}</span>
 
       <button mat-icon-button (click)="onClose(node)" (mousedown)="$event.stopPropagation()">
         <mat-icon>close</mat-icon>
@@ -13,10 +13,7 @@
 
     </ng-template>
 
-    <div [ngSwitch]="node.component">
-      <div *ngSwitchCase="'game-metadata'">Metadata metadata</div>
-      <div *ngSwitchCase="'scene'">Scene</div>
-    </div>
+    <router-outlet></router-outlet>
 
   </mat-tab>
 

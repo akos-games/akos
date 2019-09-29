@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material';
-import {Node} from '../../types/node';
+import {Node} from '../../../core/types/node';
 import {Project} from '../../../core/types/project';
 import {select, Store} from '@ngrx/store';
 import {Ui} from '../../../core/types/ui';
@@ -13,6 +13,7 @@ import {NodeHelper} from '../../helpers/node.helper';
 import {EntityState} from '@ngrx/entity';
 import {Scene} from '../../../core/types/scene';
 import {getAllScenes} from '../../../core/store/selectors/scene.selectors';
+import * as UiActions from '../../../core/store/actions/ui.actions'
 
 @Component({
   selector: 'project-structure',
@@ -60,12 +61,13 @@ export class StructureComponent implements OnInit {
   }
 
   onSelect(node: Node): void {
-    this.uiStore.dispatch(openNode());
+    this.uiStore.dispatch(openNode({node}));
   }
 
   onCreate(node: Node): void {
-    this.treeControl.expand(node);
     this.projectStore.dispatch(node.getCreateAction());
+    this.uiStore.dispatch(UiActions.openNode({node: node.children[node.children.length - 1]}));
+    this.treeControl.expand(node);
   }
 
   onCopy(node: Node): void {
@@ -74,6 +76,7 @@ export class StructureComponent implements OnInit {
 
   onDelete(node: Node): void {
     this.projectStore.dispatch(node.getDeleteAction());
+    this.uiStore.dispatch(UiActions.closeNode({id: node.id}))
   }
 
   private initStructure(): void {

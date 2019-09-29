@@ -1,3 +1,7 @@
+import {EntityState} from '@ngrx/entity';
+import {Node} from './node';
+
 export interface Ui {
-  expandedNodes: string[];
+  openNodes: EntityState<Node>,
+  selectedNodeId: string
 }

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Node} from '../../../types/node';
+import {Node} from '../../../../core/types/node';
 import {MatMenuTrigger} from '@angular/material';
 
 @Component({

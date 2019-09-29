@@ -1,4 +1,4 @@
-import {Node} from '../types/node';
+import {Node} from '../../core/types/node';
 import {Scene} from '../../core/types/scene';
 import * as SceneActions from '../../core/store/actions/scene.actions';
 import {copyNode, generateId} from '../../shared/utils/node';
@@ -9,7 +9,8 @@ export class NodeHelper {
     return {
       id: 'metadata',
       name: 'Game metadata',
-      icon: 'list_alt'
+      icon: 'list_alt',
+      route: 'metadata'
     };
   }
 
@@ -31,6 +32,7 @@ export class NodeHelper {
         id: scene.id.toString(),
         name: scene.name,
         icon: 'movie_creation',
+        route: 'scene/' + scene.id,
         getCopyAction: () => SceneActions.addScene({scene: {...copyNode(scene), name: scene.name + ' copy'}}),
         getDeleteAction: () => SceneActions.deleteScene({id: scene.id})
       });

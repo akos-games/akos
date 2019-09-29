@@ -1,5 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Node} from '../../types/node';
+import {Node} from '../../../core/types/node';
+import {select, Store} from '@ngrx/store';
+import {Ui} from '../../../core/types/ui';
+import * as UiActions from '../../../core/store/actions/ui.actions';
+import {getAllOpenNodes, getSelectedNode} from '../../../core/store/selectors/ui.selectors';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'project-content',
@@ -8,45 +13,24 @@ import {Node} from '../../types/node';
 })
 export class ContentComponent implements OnInit {
 
-  openNodes: Node[];
+  openNodes: Node[] = [];
   activeNode: Node;
 
-  constructor() {
-    // uiService.subscribeNodeOpen(node => this.onNodeOpen(node));
-    // uiService.subscribeNodeDeleted(node => this.onNodeDeleted(node));
-    // gameDescriptorService.subscribeGameDescriptorLoaded(() => this.closeAll());
+  constructor(private router: Router, private uiStore: Store<{ui: Ui}>) {
   }
 
   ngOnInit() {
-    this.openNodes = [];
+    this.uiStore.pipe(select(getAllOpenNodes)).subscribe(openNodes => this.openNodes = openNodes);
+    this.uiStore.pipe(select(getSelectedNode)).subscribe(selectedNode => this.activeNode = selectedNode);
+  }
+
+  onSelect(index: number) {
+    if (this.openNodes.length > 0) {
+      this.router.navigate([this.openNodes[index].route]);
+    }
   }
 
   onClose(node: Node): void {
-
-    let nodeIndex = this.openNodes.indexOf(node);
-    this.openNodes.splice(nodeIndex, 1);
-
-    if (this.activeNode === node) {
-      let activeIndex = nodeIndex < this.openNodes.length ? nodeIndex : this.openNodes.length - 1;
-      this.activeNode = this.openNodes[activeIndex];
-    }
-  }
-
-  private onNodeOpen(node: Node): void {
-
-    if (this.openNodes.indexOf(node) < 0) {
-      this.openNodes.push(node);
-    }
-
-    this.activeNode = node;
-  }
-
-  private onNodeDeleted(node: Node): void {
-    this.onClose(node);
-  }
-
-  private closeAll(): void {
-    this.openNodes = [];
-    this.activeNode = null;
+    this.uiStore.dispatch(UiActions.closeNode({id: node.id}));
   }
 }
