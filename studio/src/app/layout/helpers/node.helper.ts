@@ -1,7 +1,7 @@
-import {Node} from '../../core/types/node';
-import {Scene} from '../../core/types/scene';
-import * as SceneActions from '../../core/store/actions/scene.actions';
-import {copyNode, generateId} from '../../shared/utils/node';
+import { Node } from '../../core/types/node';
+import { Scene } from '../../core/types/scene';
+import { copyNode, generateId } from '../../shared/utils/node';
+import { SceneActions } from '../../core/store/actions/scene.actions';
 
 export class NodeHelper {
 

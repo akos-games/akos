@@ -5,7 +5,6 @@ import {Node} from '../../../core/types/node';
 import {Project} from '../../../core/types/project';
 import {select, Store} from '@ngrx/store';
 import {Ui} from '../../../core/types/ui';
-import {openNode} from '../../../core/store/actions/ui.actions';
 import {getMetadata} from '../../../core/store/selectors/project.selectors';
 import {BehaviorSubject, merge, Observable} from 'rxjs';
 import {Metadata} from '../../../core/types/metadata';
@@ -13,7 +12,7 @@ import {NodeHelper} from '../../helpers/node.helper';
 import {EntityState} from '@ngrx/entity';
 import {Scene} from '../../../core/types/scene';
 import {getAllScenes} from '../../../core/store/selectors/scene.selectors';
-import * as UiActions from '../../../core/store/actions/ui.actions'
+import { UiActions } from '../../../core/store/actions/ui.actions';
 
 @Component({
   selector: 'project-structure',
@@ -61,7 +60,7 @@ export class StructureComponent implements OnInit {
   }
 
   onSelect(node: Node): void {
-    this.uiStore.dispatch(openNode({node}));
+    this.uiStore.dispatch(UiActions.openNode({node}));
   }
 
   onCreate(node: Node): void {

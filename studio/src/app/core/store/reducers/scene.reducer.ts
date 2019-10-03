@@ -1,7 +1,7 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {Scene} from '../../types/scene';
 import {Action, createReducer, on} from '@ngrx/store';
-import * as SceneActions from '../actions/scene.actions';
+import {SceneActions} from '../actions/scene.actions';
 
 const adapter: EntityAdapter<Scene> = createEntityAdapter<Scene>();
 const initialState: EntityState<Scene> = adapter.getInitialState();

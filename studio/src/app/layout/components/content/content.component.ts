@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Node} from '../../../core/types/node';
 import {select, Store} from '@ngrx/store';
 import {Ui} from '../../../core/types/ui';
-import * as UiActions from '../../../core/store/actions/ui.actions';
 import {getAllOpenNodes, getSelectedNode} from '../../../core/store/selectors/ui.selectors';
 import {Router} from '@angular/router';
+import { UiActions } from '../../../core/store/actions/ui.actions';
 
 @Component({
   selector: 'project-content',

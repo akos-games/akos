@@ -1,10 +1,10 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import * as UiActions from '../actions/ui.actions';
 import {Ui} from '../../types/ui';
 import {EntityAdapter} from '@ngrx/entity/src/models';
 import {Node} from '../../types/node';
 import {createEntityAdapter} from '@ngrx/entity';
 import {deepCopy} from '../../../shared/utils/object';
+import {UiActions} from '../actions/ui.actions';
 
 const nodeAdapter: EntityAdapter<Node> = createEntityAdapter<Node>();
 

@@ -1,7 +1,7 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import * as ProjectActions from '../actions/project.actions';
 import {Project} from '../../types/project';
 import {deepCopy} from '../../../shared/utils/object';
+import {ProjectActions} from '../actions/project.actions';
 
 export const initialState: Project = {
   version: '0.1',

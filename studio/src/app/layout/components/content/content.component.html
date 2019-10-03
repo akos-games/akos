@@ -5,7 +5,7 @@
     <ng-template mat-tab-label>
 
       <mat-icon class="node-icon">{{node.icon}}</mat-icon>
-      <span class="node-name" [routerLink]="node.route">{{node.name}}</span>
+      <span class="node-name">{{node.name}}</span>
 
       <button mat-icon-button (click)="onClose(node)" (mousedown)="$event.stopPropagation()">
         <mat-icon>close</mat-icon>

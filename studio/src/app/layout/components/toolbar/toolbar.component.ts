@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Project} from '../../../core/types/project';
-import {create, load, save, saveAs} from '../../../core/store/actions/project.actions';
+import { ProjectActions } from '../../../core/store/actions/project.actions';
 
 @Component({
   selector: 'project-toolbar',
@@ -17,18 +17,18 @@ export class ToolbarComponent implements OnInit {
   }
 
   onNew() {
-    this.projectStore.dispatch(create());
+    this.projectStore.dispatch(ProjectActions.create());
   }
 
   onOpen() {
-    this.projectStore.dispatch(load());
+    this.projectStore.dispatch(ProjectActions.load());
   }
 
   onSave() {
-    this.projectStore.dispatch(save());
+    this.projectStore.dispatch(ProjectActions.save());
   }
 
   onSaveAs() {
-    this.projectStore.dispatch(saveAs());
+    this.projectStore.dispatch(ProjectActions.saveAs());
   }
 }
