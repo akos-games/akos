@@ -21,13 +21,16 @@ export class ContentComponent implements OnInit {
 
   ngOnInit() {
     this.uiStore.pipe(select(getAllOpenNodes)).subscribe(openNodes => this.openNodes = openNodes);
-    this.uiStore.pipe(select(getSelectedNode)).subscribe(selectedNode => this.activeNode = selectedNode);
+    this.uiStore.pipe(select(getSelectedNode)).subscribe(selectedNode => {
+      this.activeNode = selectedNode;
+      if (selectedNode) {
+        this.router.navigateByUrl(selectedNode.route);
+      }
+    });
   }
 
   onSelect(index: number) {
-    if (this.openNodes.length > 0) {
-      this.router.navigate([this.openNodes[index].route]);
-    }
+    this.uiStore.dispatch(UiActions.selectNode({id: this.openNodes[index].id}))
   }
 
   onClose(node: Node): void {
