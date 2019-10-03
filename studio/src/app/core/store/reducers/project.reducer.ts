@@ -11,8 +11,7 @@ export const initialState: Project = {
 
 const reducer = createReducer(
   initialState,
-  on(ProjectActions.loaded, (state, {applicationState}) => (applicationState.project)),
-  on(ProjectActions.create, () => deepCopy(initialState))
+  on(ProjectActions.loaded, (state, {applicationState}) => (applicationState.project))
 );
 
 export function projectReducer(state: Project | undefined, action: Action) {

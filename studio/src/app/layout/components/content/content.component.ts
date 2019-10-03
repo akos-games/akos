@@ -30,7 +30,9 @@ export class ContentComponent implements OnInit {
   }
 
   onSelect(index: number) {
-    this.uiStore.dispatch(UiActions.selectNode({id: this.openNodes[index].id}))
+    if (index !== -1) {
+      this.uiStore.dispatch(UiActions.selectNode({id: this.openNodes[index].id}))
+    }
   }
 
   onClose(node: Node): void {

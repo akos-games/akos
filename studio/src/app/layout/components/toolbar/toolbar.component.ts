@@ -17,7 +17,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   onNew() {
-    this.projectStore.dispatch(ProjectActions.create());
+    this.projectStore.dispatch(ProjectActions.reset());
   }
 
   onOpen() {
