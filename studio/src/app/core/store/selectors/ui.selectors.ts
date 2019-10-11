@@ -1,16 +1,39 @@
 import {ApplicationState} from '../../types/application-state';
 import {createSelector} from '@ngrx/store';
-import {selectAllNodes} from '../reducers/ui.reducer';
+import { Node } from '../../types/node';
 
-const selectUiState = (state: ApplicationState) => state.ui;
-const selectOpenNodesState = (state: ApplicationState) => state.ui.openNodes;
+const getNodes = (state: ApplicationState) => state.ui.nodes;
+const getExpandedNodeIds = (state: ApplicationState) => state.ui.expandedNodes;
+const getOpenTabIds = (state: ApplicationState) => state.ui.openTabs;
+const getActiveTabId = (state: ApplicationState) => state.ui.activeTabId;
 
-export const getAllOpenNodes = createSelector(
-  selectOpenNodesState,
-  selectAllNodes
+export const getNodeStructure = createSelector(
+  getNodes,
+  (nodes: any) => [nodes.metadata, nodes.scenes]
 );
 
-export const getSelectedNode = createSelector(
-  selectUiState,
-  (state) => state.openNodes.entities[state.selectedNodeId]
+export const getExpandedNodes = createSelector(
+  getExpandedNodeIds,
+  getNodes,
+  (nodeIds: any, nodes: any) => Object.keys(nodeIds).map(nodeId => nodeIds[nodeId] && getNodeById(nodeId, nodes)).filter(node => !!node)
 );
+
+export const getOpenTabs = createSelector(
+  getOpenTabIds,
+  getNodes,
+  (tabs: string[], nodes: any) => tabs.map(tabId => getNodeById(tabId, nodes))
+);
+
+export const getActiveTab = createSelector(
+  getActiveTabId,
+  getNodes,
+  (tabId: string, nodes: any) => getNodeById(tabId, nodes)
+);
+
+function getNodeById(id: string, nodes: any): Node {
+
+  const idIsEqual = node => node.id === id;
+
+  return nodes[id]
+    || nodes.scenes.children[nodes.scenes.children.findIndex(idIsEqual)];
+}

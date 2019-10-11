@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 export function deepCopy(object) {
-  return JSON.parse(JSON.stringify(object));
+  return _.cloneDeep(object);
 }

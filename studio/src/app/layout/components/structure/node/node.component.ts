@@ -16,6 +16,7 @@ export class NodeComponent implements OnInit {
   @Output() create = new EventEmitter<Node>();
   @Output() copy = new EventEmitter<Node>();
   @Output() delete = new EventEmitter<Node>();
+  @Output() toggleExpand = new EventEmitter<Node>();
 
   @ViewChild(MatMenuTrigger, {static: false})
   private contextMenu: MatMenuTrigger;
@@ -49,6 +50,12 @@ export class NodeComponent implements OnInit {
 
   onDelete() {
     this.delete.emit(this.node);
+  }
+
+  onToggleExpand() {
+    if (this.isExpandable()) {
+      this.toggleExpand.emit(this.node);
+    }
   }
 
   onContextMenu(event: MouseEvent): void {

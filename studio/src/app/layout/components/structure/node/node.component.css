@@ -2,10 +2,6 @@
   width: 100%;
 }
 
-li {
-  cursor: pointer;
-}
-
 .candy-icon {
   line-height: 40px !important;
 }
@@ -14,6 +10,6 @@ li {
   flex: 1 1 auto;
 }
 
-.name span {
-  display: block;
+.leaf, .clickable {
+  cursor: pointer;
 }

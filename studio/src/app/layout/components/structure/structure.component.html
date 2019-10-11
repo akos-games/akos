@@ -8,7 +8,7 @@
   <!-- Parent nodes -->
   <mat-nested-tree-node *matTreeNodeDef="let node; when isParent">
 
-    <project-node [node]="node" [expanded]="isExpanded(node)" (create)="onCreate(node)"></project-node>
+    <project-node [node]="node" [expanded]="isExpanded(node)" (create)="onCreate(node)" (toggleExpand)="onToggleExpand(node)"></project-node>
 
     <ul *ngIf="isExpanded(node)">
       <ng-container matTreeNodeOutlet></ng-container>

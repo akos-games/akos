@@ -1,13 +1,13 @@
-<mat-tab-group [selectedIndex]="openNodes.indexOf(activeNode)" (selectedIndexChange)="onSelect($event.valueOf())" class="content-tabs">
+<mat-tab-group [selectedIndex]="getSelectedIndex()" (selectedIndexChange)="onSelect($event.valueOf())" class="content-tabs">
 
-  <mat-tab *ngFor="let node of openNodes" style="padding: 0 12px !important;">
+  <mat-tab *ngFor="let tab of openTabs" style="padding: 0 12px !important;">
 
     <ng-template mat-tab-label>
 
-      <mat-icon class="node-icon">{{node.icon}}</mat-icon>
-      <span class="node-name">{{node.name}}</span>
+      <mat-icon class="node-icon">{{tab.icon}}</mat-icon>
+      <span class="node-name">{{tab.name}}</span>
 
-      <button mat-icon-button (click)="onClose(node)" (mousedown)="$event.stopPropagation()">
+      <button mat-icon-button (click)="onClose(tab)" (mousedown)="$event.stopPropagation()">
         <mat-icon>close</mat-icon>
       </button>
 

@@ -6,5 +6,6 @@ export const ProjectActions = {
   load: createAction('[Project] Load'),
   loaded: createAction('[Project] Loaded', props<{applicationState: ApplicationState}>()),
   save: createAction('[Project] Save'),
-  saveAs: createAction('[Project] Save As')
+  saveAs: createAction('[Project] Save As'),
+  saved: createAction('[Project] Saved', props<{file: string}>())
 };

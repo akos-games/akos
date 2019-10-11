@@ -10,16 +10,14 @@
 </li>
 
 <!-- Parent nodes -->
-<li *ngIf="isParent()" class="mat-tree-node" matRipple>
+<li *ngIf="isParent()" class="mat-tree-node" matRipple [class.clickable]="isExpandable()" (click)="onToggleExpand()">
 
-  <button mat-icon-button matTreeNodeToggle [disabled]="!isExpandable()" (mousedown)="$event.stopPropagation()">
+  <button mat-icon-button [disabled]="!isExpandable()" (click)="onToggleExpand()" (mousedown)="$event.stopPropagation()">
     <mat-icon>{{expanded ? 'expand_more' : 'chevron_right'}}</mat-icon>
   </button>
 
-  <span class="name" matTreeNodeToggle>
-    <span (click)="isExpandable() || $event.stopPropagation()">
-      {{node.name}}
-    </span>
+  <span class="name">
+    {{node.name}}
   </span>
 
   <button mat-icon-button *ngIf="node.getCreateAction" (click)="onCreate()" (mousedown)="$event.stopPropagation()">

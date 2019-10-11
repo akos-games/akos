@@ -1,18 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {NestedTreeControl} from '@angular/cdk/tree';
-import {MatTreeNestedDataSource} from '@angular/material';
-import {Node} from '../../../core/types/node';
-import {Project} from '../../../core/types/project';
-import {select, Store} from '@ngrx/store';
-import {Ui} from '../../../core/types/ui';
-import {getMetadata} from '../../../core/store/selectors/project.selectors';
-import {BehaviorSubject, merge, Observable} from 'rxjs';
-import {Metadata} from '../../../core/types/metadata';
-import {NodeHelper} from '../../helpers/node.helper';
-import {EntityState} from '@ngrx/entity';
-import {Scene} from '../../../core/types/scene';
-import {getAllScenes} from '../../../core/store/selectors/scene.selectors';
+import { Component, OnInit } from '@angular/core';
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { MatTreeNestedDataSource } from '@angular/material';
+import { Node } from '../../../core/types/node';
+import { select, Store } from '@ngrx/store';
 import { UiActions } from '../../../core/store/actions/ui.actions';
+import { ApplicationState } from '../../../core/types/application-state';
+import { getExpandedNodes, getNodeStructure } from '../../../core/store/selectors/ui.selectors';
 
 @Component({
   selector: 'project-structure',
@@ -24,77 +17,53 @@ export class StructureComponent implements OnInit {
   treeControl: NestedTreeControl<Node>;
   dataSource: MatTreeNestedDataSource<Node>;
 
-  private metadata$: Observable<Metadata>;
-  private scenes$: BehaviorSubject<Scene[]> = new BehaviorSubject<Scene[]>([]);
-
   constructor(
-    private projectStore: Store<{project: Project}>,
-    private uiStore: Store<{ui: Ui}>,
-    private scenesStore: Store<{scenes: EntityState<Scene>}>
+    private store: Store<ApplicationState>
   ) {
     this.treeControl = new NestedTreeControl<Node>(node => node.children);
     this.dataSource = new MatTreeNestedDataSource<Node>();
   }
 
   ngOnInit() {
-
-    this.initStructure();
-
-    this.metadata$ = this.projectStore.pipe(select(getMetadata));
-    this.scenesStore.pipe(select(getAllScenes)).subscribe(this.scenes$);
-
-    merge(this.metadata$, this.scenes$).subscribe(() => this.updateStructure());
+    this.store.pipe(select(getNodeStructure)).subscribe(nodes => this.updateStructure(nodes));
+    this.store.pipe(select(getExpandedNodes)).subscribe(nodes => this.expandNodes(nodes));
   }
 
-  isParent(index: number, node: Node): boolean {
+  isParent(index: number, node: Node) {
     return !!node.children;
   }
 
-  isExpanded(node: Node): boolean {
-
-    if (node.children.length === 0) {
-      this.treeControl.collapse(node);
-    }
-
+  isExpanded(node: Node) {
     return this.treeControl.isExpanded(node);
   }
 
-  onSelect(node: Node): void {
-    this.uiStore.dispatch(UiActions.openNode({node}));
+  onSelect(node: Node) {
+    this.store.dispatch(UiActions.nodeSelected({id: node.id}));
   }
 
-  onCreate(node: Node): void {
-    this.projectStore.dispatch(node.getCreateAction());
-    this.uiStore.dispatch(UiActions.openNode({node: node.children[node.children.length - 1]}));
-    this.treeControl.expand(node);
+  onCreate(node: Node) {
+    this.store.dispatch(node.getCreateAction());
   }
 
-  onCopy(node: Node): void {
-    this.projectStore.dispatch(node.getCopyAction());
+  onCopy(node: Node) {
+    this.store.dispatch(node.getCopyAction());
   }
 
-  onDelete(node: Node): void {
-    this.projectStore.dispatch(node.getDeleteAction());
-    this.uiStore.dispatch(UiActions.closeNode({id: node.id}))
+  onDelete(node: Node) {
+    this.store.dispatch(node.getDeleteAction());
   }
 
-  private initStructure(): void {
+  onToggleExpand(node: Node) {
+    this.store.dispatch(UiActions.toggleNodeExpanded({id: node.id}));
+  }
 
-    let structure: Node[] = [];
-
-    structure.push(NodeHelper.getMetadataNode());
-    structure.push(NodeHelper.getScenesParentNode());
-
+  private updateStructure(nodes: Node[]): void {
     this.dataSource.data = null;
-    this.dataSource.data = structure;
+    this.dataSource.data = nodes;
   }
 
-  private updateStructure(): void {
-
-    this.dataSource.data[1].children = NodeHelper.getScenesNodes(this.scenes$.getValue());
-
-    let data = this.dataSource.data;
-    this.dataSource.data = null;
-    this.dataSource.data = data;
+  private expandNodes(nodes: Node[]): void {
+    this.treeControl.collapseAll();
+    nodes.forEach(node => this.treeControl.expand(node));
   }
 }

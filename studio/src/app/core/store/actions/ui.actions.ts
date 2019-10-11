@@ -1,8 +1,8 @@
-import {createAction, props} from '@ngrx/store';
-import {Node} from '../../types/node';
+import { createAction, props } from '@ngrx/store';
 
 export const UiActions = {
-  openNode: createAction('[UI] Open Node', props<{node: Node}>()),
-  closeNode: createAction('[UI] Close Node', props<{id: string}>()),
-  selectNode: createAction('[UI] Select Node', props<{id: string}>())
+  closeTab: createAction('[UI] Close Tab', props<{id: string}>()),
+  activateTab: createAction('[UI] Activate Tab', props<{id: string}>()),
+  nodeSelected: createAction('[UI] Node Selected', props<{id: string}>()),
+  toggleNodeExpanded: createAction('[UI] Expand Node', props<{id: string}>())
 };
