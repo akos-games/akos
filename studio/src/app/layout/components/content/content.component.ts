@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Node } from '../../../core/types/node';
 import { select, Store } from '@ngrx/store';
-import { Ui } from '../../../core/types/ui';
 import { Router } from '@angular/router';
 import { UiActions } from '../../../core/store/actions/ui.actions';
 import { getActiveTab, getOpenTabs } from '../../../core/store/selectors/ui.selectors';
@@ -26,7 +25,6 @@ export class ContentComponent implements OnInit {
 
       if (activeTab && activeTab.id !== (this.activeTab && this.activeTab.id)) {
         this.activeTab = activeTab;
-        this.router.navigateByUrl(activeTab.route);
       }
     });
   }

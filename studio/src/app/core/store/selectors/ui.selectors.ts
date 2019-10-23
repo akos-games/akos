@@ -2,10 +2,10 @@ import {ApplicationState} from '../../types/application-state';
 import {createSelector} from '@ngrx/store';
 import { Node } from '../../types/node';
 
-const getNodes = (state: ApplicationState) => state.ui.nodes;
-const getExpandedNodeIds = (state: ApplicationState) => state.ui.expandedNodes;
-const getOpenTabIds = (state: ApplicationState) => state.ui.openTabs;
-const getActiveTabId = (state: ApplicationState) => state.ui.activeTabId;
+export const getNodes = (state: ApplicationState) => state.ui.nodes;
+export const getExpandedNodeIds = (state: ApplicationState) => state.ui.expandedNodes;
+export const getOpenTabIds = (state: ApplicationState) => state.ui.openTabs;
+export const getActiveTabId = (state: ApplicationState) => state.ui.activeTabId;
 
 export const getNodeStructure = createSelector(
   getNodes,

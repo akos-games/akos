@@ -3,7 +3,6 @@ import {AppComponent} from './app.component';
 import {LayoutModule} from './layout/layout.module';
 import {SharedModule} from './shared/shared.module';
 import {CoreModule} from './core/core.module';
-import { AppRoutingModule } from './app-routing.module';
 import {ScenesModule} from './features/scenes/scenes.module';
 
 @NgModule({
@@ -14,7 +13,6 @@ import {ScenesModule} from './features/scenes/scenes.module';
     CoreModule,
     LayoutModule,
     SharedModule,
-    AppRoutingModule,
     ScenesModule
   ],
   bootstrap: [
