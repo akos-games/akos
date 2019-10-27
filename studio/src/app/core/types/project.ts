@@ -1,7 +1,6 @@
-import {Metadata} from './metadata';
-
 export interface Project {
-  version: string;
+  name: string;
+  gameVersion: string;
+  akosVersion: string;
   file: string;
-  metadata: Metadata;
 }

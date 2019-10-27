@@ -1,19 +1,19 @@
-import {NgModule} from '@angular/core';
-import {AppComponent} from './app.component';
-import {LayoutModule} from './layout/layout.module';
-import {SharedModule} from './shared/shared.module';
-import {CoreModule} from './core/core.module';
-import {ScenesModule} from './features/scenes/scenes.module';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+import { LayoutModule } from './layout/layout.module';
+import { MatSidenavModule } from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    CoreModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     LayoutModule,
-    SharedModule,
-    ScenesModule
+    MatSidenavModule
   ],
   bootstrap: [
     AppComponent

@@ -1,0 +1,19 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+  <!-- Child nodes -->
+  <mat-tree-node *matTreeNodeDef="let node">
+    <ak-node [node]="node" (select)="node.select()" (delete)="node.delete()"></ak-node>
+  </mat-tree-node>
+
+  <!-- Parent nodes -->
+  <mat-nested-tree-node *matTreeNodeDef="let node; when isParent">
+
+    <ak-node [node]="node" [expanded]="isExpanded(node)" (create)="onCreate(node)" (toggleExpand)="onToggleExpand(node)"></ak-node>
+
+    <ul *ngIf="isExpanded(node)">
+      <ng-container matTreeNodeOutlet></ng-container>
+    </ul>
+
+  </mat-nested-tree-node>
+
+</mat-tree>

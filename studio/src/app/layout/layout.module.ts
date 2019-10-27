@@ -1,28 +1,39 @@
-import {NgModule} from '@angular/core';
-import {ToolbarComponent} from './components/toolbar/toolbar.component';
-import {ContentComponent} from './components/content/content.component';
-import {StructureComponent} from './components/structure/structure.component';
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SharedModule} from '../shared/shared.module';
-import {NodeComponent} from './components/structure/node/node.component';
+import { NgModule } from '@angular/core';
+import {
+  MatButtonModule,
+  MatDividerModule,
+  MatIconModule,
+  MatMenuModule,
+  MatRippleModule,
+  MatToolbarModule,
+  MatTreeModule
+} from '@angular/material';
+import { ToolbarContainer } from './containers/toolbar/toolbar.container';
+import { CoreModule } from '../core/core.module';
+import { SidebarContainer } from './containers/sidebar/sidebar.container';
+import { NodeComponent } from './components/node/node.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
-    ToolbarComponent,
-    ContentComponent,
-    StructureComponent,
-    NodeComponent
+    NodeComponent,
+    SidebarContainer,
+    ToolbarContainer
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    SharedModule
+    CommonModule,
+    CoreModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    MatMenuModule,
+    MatRippleModule,
+    MatToolbarModule,
+    MatTreeModule
   ],
   exports: [
-    ToolbarComponent,
-    ContentComponent,
-    StructureComponent
+    SidebarContainer,
+    ToolbarContainer
   ]
 })
 export class LayoutModule {
