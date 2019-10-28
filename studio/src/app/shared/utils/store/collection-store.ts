@@ -55,6 +55,10 @@ export class CollectionStore<T> extends Store<CollectionState<T>> {
     this.updateState(newState);
   }
 
+  getItem(itemId: string): T {
+    return deepCopy(this.state.items[itemId]);
+  }
+
   getItems(): T[] {
     return this.state.order.map(itemId => deepCopy(this.state.items[itemId]));
   }

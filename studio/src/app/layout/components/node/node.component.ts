@@ -12,9 +12,7 @@ export class NodeComponent implements OnInit {
   @Input() node: TreeNode;
   @Input() expanded: boolean;
 
-  @Output() select = new EventEmitter<TreeNode>();
   @Output() create = new EventEmitter<TreeNode>();
-  @Output() delete = new EventEmitter<TreeNode>();
   @Output() toggleExpand = new EventEmitter<TreeNode>();
 
   constructor() {
@@ -31,16 +29,8 @@ export class NodeComponent implements OnInit {
     return this.node.children.length > 0;
   }
 
-  onClick() {
-    this.select.emit(this.node);
-  }
-
   onCreate() {
     this.create.emit(this.node);
-  }
-
-  onDelete() {
-    this.delete.emit(this.node);
   }
 
   onToggleExpand() {

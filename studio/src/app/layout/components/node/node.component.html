@@ -1,5 +1,5 @@
 <!-- Child nodes -->
-<li *ngIf="!isParent()" class="mat-tree-node leaf" matRipple (click)="onClick()">
+<li *ngIf="!isParent()" class="mat-tree-node leaf" matRipple [routerLink]="node.route" [routerLinkActive]="'selected'">
 
     <span class="mat-icon-button">
       <mat-icon class="candy-icon">{{node.icon}}</mat-icon>

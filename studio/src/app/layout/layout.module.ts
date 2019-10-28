@@ -13,6 +13,7 @@ import { CoreModule } from '../core/core.module';
 import { SidebarContainer } from './containers/sidebar/sidebar.container';
 import { NodeComponent } from './components/node/node.component';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     CommonModule,
-    CoreModule,
+    RouterModule,
     MatButtonModule,
     MatDividerModule,
     MatIconModule,

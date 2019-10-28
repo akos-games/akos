@@ -8,6 +8,7 @@ import { MetadataNode } from '../../types/metadata-node';
 import { ScenesNode } from '../../types/scenes-node';
 import { SceneService } from '../../../core/services/scene.service';
 import { SceneNode } from '../../types/scene-node';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ak-sidebar',
@@ -22,7 +23,11 @@ export class SidebarContainer implements OnInit {
   private readonly metadata: MetadataNode;
   private readonly scenes: ScenesNode;
 
-  constructor(private sceneStore: SceneStore, private sceneService: SceneService) {
+  constructor(
+    private router: Router,
+    private sceneStore: SceneStore,
+    private sceneService: SceneService
+  ) {
 
     this.treeControl = new NestedTreeControl<TreeNode>(node => node.children);
     this.dataSource = new MatTreeNestedDataSource<TreeNode>();
@@ -51,7 +56,8 @@ export class SidebarContainer implements OnInit {
 
   onCreate(node: TreeNode) {
 
-    node.createChild();
+    let childRoute = node.createChild();
+    this.router.navigateByUrl(childRoute);
 
     if (!this.isExpanded(node)) {
       this.treeControl.expand(node);
@@ -63,18 +69,28 @@ export class SidebarContainer implements OnInit {
   }
 
   private updateTree() {
+
     let data = this.dataSource.data;
+
     this.dataSource.data = null;
     this.dataSource.data = data;
+
+    this.checkRoute();
   }
 
-  private expandNodes(nodes: TreeNode[]) {
-    this.treeControl.collapseAll();
-    nodes.forEach(node => this.treeControl.expand(node));
+  private checkRoute() {
+    if (!this.dataSource.data.some(node => this.router.url === node.route)) {
+      this.router.navigateByUrl('');
+    }
   }
 
   private updateScenes(scenes: Scene[]) {
-    this.scenes.children = scenes.map(scene => new SceneNode(scene.id, scene.name, this.sceneService));
+
+    this.scenes.children = scenes.map(scene => new SceneNode(scene.id, scene.name));
     this.updateTree();
+
+    if (scenes.length === 0) {
+      this.treeControl.collapse(this.scenes);
+    }
   }
 }

@@ -9,7 +9,8 @@ export class ScenesNode implements TreeNode {
   constructor(private sceneService: SceneService) {
   }
 
-  createChild() {
-    this.sceneService.createScene();
+  createChild(): string {
+    let id = this.sceneService.createScene();
+    return `scene/${id}`;
   }
 }

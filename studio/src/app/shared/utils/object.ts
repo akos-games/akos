@@ -1,3 +1,3 @@
 export function deepCopy(object) {
-  return JSON.parse(JSON.stringify(object));
+  return object ? JSON.parse(JSON.stringify(object)) : null;
 }

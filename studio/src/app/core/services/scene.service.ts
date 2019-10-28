@@ -13,10 +13,13 @@ export class SceneService {
 
   createScene() {
 
+    let id = generateId();
     this.sceneStore.addItems({
-      id: generateId(),
+      id: id,
       name: 'New scene'
     });
+
+    return id;
   }
 
   deleteScene(sceneId: number) {
