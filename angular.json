@@ -28,6 +28,7 @@
               "projects/editor/src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "projects/editor/src/styles.scss"
             ],
             "scripts": []
@@ -93,6 +94,7 @@
               "projects/editor/src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "projects/editor/src/styles.scss"
             ],
             "scripts": []
@@ -281,6 +283,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "editor"
 }

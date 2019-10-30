@@ -1,0 +1,11 @@
+productName: akos-editor
+directories:
+  output: "dist/release/editor"
+files:
+  - "package.json"
+  - from: "dist/editor"
+    to: ""
+    filter:
+      - "!**/*.js.map"
+win:
+  target: portable
