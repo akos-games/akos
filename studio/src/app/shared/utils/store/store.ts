@@ -13,6 +13,10 @@ export abstract class Store<T> {
 
   protected abstract getInitialState(): T;
 
+  protected notify() {
+    this.state$.emit(this.getState());
+  }
+
   getState(): T {
     return deepCopy(this.state);
   }
@@ -25,9 +29,5 @@ export abstract class Store<T> {
   resetState() {
     this.state = this.getInitialState();
     this.notify();
-  }
-
-  protected notify() {
-    this.state$.emit(this.getState());
   }
 }

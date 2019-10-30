@@ -13,7 +13,7 @@ export class ProjectStore extends Store<Project> {
     return {
       name: 'New project',
       gameVersion: '',
-      akosVersion: '0.1.0',
+      engineVersion: '0.1.0',
       file: null
     };
   }

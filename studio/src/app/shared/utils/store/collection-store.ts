@@ -5,13 +5,12 @@ import { EventEmitter } from '@angular/core';
 
 export class CollectionStore<T> extends Store<CollectionState<T>> {
 
-  private readonly idProperty;
+  protected readonly idProperty = 'id';
 
   items$: EventEmitter<T[]> = new EventEmitter<T[]>();
 
   constructor() {
     super();
-    this.idProperty ='id';
   }
 
   protected getInitialState(): CollectionState<T> {
@@ -47,11 +46,12 @@ export class CollectionStore<T> extends Store<CollectionState<T>> {
     this.updateState(newState);
   }
 
-  setOrder(order: string[]) {
+  sort(sortFn: (a: T, b: T) => number) {
 
     let newState = this.getState();
+    let sortedItems = this.getItems().sort(sortFn);
 
-    newState.order = deepCopy(order);
+    newState.order = sortedItems.map(item => item[this.idProperty]);
     this.updateState(newState);
   }
 

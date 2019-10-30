@@ -11,7 +11,7 @@ export class SceneService {
   constructor(private sceneStore: SceneStore) {
   }
 
-  createScene() {
+  createScene(): number {
 
     let id = generateId();
     this.sceneStore.addItems({
