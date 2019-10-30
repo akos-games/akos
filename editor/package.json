@@ -1,8 +1,8 @@
 {
-  "name": "akos-studio",
+  "name": "akos-editor",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/studio/electron/main.js",
+  "main": "dist/editor/electron/main.js",
   "scripts": {
     "build": "npm run compile && electron-builder --dir",
     "compile": "ng build --prod --base-href ./ && tsc -p src/electron && gulp",
@@ -16,7 +16,7 @@
   },
   "build": {
     "files": [
-      "dist/studio",
+      "dist/editor",
       "!**/*.js.map"
     ],
     "win": {
