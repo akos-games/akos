@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from '../../../core/services/project.service';
+import { ProjectService } from '../../../services/project.service';
 
 @Component({
   selector: 'ak-toolbar',
   templateUrl: './toolbar.container.html',
-  styleUrls: ['./toolbar.container.css']
+  styleUrls: ['./toolbar.container.scss']
 })
 export class ToolbarContainer implements OnInit {
 

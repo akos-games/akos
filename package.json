@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "editor:build": "ng build editor --prod --base-href ./ && tsc -p projects/editor/src/electron && electron-builder --dir -c projects/editor/electron-builder.yml",
-    "editor:electron": "wait-on http-get://localhost:4200/ && tsc -p projects/editor/src/electron && electron --inspect=5858 dist/editor/index.js -s",
-    "editor:serve": "ng serve editor",
-    "editor:start": "npm-run-all -p editor:serve editor:electron",
-    "build": "ng build",
+    "build": "npm run build:editor",
+    "build:editor": "ng build editor --prod --base-href ./ && tsc -p projects/editor/src/electron && electron-builder --dir -c projects/editor/electron-builder.yml",
     "e2e": "ng e2e",
+    "electron:editor": "wait-on http-get://localhost:4200/ && tsc -p projects/editor/src/electron && electron --inspect=5858 dist/editor/index.js -s",
     "lint": "ng lint",
     "ng": "ng",
-    "start": "npm run editor:start",
+    "serve:editor": "ng serve editor",
+    "start": "npm run start:editor",
+    "start:editor": "npm-run-all -p serve:editor electron:editor",
     "test": "ng test"
   },
   "devDependencies": {
@@ -57,5 +57,6 @@
     "typescript": "~3.5.3",
     "wait-on": "^3.3.0",
     "zone.js": "~0.9.1"
-  }
+  },
+  "dependencies": {}
 }

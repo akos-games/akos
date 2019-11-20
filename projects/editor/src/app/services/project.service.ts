@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ProjectStore } from '../stores/project.store';
-import { CoreModule } from '../core.module';
 import { SceneStore } from '../stores/scene.store';
 import { FileService } from './file.service';
 
 @Injectable({
-  providedIn: CoreModule
+  providedIn: 'root'
 })
 export class ProjectService {
 
@@ -36,7 +35,7 @@ export class ProjectService {
 
     let file = await this.fileService.selectExistingFile([ProjectService.PROJECT_FILTER]);
     let data = JSON.parse(await this.fileService.readFile(file));
-    
+
     this.projectStore.updateState({...data.project, file: file});
     this.sceneStore.updateState(data.scenes);
   }

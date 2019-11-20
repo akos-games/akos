@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CoreModule } from '../core.module';
-import { generateId } from '../../shared/utils/node';
 import { SceneStore } from '../stores/scene.store';
+import { generateId } from '../utils/node';
 
 @Injectable({
-  providedIn: CoreModule
+  providedIn: 'root'
 })
 export class SceneService {
 

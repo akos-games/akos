@@ -1,10 +1,9 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Project } from '../types/project';
-import { CoreModule } from '../core.module';
-import { Store } from '../../shared/utils/store/store';
+import { Store } from '../utils/store/store';
 
 @Injectable({
-  providedIn: CoreModule
+  providedIn: 'root'
 })
 export class ProjectStore extends Store<Project> {
 

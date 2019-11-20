@@ -5,9 +5,8 @@ import { MatSidenavModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { CoreModule } from './core/core.module';
-import { SceneModule } from './scene/scene.module';
-import { SharedModule } from './shared/shared.module';
+import { SceneModule } from './features/scene/scene.module';
+import { MetadataModule } from './features/metadata/metadata.module';
 
 @NgModule({
   declarations: [
@@ -17,9 +16,8 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    SharedModule,
-    CoreModule,
     LayoutModule,
+    MetadataModule,
     SceneModule,
     MatSidenavModule
   ],

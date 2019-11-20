@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SceneView } from './scene/views/scene/scene.view';
-import { MetadataView } from './core/views/metadata/metadata.view';
+import { MetadataView } from './features/metadata/metadata.view';
+import { SceneView } from './features/scene/scene.view';
 
 const routes: Routes = [
   {path: '', redirectTo: '/metadata', pathMatch: 'full'},

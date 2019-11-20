@@ -1,10 +1,9 @@
-import { CollectionStore } from '../../shared/utils/store/collection-store';
 import { Scene } from '../types/scene';
 import { Injectable } from '@angular/core';
-import { CoreModule } from '../core.module';
+import { CollectionStore } from '../utils/store/collection-store';
 
 @Injectable({
-  providedIn: CoreModule
+  providedIn: 'root'
 })
 export class SceneStore extends CollectionStore<Scene> {
 }

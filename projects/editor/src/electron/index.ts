@@ -1,40 +1,42 @@
-import {app, BrowserWindow} from 'electron';
+import { app, BrowserWindow } from 'electron';
 import * as url from 'url';
-import {FileService} from './services/file.service';
+import { FileListener } from './listeners/file.listener';
 
 let mainWindow: BrowserWindow;
-let fileService: FileService;
+let fileListener: FileListener;
 
-// Args default values
+// Default args values
 let args = {
   // Enable hot reload and development features
   serve: false
 };
 
-readArgs();
-
 app.on('ready', createMainWindow);
 
-// Required for MacOS
+// MacOS
 app.on('activate', () => {
   if (mainWindow === null) {
     createMainWindow();
   }
 });
 
-function readArgs(): void {
+readArgs();
+
+function readArgs() {
 
   process.argv.slice(1).forEach(arg => {
-
-    if (arg === '--serve' || arg === '-s') {
-      args.serve = true;
+    switch (arg) {
+      case '--serve':
+      case '-s':
+        args.serve = true;
+        break;
     }
   });
 }
 
-function createMainWindow(): void {
+function createMainWindow() {
 
-  let loadUrl: any;
+  let loadUrl;
 
   if (args.serve) {
 
@@ -54,7 +56,7 @@ function createMainWindow(): void {
 
   mainWindow = new BrowserWindow({
     webPreferences: {
-      // Allows Node API from render process
+      // Allows NodeJS API from render process
       nodeIntegration: true
     }
   });
@@ -70,15 +72,15 @@ function createMainWindow(): void {
       mainWindow.webContents.openDevTools();
     }
 
-    // Required for MacOS
+    // MacOS
     mainWindow.on('closed', () => mainWindow = null);
 
     // Listen render process events
-    initServices();
+    initListeners();
 
   })();
 }
 
-function initServices():void {
-  fileService = new FileService(mainWindow);
+function initListeners() {
+  fileListener = new FileListener(mainWindow);
 }

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Scene } from '../../../core/types/scene';
-import { SceneStore } from '../../../core/stores/scene.store';
+import { Scene } from '../../types/scene';
+import { SceneStore } from '../../stores/scene.store';
 
 @Component({
   selector: 'ak-scene',
   templateUrl: './scene.view.html',
-  styleUrls: ['./scene.view.css']
+  styleUrls: ['./scene.view.scss']
 })
 export class SceneView implements OnInit {
 

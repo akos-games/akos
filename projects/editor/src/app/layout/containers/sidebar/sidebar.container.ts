@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material';
 import { TreeNode } from '../../types/tree-node';
-import { SceneStore } from '../../../core/stores/scene.store';
-import { Scene } from '../../../core/types/scene';
 import { MetadataNode } from '../../types/metadata-node';
 import { ScenesNode } from '../../types/scenes-node';
-import { SceneService } from '../../../core/services/scene.service';
 import { SceneNode } from '../../types/scene-node';
 import { Router } from '@angular/router';
+import { SceneStore } from '../../../stores/scene.store';
+import { SceneService } from '../../../services/scene.service';
+import { Scene } from '../../../types/scene';
 
 @Component({
   selector: 'ak-sidebar',
   templateUrl: './sidebar.container.html',
-  styleUrls: ['./sidebar.container.css']
+  styleUrls: ['./sidebar.container.scss']
 })
 export class SidebarContainer implements OnInit {
 

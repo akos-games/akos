@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SceneView } from './views/scene/scene.view';
+import { SceneView } from './scene.view';
 
 @NgModule({
   declarations: [

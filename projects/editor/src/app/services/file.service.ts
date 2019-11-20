@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IpcRenderer, FileFilter } from 'electron';
-import { CoreModule } from '../core.module';
 
 @Injectable({
-  providedIn: CoreModule
+  providedIn: 'root'
 })
 export class FileService {
 
