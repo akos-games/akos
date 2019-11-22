@@ -1,0 +1,11 @@
+productName: akos-engine
+directories:
+  output: "dist/release/engine"
+files:
+  - "package.json"
+  - from: "dist/engine"
+    to: ""
+    filter:
+      - "!**/*.js.map"
+win:
+  target: portable

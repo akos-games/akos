@@ -5,13 +5,17 @@
   "scripts": {
     "build": "npm run build:editor",
     "build:editor": "ng build editor --prod --base-href ./ && tsc -p projects/editor/src/electron && electron-builder --dir -c projects/editor/electron-builder.yml",
+    "build:engine": "ng build engine --prod --base-href ./ && tsc -p projects/engine/src/electron && electron-builder --dir -c projects/engine/electron-builder.yml",
     "e2e": "ng e2e",
     "electron:editor": "wait-on http-get://localhost:4200/ && tsc -p projects/editor/src/electron && electron --inspect=5858 dist/editor/index.js -s",
+    "electron:engine": "wait-on http-get://localhost:4200/ && tsc -p projects/engine/src/electron && electron --inspect=5858 dist/engine/index.js -s",
     "lint": "ng lint",
     "ng": "ng",
     "serve:editor": "ng serve editor",
+    "serve:engine": "ng serve engine",
     "start": "npm run start:editor",
     "start:editor": "npm-run-all -p serve:editor electron:editor",
+    "start:engine": "npm-run-all -p serve:engine electron:engine",
     "test": "ng test"
   },
   "devDependencies": {
