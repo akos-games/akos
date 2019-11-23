@@ -2,6 +2,10 @@ import { app, BrowserWindow } from 'electron';
 import * as url from 'url';
 import { FileListener } from './listeners/file.listener';
 
+const process = require('process');
+
+process.noAsar = true;
+
 let mainWindow: BrowserWindow;
 let fileListener: FileListener;
 
@@ -76,11 +80,11 @@ function createMainWindow() {
     mainWindow.on('closed', () => mainWindow = null);
 
     // Listen render process events
-    initListeners();
+    initListeners(args.serve);
 
   })();
 }
 
-function initListeners() {
-  fileListener = new FileListener(mainWindow);
+function initListeners(devMode: boolean) {
+  fileListener = new FileListener(mainWindow, devMode);
 }

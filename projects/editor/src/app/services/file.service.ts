@@ -43,4 +43,12 @@ export class FileService {
       this.ipc.send('selectExistingFile', filters);
     });
   }
+
+  public async buildGame(projectPath: string, gameDescriptor: any): Promise<void> {
+
+    return new Promise<void>(resolve => {
+      this.ipc.once('gameBuilt', () => resolve());
+      this.ipc.send('buildGame', projectPath, gameDescriptor);
+    });
+  }
 }

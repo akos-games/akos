@@ -29,4 +29,8 @@ export class ToolbarContainer implements OnInit {
   onSaveAs() {
     this.projectService.saveProject(true);
   }
+
+  onBuildGame() {
+    this.projectService.buildGame();
+  }
 }

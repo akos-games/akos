@@ -1,26 +1,31 @@
-import { ipcMain, dialog, BrowserWindow, FileFilter } from 'electron';
+import { app, ipcMain, dialog, BrowserWindow, FileFilter } from 'electron';
 
-const fs = require('fs');
+const fs = require('fs-extra');
+const process = require('process');
 
 export class FileListener {
 
-  constructor(private mainWindow: BrowserWindow) {
+  private enginePath: string;
+
+  constructor(private mainWindow: BrowserWindow, private devMode: boolean) {
+
+    this.enginePath = devMode ? `${app.getAppPath()}/../release/editor/win-unpacked/engine` : `${process.execPath}/engine`;
+
     ipcMain.on('readFile', (event, file) => this.readFile(file));
     ipcMain.on('writeFile', (event, file, data) => this.writeFile(file, data));
     ipcMain.on('selectNewFile', async (event, filters) => this.selectNewFile(filters));
     ipcMain.on('selectExistingFile', async (event, filters) => this.selectExistingFile(filters));
+    ipcMain.on('buildGame', (event, projectPath, gameDescriptor) => this.buildGame(projectPath, gameDescriptor));
   }
 
   private readFile(file: string) {
-    fs.readFile(file, null, (err, data) => {
-      this.mainWindow.webContents.send('fileRead', data);
-    });
+    let data = fs.readFileSync(file);
+    this.mainWindow.webContents.send('fileRead', data);
   }
 
   private writeFile(file: string, data: any) {
-    fs.writeFile(file, data, null, () => {
-      this.mainWindow.webContents.send('fileWritten');
-    });
+    fs.writeFileSync(file, data);
+    this.mainWindow.webContents.send('fileWritten');
   }
 
   private async selectNewFile(filters?: FileFilter[]) {
@@ -54,5 +59,27 @@ export class FileListener {
     }
 
     return path;
+  }
+
+  private buildGame(projectPath: string, gameDesriptor: any) {
+
+    let distPath = `${projectPath}/dist`;
+
+    fs.ensureDirSync(distPath);
+    fs.copySync(this.enginePath, distPath);
+
+    if (fs.existsSync(`${distPath}/win`)) {
+      fs.writeFileSync(`${distPath}/win/game-descriptor.json`, JSON.stringify(gameDesriptor));
+    }
+
+    if (fs.existsSync(`${distPath}/mac`)) {
+      fs.writeFileSync(`${distPath}/mac/game-descriptor.json`, JSON.stringify(gameDesriptor));
+    }
+
+    if (fs.existsSync(`${distPath}/linux`)) {
+      fs.writeFileSync(`${distPath}/linux/game-descriptor.json`, JSON.stringify(gameDesriptor));
+    }
+
+    this.mainWindow.webContents.send('gameBuilt');
   }
 }

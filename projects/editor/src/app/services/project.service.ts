@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProjectStore } from '../stores/project.store';
 import { SceneStore } from '../stores/scene.store';
 import { FileService } from './file.service';
+import { getDirectory } from '../utils/file';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,14 @@ export class ProjectService {
     let state = this.projectStore.getState();
 
     if (!state.file || changeCurrentLocation) {
-      state.file = await this.fileService.selectNewFile([ProjectService.PROJECT_FILTER]);
+
+      let file = await this.fileService.selectNewFile([ProjectService.PROJECT_FILTER]);
+      if (!file) {
+        // Selection has been cancelled
+        return;
+      }
+
+      state.file = file;
       this.projectStore.updateState(state);
     }
 
@@ -43,5 +51,17 @@ export class ProjectService {
   resetProject() {
     this.projectStore.resetState();
     this.sceneStore.resetState();
+  }
+
+  async buildGame() {
+
+    let projectFile = this.projectStore.getState().file;
+    if (!projectFile) {
+      await this.saveProject();
+    }
+
+    if (projectFile) {
+      await this.fileService.buildGame(getDirectory(projectFile), "toto");
+    }
   }
 }
