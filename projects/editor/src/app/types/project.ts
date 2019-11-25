@@ -3,4 +3,5 @@ export interface Project {
   gameVersion: string;
   engineVersion: string;
   file: string;
+  executableName: string
 }

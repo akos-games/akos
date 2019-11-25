@@ -1,1 +1,18 @@
-Metadata
+<form [formGroup]="metadata">
+
+  <mat-form-field>
+    <mat-label>Game name</mat-label>
+    <input matInput formControlName="name" required>
+  </mat-form-field>
+
+  <mat-form-field class="version">
+    <mat-label>Game version</mat-label>
+    <input matInput formControlName="gameVersion" required>
+  </mat-form-field>
+
+  <mat-form-field hintLabel="Without file extension">
+    <mat-label>Final exe file name</mat-label>
+    <input matInput formControlName="executableName" required>
+  </mat-form-field>
+
+</form>

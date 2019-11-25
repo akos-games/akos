@@ -10,10 +10,11 @@ export class ProjectStore extends Store<Project> {
   protected getInitialState(): Project {
 
     return {
-      name: 'New project',
+      name: '',
       gameVersion: '',
       engineVersion: '0.1.0',
-      file: null
+      file: null,
+      executableName: ''
     };
   }
 }
