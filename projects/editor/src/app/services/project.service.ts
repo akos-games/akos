@@ -3,6 +3,7 @@ import { ProjectStore } from '../stores/project.store';
 import { SceneStore } from '../stores/scene.store';
 import { FileService } from './file.service';
 import { getDirectory } from '../utils/file';
+import { Project } from '../types/project';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +20,9 @@ export class ProjectService {
 
   async saveProject(changeCurrentLocation = false) {
 
-    let state = this.projectStore.getState();
+    let projectState = this.projectStore.getState();
 
-    if (!state.file || changeCurrentLocation) {
+    if (!projectState.file || changeCurrentLocation) {
 
       let file = await this.fileService.selectNewFile([ProjectService.PROJECT_FILTER]);
       if (!file) {
@@ -29,14 +30,11 @@ export class ProjectService {
         return;
       }
 
-      state.file = file;
-      this.projectStore.updateState(state);
+      projectState.file = file;
+      this.projectStore.updateState(projectState);
     }
 
-    await this.fileService.writeFile(state.file, JSON.stringify({
-      project: state,
-      scenes: this.sceneStore.getState()
-    }));
+    await this.fileService.writeFile(projectState.file, JSON.stringify(this.getProjectDescriptor()));
   }
 
   async loadProject() {
@@ -61,7 +59,23 @@ export class ProjectService {
     }
 
     if (projectFile) {
-      await this.fileService.buildGame(getDirectory(projectFile), "toto");
+      await this.fileService.buildGame(getDirectory(projectFile), this.getGameDescriptor());
+    }
+  }
+
+  private getProjectDescriptor() {
+    return {
+      project: {...this.projectStore.getState(), file: null},
+      scenes: this.sceneStore.getState()
+    }
+  }
+
+  private getGameDescriptor() {
+
+    let projectState = this.projectStore.getState();
+
+    return {
+      name: projectState.name
     }
   }
 }

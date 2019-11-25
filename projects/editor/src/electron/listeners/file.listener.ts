@@ -69,15 +69,15 @@ export class FileListener {
     fs.copySync(this.enginePath, distPath);
 
     if (fs.existsSync(`${distPath}/win`)) {
-      fs.writeFileSync(`${distPath}/win/game-descriptor.json`, JSON.stringify(gameDesriptor));
+      fs.writeFileSync(`${distPath}/win/game.akg`, JSON.stringify(gameDesriptor));
     }
 
     if (fs.existsSync(`${distPath}/mac`)) {
-      fs.writeFileSync(`${distPath}/mac/game-descriptor.json`, JSON.stringify(gameDesriptor));
+      fs.writeFileSync(`${distPath}/mac/game.akg`, JSON.stringify(gameDesriptor));
     }
 
     if (fs.existsSync(`${distPath}/linux`)) {
-      fs.writeFileSync(`${distPath}/linux/game-descriptor.json`, JSON.stringify(gameDesriptor));
+      fs.writeFileSync(`${distPath}/linux/game.akg`, JSON.stringify(gameDesriptor));
     }
 
     this.mainWindow.webContents.send('gameBuilt');
