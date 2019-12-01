@@ -1,4 +1,4 @@
-import { deepCopy } from './object';
+import { deepCopy } from 'akos-common/utils/object';
 
 export function generateId(): number {
   return new Date().valueOf();

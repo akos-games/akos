@@ -1,6 +1,6 @@
-import { GameDescriptor } from '../types/game-descriptor';
-import { Store } from '../utils/store/store';
 import { Injectable } from '@angular/core';
+import { Store } from 'akos-common/utils/store/store';
+import { GameDescriptor } from 'akos-common/types/game-descriptor';
 
 @Injectable({
   providedIn: 'root'

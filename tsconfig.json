@@ -17,7 +17,16 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "akos-common": [
+        "dist/akos-common"
+      ],
+      "akos-common/*": [
+        "dist/akos-common/*",
+        "projects/akos-common/src/lib/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

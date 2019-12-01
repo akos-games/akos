@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Project } from '../types/project';
-import { Store } from '../utils/store/store';
+import { Store } from 'akos-common/utils/store/store';
 
 @Injectable({
   providedIn: 'root'

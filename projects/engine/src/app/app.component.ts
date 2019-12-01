@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   constructor(private gameDescriptorService: GameDescriptorService) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.gameDescriptorService.loadGameDescriptor();
   }
 }

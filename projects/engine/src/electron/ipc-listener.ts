@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'fs';
 
 export function listenProcess(window: BrowserWindow, args: any) {
 
-  ipcMain.on('loadGameDescriptor', () => {
+  ipcMain.once('loadGameDescriptor', () => {
 
     let path = args.serve ? `${__dirname}/../game/dist/win/game-descriptor.akg` : 'game-descriptor.akg';
     let gameDescriptor = JSON.parse(readFileSync(path).toString());

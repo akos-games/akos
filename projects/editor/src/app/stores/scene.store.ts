@@ -1,6 +1,6 @@
 import { Scene } from '../types/scene';
 import { Injectable } from '@angular/core';
-import { CollectionStore } from '../utils/store/collection-store';
+import { CollectionStore } from 'akos-common/utils/store/collection-store';
 
 @Injectable({
   providedIn: 'root'

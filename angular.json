@@ -12,7 +12,7 @@
       },
       "root": "projects/editor",
       "sourceRoot": "projects/editor/src",
-      "prefix": "app",
+      "prefix": "ak",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -136,7 +136,7 @@
       },
       "root": "projects/engine",
       "sourceRoot": "projects/engine/src",
-      "prefix": "app",
+      "prefix": "ak",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -245,6 +245,41 @@
             "production": {
               "devServerTarget": "engine:serve:production"
             }
+          }
+        }
+      }
+    },
+    "akos-common": {
+      "projectType": "library",
+      "root": "projects/akos-common",
+      "sourceRoot": "projects/akos-common/src",
+      "prefix": "ak",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/akos-common/tsconfig.lib.json",
+            "project": "projects/akos-common/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/akos-common/src/test.ts",
+            "tsConfig": "projects/akos-common/tsconfig.spec.json",
+            "karmaConfig": "projects/akos-common/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/akos-common/tsconfig.lib.json",
+              "projects/akos-common/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }

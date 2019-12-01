@@ -1,7 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import { listenProcess } from './ipc-listener';
 import { format } from 'url';
-import * as electronReload from 'electron-reload';
 
 let mainWindow: BrowserWindow;
 
@@ -41,7 +40,7 @@ function createMainWindow() {
   if (args.serve) {
 
     loadUrl = 'http://localhost:4200';
-    electronReload(__dirname, {
+    require('electron-reload')(__dirname, {
       electron: require(`${__dirname}/../../node_modules/electron`)
     });
 
@@ -61,6 +60,8 @@ function createMainWindow() {
     }
   });
 
+  listenProcess(mainWindow, args);
+
   (async () => {
 
     await mainWindow.loadURL(loadUrl);
@@ -74,8 +75,6 @@ function createMainWindow() {
 
     // MacOS
     mainWindow.on('closed', () => mainWindow = null);
-
-    listenProcess(mainWindow, args);
 
   })();
 }

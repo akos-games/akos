@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProjectStore } from '../stores/project.store';
 import { SceneStore } from '../stores/scene.store';
 import { FileService } from './file.service';
-import { getDirectory } from '../utils/file';
+import { getDirectory } from 'akos-common/utils/file';
 
 @Injectable({
   providedIn: 'root'
