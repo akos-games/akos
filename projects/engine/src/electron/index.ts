@@ -1,15 +1,17 @@
 import { app, BrowserWindow } from 'electron';
-import * as url from 'url';
-import { FileListener } from './listeners/file.listener';
+import { listenProcess } from './ipc-listener';
+import { format } from 'url';
+import * as electronReload from 'electron-reload';
 
 let mainWindow: BrowserWindow;
-let fileListener: FileListener;
 
 // Default args values
 let args = {
-  // Enable hot reload and development features
+  // Enable hot reload and engine development features
   serve: false
 };
+
+readArgs();
 
 app.on('ready', createMainWindow);
 
@@ -19,8 +21,6 @@ app.on('activate', () => {
     createMainWindow();
   }
 });
-
-readArgs();
 
 function readArgs() {
 
@@ -41,13 +41,13 @@ function createMainWindow() {
   if (args.serve) {
 
     loadUrl = 'http://localhost:4200';
-    require('electron-reload')(__dirname, {
+    electronReload(__dirname, {
       electron: require(`${__dirname}/../../node_modules/electron`)
     });
 
   } else {
 
-    loadUrl = url.format({
+    loadUrl = format({
       pathname: `${__dirname}/index.html`,
       protocol: 'file:',
       slashes: true,
@@ -66,7 +66,7 @@ function createMainWindow() {
     await mainWindow.loadURL(loadUrl);
 
     mainWindow.setMenuBarVisibility(false);
-    mainWindow.maximize();
+    mainWindow.setFullScreen(true);
 
     if (args.serve) {
       mainWindow.webContents.openDevTools();
@@ -75,12 +75,7 @@ function createMainWindow() {
     // MacOS
     mainWindow.on('closed', () => mainWindow = null);
 
-    // Listen render process events
-    initListeners();
+    listenProcess(mainWindow, args);
 
   })();
-}
-
-function initListeners() {
-  fileListener = new FileListener(mainWindow);
 }

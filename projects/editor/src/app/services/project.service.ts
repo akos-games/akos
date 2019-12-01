@@ -3,7 +3,6 @@ import { ProjectStore } from '../stores/project.store';
 import { SceneStore } from '../stores/scene.store';
 import { FileService } from './file.service';
 import { getDirectory } from '../utils/file';
-import { Project } from '../types/project';
 
 @Injectable({
   providedIn: 'root'
@@ -75,7 +74,8 @@ export class ProjectService {
     let projectState = this.projectStore.getState();
 
     return {
-      name: projectState.name
+      name: projectState.name,
+      akosVersion: '0.1.0'
     }
   }
 }
