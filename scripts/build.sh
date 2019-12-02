@@ -1,30 +1,54 @@
 #!/usr/bin/env bash
 
-# Detect OS
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
-  OS=linux
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-  OS=mac
-else
-  OS=win
-fi
+function build_electron() {
 
-# Build akos-common
+  local project
+  project="$1"
+
+  ng build "$project" --prod --base-href ./
+  tsc -p projects/"$project"/tsconfig.electron.json
+  electron-builder --dir -c projects/"$project"/electron-builder.yml
+}
+
+function detect_os() {
+
+  local OS
+
+  if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    OS=linux
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+    OS=mac
+  else
+    OS=win
+  fi
+
+  echo "$OS"
+}
+
+function move_engine_build() {
+
+  echo "Moving engine build to editor directory..."
+
+  rm -rf dist/release/editor/"$OS"-unpacked/engine/"$OS"*
+  mkdir -p dist/release/editor/"$OS"-unpacked/engine/"$OS"
+  mv dist/release/engine/"$OS"-unpacked/* dist/release/editor/"$OS"-unpacked/engine/"$OS"
+}
+
+function clean_release() {
+
+  echo "Cleaning release directory..."
+
+  rm -rf dist/release/engine
+  rm dist/release/editor/*.yaml
+  mv dist/release/editor/$OS-unpacked/* dist/release/editor
+  rmdir dist/release/editor/$OS-unpacked
+  mv dist/release/editor dist/release/akos-editor
+}
+
+OS=$(detect_os)
+rm -rf dist/release
 ng build akos-common
-
-# Build engine
-ng build engine --prod --base-href ./
-tsc -p projects/engine/tsconfig.electron.json
-electron-builder --dir -c projects/engine/electron-builder.yml
-
-# Build editor
-ng build editor --prod --base-href ./
-tsc -p projects/editor/tsconfig.electron.json
-electron-builder --dir -c projects/editor/electron-builder.yml
-
-# Copy engine build into editor build
-rm -rf dist/release/editor/$OS-unpacked/engine/$OS*
-mkdir -p dist/release/editor/$OS-unpacked/engine/$OS
-cp -R dist/release/engine/$OS-unpacked/* dist/release/editor/$OS-unpacked/engine/$OS
-
-#mv dist/release/editor/$OS-unpacked/engine/$OS-unpacked dist/release/editor/$OS-unpacked/engine/$OS
+build_electron "editor"
+build_electron "engine"
+move_engine_build
+clean_release
