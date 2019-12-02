@@ -14,12 +14,12 @@ ng build akos-common
 
 # Build engine
 ng build engine --prod --base-href ./
-tsc -p projects/engine/src/electron
+tsc -p projects/engine/tsconfig.electron.json
 electron-builder --dir -c projects/engine/electron-builder.yml
 
 # Build editor
 ng build editor --prod --base-href ./
-tsc -p projects/editor/src/electron
+tsc -p projects/editor/tsconfig.electron.json
 electron-builder --dir -c projects/editor/electron-builder.yml
 
 # Copy engine build into editor build
