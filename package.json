@@ -5,10 +5,10 @@
   "scripts": {
     "build": "scripts/build.sh",
     "e2e": "ng e2e",
-    "electron-serve": "scripts/electron-serve.sh",
     "lint": "ng lint",
     "ng": "ng",
-    "start": "ng build akos-common && run-p -r \"ng serve {1}\" \"electron-serve {1}\" --",
+    "serve": "scripts/serve.sh",
+    "start": "ng build akos-common && run-p -r \"ng serve {1}\" \"serve {1}\" --",
     "test": "ng test"
   },
   "dependencies": {
