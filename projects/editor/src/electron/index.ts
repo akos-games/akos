@@ -17,6 +17,12 @@ let args = {
 
 app.on('ready', createMainWindow);
 
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
 // MacOS
 app.on('activate', () => {
   if (mainWindow === null) {
