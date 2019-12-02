@@ -1,19 +1,16 @@
 import { app, BrowserWindow } from 'electron';
-import * as url from 'url';
-import { FileListener } from './listeners/file.listener';
-
-const process = require('process');
-
-process.noAsar = true;
+import { listenProcess } from './ipc-listener';
+import { format } from 'url';
 
 let mainWindow: BrowserWindow;
-let fileListener: FileListener;
 
 // Default args values
 let args = {
   // Enable hot reload and development features
   serve: false
 };
+
+readArgs();
 
 app.on('ready', createMainWindow);
 
@@ -29,8 +26,6 @@ app.on('activate', () => {
     createMainWindow();
   }
 });
-
-readArgs();
 
 function readArgs() {
 
@@ -57,7 +52,7 @@ function createMainWindow() {
 
   } else {
 
-    loadUrl = url.format({
+    loadUrl = format({
       pathname: `${__dirname}/index.html`,
       protocol: 'file:',
       slashes: true,
@@ -70,6 +65,8 @@ function createMainWindow() {
       nodeIntegration: true
     }
   });
+
+  listenProcess(mainWindow, args);
 
   (async () => {
 
@@ -85,12 +82,5 @@ function createMainWindow() {
     // MacOS
     mainWindow.on('closed', () => mainWindow = null);
 
-    // Listen render process events
-    initListeners(args.serve);
-
   })();
-}
-
-function initListeners(devMode: boolean) {
-  fileListener = new FileListener(mainWindow, devMode);
 }

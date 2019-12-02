@@ -13,19 +13,7 @@ let args = {
 readArgs();
 
 app.on('ready', createMainWindow);
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
-// MacOS
-app.on('activate', () => {
-  if (mainWindow === null) {
-    createMainWindow();
-  }
-});
+app.on('window-all-closed', () => app.quit());
 
 function readArgs() {
 
@@ -78,9 +66,6 @@ function createMainWindow() {
     if (args.serve) {
       mainWindow.webContents.openDevTools();
     }
-
-    // MacOS
-    mainWindow.on('closed', () => mainWindow = null);
 
   })();
 }
