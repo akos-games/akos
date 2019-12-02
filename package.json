@@ -8,7 +8,7 @@
     "electron-serve": "scripts/electron-serve.sh",
     "lint": "ng lint",
     "ng": "ng",
-    "start": "run-p \"ng build akos-common --watch\" \"ng serve {1}\" \"electron-serve {1}\" --",
+    "start": "ng build akos-common && run-p -r \"ng serve {1}\" \"electron-serve {1}\" --",
     "test": "ng test"
   },
   "dependencies": {
