@@ -1,5 +1,5 @@
 import { app, ipcMain, dialog, BrowserWindow, FileFilter } from 'electron';
-import { existsSync, readFileSync, writeFileSync, ensureDirSync, copySync } from 'fs-extra';
+import { existsSync, readFileSync, writeFileSync, ensureDirSync, copySync, removeSync } from 'fs-extra';
 import * as process from 'process';
 
 export function listenProcess(window: BrowserWindow, args: any) {
@@ -28,11 +28,12 @@ export function listenProcess(window: BrowserWindow, args: any) {
     // Prevent error when copying asar file
     require('process').noAsar = true;
 
-    let enginePath = args.serve ? `${app.getAppPath()}/../release/editor/win-unpacked/engine` : `${process.execPath}/engine`;
+    let enginePath = args.serve ? `${app.getAppPath()}/../release/akos-editor/engine` : `${process.execPath}/engine`;
     let distPath = `${projectPath}/dist`;
 
+    removeSync(distPath);
     ensureDirSync(distPath);
-    copySync(this.enginePath, distPath);
+    copySync(enginePath, distPath);
 
     if (existsSync(`${distPath}/win`)) {
       writeFileSync(`${distPath}/win/game-descriptor.akg`, JSON.stringify(gameDescriptor));
