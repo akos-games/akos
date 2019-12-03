@@ -25,7 +25,17 @@ export class MetadataView implements OnInit {
   }
 
   ngOnInit() {
-  }
+
+    this.projectStore.state$.subscribe(project => {
+      this.metadata.setValue({
+        name: project.name,
+        gameVersion: project.gameVersion,
+        executableName: project.executableName
+      }, {
+        emitEvent: false
+      })
+    });
+}
 
   private onMetadataChange(metadata) {
 
