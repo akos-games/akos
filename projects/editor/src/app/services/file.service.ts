@@ -44,6 +44,14 @@ export class FileService {
     });
   }
 
+  public async checkProjectDir(projectFile: string): Promise<boolean> {
+
+    return new Promise<boolean>(resolve => {
+      this.ipc.once('projectDirChecked', (event, isValid) => resolve(isValid));
+      this.ipc.send('checkProjectDir', projectFile);
+    });
+  }
+
   public async buildGame(projectPath: string, gameDescriptor: any): Promise<void> {
 
     return new Promise<void>(resolve => {

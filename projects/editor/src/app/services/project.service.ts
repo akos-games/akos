@@ -29,6 +29,11 @@ export class ProjectService {
         return;
       }
 
+      if (!await this.fileService.checkProjectDir(file)) {
+        // TODO display a notification
+        return;
+      }
+
       projectState.file = file;
       this.projectStore.updateState(projectState);
     }

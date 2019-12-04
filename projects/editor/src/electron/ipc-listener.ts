@@ -1,5 +1,5 @@
 import { app, ipcMain, dialog, BrowserWindow, FileFilter } from 'electron';
-import { existsSync, readFileSync, writeFileSync, ensureDirSync, copySync, removeSync } from 'fs-extra';
+import { existsSync, readFileSync, writeFileSync, ensureDirSync, copySync, removeSync, readdirSync } from 'fs-extra';
 import * as process from 'process';
 
 export function listenProcess(window: BrowserWindow, args: any) {
@@ -21,6 +21,15 @@ export function listenProcess(window: BrowserWindow, args: any) {
   ipcMain.on('selectExistingFile', async (event, filters) => {
     let path = await selectFile(window, false, filters);
     window.webContents.send('existingFileSelected', path);
+  });
+
+  ipcMain.on('checkProjectDir', (event, projectFile) => {
+
+    let projectDir = getDirectory(projectFile);
+    let projectFilename = getFilename(projectFile);
+    let projectFileCount = readdirSync(projectDir).filter(file => file.endsWith('.akp') && file !== projectFilename).length;
+
+    window.webContents.send('projectDirChecked', projectFileCount === 0);
   });
 
   ipcMain.on('buildGame', (event, projectPath, gameDescriptor) => {
@@ -72,4 +81,12 @@ async function selectFile(window: BrowserWindow, allowCreate: boolean, filters?:
   }
 
   return path;
+}
+
+function getDirectory(file: string): string {
+  return file.substring(0, file.lastIndexOf('/'));
+}
+
+function getFilename(file: string): string {
+  return file.substring(file.lastIndexOf('/') + 1);
 }
