@@ -28,7 +28,7 @@ export function listenProcess(window: BrowserWindow, args: any) {
     // Prevent error when copying asar file
     require('process').noAsar = true;
 
-    let enginePath = args.serve ? `${app.getAppPath()}/../release/akos-editor/engine` : `${process.execPath}/engine`;
+    let enginePath = args.serve ? `${app.getAppPath()}/../release/akos-editor/engine` : `${process.cwd()}/engine`;
     let distPath = `${projectPath}/dist`;
 
     removeSync(distPath);
