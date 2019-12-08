@@ -13,12 +13,14 @@ import { SidebarContainer } from './containers/sidebar/sidebar.container';
 import { NodeComponent } from './components/node/node.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { WelcomeView } from './views/welcome/welcome.view';
 
 @NgModule({
   declarations: [
     NodeComponent,
     SidebarContainer,
-    ToolbarContainer
+    ToolbarContainer,
+    WelcomeView
   ],
   imports: [
     CommonModule,

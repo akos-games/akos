@@ -1,7 +1,13 @@
 export interface Project {
   name: string;
-  gameVersion: string;
+  version: string;
   engineVersion: string;
-  file: string;
-  executableName: string
+  file?: string;
+  paths?: {
+    project: string;
+    assets: string;
+  };
+  build?: {
+    executableName: string;
+  }
 }

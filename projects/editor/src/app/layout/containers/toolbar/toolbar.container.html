@@ -9,7 +9,7 @@
     Run game
   </button>
 
-  <button mat-raised-button (click)="onBuildGame()">
+  <button mat-raised-button [disabled]="!project" (click)="onBuildGame()">
     <mat-icon>build</mat-icon>
     Build game
   </button>
@@ -25,9 +25,9 @@
 
 <mat-menu #rootMenu="matMenu">
 
-  <button mat-menu-item (click)="onNew()">
+  <button mat-menu-item (click)="onCreate()">
     <mat-icon>create_new_folder</mat-icon>
-    New
+    Create project
   </button>
 
   <button mat-menu-item (click)="onOpen()">
@@ -35,16 +35,16 @@
     Open
   </button>
 
-  <mat-divider></mat-divider>
-
-  <button mat-menu-item (click)="onSave()">
-    <mat-icon>save_alt</mat-icon>
-    Save
+  <button mat-menu-item [disabled]="!project" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+    Close
   </button>
 
-  <button mat-menu-item (click)="onSaveAs()">
-    <mat-icon></mat-icon>
-    Save as...
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item [disabled]="!project" (click)="onSave()">
+    <mat-icon>save_alt</mat-icon>
+    Save
   </button>
 
   <mat-divider></mat-divider>

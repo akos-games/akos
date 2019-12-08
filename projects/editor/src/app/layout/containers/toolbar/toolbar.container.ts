@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../services/project.service';
+import { ProjectStore } from '../../../stores/project.store';
+import { Project } from '../../../types/project';
 
 @Component({
   selector: 'ak-toolbar',
@@ -8,14 +10,17 @@ import { ProjectService } from '../../../services/project.service';
 })
 export class ToolbarContainer implements OnInit {
 
-  constructor(private projectService: ProjectService) {
+  project: Project;
+
+  constructor(private projectService: ProjectService, private projectStore: ProjectStore) {
   }
 
   ngOnInit() {
+    this.projectStore.state$.subscribe(project => this.project = project);
   }
 
-  onNew() {
-    this.projectService.resetProject();
+  onCreate() {
+    this.projectService.saveProject();
   }
 
   onOpen() {
@@ -26,8 +31,8 @@ export class ToolbarContainer implements OnInit {
     this.projectService.saveProject();
   }
 
-  onSaveAs() {
-    this.projectService.saveProject(true);
+  onClose() {
+    this.projectService.closeProject();
   }
 
   onBuildGame() {

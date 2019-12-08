@@ -3,6 +3,7 @@ import { ProjectStore } from '../stores/project.store';
 import { SceneStore } from '../stores/scene.store';
 import { FileService } from './file.service';
 import { getDirectory } from 'akos-common/utils/file';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +13,17 @@ export class ProjectService {
   private static readonly PROJECT_FILTER = {name: 'Akos Project', extensions: ['akp']};
 
   constructor(
+    private router: Router,
     private fileService: FileService,
     private projectStore: ProjectStore,
     private sceneStore: SceneStore
   ) {}
 
-  async saveProject(changeCurrentLocation = false) {
+  async saveProject() {
 
-    let projectState = this.projectStore.getState();
+    let project = this.projectStore.getState();
 
-    if (!projectState.file || changeCurrentLocation) {
+    if (!project) {
 
       let file = await this.fileService.selectNewFile([ProjectService.PROJECT_FILTER]);
       if (!file) {
@@ -29,28 +31,44 @@ export class ProjectService {
         return;
       }
 
-      if (!await this.fileService.checkProjectDir(file)) {
+      if (!await this.fileService.checkProjectDirectory(file)) {
         // TODO display a notification
         return;
       }
 
-      projectState.file = file;
-      this.projectStore.updateState(projectState);
+      let projectDirectory = getDirectory(file);
+
+      project = {
+        name: '',
+        version: '',
+        engineVersion: '0.1',
+        file: file,
+        paths: {
+          project: projectDirectory,
+          assets: `${projectDirectory}/assets`
+        }
+      };
+
+      this.projectStore.updateState(project);
+      this.router.navigateByUrl('metadata');
     }
 
-    await this.fileService.writeFile(projectState.file, JSON.stringify(this.getProjectDescriptor()));
+    await this.fileService.writeFile(project.file, JSON.stringify(this.getProjectDescriptor()));
   }
 
   async loadProject() {
 
     let file = await this.fileService.selectExistingFile([ProjectService.PROJECT_FILTER]);
-    let data = JSON.parse(await this.fileService.readFile(file));
 
-    this.projectStore.updateState({...data.project, file: file});
-    this.sceneStore.updateState(data.scenes);
+    if (file) {
+      let data = JSON.parse(await this.fileService.readFile(file));
+      this.projectStore.updateState({...data.project, file: file});
+      this.sceneStore.updateState(data.scenes);
+      this.router.navigateByUrl('metadata');
+    }
   }
 
-  resetProject() {
+  closeProject() {
     this.projectStore.resetState();
     this.sceneStore.resetState();
   }

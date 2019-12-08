@@ -8,13 +8,6 @@ import { Store } from 'akos-common/utils/store/store';
 export class ProjectStore extends Store<Project> {
 
   protected getInitialState(): Project {
-
-    return {
-      name: '',
-      gameVersion: '',
-      engineVersion: '0.1.0',
-      file: null,
-      executableName: ''
-    };
+    return undefined;
   }
 }

@@ -44,11 +44,11 @@ export class FileService {
     });
   }
 
-  public async checkProjectDir(projectFile: string): Promise<boolean> {
+  public async checkProjectDirectory(projectFile: string): Promise<boolean> {
 
     return new Promise<boolean>(resolve => {
-      this.ipc.once('projectDirChecked', (event, isValid) => resolve(isValid));
-      this.ipc.send('checkProjectDir', projectFile);
+      this.ipc.once('projectDirectoryChecked', (event, isValid) => resolve(isValid));
+      this.ipc.send('checkProjectDirectory', projectFile);
     });
   }
 

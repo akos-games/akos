@@ -23,13 +23,13 @@ export function listenProcess(window: BrowserWindow, args: any) {
     window.webContents.send('existingFileSelected', path);
   });
 
-  ipcMain.on('checkProjectDir', (event, projectFile) => {
+  ipcMain.on('checkProjectDirectory', (event, projectFile) => {
 
     let projectDir = getDirectory(projectFile);
     let projectFilename = getFilename(projectFile);
     let projectFileCount = readdirSync(projectDir).filter(file => file.endsWith('.akp') && file !== projectFilename).length;
 
-    window.webContents.send('projectDirChecked', projectFileCount === 0);
+    window.webContents.send('projectDirectoryChecked', projectFileCount === 0);
   });
 
   ipcMain.on('buildGame', (event, projectPath, gameDescriptor) => {

@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MetadataView } from './features/metadata/metadata.view';
 import { SceneView } from './features/scene/scene.view';
+import { WelcomeView } from './layout/views/welcome/welcome.view';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/metadata', pathMatch: 'full'},
+  {path: '', redirectTo: '/welcome', pathMatch: 'full'},
+  {path: 'welcome', component: WelcomeView},
   {path: 'metadata', component: MetadataView},
   {path: 'scene/:id', component: SceneView}
 ];

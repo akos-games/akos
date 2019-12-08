@@ -17,8 +17,7 @@ export class MetadataView implements OnInit {
 
     this.metadata = fb.group({
       name: projectState.name,
-      gameVersion: projectState.gameVersion,
-      executableName: projectState.executableName
+      version: projectState.version
     });
 
     this.metadata.valueChanges.subscribe(metadata => this.onMetadataChange(metadata));
@@ -27,13 +26,16 @@ export class MetadataView implements OnInit {
   ngOnInit() {
 
     this.projectStore.state$.subscribe(project => {
-      this.metadata.setValue({
-        name: project.name,
-        gameVersion: project.gameVersion,
-        executableName: project.executableName
-      }, {
-        emitEvent: false
-      })
+
+      if (project) {
+
+        this.metadata.setValue({
+          name: project.name,
+          version: project.version
+        }, {
+          emitEvent: false
+        });
+      }
     });
 }
 
@@ -44,8 +46,7 @@ export class MetadataView implements OnInit {
     this.projectStore.updateState({
       ...projectState,
       name: metadata.name,
-      gameVersion: metadata.gameVersion,
-      executableName: metadata.executableName
+      version: metadata.version
     });
   }
 }
