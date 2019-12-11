@@ -29,7 +29,12 @@ export class AssetComponent implements OnInit {
     let file = await this.fileService.selectExistingFile([this.fileFilter], this.assetsPath);
 
     if (file) {
-      // TODO error handling
+
+      if (!file.startsWith(this.assetsPath)) {
+        // TODO display a notification
+        return;
+      }
+
       this.file = file.split(this.assetsPath)[1].substring(1);
     }
   }
