@@ -1,0 +1,15 @@
+<mat-form-field>
+
+  <mat-label>{{label}}</mat-label>
+
+  <input matInput readonly [value]="file || ''">
+
+  <button mat-button matSuffix mat-icon-button *ngIf="file && file !== ''" (click)="file = null">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <button mat-button matSuffix color="primary" class="select" (click)="selectFile()">
+    Select
+  </button>
+
+</mat-form-field>

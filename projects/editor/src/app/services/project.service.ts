@@ -61,8 +61,17 @@ export class ProjectService {
     let file = await this.fileService.selectExistingFile([ProjectService.PROJECT_FILTER]);
 
     if (file) {
+
       let data = JSON.parse(await this.fileService.readFile(file));
-      this.projectStore.updateState({...data.project, file: file});
+
+      let projectDirectory = getDirectory(file);
+      data.project.file = file;
+      data.project.paths = {
+        project: projectDirectory,
+        assets: `${projectDirectory}/assets`
+      };
+
+      this.projectStore.updateState(data.project);
       this.sceneStore.updateState(data.scenes);
       this.router.navigateByUrl('metadata');
     }

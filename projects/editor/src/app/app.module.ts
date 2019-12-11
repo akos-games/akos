@@ -16,10 +16,10 @@ import { MetadataModule } from './features/metadata/metadata.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    MatSidenavModule,
     LayoutModule,
     MetadataModule,
-    SceneModule,
-    MatSidenavModule
+    SceneModule
   ],
   bootstrap: [
     AppComponent

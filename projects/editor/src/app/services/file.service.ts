@@ -28,19 +28,19 @@ export class FileService {
     });
   }
 
-  public async selectNewFile(filters?: FileFilter[]): Promise<string> {
+  public async selectNewFile(filters?: FileFilter[], defaultPath?: string): Promise<string> {
 
     return new Promise<string>(resolve => {
       this.ipc.once('newFileSelected', (event, path) => resolve(path));
-      this.ipc.send('selectNewFile', filters);
+      this.ipc.send('selectNewFile', filters, defaultPath);
     });
   }
 
-  public async selectExistingFile(filters?: FileFilter[]): Promise<string> {
+  public async selectExistingFile(filters?: FileFilter[], defaultPath?: string): Promise<string> {
 
     return new Promise<string>(resolve => {
       this.ipc.once('existingFileSelected', (event, path) => resolve(path));
-      this.ipc.send('selectExistingFile', filters);
+      this.ipc.send('selectExistingFile', filters, defaultPath);
     });
   }
 

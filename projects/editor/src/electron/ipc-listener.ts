@@ -13,13 +13,13 @@ export function listenProcess(window: BrowserWindow, args: any) {
     window.webContents.send('fileWritten');
   });
 
-  ipcMain.on('selectNewFile', async (event, filters) => {
-    let path = await selectFile(window, true, filters);
+  ipcMain.on('selectNewFile', async (event, filters, defaultPath) => {
+    let path = await selectFile(window, true, filters, defaultPath);
     window.webContents.send('newFileSelected', path);
   });
 
-  ipcMain.on('selectExistingFile', async (event, filters) => {
-    let path = await selectFile(window, false, filters);
+  ipcMain.on('selectExistingFile', async (event, filters, defaultPath) => {
+    let path = await selectFile(window, false, filters, defaultPath);
     window.webContents.send('existingFileSelected', path);
   });
 
@@ -60,17 +60,22 @@ export function listenProcess(window: BrowserWindow, args: any) {
   });
 }
 
-async function selectFile(window: BrowserWindow, allowCreate: boolean, filters?: FileFilter[]): Promise<string> {
+async function selectFile(window: BrowserWindow, allowCreate: boolean, filters?: FileFilter[], defaultPath?: string): Promise<string> {
 
-  let properties: any[] = ['openFile', 'createDirectory'];
+  let options: any = {
+    properties: ['openFile', 'createDirectory'],
+    filters: filters
+  };
+
   if (allowCreate) {
-    properties.push('promptToCreate');
+    options.properties.push('promptToCreate');
   }
 
-  let selection = await dialog.showOpenDialog(window, {
-    properties: properties,
-    filters: filters
-  });
+  if (defaultPath) {
+    options.defaultPath = defaultPath
+  }
+
+  let selection = await dialog.showOpenDialog(window, options);
 
   // Return null if user has cancelled selection
   let path = null;
