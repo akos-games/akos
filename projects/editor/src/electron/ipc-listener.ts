@@ -39,6 +39,7 @@ export function listenProcess(window: BrowserWindow, args: any) {
 
     let enginePath = args.serve ? `${app.getAppPath()}/../release/akos-editor/engine` : `${process.cwd()}/engine`;
     let distPath = `${projectPath}/dist`;
+    let assetsPath = `${projectPath}/assets`;
 
     removeSync(distPath);
     ensureDirSync(distPath);
@@ -46,14 +47,17 @@ export function listenProcess(window: BrowserWindow, args: any) {
 
     if (existsSync(`${distPath}/win`)) {
       writeFileSync(`${distPath}/win/game-descriptor.akg`, JSON.stringify(gameDescriptor));
+      copySync(assetsPath, `${distPath}/win/assets`);
     }
 
     if (existsSync(`${distPath}/mac`)) {
       writeFileSync(`${distPath}/mac/game-descriptor.akg`, JSON.stringify(gameDescriptor));
+      copySync(assetsPath, `${distPath}/mac/assets`);
     }
 
     if (existsSync(`${distPath}/linux`)) {
       writeFileSync(`${distPath}/linux/game-descriptor.akg`, JSON.stringify(gameDescriptor));
+      copySync(assetsPath, `${distPath}/linux/assets`);
     }
 
     window.webContents.send('gameBuilt');
