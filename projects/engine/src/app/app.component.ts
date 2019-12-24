@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AssetService } from './services/asset.service';
 import { GameDescriptorService } from './services/game-descriptor.service';
 
 @Component({
@@ -8,10 +9,16 @@ import { GameDescriptorService } from './services/game-descriptor.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private gameDescriptorService: GameDescriptorService) {
+  imgSrc: string;
+
+  constructor(private assetService: AssetService, private gameDescriptorService: GameDescriptorService, private cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.gameDescriptorService.loadGameDescriptor();
+    this.gameDescriptorService.observeState(gameDescriptor => {
+      console.log(gameDescriptor);
+      this.imgSrc = this.assetService.getAssetUrl('images/homer1.png');
+      this.cdRef.detectChanges();
+    });
   }
 }

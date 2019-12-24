@@ -49,6 +49,8 @@ function createMainWindow() {
 
   mainWindow = new BrowserWindow({
     webPreferences: {
+      // Allows render process to access local files
+      webSecurity: false,
       // Allows NodeJS API from render process
       nodeIntegration: true
     }
