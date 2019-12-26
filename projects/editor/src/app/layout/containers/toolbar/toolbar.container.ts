@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../services/project.service';
 import { ProjectStore } from '../../../stores/project.store';
 import { Project } from '../../../types/project';
+import { NativeService } from '../../../services/native.service';
 
 @Component({
   selector: 'ak-toolbar',
@@ -12,7 +13,7 @@ export class ToolbarContainer implements OnInit {
 
   project: Project;
 
-  constructor(private projectService: ProjectService, private projectStore: ProjectStore) {
+  constructor(private projectService: ProjectService, private projectStore: ProjectStore, private nativeService: NativeService) {
   }
 
   ngOnInit() {
@@ -33,6 +34,10 @@ export class ToolbarContainer implements OnInit {
 
   onClose() {
     this.projectService.closeProject();
+  }
+
+  onQuit() {
+    this.nativeService.exit();
   }
 
   onBuildGame() {

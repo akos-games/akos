@@ -4,6 +4,10 @@ import * as process from 'process';
 
 export function listenProcess(window: BrowserWindow, args: any) {
 
+  ipcMain.on('exit', () => {
+    window.close();
+  });
+
   ipcMain.on('readFile', (event, file) => {
     window.webContents.send('fileRead', readFileSync(file));
   });
