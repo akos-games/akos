@@ -16,7 +16,7 @@ export class CollectionService<T> extends StatefulService<Collection<T>> {
     this.collection$.emit(this.getCollection());
   }
 
-  protected add(item: T) {
+  protected addItem(item: T) {
     this.addAll([item]);
   }
 
@@ -32,7 +32,13 @@ export class CollectionService<T> extends StatefulService<Collection<T>> {
     this.setState(state);
   }
 
-  protected remove(id: string) {
+  protected updateItem(item: T) {
+    let state = this.getState();
+    state.items[item[this.idProperty]] = item;
+    this.setState(state);
+  }
+
+  protected removeItem(id: string) {
     this.removeAll([id]);
   }
 

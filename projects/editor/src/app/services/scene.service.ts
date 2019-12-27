@@ -11,7 +11,7 @@ export class SceneService extends CollectionService<Scene> {
   createScene(): number {
 
     let id = generateId();
-    this.add({
+    this.addItem({
       id: id,
       name: 'New scene'
     });
@@ -19,7 +19,11 @@ export class SceneService extends CollectionService<Scene> {
     return id;
   }
 
+  updateScene(scene: Scene) {
+    this.updateItem(scene);
+  }
+
   deleteScene(sceneId: number) {
-    this.remove(sceneId.toString());
+    this.removeItem(sceneId.toString());
   }
 }

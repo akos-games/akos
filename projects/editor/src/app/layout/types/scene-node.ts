@@ -10,6 +10,6 @@ export class SceneNode implements TreeNode {
   constructor(id: number, name: string) {
     this.id = id;
     this.name = name;
-    this.route = `scene/${id}`;
+    this.route = `/scene/${id}`;
   }
 }

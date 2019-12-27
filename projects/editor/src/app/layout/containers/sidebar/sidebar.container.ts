@@ -73,11 +73,17 @@ export class SidebarContainer implements OnInit {
     this.dataSource.data = null;
     this.dataSource.data = data;
 
-    this.checkRoute();
+    this.checkCurrentRoute();
   }
 
-  private checkRoute() {
-    if (!this.dataSource.data.some(node => this.router.url === node.route)) {
+  private checkCurrentRoute() {
+
+    let displayedNodeStillExists = this.dataSource.data.some(node =>
+      this.router.url === node.route
+      || node.children && node.children.some(child => this.router.url === child.route)
+    );
+
+    if (!displayedNodeStillExists) {
       this.router.navigateByUrl('');
     }
   }

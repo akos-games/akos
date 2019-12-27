@@ -1,1 +1,8 @@
-Scene {{scene?.id}}
+<form [formGroup]="form">
+
+  <mat-form-field>
+    <mat-label>Scene name</mat-label>
+    <input matInput formControlName="name" required>
+  </mat-form-field>
+
+</form>
