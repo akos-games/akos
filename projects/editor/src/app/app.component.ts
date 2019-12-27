@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectStore } from './stores/project.store';
-import { Router } from '@angular/router';
-import { Project } from './types/project';
+import { ProjectService } from './services/project.service';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +10,10 @@ export class AppComponent implements OnInit {
 
   showSidebar: boolean;
 
-  constructor(private router: Router, private projectStore: ProjectStore) {
+  constructor(private projectService: ProjectService) {
   }
 
   ngOnInit() {
-    this.projectStore.state$.subscribe(async project => this.showSidebar = project);
+    this.projectService.observeState(async project => this.showSidebar = !!project);
   }
 }

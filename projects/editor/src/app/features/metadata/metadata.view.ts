@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ProjectStore } from '../../stores/project.store';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'ak-metadata',
@@ -11,9 +11,9 @@ export class MetadataView implements OnInit {
 
   metadata: FormGroup;
 
-  constructor(fb: FormBuilder, private projectStore: ProjectStore) {
+  constructor(fb: FormBuilder, private projectService: ProjectService) {
 
-    let projectState = projectStore.getState();
+    let projectState = projectService.getState();
 
     this.metadata = fb.group({
       name: projectState.name,
@@ -25,7 +25,7 @@ export class MetadataView implements OnInit {
 
   ngOnInit() {
 
-    this.projectStore.state$.subscribe(project => {
+    this.projectService.observeState(project => {
 
       if (project) {
 
@@ -41,9 +41,9 @@ export class MetadataView implements OnInit {
 
   private onMetadataChange(metadata) {
 
-    let projectState = this.projectStore.getState();
+    let projectState = this.projectService.getState();
 
-    this.projectStore.updateState({
+    this.projectService.setState({
       ...projectState,
       name: metadata.name,
       version: metadata.version

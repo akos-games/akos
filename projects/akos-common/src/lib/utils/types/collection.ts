@@ -1,4 +1,4 @@
-export interface CollectionState<T> {
+export interface Collection<T> {
   items: {[id: string]: T};
   order: string[];
 }

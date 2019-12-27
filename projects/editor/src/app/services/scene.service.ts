@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
-import { SceneStore } from '../stores/scene.store';
 import { generateId } from '../utils/node';
+import { CollectionService } from 'akos-common/utils/service/collection.service';
+import { Scene } from '../types/scene';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SceneService {
-
-  constructor(private sceneStore: SceneStore) {
-  }
+export class SceneService extends CollectionService<Scene> {
 
   createScene(): number {
 
     let id = generateId();
-    this.sceneStore.addItems({
+    this.add({
       id: id,
       name: 'New scene'
     });
@@ -22,6 +20,6 @@ export class SceneService {
   }
 
   deleteScene(sceneId: number) {
-    this.sceneStore.removeById(sceneId.toString());
+    this.remove(sceneId.toString());
   }
 }

@@ -1,17 +1,13 @@
 import { StatefulService } from 'akos-common/utils/service/stateful.service';
 import { EventEmitter } from '@angular/core';
+import { Collection } from 'akos-common/utils/types/collection';
 
-export interface CollectionState<T> {
-  items: {[id: string]: T};
-  order: string[];
-}
+export class CollectionService<T> extends StatefulService<Collection<T>> {
 
-export class CollectionService<T> extends StatefulService<CollectionState<T>> {
+  protected readonly collection$ = new EventEmitter<T[]>();
+  protected readonly idProperty = 'id';
 
-  protected readonly collection$: EventEmitter<T[]>;
-  protected readonly idProperty: string = 'id';
-
-  protected getInitialState(): CollectionState<T> {
+  protected getInitialState(): Collection<T> {
     return {items: {}, order: []};
   }
 
@@ -69,6 +65,10 @@ export class CollectionService<T> extends StatefulService<CollectionState<T>> {
   getCollection(): T[] {
     let state = this.getState();
     return state.order.map(id => state.items[id]);
+  }
+
+  getItem(id: string): T {
+    return this.getState().items[id];
   }
 
   observeCollection(observer: (collection: T[]) => void) {

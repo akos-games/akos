@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
-import { ProjectStore } from '../stores/project.store';
-import { SceneStore } from '../stores/scene.store';
 import { FileService } from './file.service';
 import { getDirectory } from 'akos-common/utils/file';
 import { Router } from '@angular/router';
+import { SceneService } from './scene.service';
+import { StatefulService } from 'akos-common/utils/service/stateful.service';
+import { Project } from '../types/project';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectService {
+export class ProjectService extends StatefulService<Project> {
 
   private static readonly PROJECT_FILTER = {name: 'Akos Project', extensions: ['akp']};
 
   constructor(
     private router: Router,
     private fileService: FileService,
-    private projectStore: ProjectStore,
-    private sceneStore: SceneStore
-  ) {}
+    private sceneService: SceneService
+  ) {
+    super();
+  }
 
   async saveProject() {
 
-    let project = this.projectStore.getState();
+    let project = this.getState();
 
     if (!project) {
 
@@ -49,7 +51,7 @@ export class ProjectService {
         }
       };
 
-      this.projectStore.updateState(project);
+      this.setState(project);
       this.router.navigateByUrl('metadata');
     }
 
@@ -71,20 +73,20 @@ export class ProjectService {
         assets: `${projectDirectory}/assets`
       };
 
-      this.projectStore.updateState(data.project);
-      this.sceneStore.updateState(data.scenes);
+      this.setState(data.project);
+      this.sceneService.setState(data.scenes);
       this.router.navigateByUrl('metadata');
     }
   }
 
   closeProject() {
-    this.projectStore.resetState();
-    this.sceneStore.resetState();
+    this.resetState();
+    this.sceneService.resetState();
   }
 
   async buildGame() {
 
-    let projectFile = this.projectStore.getState().file;
+    let projectFile = this.getState().file;
     if (!projectFile) {
       await this.saveProject();
     }
@@ -96,14 +98,14 @@ export class ProjectService {
 
   private getProjectDescriptor() {
     return {
-      project: {...this.projectStore.getState(), file: null},
-      scenes: this.sceneStore.getState()
+      project: {...this.getState(), file: null},
+      scenes: this.sceneService.getState()
     }
   }
 
   private getGameDescriptor() {
 
-    let projectState = this.projectStore.getState();
+    let projectState = this.getState();
 
     return {
       name: projectState.name,

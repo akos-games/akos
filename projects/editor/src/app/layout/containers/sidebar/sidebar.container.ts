@@ -6,7 +6,6 @@ import { MetadataNode } from '../../types/metadata-node';
 import { ScenesNode } from '../../types/scenes-node';
 import { SceneNode } from '../../types/scene-node';
 import { Router } from '@angular/router';
-import { SceneStore } from '../../../stores/scene.store';
 import { SceneService } from '../../../services/scene.service';
 import { Scene } from '../../../types/scene';
 
@@ -25,7 +24,6 @@ export class SidebarContainer implements OnInit {
 
   constructor(
     private router: Router,
-    private sceneStore: SceneStore,
     private sceneService: SceneService
   ) {
 
@@ -43,7 +41,7 @@ export class SidebarContainer implements OnInit {
       this.scenes
     ];
 
-    this.sceneStore.items$.subscribe(scenes => this.updateScenes(scenes));
+    this.sceneService.observeCollection(scenes => this.updateScenes(scenes));
   }
 
   isParent(index: number, node: TreeNode) {

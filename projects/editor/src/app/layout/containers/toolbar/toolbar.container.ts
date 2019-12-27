@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../services/project.service';
-import { ProjectStore } from '../../../stores/project.store';
 import { Project } from '../../../types/project';
 import { NativeService } from '../../../services/native.service';
 
@@ -13,11 +12,11 @@ export class ToolbarContainer implements OnInit {
 
   project: Project;
 
-  constructor(private projectService: ProjectService, private projectStore: ProjectStore, private nativeService: NativeService) {
+  constructor(private projectService: ProjectService, private nativeService: NativeService) {
   }
 
   ngOnInit() {
-    this.projectStore.state$.subscribe(project => this.project = project);
+    this.projectService.observeState(project => this.project = project);
   }
 
   onCreate() {

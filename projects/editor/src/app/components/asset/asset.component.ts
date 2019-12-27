@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FileFilter } from 'electron';
-import { ProjectStore } from '../../stores/project.store';
 import { FileService } from '../../services/file.service';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'ak-asset',
@@ -16,12 +16,12 @@ export class AssetComponent implements OnInit {
 
   private assetsPath: string;
 
-  constructor(private projectStore: ProjectStore, private fileService: FileService) {
+  constructor(private projectService: ProjectService, private fileService: FileService) {
   }
 
   ngOnInit() {
-    this.assetsPath = this.projectStore.getState().paths.assets;
-    this.projectStore.state$.subscribe(project => this.assetsPath = project.paths.assets);
+    this.assetsPath = this.projectService.getState().paths.assets;
+    this.projectService.observeState(project => this.assetsPath = project.paths.assets);
   }
 
   async selectFile() {
