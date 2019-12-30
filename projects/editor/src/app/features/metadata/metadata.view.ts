@@ -20,7 +20,7 @@ export class MetadataView implements OnInit {
       version: projectState.version
     });
 
-    this.metadata.valueChanges.subscribe(metadata => this.onMetadataChange(metadata));
+    this.metadata.valueChanges.subscribe(metadata => this.projectService.setMetadata(metadata));
   }
 
   ngOnInit() {
@@ -36,17 +36,6 @@ export class MetadataView implements OnInit {
           emitEvent: false
         });
       }
-    });
-}
-
-  private onMetadataChange(metadata) {
-
-    let projectState = this.projectService.getState();
-
-    this.projectService.setState({
-      ...projectState,
-      name: metadata.name,
-      version: metadata.version
     });
   }
 }

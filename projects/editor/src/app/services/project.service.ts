@@ -3,7 +3,7 @@ import { FileService } from './file.service';
 import { getDirectory } from 'akos-common/utils/file';
 import { Router } from '@angular/router';
 import { SceneService } from './scene.service';
-import { StatefulService } from 'akos-common/utils/service/stateful.service';
+import { StatefulService } from 'akos-common/utils/services/stateful.service';
 import { Project } from '../types/project';
 
 @Injectable({
@@ -19,6 +19,10 @@ export class ProjectService extends StatefulService<Project> {
     private sceneService: SceneService
   ) {
     super();
+  }
+
+  protected getInitialState(): Project {
+    return undefined;
   }
 
   async saveProject() {
@@ -74,14 +78,14 @@ export class ProjectService extends StatefulService<Project> {
       };
 
       this.setState(data.project);
-      this.sceneService.setState(data.scenes);
+      this.sceneService.resetEntities(data.scenes);
       this.router.navigateByUrl('metadata');
     }
   }
 
   closeProject() {
     this.resetState();
-    this.sceneService.resetState();
+    this.sceneService.resetEntities();
   }
 
   async buildGame() {
@@ -96,10 +100,20 @@ export class ProjectService extends StatefulService<Project> {
     }
   }
 
+  setMetadata(metadata) {
+
+    let state = this.getState();
+
+    state.name = metadata.name;
+    state.version = metadata.version;
+
+    this.setState(state);
+  }
+
   private getProjectDescriptor() {
     return {
       project: {...this.getState(), file: null},
-      scenes: this.sceneService.getState()
+      scenes: this.sceneService.getEntities()
     }
   }
 

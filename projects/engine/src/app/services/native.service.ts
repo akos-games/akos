@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from "electron";
-import { StatefulService } from 'akos-common/utils/service/stateful.service';
+import { StatefulService } from 'akos-common/utils/services/stateful.service';
 
 export interface NativeState {
   workingDirectory: string;
@@ -17,6 +17,10 @@ export class NativeService extends StatefulService<NativeState> {
     super();
     this.ipcRenderer = (<any> window).require('electron').ipcRenderer;
     this.fetchWorkingDirectory();
+  }
+
+  protected getInitialState(): NativeState {
+    return undefined;
   }
 
   async readFile(file: string) {

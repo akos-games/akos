@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NativeService } from './native.service';
-import { StatefulService } from 'akos-common/utils/service/stateful.service';
+import { StatefulService } from 'akos-common/utils/services/stateful.service';
 
 @Injectable({
   providedIn: 'root'

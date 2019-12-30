@@ -10,7 +10,7 @@ export class ScenesNode implements TreeNode {
   }
 
   createChild(): string {
-    let id = this.sceneService.createScene();
+    let id = this.sceneService.createEntity();
     return `scene/${id}`;
   }
 }

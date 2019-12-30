@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Scene } from '../../types/scene';
 import { SceneService } from '../../services/scene.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Scene } from 'akos-common/types/scene';
 
 @Component({
   selector: 'ak-scene',
@@ -22,14 +22,14 @@ export class SceneView implements OnInit {
 
     this.form.valueChanges.subscribe(formValues => {
       this.scene.name = formValues.name;
-      this.sceneService.updateScene(this.scene);
+      this.sceneService.updateEntity(this.scene);
     });
   }
 
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      this.scene = this.sceneService.getItem(params.id);
+      this.scene = this.sceneService.getEntity(params.id);
       this.form.setValue({
         name: this.scene.name
       }, {

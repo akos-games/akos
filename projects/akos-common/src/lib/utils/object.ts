@@ -1,3 +1,3 @@
-export function deepCopy(object) {
-  return object ? JSON.parse(JSON.stringify(object)) : null;
+export function deepCopy<T>(value: T): T {
+  return typeof value === 'object' ? JSON.parse(JSON.stringify(value)) : value;
 }
