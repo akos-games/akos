@@ -1,0 +1,22 @@
+<div class="header">
+
+  <mat-form-field class="type">
+    <mat-label>Command</mat-label>
+    <mat-select [value]="command.type">
+      <mat-option value="log">Log</mat-option>
+      <mat-option value="displayText">Display text</mat-option>
+      <mat-option value="displayPicture">Display picture</mat-option>
+      <mat-option value="startScene">Start scene</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="comment">
+    <mat-label>Comment</mat-label>
+    <input matInput [value]="command.comment">
+  </mat-form-field>
+
+</div>
+
+<div class="body">
+  Body
+</div>

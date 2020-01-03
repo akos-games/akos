@@ -1,6 +1,6 @@
 export interface Command {
   id: number;
   type: string;
-  name?: string;
+  comment?: string;
   parameters?: {[parameter: string]: any}
 }
