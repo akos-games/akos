@@ -41,20 +41,29 @@ export class SceneView implements OnInit {
     });
   }
 
-  addCommand() {
+  onAddCommand() {
+
     this.scene.commands.push({
       id: generateId(),
       type: 'displayText',
       comment: ''
-    })
+    });
+
+    this.sceneService.updateEntity(this.scene);
   }
 
-  dropCommand(event: CdkDragDrop<Command[]>) {
+  onDropCommand(event: CdkDragDrop<Command[]>) {
     moveItemInArray(this.scene.commands, event.previousIndex, event.currentIndex);
+    this.sceneService.updateEntity(this.scene);
   }
 
-  deleteCommand(command: Command) {
+  onUpdateCommand() {
+    this.sceneService.updateEntity(this.scene);
+  }
+
+  onDeleteCommand(command: Command) {
     let index = this.scene.commands.findIndex(com => com.id === command.id);
     this.scene.commands.splice(index, 1);
+    this.sceneService.updateEntity(this.scene);
   }
 }

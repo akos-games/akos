@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Command } from 'akos-common/types/command';
 
 @Component({
@@ -6,15 +6,20 @@ import { Command } from 'akos-common/types/command';
   templateUrl: './command.component.html',
   styleUrls: ['./command.component.scss']
 })
-export class CommandComponent implements OnInit {
+export class CommandComponent implements OnInit, OnChanges {
 
   @Input() command: Command;
+  @Output() update = new EventEmitter();
   @Output() delete = new EventEmitter<Command>();
 
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(): void {
+    this.update.emit();
   }
 
   onDelete() {

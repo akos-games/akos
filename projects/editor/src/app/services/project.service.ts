@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { SceneService } from './scene.service';
 import { StatefulService } from 'akos-common/utils/services/stateful.service';
 import { Project } from '../types/project';
+import { GameDescriptor } from 'akos-common/types/game-descriptor';
 
 @Injectable({
   providedIn: 'root'
@@ -117,13 +118,14 @@ export class ProjectService extends StatefulService<Project> {
     }
   }
 
-  private getGameDescriptor() {
+  private getGameDescriptor(): GameDescriptor {
 
     let projectState = this.getState();
 
     return {
       name: projectState.name,
-      akosVersion: '0.1.0'
+      akosVersion: '0.1.0',
+      scenes: this.sceneService.getEntities()
     }
   }
 }

@@ -3,6 +3,7 @@ import { AssetComponent } from './asset/asset.component';
 import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { CommandComponent } from './command/command.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { CommandComponent } from './command/command.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,

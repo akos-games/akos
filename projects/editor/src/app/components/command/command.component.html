@@ -2,7 +2,7 @@
 
   <mat-form-field class="type">
     <mat-label>Command</mat-label>
-    <mat-select [value]="command.type">
+    <mat-select [(ngModel)]="command.type">
       <mat-option value="log">Log</mat-option>
       <mat-option value="displayText">Display text</mat-option>
       <mat-option value="displayPicture">Display picture</mat-option>
@@ -12,7 +12,7 @@
 
   <mat-form-field class="comment">
     <mat-label>Comment</mat-label>
-    <input matInput [value]="command.comment">
+    <input matInput [(ngModel)]="command.comment">
   </mat-form-field>
 
   <button mat-button class="delete" (click)="onDelete()">

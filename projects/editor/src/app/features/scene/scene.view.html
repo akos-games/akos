@@ -7,11 +7,15 @@
 
 </form>
 
-<div class="command-list" cdkDropList (cdkDropListDropped)="dropCommand($event)">
-  <ak-command *ngFor="let command of scene.commands" [command]="command" cdkDrag (delete)="deleteCommand($event)"></ak-command>
+<div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)">
+  <ak-command cdkDrag *ngFor="let command of scene.commands"
+              [command]="command"
+              (update)="onUpdateCommand()"
+              (delete)="onDeleteCommand($event)">
+  </ak-command>
 </div>
 
-<button mat-raised-button color="primary" class="add-command" (click)="addCommand()">
+<button mat-raised-button color="primary" class="add-command" (click)="onAddCommand()">
   <mat-icon>add</mat-icon>
   Add command
 </button>
