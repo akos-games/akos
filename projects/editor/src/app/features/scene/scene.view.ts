@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { SceneService } from '../../services/scene.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Scene } from 'akos-common/types/scene';
+import { generateId } from '../../utils/node';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Command } from 'akos-common/types/command';
 
 @Component({
   selector: 'ak-scene',
@@ -36,5 +39,22 @@ export class SceneView implements OnInit {
         emitEvent: false
       })
     });
+  }
+
+  addCommand() {
+    this.scene.commands.push({
+      id: generateId(),
+      type: 'displayText',
+      comment: ''
+    })
+  }
+
+  dropCommand(event: CdkDragDrop<Command[]>) {
+    moveItemInArray(this.scene.commands, event.previousIndex, event.currentIndex);
+  }
+
+  deleteCommand(command: Command) {
+    let index = this.scene.commands.findIndex(com => com.id === command.id);
+    this.scene.commands.splice(index, 1);
   }
 }

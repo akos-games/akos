@@ -5,6 +5,13 @@
     <input matInput formControlName="name" required>
   </mat-form-field>
 
-  <ak-command></ak-command>
-
 </form>
+
+<div class="command-list" cdkDropList (cdkDropListDropped)="dropCommand($event)">
+  <ak-command *ngFor="let command of scene.commands" [command]="command" cdkDrag (delete)="deleteCommand($event)"></ak-command>
+</div>
+
+<button mat-raised-button color="primary" class="add-command" (click)="addCommand()">
+  <mat-icon>add</mat-icon>
+  Add command
+</button>
