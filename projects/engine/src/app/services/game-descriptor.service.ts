@@ -20,5 +20,6 @@ export class GameDescriptorService extends StatefulService<GameDescriptor> {
   private async loadGameDescriptor(workingDirectory: string) {
     let file = `${workingDirectory}/game-descriptor.akg`;
     this.setState(JSON.parse(await this.nativeService.readFile(file)));
+    this.nativeService.setWindowTitle(this.getState().name);
   }
 }

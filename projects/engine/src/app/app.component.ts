@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AssetService } from './services/asset.service';
 import { GameDescriptorService } from './services/game-descriptor.service';
+import { SceneService } from './services/scene.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent implements OnInit {
 
   imgSrc: string;
 
-  constructor(private assetService: AssetService, private gameDescriptorService: GameDescriptorService, private cdRef: ChangeDetectorRef) {
+  constructor(private sceneService : SceneService, private assetService: AssetService, private gameDescriptorService: GameDescriptorService, private cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
