@@ -3,6 +3,10 @@ import { readFileSync, writeFileSync } from 'fs';
 
 export function listenProcess(window: BrowserWindow, args: any) {
 
+  ipcMain.on('exit', () => {
+    window.close();
+  });
+
   ipcMain.on('readFile', (event, file) => {
     window.webContents.send('fileRead', readFileSync(file));
   });

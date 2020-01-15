@@ -1,6 +1,7 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { SceneService } from '../../services/scene.service';
+import { AssetService } from '../../services/asset.service';
 
 @Component({
   selector: 'scene-page',
@@ -9,7 +10,13 @@ import { SceneService } from '../../services/scene.service';
 })
 export class ScenePage implements OnInit {
 
-  constructor(private sceneService: SceneService, private hotkeysService: HotkeysService) {
+  imgSrc: string;
+
+  constructor(
+    private sceneService: SceneService,
+    private assetService: AssetService,
+    private hotkeysService: HotkeysService,
+    private cdRef: ChangeDetectorRef) {
 
     this.hotkeysService.add(new Hotkey('space', () => {
       this.sceneService.nextCommand();
@@ -18,6 +25,10 @@ export class ScenePage implements OnInit {
   }
 
   ngOnInit() {
+    this.sceneService.observeState(sceneRun => {
+      this.imgSrc = this.assetService.getAssetUrl(sceneRun.picture);
+      this.cdRef.detectChanges();
+    });
   }
 
   @HostListener('click')

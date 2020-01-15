@@ -3,18 +3,18 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ScenePage } from './pages/scene/scene.page';
 import { HotkeyModule } from 'angular2-hotkeys';
+import { SceneModule } from './pages/scene/scene.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ScenePage
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HotkeyModule.forRoot()
+    HotkeyModule.forRoot(),
+    SceneModule
   ],
   providers: [],
   bootstrap: [AppComponent]
