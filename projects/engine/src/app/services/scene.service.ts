@@ -3,13 +3,8 @@ import { GameDescriptorService } from './game-descriptor.service';
 import { Scene } from 'akos-common/types/scene';
 import { StatefulService } from 'akos-common/utils/services/stateful.service';
 import { NativeService } from './native.service';
-
-export interface SceneRun {
-  sceneId: number;
-  commandIndex: number;
-  picture: string;
-  text: string;
-}
+import { Command } from 'akos-common/types/command';
+import { SceneRun } from '../types/scene-run';
 
 @Injectable({
   providedIn: 'root'
@@ -39,33 +34,37 @@ export class SceneService extends StatefulService<SceneRun> {
 
   nextCommand() {
 
-    let state = this.getState();
-    if (this.currentScene.commands.length <= state.commandIndex) {
-      this.nativeService.exit();
-    }
+    let command: Command;
 
-    let command = this.currentScene.commands[state.commandIndex];
-    switch (command.type) {
+    do {
 
-      case 'log':
-        console.log('Command Log');
-        break;
+      let state = this.getState();
+      if (this.currentScene.commands.length <= state.commandIndex) {
+        // TODO back to main menu
+        this.nativeService.exit();
+      }
 
-      case 'displayPicture':
-        break;
+      command = this.currentScene.commands[state.commandIndex];
+      switch (command.type) {
 
-      case 'displayText':
-        break;
+        case 'log':
+          console.log('Command Log');
+          break;
 
-      case 'startScene':
-        break;
-    }
-    if (command.type === 'log') {
-    }
+        case 'displayPicture':
+          break;
 
-    state.commandIndex++;
+        case 'displayText':
+          break;
 
-    this.setState(state);
+        case 'startScene':
+          break;
+      }
+
+      state.commandIndex++;
+      this.setState(state);
+
+    } while (!command.parameters.waitForUser);
   }
 
   startScene(sceneId: number) {
