@@ -8,7 +8,7 @@
     "lint": "ng lint",
     "ng": "ng",
     "serve": "scripts/serve.sh",
-    "start": "ng build akos-common && run-p -r \"ng serve {1}\" \"serve {1}\" --",
+    "start": "ng build akos-common && run-p -r \"ng serve {1} -- --port {2}\" \"serve {1} {2}\" --",
     "test": "ng test"
   },
   "dependencies": {
