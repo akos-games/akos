@@ -47,11 +47,8 @@ export class SceneService extends StatefulService<SceneRun> {
       command = this.currentScene.commands[state.commandIndex];
       switch (command.type) {
 
-        case 'log':
-          console.log('Command Log');
-          break;
-
         case 'displayPicture':
+          state.picture = command.parameters.picture;
           break;
 
         case 'displayText':
@@ -64,10 +61,17 @@ export class SceneService extends StatefulService<SceneRun> {
       state.commandIndex++;
       this.setState(state);
 
-    } while (!command.parameters.waitForUser);
+    } while (!command.parameters.waitForPlayer);
   }
 
   startScene(sceneId: number) {
+
+    let sceneRun = this.getInitialState();
+    sceneRun.sceneId = sceneId;
+    this.setState(sceneRun);
+
     this.currentScene = this.scenes[sceneId];
+    console.log(this.currentScene);
+    this.nextCommand();
   }
 }

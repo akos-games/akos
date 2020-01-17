@@ -46,7 +46,8 @@ export class SceneView implements OnInit {
     this.scene.commands.push({
       id: generateId(),
       type: 'displayText',
-      comment: ''
+      comment: '',
+      parameters: {}
     });
 
     this.sceneService.updateEntity(this.scene);

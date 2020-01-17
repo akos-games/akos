@@ -16,9 +16,16 @@ $padding: 10px 10px 5px 10px;
 }
 
 .body {
+  display: flex;
+  flex-direction: column;
+  flex-basis: auto;
   padding: $padding;
   border-radius: $border-radius;
   background-color: white;
+}
+
+.body > * {
+  margin: 3px;
 }
 
 .type {
