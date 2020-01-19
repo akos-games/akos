@@ -3,4 +3,5 @@ export interface SceneRun {
   commandIndex: number;
   picture: string;
   text: string;
+  textVisible: boolean;
 }

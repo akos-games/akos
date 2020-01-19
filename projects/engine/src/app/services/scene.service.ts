@@ -28,7 +28,8 @@ export class SceneService extends StatefulService<SceneRun> {
       sceneId: null,
       commandIndex: 0,
       picture: null,
-      text: null
+      text: null,
+      textVisible: false
     };
   }
 
@@ -38,28 +39,30 @@ export class SceneService extends StatefulService<SceneRun> {
 
     do {
 
-      let state = this.getState();
-      if (this.currentScene.commands.length <= state.commandIndex) {
+      let sceneRun = this.getState();
+      if (this.currentScene.commands.length <= sceneRun.commandIndex) {
         // TODO back to main menu
         this.nativeService.exit();
       }
 
-      command = this.currentScene.commands[state.commandIndex];
+      command = this.currentScene.commands[sceneRun.commandIndex];
       switch (command.type) {
 
         case 'displayPicture':
-          state.picture = command.parameters.picture;
+          sceneRun.picture = command.parameters.picture;
           break;
 
         case 'displayText':
+          sceneRun.text = command.parameters.text;
+          sceneRun.textVisible = true;
           break;
 
         case 'startScene':
           break;
       }
 
-      state.commandIndex++;
-      this.setState(state);
+      sceneRun.commandIndex++;
+      this.setState(sceneRun);
 
     } while (!command.parameters.waitForPlayer);
   }

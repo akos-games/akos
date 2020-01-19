@@ -11,6 +11,7 @@ import { AssetService } from '../../services/asset.service';
 export class ScenePage implements OnInit {
 
   imgSrc: string;
+  text: string;
 
   constructor(
     private sceneService: SceneService,
@@ -27,6 +28,7 @@ export class ScenePage implements OnInit {
   ngOnInit() {
     this.sceneService.observeState(sceneRun => {
       this.imgSrc = this.assetService.getAssetUrl(sceneRun.picture);
+      this.text = sceneRun.text;
       this.cdRef.detectChanges();
     });
   }
