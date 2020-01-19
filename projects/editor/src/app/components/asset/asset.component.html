@@ -2,7 +2,7 @@
 
   <mat-label>{{label}}</mat-label>
 
-  <input matInput readonly [value]="file || ''">
+  <input matInput readonly [value]="file || ''" (click)="selectFile()">
 
   <button mat-button matSuffix mat-icon-button *ngIf="file && file !== ''" (click)="file = null">
     <mat-icon>close</mat-icon>

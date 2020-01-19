@@ -2,5 +2,9 @@ export interface Command {
   id: number;
   type: string;
   comment?: string;
-  parameters?: {[parameter: string]: any}
+  parameters?: {
+    waitForPlayer?: boolean;
+    picture?: string;
+    text?: string;
+  }
 }

@@ -32,4 +32,8 @@
             [(file)]="command.parameters.picture">
   </ak-asset>
 
+  <mat-form-field *ngIf="command.type === 'displayText'">
+    <textarea matInput placeholder="Text" [(ngModel)]="command.parameters.text"></textarea>
+  </mat-form-field>
+
 </div>

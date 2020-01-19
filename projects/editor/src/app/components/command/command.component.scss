@@ -4,6 +4,8 @@ $padding: 10px 10px 5px 10px;
 :host {
   border: solid #636363 1px;
   border-radius: $border-radius;
+  max-width: 1080px;
+  cursor: move;
 }
 
 .header {
@@ -40,4 +42,9 @@ $padding: 10px 10px 5px 10px;
 .delete {
   min-width: 0;
   padding: 0 8px;
+}
+
+textarea {
+  height: 75px;
+  resize: none;
 }

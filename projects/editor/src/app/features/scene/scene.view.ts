@@ -47,7 +47,9 @@ export class SceneView implements OnInit {
       id: generateId(),
       type: 'displayText',
       comment: '',
-      parameters: {}
+      parameters: {
+        waitForPlayer: true
+      }
     });
 
     this.sceneService.updateEntity(this.scene);

@@ -9,10 +9,9 @@ import { Command } from 'akos-common/types/command';
 export class CommandComponent implements OnInit, OnChanges {
 
   @Input() command: Command;
+
   @Output() update = new EventEmitter();
   @Output() delete = new EventEmitter<Command>();
-
-  imageFilter = {name: 'Image', extensions: ['apng', 'bmp', 'gif', 'jpeg', 'jpg', 'png', 'svg', 'webp']};
 
   constructor() {
   }

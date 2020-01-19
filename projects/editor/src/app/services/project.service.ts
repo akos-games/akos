@@ -112,6 +112,9 @@ export class ProjectService extends StatefulService<Project> {
   }
 
   private getProjectDescriptor() {
+
+    this.sceneService.cleanCommands();
+
     return {
       project: {...this.getState(), file: null},
       scenes: this.sceneService.getEntities()
@@ -121,6 +124,7 @@ export class ProjectService extends StatefulService<Project> {
   private getGameDescriptor(): GameDescriptor {
 
     let projectState = this.getState();
+    this.sceneService.cleanCommands();
 
     return {
       name: projectState.name,
