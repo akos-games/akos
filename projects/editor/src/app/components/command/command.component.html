@@ -4,6 +4,7 @@
     <mat-label>Command</mat-label>
     <mat-select [(ngModel)]="command.type">
       <mat-option value="displayText">Display text</mat-option>
+      <mat-option value="hideText">Hide text</mat-option>
       <mat-option value="displayPicture">Display picture</mat-option>
       <mat-option value="startScene">Start scene</mat-option>
     </mat-select>
@@ -22,7 +23,7 @@
 
 <div class="body">
 
-  <mat-checkbox *ngIf="['displayText', 'displayPicture'].includes(command.type)" [(ngModel)]="command.parameters.waitForPlayer">
+  <mat-checkbox *ngIf="waitForPlayerTypes.includes(command.type)" [(ngModel)]="command.parameters.waitForPlayer">
     Wait for player click to continue
   </mat-checkbox>
 

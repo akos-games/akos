@@ -13,6 +13,8 @@ export class CommandComponent implements OnInit, OnChanges {
   @Output() update = new EventEmitter();
   @Output() delete = new EventEmitter<Command>();
 
+  waitForPlayerTypes = ['displayText', 'hideText', 'displayPicture'];
+
   constructor() {
   }
 

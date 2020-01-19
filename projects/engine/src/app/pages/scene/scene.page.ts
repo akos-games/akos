@@ -12,6 +12,7 @@ export class ScenePage implements OnInit {
 
   imgSrc: string;
   text: string;
+  textVisible: boolean;
 
   constructor(
     private sceneService: SceneService,
@@ -29,6 +30,7 @@ export class ScenePage implements OnInit {
     this.sceneService.observeState(sceneRun => {
       this.imgSrc = this.assetService.getAssetUrl(sceneRun.picture);
       this.text = sceneRun.text;
+      this.textVisible = sceneRun.textVisible;
       this.cdRef.detectChanges();
     });
   }

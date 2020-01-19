@@ -1,4 +1,5 @@
 <img *ngIf="imgSrc" src="{{imgSrc}}" alt="Scene picture"/>
-<div class="text-container">
+
+<div *ngIf="textVisible" class="text-container">
   {{text}}
 </div>

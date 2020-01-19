@@ -57,6 +57,10 @@ export class SceneService extends StatefulService<SceneRun> {
           sceneRun.textVisible = true;
           break;
 
+        case 'hideText':
+          sceneRun.textVisible = false;
+          break;
+
         case 'startScene':
           break;
       }
