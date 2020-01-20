@@ -6,7 +6,10 @@ import { AssetService } from '../../services/asset.service';
 @Component({
   selector: 'scene-page',
   templateUrl: './scene.page.html',
-  styleUrls: ['./scene.page.scss']
+  styleUrls: ['./scene.page.scss'],
+  host: {
+    class: 'page'
+  }
 })
 export class ScenePage implements OnInit {
 

@@ -63,7 +63,8 @@ function createMainWindow() {
     await mainWindow.loadURL(loadUrl);
 
     mainWindow.setMenuBarVisibility(false);
-    mainWindow.setFullScreen(true);
+    // mainWindow.setFullScreen(true);
+    mainWindow.maximize();
 
     if (args.serve) {
       mainWindow.webContents.openDevTools();
