@@ -1,21 +1,28 @@
+// 16/9
+$ratio: 0.5625;
+
+@mixin resize($width, $height) {
+  width: $width;
+  height: $height;
+  font-size: calc(#{$height} * 0.035);
+}
+
 :host {
-  width: 100%;
-  display: inline-block;
-  position: relative;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
 
-:host:after {
-  padding-top: 56.25%;
-  display: block;
-  content: '';
-}
+  @media (orientation: landscape) {
+    $width: calc(100vh / #{$ratio}); // height + ratio difference
+    $height: 100vh;
+    @include resize($width, $height);
+  }
 
-.page-wrapper {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  font-size: 1.5vw;
+  // Portrait, or landscape when height > (width - ratio difference)
+  @media (orientation: portrait), (orientation: landscape) and (min-height: calc(100vw * #{$ratio})) {
+    $width: 100vw;
+    $height: calc(100vw * #{$ratio}); // width - ratio difference
+    @include resize($width, $height);
+  }
 }
