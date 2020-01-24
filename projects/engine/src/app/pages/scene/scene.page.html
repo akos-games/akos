@@ -1,4 +1,4 @@
-<img *ngIf="imgSrc" src="{{imgSrc}}"/>
+<img *ngIf="imgSrc" src="{{imgSrc}}" [class.fullscreen]="fullscreen"/>
 
 <div *ngIf="textVisible" class="text-container">
   {{text}}

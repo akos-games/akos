@@ -11,6 +11,7 @@ import { AssetService } from '../../services/asset.service';
 export class ScenePage implements OnInit {
 
   imgSrc: string;
+  fullscreen: boolean;
   text: string;
   textVisible: boolean;
 
@@ -29,6 +30,7 @@ export class ScenePage implements OnInit {
   ngOnInit() {
     this.sceneService.observeState(sceneRun => {
       this.imgSrc = this.assetService.getAssetUrl(sceneRun.picture);
+      this.fullscreen = sceneRun.fullscreen;
       this.text = sceneRun.text;
       this.textVisible = sceneRun.textVisible;
       this.cdRef.detectChanges();

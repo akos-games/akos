@@ -28,6 +28,7 @@ export class SceneService extends StatefulService<SceneRun> {
       sceneId: null,
       commandIndex: 0,
       picture: null,
+      fullscreen: false,
       text: null,
       textVisible: false
     };
@@ -50,6 +51,7 @@ export class SceneService extends StatefulService<SceneRun> {
 
         case 'displayPicture':
           sceneRun.picture = command.parameters.picture;
+          sceneRun.fullscreen = command.parameters.fullscreen;
           break;
 
         case 'displayText':
@@ -78,7 +80,6 @@ export class SceneService extends StatefulService<SceneRun> {
     this.setState(sceneRun);
 
     this.currentScene = this.scenes[sceneId];
-    console.log(this.currentScene);
     this.nextCommand();
   }
 }

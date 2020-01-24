@@ -27,6 +27,10 @@
     Wait for player click to continue
   </mat-checkbox>
 
+  <mat-checkbox *ngIf="command.type === 'displayPicture'" [(ngModel)]="command.parameters.fullscreen">
+    Fullscreen
+  </mat-checkbox>
+
   <ak-asset *ngIf="command.type === 'displayPicture'"
             type="image"
             label="Image file"

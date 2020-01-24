@@ -19,7 +19,7 @@ export class SceneService extends EntityService<Scene> {
   cleanCommands() {
 
     const authorizedParameters = {
-      displayPicture: ['waitForPlayer', 'picture'],
+      displayPicture: ['waitForPlayer', 'picture', 'fullscreen'],
       displayText: ['waitForPlayer', 'text'],
       hideText: ['waitForPlayer']
     };

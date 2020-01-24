@@ -48,7 +48,8 @@ export class SceneView implements OnInit {
       type: 'displayText',
       comment: '',
       parameters: {
-        waitForPlayer: true
+        waitForPlayer: true,
+        fullscreen: true
       }
     });
 

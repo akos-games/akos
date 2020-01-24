@@ -5,6 +5,7 @@ export interface Command {
   parameters?: {
     waitForPlayer?: boolean;
     picture?: string;
+    fullscreen?: boolean;
     text?: string;
   }
 }
