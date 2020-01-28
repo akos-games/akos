@@ -4,11 +4,13 @@ import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule, 
 import { CommonModule } from '@angular/common';
 import { CommandComponent } from './command/command.component';
 import { FormsModule } from '@angular/forms';
+import { ObjectComponent } from './object/object.component';
 
 @NgModule({
   declarations: [
     AssetComponent,
-    CommandComponent
+    CommandComponent,
+    ObjectComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { FormsModule } from '@angular/forms';
   ],
   exports: [
     AssetComponent,
-    CommandComponent
+    CommandComponent,
+    ObjectComponent
   ]
 })
 export class ComponentsModule {

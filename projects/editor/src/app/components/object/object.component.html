@@ -1,0 +1,15 @@
+<mat-form-field
+>
+  <mat-label><ng-content></ng-content></mat-label>
+
+  <mat-select [value]="objectId" (valueChange)="onValueChange($event)">
+
+    <mat-option>None</mat-option>
+
+    <mat-option *ngFor="let option of options" [value]="option.value">
+      {{option.label}}
+    </mat-option>
+
+  </mat-select>
+
+</mat-form-field>

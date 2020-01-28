@@ -76,5 +76,6 @@ export abstract class EntityService<T> extends StatefulService<EntityState<T>> {
 
   observeEntities(observer: (entities: T[]) => void) {
     this.state$.subscribe(() => observer(this.getEntities()));
+    observer(this.getEntities());
   }
 }

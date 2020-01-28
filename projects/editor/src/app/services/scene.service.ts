@@ -21,7 +21,8 @@ export class SceneService extends EntityService<Scene> {
     const authorizedParameters = {
       displayPicture: ['waitForPlayer', 'picture', 'fullscreen'],
       displayText: ['waitForPlayer', 'text'],
-      hideText: ['waitForPlayer']
+      hideText: ['waitForPlayer'],
+      startScene: ['sceneId']
     };
 
     let scenes = this.getEntities();

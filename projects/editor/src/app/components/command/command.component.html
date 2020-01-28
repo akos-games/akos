@@ -1,4 +1,4 @@
-<div class="header">
+<div class="header" [class.green]="isGreenHeader()" [class.red]="isRedHeader()">
 
   <mat-form-field class="type">
     <mat-label>Command</mat-label>
@@ -40,5 +40,11 @@
   <mat-form-field *ngIf="command.type === 'displayText'">
     <textarea matInput placeholder="Text" [(ngModel)]="command.parameters.text"></textarea>
   </mat-form-field>
+
+  <ak-object *ngIf="command.type === 'startScene'"
+             [(objectId)]="command.parameters.sceneId"
+             type="scene">
+    Scene
+  </ak-object>
 
 </div>

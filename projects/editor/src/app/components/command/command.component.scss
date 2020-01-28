@@ -12,9 +12,20 @@ $padding: 10px 10px 5px 10px;
   display: flex;
   flex-direction: row;
   padding: $padding;
-  background-color: #F0FFF0;
   border-radius: $border-radius $border-radius 0 0;
   border-bottom: dotted #636363 1px;
+}
+
+.header.green {
+  background-color: #F0FFF0;
+}
+
+.header.red {
+  background-color: #FFF0F0;
+}
+
+.header.blue {
+  background-color: #F0F0FF;
 }
 
 .body {

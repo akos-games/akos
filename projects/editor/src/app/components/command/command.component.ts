@@ -28,4 +28,12 @@ export class CommandComponent implements OnInit, OnChanges {
   onDelete() {
     this.delete.emit(this.command);
   }
+
+  isGreenHeader() {
+    return ['displayText', 'hideText', 'displayPicture'].includes(this.command.type);
+  }
+
+  isRedHeader() {
+    return ['startScene'].includes(this.command.type);
+  }
 }

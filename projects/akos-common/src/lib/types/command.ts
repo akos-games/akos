@@ -7,5 +7,6 @@ export interface Command {
     picture?: string;
     fullscreen?: boolean;
     text?: string;
+    sceneId?: number;
   }
 }
