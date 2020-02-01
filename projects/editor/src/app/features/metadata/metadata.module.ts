@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MetadataView } from './metadata.view';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
@@ -12,7 +12,8 @@ import { ComponentsModule } from '../../components/components.module';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    ComponentsModule
+    ComponentsModule,
+    FormsModule
   ]
 })
 export class MetadataModule {

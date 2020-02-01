@@ -3,6 +3,7 @@ export interface Project {
   version: string;
   engineVersion: string;
   file?: string;
+  firstSceneId?: number;
   paths?: {
     project: string;
     assets: string;

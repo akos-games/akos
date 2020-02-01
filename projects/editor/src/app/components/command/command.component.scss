@@ -28,6 +28,10 @@ $padding: 10px 10px 5px 10px;
   background-color: #F0F0FF;
 }
 
+.header.yellow {
+  background-color: #FFFFE0;
+}
+
 .body {
   display: flex;
   flex-direction: column;
@@ -58,4 +62,8 @@ $padding: 10px 10px 5px 10px;
 textarea {
   height: 75px;
   resize: none;
+}
+
+ak-select-entity {
+  width: 500px;
 }

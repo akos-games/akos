@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'ak-metadata',
@@ -9,33 +9,25 @@ import { ProjectService } from '../../services/project.service';
 })
 export class MetadataView implements OnInit {
 
-  metadata: FormGroup;
+  @ViewChild('form', {static: true}) ngForm: NgForm;
 
-  constructor(fb: FormBuilder, private projectService: ProjectService) {
+  name: string;
+  version: string;
+  firstSceneId: number;
 
-    let projectState = projectService.getState();
-
-    this.metadata = fb.group({
-      name: projectState.name,
-      version: projectState.version
-    });
-
-    this.metadata.valueChanges.subscribe(metadata => this.projectService.setMetadata(metadata));
+  constructor(private projectService: ProjectService) {
   }
 
   ngOnInit() {
 
     this.projectService.observeState(project => {
-
       if (project) {
-
-        this.metadata.setValue({
-          name: project.name,
-          version: project.version
-        }, {
-          emitEvent: false
-        });
+        this.name = project.name;
+        this.version = project.version;
+        this.firstSceneId = project.firstSceneId;
       }
     });
+
+    this.ngForm.form.valueChanges.subscribe(metadata => this.projectService.setMetadata(metadata));
   }
 }

@@ -4,13 +4,13 @@ import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule, 
 import { CommonModule } from '@angular/common';
 import { CommandComponent } from './command/command.component';
 import { FormsModule } from '@angular/forms';
-import { ObjectComponent } from './object/object.component';
+import { EntitySelectorComponent } from './entity-selector/entity-selector.component';
 
 @NgModule({
   declarations: [
     AssetComponent,
     CommandComponent,
-    ObjectComponent
+    EntitySelectorComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +25,7 @@ import { ObjectComponent } from './object/object.component';
   exports: [
     AssetComponent,
     CommandComponent,
-    ObjectComponent
+    EntitySelectorComponent
   ]
 })
 export class ComponentsModule {

@@ -107,6 +107,7 @@ export class ProjectService extends StatefulService<Project> {
 
     state.name = metadata.name;
     state.version = metadata.version;
+    state.firstSceneId = metadata.firstSceneId;
 
     this.setState(state);
   }
@@ -129,6 +130,7 @@ export class ProjectService extends StatefulService<Project> {
     return {
       name: projectState.name,
       akosVersion: '0.1.0',
+      firstSceneId: projectState.firstSceneId,
       scenes: this.sceneService.getEntities()
     }
   }

@@ -1,0 +1,17 @@
+<mat-form-field>
+
+  <mat-label>
+    <mat-icon>{{icon}}</mat-icon>
+    <ng-content></ng-content>
+  </mat-label>
+
+  <mat-select [(value)]="entityId">
+
+    <mat-option>None</mat-option>
+    <mat-option *ngFor="let entity of entities" [value]="entity.id">
+      {{entity.name}}
+    </mat-option>
+
+  </mat-select>
+
+</mat-form-field>

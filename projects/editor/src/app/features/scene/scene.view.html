@@ -7,7 +7,7 @@
 
 </form>
 
-<div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)">
+<div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)" cdkDropListAutoScrollDisabled=0>
   <ak-command cdkDrag *ngFor="let command of scene.commands"
               [command]="command"
               (update)="onUpdateCommand()"

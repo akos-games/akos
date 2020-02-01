@@ -41,10 +41,8 @@
     <textarea matInput placeholder="Text" [(ngModel)]="command.parameters.text"></textarea>
   </mat-form-field>
 
-  <ak-object *ngIf="command.type === 'startScene'"
-             [(objectId)]="command.parameters.sceneId"
-             type="scene">
+  <ak-select-entity *ngIf="command.type === 'startScene'" [(ngModel)]="command.parameters.sceneId" type="scene">
     Scene
-  </ak-object>
+  </ak-select-entity>
 
 </div>

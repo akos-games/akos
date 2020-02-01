@@ -1,13 +1,17 @@
-<form [formGroup]="metadata">
+<form #form="ngForm">
 
   <mat-form-field>
     <mat-label>Game name</mat-label>
-    <input matInput formControlName="name" required>
+    <input matInput required name="name" [(ngModel)]="name">
   </mat-form-field>
 
   <mat-form-field class="version">
     <mat-label>Game version</mat-label>
-    <input matInput formControlName="version" required>
+    <input matInput required name="version" [(ngModel)]="version">
   </mat-form-field>
+
+  <ak-select-entity type="scene" name="firstSceneId" [(ngModel)]="firstSceneId">
+    First scene
+  </ak-select-entity>
 
 </form>
