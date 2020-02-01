@@ -37,6 +37,7 @@ export class SceneService extends StatefulService<SceneRun> {
   nextCommand() {
 
     let command: Command;
+    let nextSceneId = null;
 
     do {
 
@@ -64,13 +65,21 @@ export class SceneService extends StatefulService<SceneRun> {
           break;
 
         case 'startScene':
+          nextSceneId = command.parameters.sceneId;
           break;
       }
 
       sceneRun.commandIndex++;
-      this.setState(sceneRun);
 
-    } while (!command.parameters.waitForPlayer);
+      if (!nextSceneId) {
+        this.setState(sceneRun);
+      }
+
+    } while (!command.parameters.waitForPlayer && !nextSceneId);
+
+    if (nextSceneId) {
+      this.startScene(nextSceneId);
+    }
   }
 
   startScene(sceneId: number) {

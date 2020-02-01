@@ -26,7 +26,12 @@ export abstract class StatefulService<T> {
   }
 
   observeState(observer: (state: T) => void) {
+
     this.state$.subscribe(state => observer(state));
-    observer(this.getState());
+
+    let state = this.getState();
+    if (state !== undefined) {
+      observer(this.getState());
+    }
   }
 }
