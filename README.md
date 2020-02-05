@@ -8,17 +8,17 @@ Most of planned features are still missing or not fully implemented.**_
 
 ## Features
 
-- **Nocode and user-friendly editor**
-- _Planned: Create rich stories with complex game logic_
-- _Planned: Animations_
-- _Planned: Music / Sounds effects_
-- _Planned: Built-in game saves management_
-- _Planned: Guaranteed game saves compatibility between your game versions_
-- _Planned: RPG elements (characters, locations, inventory, quests, fights, ...)_
-- _Planned: Procedural generation_ 
-- _Planned: Steam integration_ 
-- _Planned: Multiplatform: Build games from / for Windows, Mac and Linux_
-- _Planned: Build games for mobile_
+:monkey_face: **Nocode and user-friendly editor**  
+_Planned: :twisted_rightwards_arrows: Create rich stories with complex game logic_  
+_Planned:	:film_strip: Animations_  
+_Planned: :musical_note: Music / Sounds effects_  
+_Planned: :floppy_disk: Built-in game saves management_  
+_Planned: :heavy_check_mark: Guaranteed game saves compatibility between your game versions_  
+_Planned: :crossed_swords: RPG elements (characters, locations, inventory, quests, fights, ...)_  
+_Planned: :boom: Procedural generation_   
+_Planned: :video_game: Steam integration_  
+_Planned: :computer: Build games for / from Windows, Mac and Linux_  
+_Planned: :iphone: Build games for mobile_  
 
 ## Download
 
@@ -36,7 +36,8 @@ In this way, we hope to motivate novice game devs to get started by focusing on 
 
 You can help Akos development by trying it and opening bug and feature-request issues here on Github.
 
-Or you can simply make a donation.  
+Or you can make a donation.
+
 <a href="https://paypal.me/grimwred">
   <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/>
 </a>
