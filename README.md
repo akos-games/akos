@@ -14,6 +14,7 @@ _Planned:	:film_strip: Animations_
 _Planned: :musical_note: Event driven music and sound effects mixing_  
 _Planned: :floppy_disk: Built-in game saves management_  
 _Planned: :heavy_check_mark: Guaranteed game saves compatibility between your game versions_  
+_Planned: :point_up_2: Point'n'Click capabilities_  
 _Planned: :crossed_swords: RPG elements (characters, locations, inventory, quests, fights, ...)_  
 _Planned: :boom: Procedural generation_   
 _Planned: :video_game: Steam integration_  
