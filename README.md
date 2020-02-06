@@ -5,13 +5,13 @@ Akos is a nocode visual-novel engine. It features anything creators and artists 
 _**This project is at a very early stage of its development.  
 Most of planned features are still missing or not fully implemented.**_
 
-
 ## Features
 
 :monkey_face: **Nocode and user-friendly editor**  
+
 _Planned: :twisted_rightwards_arrows: Create rich stories with complex game logic_  
 _Planned:	:film_strip: Animations_  
-_Planned: :musical_note: Music / Sounds effects_  
+_Planned: :musical_note: Event driven music and sound effects mixing_  
 _Planned: :floppy_disk: Built-in game saves management_  
 _Planned: :heavy_check_mark: Guaranteed game saves compatibility between your game versions_  
 _Planned: :crossed_swords: RPG elements (characters, locations, inventory, quests, fights, ...)_  
@@ -32,17 +32,16 @@ Time needed to learn all the required skills to make a professional quality vide
 
 In this way, we hope to motivate novice game devs to get started by focusing on what is most important in any creative endeavor: **creativity**.
 
-## Contributions
+## Donations
 
-You can help Akos development by trying it and opening bug and feature-request issues here on Github.
-
-Or you can make a donation.
+If you want to say thanks and help this projet growing.
 
 <a href="https://paypal.me/grimwred">
-  <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/>
+  <img src="https://img.shields.io/badge/donate via-paypal-blue?style=for-the-badge&logo=paypal"/>
 </a>
 
 ## License
 
-Copyright :copyright: 2020 Sébastien Roux  
-Licensed under the MIT license.
+[![License](https://img.shields.io/badge/license-MIT-green)](/LICENSE)
+
+Copyright :copyright: 2020 Sébastien Roux
