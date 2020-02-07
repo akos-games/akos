@@ -8,7 +8,9 @@
     "lint": "ng lint",
     "ng": "ng",
     "serve": "scripts/serve.sh",
-    "start": "ng build akos-common && run-p -r \"ng serve {1} -- --port {2}\" \"serve {1} {2}\" --",
+    "start": "npm run start:editor",
+    "start:editor": "scripts/start.sh akos-editor 4200 5858",
+    "start:engine": "scripts/start.sh akos-engine 4201 5859",
     "test": "ng test"
   },
   "dependencies": {
