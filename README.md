@@ -11,7 +11,7 @@ Most of planned features are still missing or not fully implemented.**_
 
 _Planned: :twisted_rightwards_arrows: Create rich stories with complex game logic_  
 _Planned:	:film_strip: Animations_  
-_Planned: :musical_note: Event driven music and sound effects mixing_  
+_Planned: :musical_note: Dynamic music and sound effects_  
 _Planned: :floppy_disk: Built-in game saves management_  
 _Planned: :heavy_check_mark: Guaranteed game saves compatibility between your game versions_  
 _Planned: :point_up_2: Point'n'Click capabilities_  
