@@ -1,9 +1,9 @@
 productName: akos-engine
 directories:
-  output: "dist/release/engine"
+  output: "dist/release/akos-engine"
 files:
   - "package.json"
-  - from: "dist/engine"
+  - from: "dist/akos-engine"
     to: ""
     filter:
       - "!**/*.js.map"

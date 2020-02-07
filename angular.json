@@ -3,33 +3,33 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "editor": {
+    "akos-editor": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/editor",
-      "sourceRoot": "projects/editor/src",
+      "root": "projects/akos-editor",
+      "sourceRoot": "projects/akos-editor/src",
       "prefix": "ak",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/editor",
-            "index": "projects/editor/src/index.html",
-            "main": "projects/editor/src/main.ts",
-            "polyfills": "projects/editor/src/polyfills.ts",
-            "tsConfig": "projects/editor/tsconfig.app.json",
+            "outputPath": "dist/akos-editor",
+            "index": "projects/akos-editor/src/index.html",
+            "main": "projects/akos-editor/src/main.ts",
+            "polyfills": "projects/akos-editor/src/polyfills.ts",
+            "tsConfig": "projects/akos-editor/tsconfig.app.json",
             "aot": false,
             "assets": [
-              "projects/editor/src/favicon.ico",
-              "projects/editor/src/assets"
+              "projects/akos-editor/src/favicon.ico",
+              "projects/akos-editor/src/assets"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "projects/editor/src/styles.scss"
+              "projects/akos-editor/src/styles.scss"
             ],
             "scripts": []
           },
@@ -37,8 +37,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/editor/src/environments/environment.ts",
-                  "with": "projects/editor/src/environments/environment.prod.ts"
+                  "replace": "projects/akos-editor/src/environments/environment.ts",
+                  "with": "projects/akos-editor/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -68,34 +68,34 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "editor:build"
+            "browserTarget": "akos-editor:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "editor:build:production"
+              "browserTarget": "akos-editor:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "editor:build"
+            "browserTarget": "akos-editor:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/editor/src/test.ts",
-            "polyfills": "projects/editor/src/polyfills.ts",
-            "tsConfig": "projects/editor/tsconfig.spec.json",
-            "karmaConfig": "projects/editor/karma.conf.js",
+            "main": "projects/akos-editor/src/test.ts",
+            "polyfills": "projects/akos-editor/src/polyfills.ts",
+            "tsConfig": "projects/akos-editor/tsconfig.spec.json",
+            "karmaConfig": "projects/akos-editor/karma.conf.js",
             "assets": [
-              "projects/editor/src/favicon.ico",
-              "projects/editor/src/assets"
+              "projects/akos-editor/src/favicon.ico",
+              "projects/akos-editor/src/assets"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "projects/editor/src/styles.scss"
+              "projects/akos-editor/src/styles.scss"
             ],
             "scripts": []
           }
@@ -104,9 +104,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/editor/tsconfig.app.json",
-              "projects/editor/tsconfig.spec.json",
-              "projects/editor/e2e/tsconfig.json"
+              "projects/akos-editor/tsconfig.app.json",
+              "projects/akos-editor/tsconfig.spec.json",
+              "projects/akos-editor/e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -116,43 +116,43 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/editor/e2e/protractor.conf.js",
-            "devServerTarget": "editor:serve"
+            "protractorConfig": "projects/akos-editor/e2e/protractor.conf.js",
+            "devServerTarget": "akos-editor:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "editor:serve:production"
+              "devServerTarget": "akos-editor:serve:production"
             }
           }
         }
       }
     },
-    "engine": {
+    "akos-engine": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/engine",
-      "sourceRoot": "projects/engine/src",
+      "root": "projects/akos-engine",
+      "sourceRoot": "projects/akos-engine/src",
       "prefix": "ak",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/engine",
-            "index": "projects/engine/src/index.html",
-            "main": "projects/engine/src/main.ts",
-            "polyfills": "projects/engine/src/polyfills.ts",
-            "tsConfig": "projects/engine/tsconfig.app.json",
+            "outputPath": "dist/akos-engine",
+            "index": "projects/akos-engine/src/index.html",
+            "main": "projects/akos-engine/src/main.ts",
+            "polyfills": "projects/akos-engine/src/polyfills.ts",
+            "tsConfig": "projects/akos-engine/tsconfig.app.json",
             "aot": false,
             "assets": [
-              "projects/engine/src/favicon.ico",
-              "projects/engine/src/assets"
+              "projects/akos-engine/src/favicon.ico",
+              "projects/akos-engine/src/assets"
             ],
             "styles": [
-              "projects/engine/src/styles.scss"
+              "projects/akos-engine/src/styles.scss"
             ],
             "scripts": []
           },
@@ -160,8 +160,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/engine/src/environments/environment.ts",
-                  "with": "projects/engine/src/environments/environment.prod.ts"
+                  "replace": "projects/akos-engine/src/environments/environment.ts",
+                  "with": "projects/akos-engine/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -191,33 +191,33 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "engine:build"
+            "browserTarget": "akos-engine:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "engine:build:production"
+              "browserTarget": "akos-engine:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "engine:build"
+            "browserTarget": "akos-engine:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/engine/src/test.ts",
-            "polyfills": "projects/engine/src/polyfills.ts",
-            "tsConfig": "projects/engine/tsconfig.spec.json",
-            "karmaConfig": "projects/engine/karma.conf.js",
+            "main": "projects/akos-engine/src/test.ts",
+            "polyfills": "projects/akos-engine/src/polyfills.ts",
+            "tsConfig": "projects/akos-engine/tsconfig.spec.json",
+            "karmaConfig": "projects/akos-engine/karma.conf.js",
             "assets": [
-              "projects/engine/src/favicon.ico",
-              "projects/engine/src/assets"
+              "projects/akos-engine/src/favicon.ico",
+              "projects/akos-engine/src/assets"
             ],
             "styles": [
-              "projects/engine/src/styles.scss"
+              "projects/akos-engine/src/styles.scss"
             ],
             "scripts": []
           }
@@ -226,9 +226,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/engine/tsconfig.app.json",
-              "projects/engine/tsconfig.spec.json",
-              "projects/engine/e2e/tsconfig.json"
+              "projects/akos-engine/tsconfig.app.json",
+              "projects/akos-engine/tsconfig.spec.json",
+              "projects/akos-engine/e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -238,12 +238,12 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/engine/e2e/protractor.conf.js",
-            "devServerTarget": "engine:serve"
+            "protractorConfig": "projects/akos-engine/e2e/protractor.conf.js",
+            "devServerTarget": "akos-engine:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "engine:serve:production"
+              "devServerTarget": "akos-engine:serve:production"
             }
           }
         }
@@ -285,5 +285,5 @@
       }
     }
   },
-  "defaultProject": "editor"
+  "defaultProject": "akos-editor"
 }

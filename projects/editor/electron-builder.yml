@@ -1,9 +1,9 @@
 productName: akos-editor
 directories:
-  output: "dist/release/editor"
+  output: "dist/release/akos-editor"
 files:
   - "package.json"
-  - from: "dist/editor"
+  - from: "dist/akos-editor"
     to: ""
     filter:
       - "!**/*.js.map"

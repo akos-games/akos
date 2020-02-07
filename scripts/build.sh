@@ -29,26 +29,26 @@ function move_engine_build() {
 
   echo "Moving engine build to editor directory..."
 
-  rm -rf dist/release/editor/"$OS"-unpacked/engine/"$OS"*
-  mkdir -p dist/release/editor/"$OS"-unpacked/engine/"$OS"
-  mv dist/release/engine/"$OS"-unpacked/* dist/release/editor/"$OS"-unpacked/engine/"$OS"
+  rm -rf dist/release/akos-editor/"$OS"-unpacked/engine/"$OS"*
+  mkdir -p dist/release/akos-editor/"$OS"-unpacked/engine/"$OS"
+  mv dist/release/akos-engine/"$OS"-unpacked/* dist/release/akos-editor/"$OS"-unpacked/akos-engine/"$OS"
 }
 
 function clean_release() {
 
   echo "Cleaning release directory..."
 
-  rm -rf dist/release/engine
-  rm dist/release/editor/*.yaml
-  mv dist/release/editor/$OS-unpacked/* dist/release/editor
-  rmdir dist/release/editor/$OS-unpacked
-  mv dist/release/editor dist/release/akos-editor
+  rm -rf dist/release/akos-engine
+  rm dist/release/akos-editor/*.yaml
+  mv dist/release/akos-editor/$OS-unpacked/* dist/release/akos-editor
+  rmdir dist/release/akos-editor/$OS-unpacked
+  mv dist/release/akos-editor dist/release/akos-editor
 }
 
 OS=$(detect_os)
 rm -rf dist/release
 ng build akos-common
-build_electron "editor"
-build_electron "engine"
+build_electron "akos-editor"
+build_electron "akos-engine"
 move_engine_build
 clean_release

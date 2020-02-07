@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/engine",
+    "outDir": "../../dist/akos-engine",
     "module": "commonjs",
     "emitDecoratorMetadata": true,
     "target": "es5"

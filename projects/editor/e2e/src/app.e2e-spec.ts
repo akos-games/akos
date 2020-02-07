@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('editor app is running!');
+    expect(page.getTitleText()).toEqual('akos-editor app is running!');
   });
 
   afterEach(async () => {
