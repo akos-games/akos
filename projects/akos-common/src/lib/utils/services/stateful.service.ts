@@ -6,7 +6,9 @@ export abstract class StatefulService<T> {
   protected state: T = this.getInitialState();
   protected readonly state$ = new EventEmitter<T>();
 
-  protected abstract getInitialState(): T;
+  protected getInitialState(): T {
+    return undefined;
+  };
 
   protected emitState() {
     this.state$.emit(this.getState());
@@ -27,11 +29,11 @@ export abstract class StatefulService<T> {
 
   observeState(observer: (state: T) => void) {
 
-    this.state$.subscribe(state => observer(state));
-
     let state = this.getState();
     if (state !== undefined) {
       observer(this.getState());
     }
+
+    return this.state$.subscribe(state => observer(state));
   }
 }
