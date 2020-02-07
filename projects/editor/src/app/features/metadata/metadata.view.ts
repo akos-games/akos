@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
 import { NgForm } from '@angular/forms';
+import { Project } from '../../types/project';
 
 @Component({
   selector: 'ak-metadata',
@@ -11,23 +12,13 @@ export class MetadataView implements OnInit {
 
   @ViewChild('form', {static: true}) ngForm: NgForm;
 
-  name: string;
-  version: string;
-  firstSceneId: number;
+  project: Project;
 
   constructor(private projectService: ProjectService) {
   }
 
   ngOnInit() {
-
-    this.projectService.observeState(project => {
-      if (project) {
-        this.name = project.name;
-        this.version = project.version;
-        this.firstSceneId = project.firstSceneId;
-      }
-    });
-
-    this.ngForm.form.valueChanges.subscribe(metadata => this.projectService.setMetadata(metadata));
+    this.projectService.observeState(project => this.project = project);
+    this.ngForm.form.valueChanges.subscribe(metadata => {this.projectService.setMetadata(metadata); console.log(metadata)});
   }
 }
