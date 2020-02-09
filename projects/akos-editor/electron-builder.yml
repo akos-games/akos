@@ -1,11 +1,18 @@
-productName: akos-editor
+productName: "Akos Editor"
+artifactName: "akos-editor-${version}-${os}.${ext}"
 directories:
-  output: "dist/release/akos-editor"
+  output: "dist/build/akos-editor"
 files:
   - "package.json"
-  - from: "dist/akos-editor"
+  - from: "dist/compile/akos-editor"
     to: ""
     filter:
       - "!**/*.js.map"
+extraFiles:
+  - from: "dist/build/akos-engine"
+    to: "engine"
+    filter:
+      - "!**/*.yaml"
 win:
-  target: portable
+  target: zip
+
