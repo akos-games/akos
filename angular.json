@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/akos-editor",
+            "outputPath": "dist/compile/akos-editor",
             "index": "projects/akos-editor/src/index.html",
             "main": "projects/akos-editor/src/main.ts",
             "polyfills": "projects/akos-editor/src/polyfills.ts",
@@ -141,7 +141,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/akos-engine",
+            "outputPath": "dist/compile/akos-engine",
             "index": "projects/akos-engine/src/index.html",
             "main": "projects/akos-engine/src/main.ts",
             "polyfills": "projects/akos-engine/src/polyfills.ts",

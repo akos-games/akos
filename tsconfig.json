@@ -20,10 +20,10 @@
     ],
     "paths": {
       "akos-common": [
-        "dist/akos-common"
+        "dist/compile/akos-common"
       ],
       "akos-common/*": [
-        "dist/akos-common/*",
+        "dist/compile/akos-common/*",
         "projects/akos-common/src/lib/*"
       ]
     }

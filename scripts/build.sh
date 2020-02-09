@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Refactoring:
+# electron build engine
+# move engine build to editor dist
+# electron build editor
+
 function build_electron() {
 
   local project
