@@ -47,7 +47,7 @@ function createMainWindow() {
 
     loadUrl = 'http://localhost:4200';
     require('electron-reload')(__dirname, {
-      electron: require(`${__dirname}/../../node_modules/electron`)
+      electron: require(`${__dirname}/../../../node_modules/electron`)
     });
 
   } else {
