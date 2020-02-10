@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { Command } from 'akos-common/types/command';
+import { Command } from 'akos-common';
 
 @Component({
   selector: 'ak-command',

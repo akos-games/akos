@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FileService } from './file.service';
-import { getDirectory } from 'akos-common/utils/file';
 import { Router } from '@angular/router';
 import { SceneService } from './scene.service';
-import { StatefulService } from 'akos-common/utils/services/stateful.service';
 import { Project } from '../types/project';
-import { GameDescriptor } from 'akos-common/types/game-descriptor';
+import { getDirectory, StatefulService } from 'akos-common';
+import { GameDescriptor } from '../../../../akos-common/src/lib/types/game-descriptor';
 
 @Injectable({
   providedIn: 'root'

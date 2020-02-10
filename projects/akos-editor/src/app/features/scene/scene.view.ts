@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SceneService } from '../../services/scene.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Scene } from 'akos-common/types/scene';
 import { generateId } from '../../utils/node';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Command } from 'akos-common/types/command';
+import { Command, Scene } from 'akos-common';
 
 @Component({
   selector: 'ak-scene',

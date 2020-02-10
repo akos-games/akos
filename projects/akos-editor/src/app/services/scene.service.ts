@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { generateId } from '../utils/node';
-import { Scene } from 'akos-common/types/scene';
-import { EntityService } from 'akos-common/utils/services/entity.service';
+import { EntityService, Scene } from 'akos-common';
 
 @Injectable({
   providedIn: 'root'

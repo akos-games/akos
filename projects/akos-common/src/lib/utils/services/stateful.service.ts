@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { deepCopy } from 'akos-common/utils/object';
+import { deepCopy } from '../object';
 
 export abstract class StatefulService<T> {
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from "electron";
-import { StatefulService } from 'akos-common/utils/services/stateful.service';
+import { StatefulService } from 'akos-common';
 
 export interface NativeState {
   workingDirectory: string;

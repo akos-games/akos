@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { GameDescriptorService } from './game-descriptor.service';
-import { Scene } from 'akos-common/types/scene';
-import { StatefulService } from 'akos-common/utils/services/stateful.service';
 import { NativeService } from './native.service';
-import { Command } from 'akos-common/types/command';
 import { SceneRun } from '../types/scene-run';
+import { Command, Scene, StatefulService } from 'akos-common';
 
 @Injectable({
   providedIn: 'root'

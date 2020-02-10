@@ -1,4 +1,4 @@
-import { Scene } from 'akos-common/types/scene';
+import { Scene } from './scene';
 
 export interface GameDescriptor {
   name: string;

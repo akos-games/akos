@@ -23,8 +23,7 @@
         "dist/compile/akos-common"
       ],
       "akos-common/*": [
-        "dist/compile/akos-common/*",
-        "projects/akos-common/src/lib/*"
+        "dist/compile/akos-common/*"
       ]
     }
   },

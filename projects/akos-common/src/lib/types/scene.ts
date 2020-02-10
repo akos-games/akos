@@ -1,4 +1,4 @@
-import { Command } from 'akos-common/types/command';
+import { Command } from './command';
 
 export interface Scene {
   id: number;

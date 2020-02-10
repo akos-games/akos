@@ -1,4 +1,4 @@
-import { StatefulService } from 'akos-common/utils/services/stateful.service';
+import { StatefulService } from './stateful.service';
 
 interface EntityState<T> {
   entities: {[id: string]: T};
