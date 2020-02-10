@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { MatTreeNestedDataSource } from '@angular/material';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { TreeNode } from '../../types/tree-node';
 import { MetadataNode } from '../../types/metadata-node';
 import { ScenesNode } from '../../types/scenes-node';
