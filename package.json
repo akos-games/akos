@@ -60,7 +60,7 @@
     "protractor": "^5.4.0",
     "rxjs": "^6.5.3",
     "ts-node": "~7.0.0",
-    "tsickle": "^0.37.1",
+    "tsickle": "^0.38.0",
     "tslint": "~5.15.0",
     "typeface-roboto": "0.0.75",
     "typescript": "~3.5.3",
