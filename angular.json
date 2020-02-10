@@ -22,7 +22,7 @@
             "main": "projects/akos-editor/src/main.ts",
             "polyfills": "projects/akos-editor/src/polyfills.ts",
             "tsConfig": "projects/akos-editor/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "projects/akos-editor/src/favicon.ico",
               "projects/akos-editor/src/assets"
@@ -46,7 +46,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -146,7 +145,7 @@
             "main": "projects/akos-engine/src/main.ts",
             "polyfills": "projects/akos-engine/src/polyfills.ts",
             "tsConfig": "projects/akos-engine/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "projects/akos-engine/src/favicon.ico",
               "projects/akos-engine/src/assets"
@@ -169,7 +168,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -261,7 +259,12 @@
             "tsConfig": "projects/akos-common/tsconfig.lib.json",
             "project": "projects/akos-common/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/akos-common/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
