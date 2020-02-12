@@ -1,39 +1,27 @@
-import { EventEmitter } from '@angular/core';
 import { deepCopy } from '../object';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export abstract class StatefulService<T> {
 
-  protected state: T = this.getInitialState();
-  protected readonly state$ = new EventEmitter<T>();
+  protected state = new BehaviorSubject(this.getInitialState());
 
-  protected getInitialState(): T {
-    return undefined;
-  };
+  getState(): T {
+    return deepCopy(this.state.value);
+  }
 
-  protected emitState() {
-    this.state$.emit(this.getState());
+  getObservable(): Observable<T> {
+    return this.state.asObservable();
   }
 
   protected setState(state: T) {
-    this.state = deepCopy(state);
-    this.emitState();
+    this.state.next(deepCopy(state));
   }
 
   protected resetState() {
     this.setState(this.getInitialState());
   }
 
-  getState(): T {
-    return deepCopy(this.state);
-  }
-
-  observeState(observer: (state: T) => void) {
-
-    let state = this.getState();
-    if (state !== undefined) {
-      observer(this.getState());
-    }
-
-    return this.state$.subscribe(state => observer(state));
+  protected getInitialState(): T {
+    return undefined;
   }
 }

@@ -1,81 +1,66 @@
 import { StatefulService } from './stateful.service';
+import { deepCopy } from '../object';
 
-interface EntityState<T> {
+interface EntityCache<T> {
   entities: {[id: string]: T};
-  order: (string | number)[]
+  order: Set<string | number>;
 }
 
-export abstract class EntityService<T> extends StatefulService<EntityState<T>> {
+export abstract class EntityService<T> extends StatefulService<T[]> {
 
   protected idProperty = 'id';
+  private cache = this.getEmptyCache();
 
-  protected getInitialState(): EntityState<T> {
-    return {
-      entities: {},
-      order: []
-    }
-  }
+  protected addToState(entity: T);
+  protected addToState(entities: T[]);
+  protected addToState(entities) {
 
-  protected abstract getNewEntity(): T;
-
-  createEntity(): string | number {
-
-    let entity = this.getNewEntity();
-    let state = this.getState();
-    let id = entity[this.idProperty];
-
-    state.entities[id] = entity;
-    state.order.push(id);
-
-    this.setState(state);
-
-    return id
-  }
-
-  updateEntity(entity: T) {
-    let state = this.getState();
-    state.entities[entity[this.idProperty]] = entity;
-    this.setState(state);
-  }
-
-  deleteEntity(entityId: string | number) {
-
-    let state = this.getState();
-
-    delete state.entities[entityId];
-    state.order.splice(state.order.indexOf(entityId), 1);
-
-    this.setState(state);
-  }
-
-  resetEntities(entities?: T[]) {
-
-    if (!entities) {
-      this.resetState();
-      return;
-    }
-
-    let state = this.getInitialState();
-    entities.forEach(entity => {
+    let entityArray = Array.isArray(entities) ? entities : [entities];
+    entityArray.forEach(entity => {
       let id = entity[this.idProperty];
-      state.entities[id] = entity;
-      state.order.push(id);
+      this.cache.entities[id] = entity;
+      this.cache.order.add(id);
     });
 
-    this.setState(state);
+    // Avoid building state in case of first cache addition
+    super.setState(this.cache.order.size === entityArray.length ? entityArray : this.buildState());
   }
 
-  getEntity(entityId: string | number): T {
-    return this.getState().entities[entityId];
+  protected removeFromState(entityOrId: T | string | number);
+  protected removeFromState(entitiesOrIds: (T | string | number)[]);
+  protected removeFromState(entitiesOrIds) {
+
+    let entityArray = Array.isArray(entitiesOrIds) ? entitiesOrIds : [entitiesOrIds];
+    entityArray.forEach(entityOrId => {
+      let id = typeof entityOrId === 'object' ? entityOrId[this.idProperty] : entityOrId;
+      delete this.cache.entities[id];
+      this.cache.order.delete(id);
+    });
+
+    super.setState(this.buildState());
   }
 
-  getEntities(): T[] {
-    let state = this.getState();
-    return state.order.map(id => state.entities[id]);
+  protected getFromState(entityId: string | number): T {
+    return deepCopy(this.cache.entities[entityId]);
   }
 
-  observeEntities(observer: (entities: T[]) => void) {
-    observer(this.getEntities());
-    return this.state$.subscribe(() => observer(this.getEntities()));
+  protected setState(entities: T[]) {
+    this.cache = this.getEmptyCache();
+    this.addToState(entities);
+  }
+
+  protected getInitialState(): T[] {
+    return [];
+  }
+
+  private buildState(): T[] {
+    return [...this.cache.order].map(id => this.cache.entities[id]);
+  }
+
+  private getEmptyCache(): EntityCache<T> {
+    return {
+      entities: {},
+      order: new Set<string|number>()
+    };
   }
 }
