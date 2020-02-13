@@ -78,14 +78,14 @@ export class ProjectService extends StatefulService<Project> {
       };
 
       this.setState(data.project);
-      this.sceneService.resetEntities(data.scenes);
+      this.sceneService.resetScenes(data.scenes);
       this.router.navigateByUrl('metadata');
     }
   }
 
   closeProject() {
     this.resetState();
-    this.sceneService.resetEntities();
+    this.sceneService.resetScenes();
   }
 
   async buildGame() {
@@ -117,7 +117,7 @@ export class ProjectService extends StatefulService<Project> {
 
     return {
       project: {...this.getState(), file: null},
-      scenes: this.sceneService.getEntities()
+      scenes: this.sceneService.getState()
     }
   }
 
@@ -130,7 +130,7 @@ export class ProjectService extends StatefulService<Project> {
       name: projectState.name,
       akosVersion: '0.1.0',
       firstSceneId: projectState.firstSceneId,
-      scenes: this.sceneService.getEntities()
+      scenes: this.sceneService.getState()
     }
   }
 }

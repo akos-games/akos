@@ -24,14 +24,14 @@ export class SceneView implements OnInit {
 
     this.form.valueChanges.subscribe(formValues => {
       this.scene.name = formValues.name;
-      this.sceneService.updateEntity(this.scene);
+      this.sceneService.updateScene(this.scene);
     });
   }
 
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      this.scene = this.sceneService.getEntity(params.id);
+      this.scene = this.sceneService.getScene(params.id);
       this.form.setValue({
         name: this.scene.name
       }, {
@@ -52,21 +52,21 @@ export class SceneView implements OnInit {
       }
     });
 
-    this.sceneService.updateEntity(this.scene);
+    this.sceneService.updateScene(this.scene);
   }
 
   onDropCommand(event: CdkDragDrop<Command[]>) {
     moveItemInArray(this.scene.commands, event.previousIndex, event.currentIndex);
-    this.sceneService.updateEntity(this.scene);
+    this.sceneService.updateScene(this.scene);
   }
 
   onUpdateCommand() {
-    this.sceneService.updateEntity(this.scene);
+    this.sceneService.updateScene(this.scene);
   }
 
   onDeleteCommand(command: Command) {
     let index = this.scene.commands.findIndex(com => com.id === command.id);
     this.scene.commands.splice(index, 1);
-    this.sceneService.updateEntity(this.scene);
+    this.sceneService.updateScene(this.scene);
   }
 }

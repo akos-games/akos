@@ -18,7 +18,7 @@ export class MetadataView implements OnInit {
   }
 
   ngOnInit() {
-    this.projectService.observeState(project => this.project = project);
+    this.projectService.getObservable().subscribe(project => this.project = project);
     this.ngForm.form.valueChanges.subscribe(metadata => {this.projectService.setMetadata(metadata); console.log(metadata)});
   }
 }

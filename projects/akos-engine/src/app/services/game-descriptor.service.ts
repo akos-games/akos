@@ -9,7 +9,7 @@ export class GameDescriptorService extends StatefulService<GameDescriptor> {
 
   constructor(private nativeService: NativeService) {
     super();
-    this.nativeService.observeState(state => this.loadGameDescriptor(state.workingDirectory));
+    this.nativeService.getObservable().subscribe(state => this.loadGameDescriptor(state.workingDirectory));
   }
 
   protected getInitialState(): GameDescriptor {

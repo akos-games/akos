@@ -24,7 +24,7 @@ export class AssetComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.assetsPath = this.projectService.getState().paths.assets;
-    this.projectService.observeState(project => this.assetsPath = project.paths.assets);
+    this.projectService.getObservable().subscribe(project => this.assetsPath = project.paths.assets);
   }
 
   ngOnChanges(changes: SimpleChanges) {

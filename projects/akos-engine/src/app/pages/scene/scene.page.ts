@@ -28,7 +28,7 @@ export class ScenePage implements OnInit {
   }
 
   ngOnInit() {
-    this.sceneService.observeState(sceneRun => {
+    this.sceneService.getObservable().subscribe(sceneRun => {
       this.imgSrc = this.assetService.getAssetUrl(sceneRun.picture);
       this.fullscreen = sceneRun.fullscreen;
       this.text = sceneRun.text;

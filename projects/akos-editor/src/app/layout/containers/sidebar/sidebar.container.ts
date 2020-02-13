@@ -41,7 +41,7 @@ export class SidebarContainer implements OnInit {
       this.scenes
     ];
 
-    this.sceneService.observeEntities(scenes => this.updateScenes(scenes));
+    this.sceneService.getObservable().subscribe(scenes => this.updateScenes(scenes));
   }
 
   isParent(index: number, node: TreeNode) {

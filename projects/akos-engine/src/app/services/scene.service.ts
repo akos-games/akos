@@ -15,7 +15,7 @@ export class SceneService extends StatefulService<SceneRun> {
   constructor(private gameDescriptorService: GameDescriptorService, private nativeService: NativeService) {
     super();
 
-    this.gameDescriptorService.observeState(state => {
+    this.gameDescriptorService.getObservable().subscribe(state => {
       state.scenes.forEach(scene => this.scenes[scene.id] = scene);
       this.startScene(this.gameDescriptorService.getState().scenes[0].id);
     });

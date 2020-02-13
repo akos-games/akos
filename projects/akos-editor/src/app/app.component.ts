@@ -14,6 +14,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectService.observeState(async project => this.showSidebar = !!project);
+    this.projectService.getObservable().subscribe(project => this.showSidebar = !!project);
   }
 }

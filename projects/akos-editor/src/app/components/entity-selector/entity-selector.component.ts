@@ -50,7 +50,7 @@ export class EntitySelectorComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     this.icon = this.types[this.type].icon;
-    this.types[this.type].service.observeEntities(entities => this.entities = entities);
+    this.types[this.type].service.getObservable().subscribe(entities => this.entities = entities);
   }
 
   writeValue(value: any): void {

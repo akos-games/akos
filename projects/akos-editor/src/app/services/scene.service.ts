@@ -7,12 +7,28 @@ import { EntityService, Scene } from 'akos-common';
 })
 export class SceneService extends EntityService<Scene> {
 
-  protected getNewEntity(): Scene {
-    return {
+  createScene(): Scene {
+
+    let scene = {
       id: generateId(),
       name: 'New scene',
       commands: []
     };
+
+    this.addToState(scene);
+    return scene;
+  }
+
+  updateScene(scene: Scene) {
+    this.addToState(scene);
+  }
+
+  resetScenes(scenes: Scene[] = []) {
+    this.setState(scenes);
+  }
+
+  getScene(id: number): Scene {
+    return this.getFromState(id);
   }
 
   cleanCommands() {
@@ -24,7 +40,7 @@ export class SceneService extends EntityService<Scene> {
       startScene: ['sceneId']
     };
 
-    let scenes = this.getEntities();
+    let scenes = this.getState();
 
     scenes.forEach(scene => {
       scene.commands.forEach(command => {
@@ -34,6 +50,6 @@ export class SceneService extends EntityService<Scene> {
       })
     });
 
-    this.resetEntities(scenes);
+    this.setState(scenes);
   }
 }

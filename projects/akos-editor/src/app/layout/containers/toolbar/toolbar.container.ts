@@ -16,7 +16,7 @@ export class ToolbarContainer implements OnInit {
   }
 
   ngOnInit() {
-    this.projectService.observeState(project => this.project = project);
+    this.projectService.getObservable().subscribe(project => this.project = project);
   }
 
   onCreate() {
