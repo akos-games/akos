@@ -1,11 +1,11 @@
 {
   "name": "akos",
   "version": "0.1.0",
-  "author": "Sébastien Roux",
+  "private": true,
   "description": "Akos is a nocode visual-novel engine",
   "homepage": "https://github.com/grimwred/akos",
   "license": "MIT",
-  "private": true,
+  "author": "Sébastien Roux",
   "scripts": {
     "build": "npm run build:engine && npm run build:editor",
     "build:editor": "scripts/build-editor.sh",
