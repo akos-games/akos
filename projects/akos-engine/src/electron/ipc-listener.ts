@@ -22,6 +22,6 @@ export function listenProcess(window: BrowserWindow, args: any) {
   });
 
   ipcMain.on('getWorkingDirectory', () => {
-    window.webContents.send('workingDirectory', args.serve ? `${__dirname}/../game/dist/win` : process.cwd());
+    window.webContents.send('workingDirectory', args.serve ? `${__dirname}/../../game/dist/win` : process.cwd());
   });
 }

@@ -127,9 +127,11 @@ export class ProjectService extends StatefulService<Project> {
     this.sceneService.cleanCommands();
 
     return {
-      name: projectState.name,
-      akosVersion: '0.1.0',
-      firstSceneId: projectState.firstSceneId,
+      game: {
+        name: projectState.name,
+        akosVersion: '0.1.0',
+        firstSceneId: projectState.firstSceneId
+      },
       scenes: this.sceneService.getState()
     }
   }

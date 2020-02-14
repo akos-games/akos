@@ -3,6 +3,7 @@ import { GameDescriptorService } from './game-descriptor.service';
 import { NativeService } from './native.service';
 import { SceneRun } from '../types/scene-run';
 import { Command, Scene, StatefulService } from 'akos-common';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,12 @@ export class SceneService extends StatefulService<SceneRun> {
   constructor(private gameDescriptorService: GameDescriptorService, private nativeService: NativeService) {
     super();
 
-    this.gameDescriptorService.getObservable().subscribe(state => {
-      state.scenes.forEach(scene => this.scenes[scene.id] = scene);
-      this.startScene(this.gameDescriptorService.getState().scenes[0].id);
-    });
+    this.gameDescriptorService.getObservable()
+      .pipe(filter(gameDescriptor => !!gameDescriptor))
+      .subscribe(gameDescriptor => {
+        gameDescriptor.scenes.forEach(scene => this.scenes[scene.id] = scene);
+        this.startScene(gameDescriptor.game.firstSceneId);
+      });
   }
 
   protected getInitialState(): SceneRun {

@@ -41,7 +41,7 @@ export function listenProcess(window: BrowserWindow, args: any) {
     // Prevent error when copying asar file
     require('process').noAsar = true;
 
-    let enginePath = args.serve ? `${app.getAppPath()}/../release/akos-editor/engine` : `${process.cwd()}/engine`;
+    let enginePath = args.serve ? `${app.getAppPath()}/../../build/akos-engine` : `${process.cwd()}/engine`;
     let distPath = `${projectPath}/dist`;
     let assetsPath = `${projectPath}/assets`;
 

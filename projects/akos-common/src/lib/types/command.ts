@@ -3,10 +3,18 @@ export interface Command {
   type: string;
   comment?: string;
   parameters?: {
+
+    // Commons
     waitForPlayer?: boolean;
+
+    // displayPicture
     picture?: string;
     fullscreen?: boolean;
+
+    // displayText
     text?: string;
+
+    // startScene
     sceneId?: number;
   }
 }

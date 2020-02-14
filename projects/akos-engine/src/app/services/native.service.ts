@@ -44,6 +44,6 @@ export class NativeService extends StatefulService<NativeState> {
 
   private fetchWorkingDirectory() {
     this.ipcRenderer.once('workingDirectory', (event, workingDirectory) => this.setState({workingDirectory}));
-    this.ipcRenderer.send('getWorkingDirectory')
+    this.ipcRenderer.send('getWorkingDirectory');
   }
 }
