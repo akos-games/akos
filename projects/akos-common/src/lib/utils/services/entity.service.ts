@@ -26,18 +26,22 @@ export abstract class EntityService<T> extends StatefulService<T[]> {
     super.setState(this.cache.order.size === entityArray.length ? entityArray : this.buildState());
   }
 
-  protected removeFromState(entityOrId: T | string | number);
-  protected removeFromState(entitiesOrIds: (T | string | number)[]);
-  protected removeFromState(entitiesOrIds) {
+  protected removeFromState(entityOrId: T | string | number): T;
+  protected removeFromState(entitiesOrIds: (T | string | number)[]): T[];
+  protected removeFromState(entitiesOrIds): T | T[] {
 
     let entityArray = Array.isArray(entitiesOrIds) ? entitiesOrIds : [entitiesOrIds];
+    let deleted = [];
     entityArray.forEach(entityOrId => {
       let id = typeof entityOrId === 'object' ? entityOrId[this.idProperty] : entityOrId;
+      deleted.push(this.cache.entities[id]);
       delete this.cache.entities[id];
       this.cache.order.delete(id);
     });
 
     super.setState(this.buildState());
+
+    return Array.isArray(entitiesOrIds) ? deleted : deleted[0];
   }
 
   protected getFromState(entityId: string | number): T {
@@ -60,7 +64,7 @@ export abstract class EntityService<T> extends StatefulService<T[]> {
   private getEmptyCache(): EntityCache<T> {
     return {
       entities: {},
-      order: new Set<string|number>()
+      order: new Set<string | number>()
     };
   }
 }
