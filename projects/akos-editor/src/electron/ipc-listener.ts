@@ -17,6 +17,11 @@ export function listenProcess(window: BrowserWindow, args: any) {
     window.webContents.send('fileWritten');
   });
 
+  ipcMain.on('setWindowTitle', (event, title) => {
+    window.setTitle(title);
+    window.webContents.send('windowTitleSet');
+  });
+
   ipcMain.on('selectNewFile', async (event, filters, defaultPath) => {
     let path = await selectFile(window, true, filters, defaultPath);
     window.webContents.send('newFileSelected', path);

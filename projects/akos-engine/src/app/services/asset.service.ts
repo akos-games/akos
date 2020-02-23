@@ -10,6 +10,6 @@ export class AssetService {
   }
 
   getAssetUrl(relativePath: string) {
-    return relativePath ? `file://${this.nativeService.getWorkingDirectory()}/assets/${relativePath}` : null;
+    return relativePath ? `file://${this.nativeService.getWorkingDir()}/assets/${relativePath}` : null;
   }
 }

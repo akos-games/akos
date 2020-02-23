@@ -1,32 +1,36 @@
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from "electron";
 import { StatefulService } from 'akos-common';
-
-export interface NativeState {
-  workingDirectory: string;
-}
+import { NativeContext } from '../types/native-context';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NativeService extends StatefulService<NativeState> {
+export class NativeService extends StatefulService<NativeContext> {
 
   private ipcRenderer: IpcRenderer;
 
   constructor() {
     super();
     this.ipcRenderer = (<any> window).require('electron').ipcRenderer;
-    this.fetchWorkingDirectory();
+    this.initContext();
   }
 
-  protected getInitialState(): NativeState {
-    return undefined;
+  exit() {
+    this.ipcRenderer.send('exit');
   }
 
-  async readFile(file: string) {
+  async readFile(file: string): Promise<any> {
     return new Promise<any>(resolve => {
       this.ipcRenderer.once('fileRead', (event, data) => resolve(data));
       this.ipcRenderer.send('readFile', file);
+    });
+  }
+
+  async writeFile(file: string, data: any): Promise<void> {
+    return new Promise<void>(resolve => {
+      this.ipcRenderer.once('fileWritten', () => resolve());
+      this.ipcRenderer.send('writeFile', file, data);
     });
   }
 
@@ -34,16 +38,20 @@ export class NativeService extends StatefulService<NativeState> {
     this.ipcRenderer.send('setWindowTitle', title);
   }
 
-  getWorkingDirectory(): string {
+  getWorkingDir() {
     return this.getState().workingDirectory;
   }
 
-  exit() {
-    this.ipcRenderer.send('exit');
+  private async initContext() {
+    this.setState({
+      workingDirectory: await this.getWorkingDirectory()
+    });
   }
 
-  private fetchWorkingDirectory() {
-    this.ipcRenderer.once('workingDirectory', (event, workingDirectory) => this.setState({workingDirectory}));
-    this.ipcRenderer.send('getWorkingDirectory');
+  private getWorkingDirectory(): Promise<string> {
+    return new Promise<string>(resolve => {
+      this.ipcRenderer.once('workingDirectory', (event, workingDirectory) => resolve(workingDirectory));
+      this.ipcRenderer.send('getWorkingDirectory');
+    });
   }
 }

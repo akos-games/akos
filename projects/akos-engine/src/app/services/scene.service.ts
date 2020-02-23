@@ -3,36 +3,22 @@ import { GameDescriptorService } from './game-descriptor.service';
 import { NativeService } from './native.service';
 import { SceneRun } from '../types/scene-run';
 import { Command, Scene, StatefulService } from 'akos-common';
-import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SceneService extends StatefulService<SceneRun> {
 
-  private scenes: {[id: string]: Scene} = {};
   private currentScene: Scene;
 
   constructor(private gameDescriptorService: GameDescriptorService, private nativeService: NativeService) {
     super();
-
-    this.gameDescriptorService.getObservable()
-      .pipe(filter(gameDescriptor => !!gameDescriptor))
-      .subscribe(gameDescriptor => {
-        gameDescriptor.scenes.forEach(scene => this.scenes[scene.id] = scene);
-        this.startScene(gameDescriptor.game.firstSceneId);
-      });
   }
 
-  protected getInitialState(): SceneRun {
-    return {
-      sceneId: null,
-      commandIndex: 0,
-      picture: null,
-      fullscreen: false,
-      text: null,
-      textVisible: false
-    };
+  startScene(sceneId: number) {
+    this.currentScene = this.gameDescriptorService.getScene(sceneId);
+    this.setState({...this.getInitialState(), sceneId});
+    this.nextCommand();
   }
 
   nextCommand() {
@@ -83,13 +69,14 @@ export class SceneService extends StatefulService<SceneRun> {
     }
   }
 
-  startScene(sceneId: number) {
-
-    let sceneRun = this.getInitialState();
-    sceneRun.sceneId = sceneId;
-    this.setState(sceneRun);
-
-    this.currentScene = this.scenes[sceneId];
-    this.nextCommand();
+  protected getInitialState(): SceneRun {
+    return {
+      sceneId: null,
+      commandIndex: 0,
+      picture: null,
+      fullscreen: false,
+      text: null,
+      textVisible: false
+    };
   }
 }
