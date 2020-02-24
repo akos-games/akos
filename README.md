@@ -31,7 +31,7 @@ Under these conditions, they quickly run out of a valuable resource that is impo
 
 Time needed to learn all the required skills to make a professional quality video game can be a source of discouragement for many creators. Akos has been designed to drastically reduce this time by **eliminating coding**, which is one of the most difficult game dev skills to master.
 
-In this way, we hope to motivate novice game devs to get started by focusing on what is most important in any creative endeavor: **creativity**.
+In this way, we hope to help novice game devs focus their creativity and **stay motivated** throughout their project.
 
 ## Donations
 
