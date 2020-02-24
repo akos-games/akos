@@ -1,16 +1,17 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
-import { SceneService } from '../../services/scene.service';
-import { AssetService } from '../../services/asset.service';
+import { SceneService } from '../core/services/scene.service';
+import { AssetService } from '../core/services/asset.service';
 
 @Component({
   selector: 'scene-page',
   templateUrl: './scene.page.html',
-  styleUrls: ['./scene.page.scss']
+  styleUrls: ['./scene.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScenePage implements OnInit {
 
-  imgSrc: string;
+  pictureUrl: string;
   fullscreen: boolean;
   text: string;
   textVisible: boolean;
@@ -19,8 +20,8 @@ export class ScenePage implements OnInit {
     private sceneService: SceneService,
     private assetService: AssetService,
     private hotkeysService: HotkeysService,
-    private cdRef: ChangeDetectorRef) {
-
+    private cdRef: ChangeDetectorRef
+  ) {
     this.hotkeysService.add(new Hotkey('space', () => {
       this.sceneService.nextCommand();
       return false;
@@ -29,7 +30,7 @@ export class ScenePage implements OnInit {
 
   ngOnInit() {
     this.sceneService.getObservable().subscribe(sceneRun => {
-      this.imgSrc = this.assetService.getAssetUrl(sceneRun.picture);
+      this.pictureUrl = this.assetService.getAssetUrl(sceneRun.picture);
       this.fullscreen = sceneRun.fullscreen;
       this.text = sceneRun.text;
       this.textVisible = sceneRun.textVisible;

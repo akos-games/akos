@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ScenePage } from './pages/scene/scene.page';
+import { ScenePage } from './scene/scene.page';
 
 const routes: Routes = [
   {path: '', redirectTo: '/scene', pathMatch: 'full'},

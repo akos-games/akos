@@ -7,9 +7,7 @@ interface GameDescriptorIndex {
   scenes: {[id: number]: Scene}
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class GameDescriptorService extends StatefulService<GameDescriptor> {
 
   private index: GameDescriptorIndex = {

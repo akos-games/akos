@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { GameService } from './services/game.service';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +7,7 @@ import { GameService } from './services/game.service';
 })
 export class AppComponent implements OnInit {
 
-  // TODO remove injection when main menu implemented
-  constructor(private gameService: GameService) {
+  constructor() {
   }
 
   ngOnInit() {

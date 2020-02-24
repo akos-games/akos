@@ -4,9 +4,7 @@ import { NativeService } from './native.service';
 import { SceneRun } from '../types/scene-run';
 import { Command, Scene, StatefulService } from 'akos-common';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SceneService extends StatefulService<SceneRun> {
 
   private currentScene: Scene;

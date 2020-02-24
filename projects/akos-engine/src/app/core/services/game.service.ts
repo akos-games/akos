@@ -5,9 +5,7 @@ import { GameDescriptorService } from './game-descriptor.service';
 import { filter } from 'rxjs/operators';
 import { SceneService } from './scene.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class GameService extends StatefulService<GameRun> {
 
   constructor(private gameDescriptorService: GameDescriptorService, private sceneService: SceneService) {

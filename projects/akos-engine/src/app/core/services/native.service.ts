@@ -3,9 +3,7 @@ import { IpcRenderer } from "electron";
 import { StatefulService } from 'akos-common';
 import { NativeContext } from '../types/native-context';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class NativeService extends StatefulService<NativeContext> {
 
   private ipcRenderer: IpcRenderer;

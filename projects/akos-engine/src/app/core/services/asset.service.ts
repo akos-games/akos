@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NativeService } from './native.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AssetService {
 
   constructor(private nativeService: NativeService) {
