@@ -3,15 +3,15 @@ import { NativeService } from './services/native.service';
 import { FileService } from './services/file.service';
 import { ProjectService } from './services/project.service';
 import { SceneService } from './services/scene.service';
-import { ProjectGuard } from './guards/project.guard';
+import { GameService } from './services/game.service';
 
 @NgModule({
   providers: [
     NativeService,
     FileService,
     ProjectService,
-    SceneService,
-    ProjectGuard
+    GameService,
+    SceneService
   ]
 })
 export class CoreModule {

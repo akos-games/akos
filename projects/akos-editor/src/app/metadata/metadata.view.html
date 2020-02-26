@@ -2,15 +2,15 @@
 
   <mat-form-field>
     <mat-label>Game name</mat-label>
-    <input matInput required name="name" [(ngModel)]="project.name">
+    <input matInput required name="name" [(ngModel)]="game.name">
   </mat-form-field>
 
   <mat-form-field class="version">
     <mat-label>Game version</mat-label>
-    <input matInput required name="version" [(ngModel)]="project.version">
+    <input matInput required name="version" [(ngModel)]="game.version">
   </mat-form-field>
 
-  <ak-select-entity type="scene" name="firstSceneId" [(ngModel)]="project.firstSceneId">
+  <ak-select-entity type="scene" name="firstSceneId" [(ngModel)]="game.firstSceneId">
     First scene
   </ak-select-entity>
 

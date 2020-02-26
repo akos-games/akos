@@ -1,10 +1,7 @@
 import { Scene } from './scene';
+import { Game } from './game';
 
 export interface GameDescriptor {
-  game: {
-    name: string;
-    akosVersion: string;
-    firstSceneId: number;
-  };
+  game: Game;
   scenes: Scene[];
 }

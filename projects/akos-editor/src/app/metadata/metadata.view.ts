@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProjectService } from '../core/services/project.service';
 import { NgForm } from '@angular/forms';
-import { Project } from '../core/types/project';
+import { Game } from 'akos-common';
+import { GameService } from '../core/services/game.service';
 
 @Component({
   selector: 'ak-metadata',
@@ -12,13 +13,13 @@ export class MetadataView implements OnInit {
 
   @ViewChild('form', {static: true}) ngForm: NgForm;
 
-  project: Project;
+  game: Game;
 
-  constructor(private projectService: ProjectService) {
+  constructor(private gameService: GameService) {
   }
 
   ngOnInit() {
-    this.projectService.getObservable().subscribe(project => this.project = project);
-    this.ngForm.form.valueChanges.subscribe(metadata => {this.projectService.setMetadata(metadata); console.log(metadata)});
+    this.gameService.getObservable().subscribe(game => this.game = game);
+    this.ngForm.form.valueChanges.subscribe(game => {this.gameService.setGame(game)});
   }
 }

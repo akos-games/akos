@@ -5,6 +5,8 @@ import { SceneService } from './scene.service';
 import { Project } from '../types/project';
 import { getDirectory, StatefulService } from 'akos-common';
 import { GameDescriptor } from 'akos-common';
+import { GameService } from './game.service';
+import { ProjectDescriptor } from '../types/project-descriptor';
 
 @Injectable()
 export class ProjectService extends StatefulService<Project> {
@@ -14,13 +16,10 @@ export class ProjectService extends StatefulService<Project> {
   constructor(
     private router: Router,
     private fileService: FileService,
+    private gameService: GameService,
     private sceneService: SceneService
   ) {
     super();
-  }
-
-  protected getInitialState(): Project {
-    return undefined;
   }
 
   async saveProject() {
@@ -43,9 +42,6 @@ export class ProjectService extends StatefulService<Project> {
       let projectDirectory = getDirectory(file);
 
       project = {
-        name: '',
-        version: '',
-        engineVersion: '0.1',
         file: file,
         paths: {
           project: projectDirectory,
@@ -76,6 +72,7 @@ export class ProjectService extends StatefulService<Project> {
       };
 
       this.setState(data.project);
+      this.gameService.setGame(data.game);
       this.sceneService.resetScenes(data.scenes);
       this.router.navigateByUrl('metadata');
     }
@@ -83,54 +80,30 @@ export class ProjectService extends StatefulService<Project> {
 
   closeProject() {
     this.resetState();
+    this.gameService.resetGame();
     this.sceneService.resetScenes();
+    this.router.navigateByUrl('');
   }
 
   async buildGame() {
-
-    let projectFile = this.getState().file;
-    if (!projectFile) {
-      await this.saveProject();
-    }
-
-    if (projectFile) {
-      await this.fileService.buildGame(getDirectory(projectFile), this.getGameDescriptor());
-    }
+    await this.saveProject();
+    await this.fileService.buildGame(getDirectory(this.getState().file), this.getGameDescriptor());
   }
 
-  setMetadata(metadata) {
-
-    let state = this.getState();
-
-    state.name = metadata.name;
-    state.version = metadata.version;
-    state.firstSceneId = metadata.firstSceneId;
-
-    this.setState(state);
-  }
-
-  private getProjectDescriptor() {
-
-    this.sceneService.cleanCommands();
-
+  private getProjectDescriptor(): ProjectDescriptor {
     return {
-      project: {...this.getState(), file: null},
-      scenes: this.sceneService.getState()
-    }
+      project: this.getState(),
+      ...this.getGameDescriptor()
+    };
   }
 
   private getGameDescriptor(): GameDescriptor {
 
-    let projectState = this.getState();
     this.sceneService.cleanCommands();
 
     return {
-      game: {
-        name: projectState.name,
-        akosVersion: '0.1.0',
-        firstSceneId: projectState.firstSceneId
-      },
+      game: this.gameService.getState(),
       scenes: this.sceneService.getState()
-    }
+    };
   }
 }

@@ -3,6 +3,7 @@
  */
 
 export * from './lib/types/command';
+export * from './lib/types/game';
 export * from './lib/types/game-descriptor';
 export * from './lib/types/scene';
 export * from './lib/utils/object';
