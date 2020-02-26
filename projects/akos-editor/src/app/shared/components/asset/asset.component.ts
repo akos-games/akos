@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FileFilter } from 'electron';
-import { FileService } from '../../services/file.service';
-import { ProjectService } from '../../services/project.service';
+import { FileService } from '../../../core/services/file.service';
+import { ProjectService } from '../../../core/services/project.service';
 
 @Component({
   selector: 'ak-asset',

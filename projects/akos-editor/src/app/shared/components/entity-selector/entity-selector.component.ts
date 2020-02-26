@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { SceneService } from '../../services/scene.service';
+import { SceneService } from '../../../core/services/scene.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EntityService } from 'akos-common';
 

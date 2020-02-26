@@ -4,11 +4,9 @@ import { Router } from '@angular/router';
 import { SceneService } from './scene.service';
 import { Project } from '../types/project';
 import { getDirectory, StatefulService } from 'akos-common';
-import { GameDescriptor } from '../../../../akos-common/src/lib/types/game-descriptor';
+import { GameDescriptor } from 'akos-common';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ProjectService extends StatefulService<Project> {
 
   private static readonly PROJECT_FILTER = {name: 'Akos Project', extensions: ['akp']};

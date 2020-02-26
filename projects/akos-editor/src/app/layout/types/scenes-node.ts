@@ -1,5 +1,5 @@
 import { TreeNode } from './tree-node';
-import { SceneService } from '../../services/scene.service';
+import { SceneService } from '../../core/services/scene.service';
 
 export class ScenesNode implements TreeNode {
 

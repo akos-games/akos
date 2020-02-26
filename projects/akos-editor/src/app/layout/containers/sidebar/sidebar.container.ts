@@ -6,7 +6,7 @@ import { MetadataNode } from '../../types/metadata-node';
 import { ScenesNode } from '../../types/scenes-node';
 import { SceneNode } from '../../types/scene-node';
 import { Router } from '@angular/router';
-import { SceneService } from '../../../services/scene.service';
+import { SceneService } from '../../../core/services/scene.service';
 import { Scene } from 'akos-common';
 
 @Component({

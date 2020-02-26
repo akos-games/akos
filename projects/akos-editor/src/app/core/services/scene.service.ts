@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { generateId } from '../utils/node';
+import { generateId } from '../../shared/utils/node';
 import { EntityService, Scene } from 'akos-common';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SceneService extends EntityService<Scene> {
 
   createScene(): Scene {

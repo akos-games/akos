@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from "electron";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class NativeService {
 
   private ipcRenderer: IpcRenderer;

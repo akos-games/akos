@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProjectService } from '../../services/project.service';
+import { ProjectService } from '../core/services/project.service';
 import { NgForm } from '@angular/forms';
-import { Project } from '../../types/project';
+import { Project } from '../core/types/project';
 
 @Component({
   selector: 'ak-metadata',

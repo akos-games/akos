@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from '../../../services/project.service';
-import { Project } from '../../../types/project';
-import { NativeService } from '../../../services/native.service';
+import { ProjectService } from '../../../core/services/project.service';
+import { Project } from '../../../core/types/project';
+import { NativeService } from '../../../core/services/native.service';
 
 @Component({
   selector: 'ak-toolbar',

@@ -5,8 +5,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { SceneModule } from './features/scene/scene.module';
-import { MetadataModule } from './features/metadata/metadata.module';
+import { SceneModule } from './scene/scene.module';
+import { MetadataModule } from './metadata/metadata.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MetadataModule } from './features/metadata/metadata.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     MatSidenavModule,
+    CoreModule,
     LayoutModule,
     MetadataModule,
     SceneModule
