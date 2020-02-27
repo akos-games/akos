@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FileService } from './file.service';
 import { Router } from '@angular/router';
 import { SceneService } from './scene.service';
 import { Project } from '../types/project';
@@ -7,6 +6,7 @@ import { getDirectory, StatefulService } from 'akos-common';
 import { GameDescriptor } from 'akos-common';
 import { GameService } from './game.service';
 import { ProjectDescriptor } from '../types/project-descriptor';
+import { NativeService } from './native.service';
 
 @Injectable()
 export class ProjectService extends StatefulService<Project> {
@@ -15,7 +15,7 @@ export class ProjectService extends StatefulService<Project> {
 
   constructor(
     private router: Router,
-    private fileService: FileService,
+    private nativeService: NativeService,
     private gameService: GameService,
     private sceneService: SceneService
   ) {
@@ -28,13 +28,13 @@ export class ProjectService extends StatefulService<Project> {
 
     if (!project) {
 
-      let file = await this.fileService.selectNewFile([ProjectService.PROJECT_FILTER]);
+      let file = await this.nativeService.selectNewFile([ProjectService.PROJECT_FILTER]);
       if (!file) {
         // Selection has been cancelled
         return;
       }
 
-      if (!await this.fileService.checkProjectDirectory(file)) {
+      if (!await this.nativeService.checkProjectDirectory(file)) {
         // TODO display a notification
         return;
       }
@@ -53,16 +53,16 @@ export class ProjectService extends StatefulService<Project> {
       this.router.navigateByUrl('metadata');
     }
 
-    await this.fileService.writeFile(project.file, JSON.stringify(this.getProjectDescriptor()));
+    await this.nativeService.writeFile(project.file, JSON.stringify(this.getProjectDescriptor()));
   }
 
   async loadProject() {
 
-    let file = await this.fileService.selectExistingFile([ProjectService.PROJECT_FILTER]);
+    let file = await this.nativeService.selectExistingFile([ProjectService.PROJECT_FILTER]);
 
     if (file) {
 
-      let data = JSON.parse(await this.fileService.readFile(file));
+      let data = JSON.parse(await this.nativeService.readFile(file));
 
       let projectDirectory = getDirectory(file);
       data.project.file = file;
@@ -87,7 +87,7 @@ export class ProjectService extends StatefulService<Project> {
 
   async buildGame() {
     await this.saveProject();
-    await this.fileService.buildGame(getDirectory(this.getState().file), this.getGameDescriptor());
+    await this.nativeService.buildGame(getDirectory(this.getState().file), this.getGameDescriptor());
   }
 
   private getProjectDescriptor(): ProjectDescriptor {

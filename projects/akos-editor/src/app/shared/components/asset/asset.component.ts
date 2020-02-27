@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FileFilter } from 'electron';
-import { FileService } from '../../../core/services/file.service';
 import { ProjectService } from '../../../core/services/project.service';
+import { NativeService } from '../../../core/services/native.service';
 
 @Component({
   selector: 'ak-asset',
@@ -19,7 +19,7 @@ export class AssetComponent implements OnInit, OnChanges {
   private assetsPath: string;
   private fileFilter: FileFilter;
 
-  constructor(private projectService: ProjectService, private fileService: FileService) {
+  constructor(private projectService: ProjectService, private nativeService: NativeService) {
   }
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class AssetComponent implements OnInit, OnChanges {
 
   async selectFile() {
 
-    let file = await this.fileService.selectExistingFile([this.fileFilter], this.assetsPath);
+    let file = await this.nativeService.selectExistingFile([this.fileFilter], this.assetsPath);
 
     if (file) {
 
