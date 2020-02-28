@@ -19,11 +19,11 @@ export class AssetComponent implements OnInit, OnChanges {
   private assetsPath: string;
   private fileFilter: FileFilter;
 
-  constructor(private projectService: ProjectService, private nativeService: NativeService) {
+  constructor(private nativeService: NativeService) {
   }
 
   ngOnInit() {
-    this.projectService.getObservable().subscribe(project => this.assetsPath = project?.paths.assets);
+    this.nativeService.getObservable().subscribe(nativeContext => this.assetsPath = nativeContext?.assetsDir);
   }
 
   ngOnChanges(changes: SimpleChanges) {

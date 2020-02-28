@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SceneService } from './scene.service';
 import { Project } from '../types/project';
-import { getDirectory, StatefulService } from 'akos-common';
+import { StatefulService } from 'akos-common';
 import { GameDescriptor } from 'akos-common';
 import { GameService } from './game.service';
 import { ProjectDescriptor } from '../types/project-descriptor';
@@ -25,7 +25,6 @@ export class ProjectService extends StatefulService<Project> {
   async saveProject() {
 
     let project = this.getState();
-
     if (!project) {
 
       let file = await this.nativeService.selectNewFile([ProjectService.PROJECT_FILTER]);
@@ -39,21 +38,12 @@ export class ProjectService extends StatefulService<Project> {
         return;
       }
 
-      let projectDirectory = getDirectory(file);
-
-      project = {
-        file: file,
-        paths: {
-          project: projectDirectory,
-          assets: `${projectDirectory}/assets`
-        }
-      };
-
-      this.setState(project);
+      this.setState({});
+      this.nativeService.setProjectFile(file);
       this.router.navigateByUrl('metadata');
     }
 
-    await this.nativeService.writeFile(project.file, JSON.stringify(this.getProjectDescriptor()));
+    await this.nativeService.writeFile(this.nativeService.getState().projectFile, JSON.stringify(this.getProjectDescriptor()));
   }
 
   async loadProject() {
@@ -64,14 +54,8 @@ export class ProjectService extends StatefulService<Project> {
 
       let data = JSON.parse(await this.nativeService.readFile(file));
 
-      let projectDirectory = getDirectory(file);
-      data.project.file = file;
-      data.project.paths = {
-        project: projectDirectory,
-        assets: `${projectDirectory}/assets`
-      };
-
-      this.setState(data.project);
+      this.setState({});
+      this.nativeService.setProjectFile(file);
       this.gameService.setGame(data.game);
       this.sceneService.resetScenes(data.scenes);
       this.router.navigateByUrl('metadata');
@@ -87,7 +71,7 @@ export class ProjectService extends StatefulService<Project> {
 
   async buildGame() {
     await this.saveProject();
-    await this.nativeService.buildGame(getDirectory(this.getState().file), this.getGameDescriptor());
+    await this.nativeService.buildGame(this.getGameDescriptor());
   }
 
   private getProjectDescriptor(): ProjectDescriptor {
