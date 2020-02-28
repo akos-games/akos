@@ -7,6 +7,7 @@ import { GameDescriptor } from 'akos-common';
 import { GameService } from './game.service';
 import { ProjectDescriptor } from '../types/project-descriptor';
 import { NativeService } from './native.service';
+import { BuildService } from './build.service';
 
 @Injectable()
 export class ProjectService extends StatefulService<Project> {
@@ -16,6 +17,7 @@ export class ProjectService extends StatefulService<Project> {
   constructor(
     private router: Router,
     private nativeService: NativeService,
+    private buildService: BuildService,
     private gameService: GameService,
     private sceneService: SceneService
   ) {
@@ -33,7 +35,7 @@ export class ProjectService extends StatefulService<Project> {
         return;
       }
 
-      if (!await this.nativeService.checkProjectDirectory(file)) {
+      if (!await this.checkProjectDirIntegrity()) {
         // TODO display a notification
         return;
       }
@@ -71,7 +73,19 @@ export class ProjectService extends StatefulService<Project> {
 
   async buildGame() {
     await this.saveProject();
-    await this.nativeService.buildGame(this.getGameDescriptor());
+    await this.buildService.buildGame(this.getGameDescriptor());
+  }
+
+  private async checkProjectDirIntegrity() {
+
+    let projectDir = this.nativeService.getState().projectDir;
+    let projectFile = this.nativeService.getState().projectFile;
+
+    let otherProjectFileCount = (await this.nativeService.readDir(projectDir))
+      .filter(file => file.endsWith('.akp') && `${projectDir}/${file}` !== projectFile)
+      .length;
+
+    return otherProjectFileCount === 0;
   }
 
   private getProjectDescriptor(): ProjectDescriptor {

@@ -4,6 +4,9 @@ import { format } from 'url';
 
 let mainWindow: BrowserWindow;
 
+// Prevent error when copying asar file
+require('process').noAsar = true;
+
 // Default args values
 let args = {
   // Enable hot reload and development features

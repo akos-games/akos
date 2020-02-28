@@ -20,14 +20,14 @@ export class NativeService extends StatefulService<NativeContext> {
 
   async readFile(file: string): Promise<any> {
     return new Promise<any>(resolve => {
-      this.ipcRenderer.once('fileRead', (event, data) => resolve(data));
+      this.ipcRenderer.once('readFileOk', (event, data) => resolve(data));
       this.ipcRenderer.send('readFile', file);
     });
   }
 
   async writeFile(file: string, data: any): Promise<void> {
     return new Promise<void>(resolve => {
-      this.ipcRenderer.once('fileWritten', () => resolve());
+      this.ipcRenderer.once('writeFileOk', () => resolve());
       this.ipcRenderer.send('writeFile', file, data);
     });
   }
@@ -48,7 +48,7 @@ export class NativeService extends StatefulService<NativeContext> {
 
   private getWorkingDirectory(): Promise<string> {
     return new Promise<string>(resolve => {
-      this.ipcRenderer.once('workingDirectory', (event, workingDirectory) => resolve(workingDirectory));
+      this.ipcRenderer.once('getWorkingDirectoryOk', (event, workingDirectory) => resolve(workingDirectory));
       this.ipcRenderer.send('getWorkingDirectory');
     });
   }

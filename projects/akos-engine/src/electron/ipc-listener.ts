@@ -8,20 +8,19 @@ export function listenProcess(window: BrowserWindow, args: any) {
   });
 
   ipcMain.on('readFile', (event, file) => {
-    window.webContents.send('fileRead', readFileSync(file));
+    window.webContents.send('readFileOk', readFileSync(file));
   });
 
   ipcMain.on('writeFile', (event, file, data) => {
     writeFileSync(file, data);
-    window.webContents.send('fileWritten');
+    window.webContents.send('writeFileOk');
   });
 
   ipcMain.on('setWindowTitle', (event, title) => {
     window.setTitle(title);
-    window.webContents.send('windowTitleSet');
   });
 
   ipcMain.on('getWorkingDirectory', () => {
-    window.webContents.send('workingDirectory', args.serve ? `${__dirname}/../../game/dist/win` : process.cwd());
+    window.webContents.send('getWorkingDirectoryOk', args.serve ? `${__dirname}/../../game/dist/win` : process.cwd());
   });
 }

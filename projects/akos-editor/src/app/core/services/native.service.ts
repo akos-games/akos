@@ -13,6 +13,81 @@ export class NativeService extends StatefulService<NativeContext> {
     this.ipcRenderer = (<any> window).require('electron').ipcRenderer;
   }
 
+  exit() {
+    this.ipcRenderer.send('exit');
+  }
+
+  async readFile(file: string): Promise<any> {
+    return new Promise<any>(resolve => {
+      this.ipcRenderer.once('readFileOk', (event, data) => resolve(data));
+      this.ipcRenderer.send('readFile', file);
+    });
+  }
+
+  async writeFile(file: string, data: any): Promise<void> {
+    return new Promise<void>(resolve => {
+      this.ipcRenderer.once('writeFileOk', () => resolve());
+      this.ipcRenderer.send('writeFile', file, data);
+    });
+  }
+
+  async selectNewFile(filters?: FileFilter[], defaultPath?: string): Promise<string> {
+    return new Promise<string>(resolve => {
+      this.ipcRenderer.once('selectNewFileOk', (event, path) => resolve(path));
+      this.ipcRenderer.send('selectNewFile', filters, defaultPath);
+    });
+  }
+
+  async selectExistingFile(filters?: FileFilter[], defaultPath?: string): Promise<string> {
+    return new Promise<string>(resolve => {
+      this.ipcRenderer.once('selectExistingFileOk', (event, path) => resolve(path));
+      this.ipcRenderer.send('selectExistingFile', filters, defaultPath);
+    });
+  }
+
+  async readDir(dir: string): Promise<string[]> {
+    return new Promise<string[]>(resolve => {
+      this.ipcRenderer.once('readDirOk', (event, files) => resolve(files));
+      this.ipcRenderer.send('readDir', dir);
+    });
+  }
+
+  async ensureDir(dir: string): Promise<void> {
+    return new Promise<void>(resolve => {
+      this.ipcRenderer.once('ensureDirOk', () => resolve());
+      this.ipcRenderer.send('ensureDir', dir);
+    });
+  }
+
+  async exists(fileOrDir: string): Promise<boolean> {
+    return new Promise<boolean>(resolve => {
+      this.ipcRenderer.once('existsOk', (event, exists) => resolve(exists));
+      this.ipcRenderer.send('exists', fileOrDir);
+    });
+  }
+
+  async copy(source: string, destination: string): Promise<void> {
+    return new Promise<void>(resolve => {
+      this.ipcRenderer.once('copyOk', () => resolve());
+      this.ipcRenderer.send('copy', source, destination);
+    });
+  }
+
+  async remove(fileOrDir: string): Promise<void> {
+    return new Promise<void>(resolve => {
+      this.ipcRenderer.once('removeOk', () => resolve());
+      this.ipcRenderer.send('remove', fileOrDir);
+    });
+  }
+
+  // Can't be computed from working directory since it depends on environment (dev or prod)
+  async getEngineDir(): Promise<string> {
+    return new Promise<string>(resolve => {
+      this.ipcRenderer.once('getEngineDirOk', (event, engineDir) => resolve(engineDir));
+      this.ipcRenderer.send('getEngineDir');
+    });
+  }
+
   setProjectFile(file: string) {
     const projectDir = file.substring(0, file.lastIndexOf('/'));
     this.setState({
@@ -22,49 +97,7 @@ export class NativeService extends StatefulService<NativeContext> {
     });
   }
 
-  exit() {
-    this.ipcRenderer.send('exit');
-  }
-
-  async readFile(file: string): Promise<any> {
-    return new Promise<any>(resolve => {
-      this.ipcRenderer.once('fileRead', (event, data) => resolve(data));
-      this.ipcRenderer.send('readFile', file);
-    });
-  }
-
-  async writeFile(file: string, data: any): Promise<void> {
-    return new Promise<void>(resolve => {
-      this.ipcRenderer.once('fileWritten', () => resolve());
-      this.ipcRenderer.send('writeFile', file, data);
-    });
-  }
-
-  async selectNewFile(filters?: FileFilter[], defaultPath?: string): Promise<string> {
-    return new Promise<string>(resolve => {
-      this.ipcRenderer.once('newFileSelected', (event, path) => resolve(path));
-      this.ipcRenderer.send('selectNewFile', filters, defaultPath);
-    });
-  }
-
-  async selectExistingFile(filters?: FileFilter[], defaultPath?: string): Promise<string> {
-    return new Promise<string>(resolve => {
-      this.ipcRenderer.once('existingFileSelected', (event, path) => resolve(path));
-      this.ipcRenderer.send('selectExistingFile', filters, defaultPath);
-    });
-  }
-
-  async checkProjectDirectory(projectFile: string): Promise<boolean> {
-    return new Promise<boolean>(resolve => {
-      this.ipcRenderer.once('projectDirectoryChecked', (event, isValid) => resolve(isValid));
-      this.ipcRenderer.send('checkProjectDirectory', projectFile);
-    });
-  }
-
-  async buildGame(gameDescriptor: any): Promise<void> {
-    return new Promise<void>(resolve => {
-      this.ipcRenderer.once('gameBuilt', () => resolve());
-      this.ipcRenderer.send('buildGame', this.getState().projectDir, gameDescriptor);
-    });
+  setWindowTitle(title: string) {
+    this.ipcRenderer.send('setWindowTitle', title);
   }
 }

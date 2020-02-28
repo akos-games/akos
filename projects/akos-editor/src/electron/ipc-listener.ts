@@ -1,6 +1,5 @@
 import { app, ipcMain, dialog, BrowserWindow, FileFilter } from 'electron';
 import { existsSync, readFileSync, writeFileSync, ensureDirSync, copySync, removeSync, readdirSync } from 'fs-extra';
-import * as process from 'process';
 
 export function listenProcess(window: BrowserWindow, args: any) {
 
@@ -9,67 +8,52 @@ export function listenProcess(window: BrowserWindow, args: any) {
   });
 
   ipcMain.on('readFile', (event, file) => {
-    window.webContents.send('fileRead', readFileSync(file));
+    window.webContents.send('readFileOk', readFileSync(file));
   });
 
   ipcMain.on('writeFile', (event, file, data) => {
     writeFileSync(file, data);
-    window.webContents.send('fileWritten');
-  });
-
-  ipcMain.on('setWindowTitle', (event, title) => {
-    window.setTitle(title);
-    window.webContents.send('windowTitleSet');
+    window.webContents.send('writeFileOk');
   });
 
   ipcMain.on('selectNewFile', async (event, filters, defaultPath) => {
     let path = await selectFile(window, true, filters, defaultPath);
-    window.webContents.send('newFileSelected', path);
+    window.webContents.send('selectNewFileOk', path);
   });
 
   ipcMain.on('selectExistingFile', async (event, filters, defaultPath) => {
     let path = await selectFile(window, false, filters, defaultPath);
-    window.webContents.send('existingFileSelected', path);
+    window.webContents.send('selectExistingFileOk', path);
   });
 
-  ipcMain.on('checkProjectDirectory', (event, projectFile) => {
-
-    let projectDir = getDirectory(projectFile);
-    let projectFilename = getFilename(projectFile);
-    let projectFileCount = readdirSync(projectDir).filter(file => file.endsWith('.akp') && file !== projectFilename).length;
-
-    window.webContents.send('projectDirectoryChecked', projectFileCount === 0);
+  ipcMain.on('readDir', (event, dir) => {
+    window.webContents.send('readDirOk', readdirSync(dir));
   });
 
-  ipcMain.on('buildGame', (event, projectPath, gameDescriptor) => {
+  ipcMain.on('ensureDir', (event, dir) => {
+    window.webContents.send('ensureDirOk', ensureDirSync(dir));
+  });
 
-    // Prevent error when copying asar file
-    require('process').noAsar = true;
+  ipcMain.on('exists', (event, fileOrDir) => {
+    window.webContents.send('existsOk', existsSync(fileOrDir));
+  });
 
-    let enginePath = args.serve ? `${app.getAppPath()}/../../build/akos-engine` : `${process.cwd()}/engine`;
-    let distPath = `${projectPath}/dist`;
-    let assetsPath = `${projectPath}/assets`;
+  ipcMain.on('copy', (event, source, destination) => {
+    window.webContents.send('copyOk', copySync(source, destination));
+  });
 
-    removeSync(distPath);
-    ensureDirSync(distPath);
-    copySync(enginePath, distPath);
+  ipcMain.on('remove', (event, fileOrDir) => {
+    window.webContents.send('removeOk', removeSync(fileOrDir));
+  });
 
-    if (existsSync(`${distPath}/win`)) {
-      writeFileSync(`${distPath}/win/game-descriptor.akg`, JSON.stringify(gameDescriptor));
-      copySync(assetsPath, `${distPath}/win/assets`);
-    }
+  ipcMain.on('setWindowTitle', (event, title) => {
+    window.setTitle(title);
+    window.webContents.send('setWindowTitleOk');
+  });
 
-    if (existsSync(`${distPath}/mac`)) {
-      writeFileSync(`${distPath}/mac/game-descriptor.akg`, JSON.stringify(gameDescriptor));
-      copySync(assetsPath, `${distPath}/mac/assets`);
-    }
-
-    if (existsSync(`${distPath}/linux`)) {
-      writeFileSync(`${distPath}/linux/game-descriptor.akg`, JSON.stringify(gameDescriptor));
-      copySync(assetsPath, `${distPath}/linux/assets`);
-    }
-
-    window.webContents.send('gameBuilt');
+  ipcMain.on('getEngineDir', () => {
+    let dir = args.serve ? `${app.getAppPath()}/../../build/akos-engine` : `${process.cwd()}/engine`;
+    window.webContents.send('getEngineDirOk', dir);
   });
 }
 
@@ -99,12 +83,4 @@ async function selectFile(window: BrowserWindow, allowCreate: boolean, filters?:
   }
 
   return path;
-}
-
-function getDirectory(file: string): string {
-  return file.substring(0, file.lastIndexOf('/'));
-}
-
-function getFilename(file: string): string {
-  return file.substring(file.lastIndexOf('/') + 1);
 }
