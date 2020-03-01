@@ -21,6 +21,10 @@ export class GameDescriptorService extends StatefulService<GameDescriptor> {
       .subscribe(() => this.loadGameDescriptor());
   }
 
+  getDescriptor(): GameDescriptor {
+    return this.getState();
+  }
+
   getScene(id: number) {
     return this.index.scenes[id];
   }

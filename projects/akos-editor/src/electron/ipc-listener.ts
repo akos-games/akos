@@ -1,4 +1,4 @@
-import { app, ipcMain, dialog, BrowserWindow, FileFilter } from 'electron';
+import { ipcMain, dialog, BrowserWindow, FileFilter } from 'electron';
 import { existsSync, readFileSync, writeFileSync, ensureDirSync, copySync, removeSync, readdirSync } from 'fs-extra';
 
 export function listenProcess(window: BrowserWindow, args: any) {
@@ -51,9 +51,8 @@ export function listenProcess(window: BrowserWindow, args: any) {
     window.webContents.send('setWindowTitleOk');
   });
 
-  ipcMain.on('getEngineDir', () => {
-    let dir = args.serve ? `${app.getAppPath()}/../../build/akos-engine` : `${process.cwd()}/engine`;
-    window.webContents.send('getEngineDirOk', dir);
+  ipcMain.on('isDevMode', () => {
+    window.webContents.send('isDevModeOk', args.serve);
   });
 }
 

@@ -11,27 +11,25 @@ export class BuildService {
   async buildGame(gameDescriptor: GameDescriptor) {
 
     let engineDir = await this.nativeService.getEngineDir();
-    let projectDir = this.nativeService.getState().projectDir;
-    let distDir = `${projectDir}/dist`;
-    let assetsDir = `${projectDir}/assets`;
+    let distDir = this.nativeService.getDistDir();
 
     await this.nativeService.remove(distDir);
     await this.nativeService.ensureDir(distDir);
     await this.nativeService.copy(engineDir, distDir);
 
-    if (await this.nativeService.exists(`${distDir}/win`)) {
-      await this.nativeService.writeFile(`${distDir}/win/game-descriptor.akg`, JSON.stringify(gameDescriptor));
-      await this.nativeService.copy(assetsDir, `${distDir}/win/assets`);
-    }
+    await this.buildDesktop('win', gameDescriptor);
+    await this.buildDesktop('mac', gameDescriptor);
+    await this.buildDesktop('linux', gameDescriptor);
+  }
 
-    if (await this.nativeService.exists(`${distDir}/mac`)) {
-      await this.nativeService.writeFile(`${distDir}/mac/game-descriptor.akg`, JSON.stringify(gameDescriptor));
-      await this.nativeService.copy(assetsDir, `${distDir}/mac/assets`);
-    }
+  private async buildDesktop(platform: string, gameDescriptor: GameDescriptor) {
 
-    if (await this.nativeService.exists(`${distDir}/linux`)) {
-      await this.nativeService.writeFile(`${distDir}/linux/game-descriptor.akg`, JSON.stringify(gameDescriptor));
-      await this.nativeService.copy(assetsDir, `${distDir}/linux/assets`);
+    let distDir = this.nativeService.getDistDir();
+    let assetsDir = this.nativeService.getAssetsDir();
+
+    if (await this.nativeService.exists(`${distDir}/${platform}`)) {
+      await this.nativeService.writeFile(`${distDir}/${platform}/game-descriptor.akg`, JSON.stringify(gameDescriptor));
+      await this.nativeService.copy(assetsDir, `${distDir}/${platform}/assets`);
     }
   }
 }

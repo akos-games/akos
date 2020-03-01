@@ -1,16 +1,27 @@
 import { Injectable } from '@angular/core';
-import { FileFilter, IpcRenderer } from 'electron';
+import { FileFilter, ipcRenderer, remote } from 'electron';
 import { StatefulService } from 'akos-common';
 import { NativeContext } from '../types/native-context';
+import * as fs from 'fs-extra';
 
 @Injectable()
 export class NativeService extends StatefulService<NativeContext> {
 
-  private ipcRenderer: IpcRenderer;
+  private ipcRenderer: typeof ipcRenderer;
+  private remote: typeof remote;
+  private fs: typeof fs;
 
   constructor() {
     super();
-    this.ipcRenderer = (<any> window).require('electron').ipcRenderer;
+
+    this.ipcRenderer = window.require('electron').ipcRenderer;
+    this.remote = window.require('electron').remote;
+
+    this.ipcRenderer.once('isDevModeOk', (event, devMode) => this.setState({
+      devMode,
+      engineDir: devMode ? `${this.remote.app.getAppPath()}/../../build/akos-engine` : `${this.remote.process.cwd()}/engine`
+    }));
+    this.ipcRenderer.send('isDevMode');
   }
 
   exit() {
@@ -80,24 +91,34 @@ export class NativeService extends StatefulService<NativeContext> {
     });
   }
 
-  // Can't be computed from working directory since it depends on environment (dev or prod)
-  async getEngineDir(): Promise<string> {
-    return new Promise<string>(resolve => {
-      this.ipcRenderer.once('getEngineDirOk', (event, engineDir) => resolve(engineDir));
-      this.ipcRenderer.send('getEngineDir');
-    });
-  }
-
   setProjectFile(file: string) {
     const projectDir = file.substring(0, file.lastIndexOf('/'));
     this.setState({
+      ...this.getState(),
       projectFile: file,
       projectDir: projectDir,
-      assetsDir: `${projectDir}/assets`
+      assetsDir: `${projectDir}/assets`,
+      distDir: `${projectDir}/dist`
     });
   }
 
   setWindowTitle(title: string) {
     this.ipcRenderer.send('setWindowTitle', title);
+  }
+
+  getProjectDir(): string {
+    return this.getState().projectDir;
+  }
+
+  getAssetsDir(): string {
+    return this.getState().assetsDir;
+  }
+
+  getDistDir(): string {
+    return this.getState().distDir;
+  }
+
+  getEngineDir(): string {
+    return this.getState().engineDir;
   }
 }

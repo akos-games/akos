@@ -20,7 +20,7 @@ export class GameService extends StatefulService<GameRun> {
 
   newGame() {
     this.resetState();
-    this.sceneService.startScene(this.gameDescriptorService.getState().game.firstSceneId);
+    this.sceneService.startScene(this.gameDescriptorService.getDescriptor().game.firstSceneId);
   }
 
   protected getInitialState(): GameRun {
