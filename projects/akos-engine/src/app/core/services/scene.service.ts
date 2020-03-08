@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core';
-import { GameDescriptorService } from './game-descriptor.service';
-import { NativeService } from './native.service';
-import { SceneRun } from '../types/scene-run';
-import { Command, Scene, StatefulService } from 'akos-common';
+import { Command, NativeService, Scene } from 'akos-common';
+import { GameDescriptorState } from '../states/game-descriptor.state';
+import { GameState } from '../states/game.state';
 
 @Injectable()
-export class SceneService extends StatefulService<SceneRun> {
+export class SceneService {
 
-  private currentScene: Scene;
+  private scene: Scene;
 
-  constructor(private gameDescriptorService: GameDescriptorService, private nativeService: NativeService) {
-    super();
-  }
-
-  startScene(sceneId: number) {
-    this.currentScene = this.gameDescriptorService.getScene(sceneId);
-    this.setState({...this.getInitialState(), sceneId});
-    this.nextCommand();
+  constructor(
+    private gameState: GameState,
+    private gameDescriptorState: GameDescriptorState,
+    private nativeService: NativeService
+  ) {
   }
 
   nextCommand() {
@@ -26,27 +22,24 @@ export class SceneService extends StatefulService<SceneRun> {
 
     do {
 
-      let sceneRun = this.getState();
-      if (this.currentScene.commands.length <= sceneRun.commandIndex) {
-        // TODO back to main menu
+      let commandIndex = this.gameState.get().scene.commandIndex;
+      if (this.scene.commands.length <= commandIndex) {
         this.nativeService.exit();
       }
 
-      command = this.currentScene.commands[sceneRun.commandIndex];
+      command = this.scene.commands[commandIndex];
       switch (command.type) {
 
         case 'displayPicture':
-          sceneRun.picture = command.parameters.picture;
-          sceneRun.fullscreen = command.parameters.fullscreen;
+          this.displayPicture(command.parameters.picture, command.parameters.fullscreen);
           break;
 
         case 'displayText':
-          sceneRun.text = command.parameters.text;
-          sceneRun.textVisible = true;
+          this.displayText(command.parameters.text);
           break;
 
         case 'hideText':
-          sceneRun.textVisible = false;
+          this.hideText();
           break;
 
         case 'startScene':
@@ -54,27 +47,57 @@ export class SceneService extends StatefulService<SceneRun> {
           break;
       }
 
-      sceneRun.commandIndex++;
-
-      if (!nextSceneId) {
-        this.setState(sceneRun);
-      }
+      let state = this.gameState.get();
+      state.scene.commandIndex++;
+      this.gameState.set(state);
 
     } while (!command.parameters.waitForPlayer && !nextSceneId);
 
     if (nextSceneId) {
       this.startScene(nextSceneId);
+    } else {
+      this.gameState.applyChanges();
     }
   }
 
-  protected getInitialState(): SceneRun {
-    return {
-      sceneId: null,
+  startScene(sceneId: number) {
+
+    let state = this.gameState.get();
+
+    this.scene = this.gameDescriptorState.getScene(sceneId);
+    state.scene = {
+      sceneId,
       commandIndex: 0,
-      picture: null,
-      fullscreen: false,
-      text: null,
-      textVisible: false
+      picture: {
+        asset: null,
+        fullscreen: null
+      },
+      text: {
+        content: null,
+        visible: false
+      }
     };
+    this.gameState.set(state);
+    this.nextCommand();
+  }
+
+  displayPicture(asset: string, fullscreen: boolean) {
+    let state = this.gameState.get();
+    state.scene.picture.asset = asset;
+    state.scene.picture.fullscreen = fullscreen;
+    this.gameState.set(state);
+  }
+
+  displayText(content: string) {
+    let state = this.gameState.get();
+    state.scene.text.content = content;
+    state.scene.text.visible = true;
+    this.gameState.set(state);
+  }
+
+  hideText() {
+    let state = this.gameState.get();
+    state.scene.text.visible = false;
+    this.gameState.set(state);
   }
 }

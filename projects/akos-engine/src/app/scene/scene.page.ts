@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, On
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { SceneService } from '../core/services/scene.service';
 import { AssetService } from '../core/services/asset.service';
+import { filter } from 'rxjs/operators';
+import { GameState } from '../core/states/game.state';
 
 @Component({
   selector: 'scene-page',
@@ -13,10 +15,11 @@ export class ScenePage implements OnInit {
 
   pictureUrl: string;
   fullscreen: boolean;
-  text: string;
+  textContent: string;
   textVisible: boolean;
 
   constructor(
+    private gameState: GameState,
     private sceneService: SceneService,
     private assetService: AssetService,
     private hotkeysService: HotkeysService,
@@ -29,13 +32,16 @@ export class ScenePage implements OnInit {
   }
 
   ngOnInit() {
-    this.sceneService.getObservable().subscribe(sceneRun => {
-      this.pictureUrl = this.assetService.getAssetUrl(sceneRun.picture);
-      this.fullscreen = sceneRun.fullscreen;
-      this.text = sceneRun.text;
-      this.textVisible = sceneRun.textVisible;
-      this.cdRef.detectChanges();
-    });
+
+    this.gameState.getObservable()
+      .pipe(filter(game => !!game?.scene))
+      .subscribe(game => {
+        this.pictureUrl = this.assetService.getAssetUrl(game.scene.picture.asset);
+        this.fullscreen = game.scene.picture.fullscreen;
+        this.textContent = game.scene.text.content;
+        this.textVisible = game.scene.text.visible;
+        this.cdRef.detectChanges();
+      });
   }
 
   @HostListener('click')

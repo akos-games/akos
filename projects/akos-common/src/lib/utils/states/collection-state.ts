@@ -1,21 +1,32 @@
-import { StatefulService } from './stateful.service';
+import { State } from './state';
+import { BehaviorSubject } from 'rxjs';
 import { deepCopy } from '../object';
 
 interface EntityCache<T> {
   entities: {[id: string]: T};
-  order: Set<string | number>;
+  order: Set<string>;
 }
 
-export abstract class EntityService<T> extends StatefulService<T[]> {
+export class CollectionState<T> extends State<T[]> {
 
   protected idProperty = 'id';
   private cache = this.getEmptyCache();
 
-  protected addToState(entity: T);
-  protected addToState(entities: T[]);
-  protected addToState(entities) {
+  constructor() {
+    super();
+    this.subject = new BehaviorSubject<T[]>([]);
+  }
 
-    let entityArray = Array.isArray(entities) ? entities : [entities];
+  set(entities: T[]) {
+    this.cache = this.getEmptyCache();
+    this.add(entities);
+  }
+
+  add(entity: T);
+  add(entities: T[]);
+  add(entities) {
+
+    let entityArray = deepCopy(Array.isArray(entities) ? entities : [entities]);
     entityArray.forEach(entity => {
       let id = entity[this.idProperty];
       this.cache.entities[id] = entity;
@@ -23,12 +34,12 @@ export abstract class EntityService<T> extends StatefulService<T[]> {
     });
 
     // Avoid building state in case of first cache addition
-    super.setState(this.cache.order.size === entityArray.length ? entityArray : this.buildState());
+    super.set(this.cache.order.size === entityArray.length ? entityArray : this.buildState());
   }
 
-  protected removeFromState(entityOrId: T | string | number): T;
-  protected removeFromState(entitiesOrIds: (T | string | number)[]): T[];
-  protected removeFromState(entitiesOrIds): T | T[] {
+  remove(entityOrId: T | string): T;
+  remove(entitiesOrIds: (T | string)[]): T[];
+  remove(entitiesOrIds): T | T[] {
 
     let entityArray = Array.isArray(entitiesOrIds) ? entitiesOrIds : [entitiesOrIds];
     let deleted = [];
@@ -39,22 +50,13 @@ export abstract class EntityService<T> extends StatefulService<T[]> {
       this.cache.order.delete(id);
     });
 
-    super.setState(this.buildState());
+    super.set(this.buildState());
 
     return Array.isArray(entitiesOrIds) ? deleted : deleted[0];
   }
 
-  protected getFromState(entityId: string | number): T {
+  getById(entityId: string): T {
     return deepCopy(this.cache.entities[entityId]);
-  }
-
-  protected setState(entities: T[]) {
-    this.cache = this.getEmptyCache();
-    this.addToState(entities);
-  }
-
-  protected getInitialState(): T[] {
-    return [];
   }
 
   private buildState(): T[] {
@@ -64,7 +66,7 @@ export abstract class EntityService<T> extends StatefulService<T[]> {
   private getEmptyCache(): EntityCache<T> {
     return {
       entities: {},
-      order: new Set<string | number>()
+      order: new Set<string>()
     };
   }
 }

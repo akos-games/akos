@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { NativeService } from './native.service';
+import { NativeState } from 'akos-common';
 
 @Injectable()
 export class AssetService {
 
-  constructor(private nativeService: NativeService) {
+  constructor(private nativeState: NativeState) {
   }
 
   getAssetUrl(relativePath: string) {
-    return relativePath ? `file://${this.nativeService.getWorkingDir()}/assets/${relativePath}` : null;
+    return relativePath ? `file://${this.nativeState.get().workingDir}/assets/${relativePath}` : null;
   }
 }
