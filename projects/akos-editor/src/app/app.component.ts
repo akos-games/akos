@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from './core/services/project.service';
+import { ProjectState } from './core/states/project.state';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +10,10 @@ export class AppComponent implements OnInit {
 
   showSidebar: boolean;
 
-  constructor(private projectService: ProjectService) {
+  constructor(private projectState: ProjectState) {
   }
 
   ngOnInit() {
-    this.projectService.getObservable().subscribe(project => this.showSidebar = !!project);
+    this.projectState.getObservable().subscribe(project => this.showSidebar = !!project);
   }
 }

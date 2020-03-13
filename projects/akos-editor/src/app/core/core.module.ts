@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { NativeService } from './services/native.service';
 import { ProjectService } from './services/project.service';
-import { SceneService } from './services/scene.service';
-import { GameService } from './services/game.service';
+import { ScenesService } from './services/scenes.service';
 import { BuildService } from './services/build.service';
+import { NativeService } from 'akos-common';
+import { GameService } from './services/game.service';
 
 @NgModule({
   providers: [
@@ -11,7 +11,7 @@ import { BuildService } from './services/build.service';
     ProjectService,
     BuildService,
     GameService,
-    SceneService
+    ScenesService
   ]
 })
 export class CoreModule {

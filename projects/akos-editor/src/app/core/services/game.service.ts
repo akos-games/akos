@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
-import { StatefulService } from 'akos-common';
 import { Game } from 'akos-common';
+import { GameState } from '../states/game.state';
 
 @Injectable()
-export class GameService extends StatefulService<Game> {
+export class GameService {
 
-  constructor() {
-    super();
+  constructor(private gameState: GameState) {
+    this.resetGame();
   }
 
-  setGame(game: Partial<Game>) {
-    this.setState({...this.getState(), ...game});
+  updateGame(game: Game) {
+    this.gameState.set(game);
   }
 
   resetGame() {
-    this.resetState();
-  }
-
-  protected getInitialState(): Game {
-    return {
+    this.gameState.set({
       name: '',
       version: '',
-      akosVersion: '',
+      akosVersion: '0.1',
       firstSceneId: null
-    }
+    });
   }
 }

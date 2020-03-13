@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
-import { listenProcess } from './ipc-listener';
 import { format } from 'url';
+
+declare const global: any;
 
 let mainWindow: BrowserWindow;
 
@@ -14,6 +15,7 @@ let args = {
 };
 
 readArgs();
+setExecutionContext();
 
 app.on('ready', createMainWindow);
 
@@ -42,6 +44,15 @@ function readArgs() {
   });
 }
 
+function setExecutionContext() {
+
+  global.executionContext = {
+    args: args,
+    workingDir: args.serve ? `${__dirname}` : process.cwd(),
+    serveDistDir: args.serve ? `${__dirname}/../..` : null
+  }
+}
+
 function createMainWindow() {
 
   let loadUrl;
@@ -68,8 +79,6 @@ function createMainWindow() {
       nodeIntegration: true
     }
   });
-
-  listenProcess(mainWindow, args);
 
   (async () => {
 

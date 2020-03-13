@@ -44,22 +44,22 @@ export class NativeService {
     this.fs.removeSync(fileOrDir);
   }
 
-  async showOpenDialog(create = false, filters?: FileFilter[], defaultPath?: string): Promise<string> {
+  async showOpenDialog(filters?: FileFilter[], options?: {create?: boolean, defaultPath?: string}): Promise<string> {
 
-    let options: any = {
+    let dialogOptions: any = {
       properties: ['openFile', 'createDirectory'],
       filters: filters
     };
 
-    if (create) {
-      options.properties.push('promptToCreate');
+    if (options.create) {
+      dialogOptions.properties.push('promptToCreate');
     }
 
-    if (defaultPath) {
-      options.defaultPath = defaultPath
+    if (options.defaultPath) {
+      dialogOptions.defaultPath = options.defaultPath;
     }
 
-    let selection = await this.remote.dialog.showOpenDialog(this.remote.getCurrentWindow(), options);
+    let selection = await this.remote.dialog.showOpenDialog(this.remote.getCurrentWindow(), dialogOptions);
 
     // Return null if user has cancelled selection
     let path = null;

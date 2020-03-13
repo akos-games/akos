@@ -1,35 +1,49 @@
 import { Injectable } from '@angular/core';
-import { NativeService } from './native.service';
-import { GameDescriptor } from 'akos-common';
+import { GameDescriptor, NativeService, NativeState } from 'akos-common';
+import { ProjectState } from '../states/project.state';
+import { ProjectService } from './project.service';
+import { GameState } from '../states/game.state';
+import { ScenesState } from '../states/scenes.state';
 
 @Injectable()
 export class BuildService {
 
-  constructor(private nativeService: NativeService) {
+  private engineDir: string;
+
+  constructor(
+    private nativeService: NativeService,
+    private projectService: ProjectService,
+    private nativeState: NativeState,
+    private projectState: ProjectState
+  ) {
+    nativeState.getObservable().subscribe(nativeContext =>
+      this.engineDir = nativeContext.serveDistDir ? `${nativeContext.serveDistDir}/build/akos-engine` : `${nativeContext.workingDir}/engine`
+    );
   }
 
-  async buildGame(gameDescriptor: GameDescriptor) {
+  async buildGame() {
 
-    let engineDir = await this.nativeService.getEngineDir();
-    let distDir = this.nativeService.getDistDir();
+    await this.projectService.saveProject();
 
-    await this.nativeService.remove(distDir);
-    await this.nativeService.ensureDir(distDir);
-    await this.nativeService.copy(engineDir, distDir);
+    let distDir = this.projectState.get().distDir;
 
-    await this.buildDesktop('win', gameDescriptor);
-    await this.buildDesktop('mac', gameDescriptor);
-    await this.buildDesktop('linux', gameDescriptor);
+    this.nativeService.remove(distDir);
+    this.nativeService.ensureDir(distDir);
+    this.nativeService.copy(this.engineDir, distDir);
+
+    this.buildDesktop('win');
+    this.buildDesktop('mac');
+    this.buildDesktop('linux');
   }
 
-  private async buildDesktop(platform: string, gameDescriptor: GameDescriptor) {
+  private buildDesktop(platform: string) {
 
-    let distDir = this.nativeService.getDistDir();
-    let assetsDir = this.nativeService.getAssetsDir();
+    let projectSate = this.projectState.get();
+    let distDir = projectSate.distDir;
 
-    if (await this.nativeService.exists(`${distDir}/${platform}`)) {
-      await this.nativeService.writeFile(`${distDir}/${platform}/game-descriptor.akg`, JSON.stringify(gameDescriptor));
-      await this.nativeService.copy(assetsDir, `${distDir}/${platform}/assets`);
+    if (this.nativeService.exists(`${distDir}/${platform}`)) {
+      this.nativeService.copy(projectSate.file, `${distDir}/${platform}/game-descriptor.akg`);
+      this.nativeService.copy(projectSate.assetsDir, `${distDir}/${platform}/assets`);
     }
   }
 }

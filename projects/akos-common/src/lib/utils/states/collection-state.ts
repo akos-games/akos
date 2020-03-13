@@ -3,8 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 import { deepCopy } from '../object';
 
 interface EntityCache<T> {
-  entities: {[id: string]: T};
-  order: Set<string>;
+  entities: {[id: number]: T};
+  order: Set<number>;
 }
 
 export class CollectionState<T> extends State<T[]> {
@@ -37,8 +37,8 @@ export class CollectionState<T> extends State<T[]> {
     super.set(this.cache.order.size === entityArray.length ? entityArray : this.buildState());
   }
 
-  remove(entityOrId: T | string): T;
-  remove(entitiesOrIds: (T | string)[]): T[];
+  remove(entityOrId: T | number): T;
+  remove(entitiesOrIds: (T | number)[]): T[];
   remove(entitiesOrIds): T | T[] {
 
     let entityArray = Array.isArray(entitiesOrIds) ? entitiesOrIds : [entitiesOrIds];
@@ -55,7 +55,7 @@ export class CollectionState<T> extends State<T[]> {
     return Array.isArray(entitiesOrIds) ? deleted : deleted[0];
   }
 
-  getById(entityId: string): T {
+  getById(entityId: number): T {
     return deepCopy(this.cache.entities[entityId]);
   }
 
@@ -66,7 +66,7 @@ export class CollectionState<T> extends State<T[]> {
   private getEmptyCache(): EntityCache<T> {
     return {
       entities: {},
-      order: new Set<string>()
+      order: new Set<number>()
     };
   }
 }

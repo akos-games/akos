@@ -1,107 +1,105 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { SceneService } from './scene.service';
-import { Project } from '../types/project';
-import { StatefulService } from 'akos-common';
-import { GameDescriptor } from 'akos-common';
+import { ScenesService } from './scenes.service';
+import { GameDescriptor, NativeService } from 'akos-common';
 import { GameService } from './game.service';
-import { ProjectDescriptor } from '../types/project-descriptor';
-import { NativeService } from './native.service';
-import { BuildService } from './build.service';
+import { GameState } from '../states/game.state';
+import { ScenesState } from '../states/scenes.state';
+import { ProjectState } from '../states/project.state';
 
 @Injectable()
-export class ProjectService extends StatefulService<Project> {
+export class ProjectService {
 
   private static readonly PROJECT_FILTER = {name: 'Akos Project', extensions: ['akp']};
 
   constructor(
     private router: Router,
     private nativeService: NativeService,
-    private buildService: BuildService,
     private gameService: GameService,
-    private sceneService: SceneService
+    private scenesService: ScenesService,
+    private projectState: ProjectState,
+    private gameState: GameState,
+    private scenesState: ScenesState
   ) {
-    super();
   }
 
   async saveProject() {
 
-    let project = this.getState();
+    let project = this.projectState.get();
     if (!project) {
 
-      let file = await this.nativeService.selectNewFile([ProjectService.PROJECT_FILTER]);
+      let file = await this.nativeService.showOpenDialog([ProjectService.PROJECT_FILTER], {create: true});
       if (!file) {
         // Selection has been cancelled
         return;
       }
 
-      if (!await this.checkProjectDirIntegrity()) {
+      if (!this.checkProjectDirIntegrity()) {
         // TODO display a notification
         return;
       }
 
-      this.setState({});
-      this.nativeService.setProjectFile(file);
-      this.router.navigateByUrl('metadata');
+      this.buildProjectState(file);
+      this.router.navigateByUrl('game');
     }
 
-    await this.nativeService.writeFile(this.nativeService.getState().projectFile, JSON.stringify(this.getProjectDescriptor()));
+    this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor()));
   }
 
   async loadProject() {
 
-    let file = await this.nativeService.selectExistingFile([ProjectService.PROJECT_FILTER]);
+    let file = await this.nativeService.showOpenDialog([ProjectService.PROJECT_FILTER]);
 
     if (file) {
 
-      let data = JSON.parse(await this.nativeService.readFile(file));
+      let data = JSON.parse(this.nativeService.readFile(file));
+      data.game.akosVersion = '0.1';
 
-      this.setState({});
-      this.nativeService.setProjectFile(file);
-      this.gameService.setGame(data.game);
-      this.sceneService.resetScenes(data.scenes);
-      this.router.navigateByUrl('metadata');
+      this.buildProjectState(file);
+      this.gameState.set(data.game);
+      this.scenesState.set(data.scenes);
+      this.router.navigateByUrl('game');
     }
   }
 
   closeProject() {
-    this.resetState();
+    this.projectState.set(null);
     this.gameService.resetGame();
-    this.sceneService.resetScenes();
+    this.scenesService.resetScenes();
     this.router.navigateByUrl('');
   }
 
-  async buildGame() {
-    await this.saveProject();
-    await this.buildService.buildGame(this.getGameDescriptor());
-  }
+  private checkProjectDirIntegrity() {
 
-  private async checkProjectDirIntegrity() {
+    let projectDir = this.projectState.get().dir;
+    let projectFile = this.projectState.get().file;
 
-    let projectDir = this.nativeService.getState().projectDir;
-    let projectFile = this.nativeService.getState().projectFile;
-
-    let otherProjectFileCount = (await this.nativeService.readDir(projectDir))
+    let otherProjectFileCount = this.nativeService.readDir(projectDir)
       .filter(file => file.endsWith('.akp') && `${projectDir}/${file}` !== projectFile)
       .length;
 
     return otherProjectFileCount === 0;
   }
 
-  private getProjectDescriptor(): ProjectDescriptor {
+  private getGameDescriptor(): GameDescriptor {
+
+    this.scenesService.cleanCommands();
+
     return {
-      project: this.getState(),
-      ...this.getGameDescriptor()
+      game: this.gameState.get(),
+      scenes: this.scenesState.get()
     };
   }
 
-  private getGameDescriptor(): GameDescriptor {
+  private buildProjectState(projectFile: string) {
 
-    this.sceneService.cleanCommands();
+    let projectDir = projectFile.substring(0, projectFile.lastIndexOf('/') - 1);
 
-    return {
-      game: this.gameService.getState(),
-      scenes: this.sceneService.getState()
-    };
+    this.projectState.set({
+      file: projectFile,
+      dir: projectDir,
+      assetsDir: `${projectDir}/assets`,
+      distDir: `${projectDir}/dist`
+    });
   }
 }
