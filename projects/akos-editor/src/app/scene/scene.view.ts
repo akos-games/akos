@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SceneService } from '../core/services/scene.service';
+import { ScenesService } from '../core/services/scenes.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { generateId } from '../shared/utils/node';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Command, Scene } from 'akos-common';
+import { ScenesState } from '../core/states/scenes.state';
 
 @Component({
   selector: 'ak-scene',
@@ -16,7 +17,12 @@ export class SceneView implements OnInit {
   scene: Scene;
   form: FormGroup;
 
-  constructor(fb: FormBuilder, private route: ActivatedRoute, private sceneService: SceneService) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private scenesService: ScenesService,
+    private scenesState: ScenesState
+  ) {
 
     this.form = fb.group({
       name: '',
@@ -24,14 +30,14 @@ export class SceneView implements OnInit {
 
     this.form.valueChanges.subscribe(formValues => {
       this.scene.name = formValues.name;
-      this.sceneService.updateScene(this.scene);
+      this.scenesService.updateScene(this.scene);
     });
   }
 
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      this.scene = this.sceneService.getScene(params.id);
+      this.scene = this.scenesState.getById(params.id);
       this.form.setValue({
         name: this.scene.name
       }, {
@@ -52,21 +58,21 @@ export class SceneView implements OnInit {
       }
     });
 
-    this.sceneService.updateScene(this.scene);
+    this.scenesService.updateScene(this.scene);
   }
 
   onDropCommand(event: CdkDragDrop<Command[]>) {
     moveItemInArray(this.scene.commands, event.previousIndex, event.currentIndex);
-    this.sceneService.updateScene(this.scene);
+    this.scenesService.updateScene(this.scene);
   }
 
   onUpdateCommand() {
-    this.sceneService.updateScene(this.scene);
+    this.scenesService.updateScene(this.scene);
   }
 
   onDeleteCommand(command: Command) {
     let index = this.scene.commands.findIndex(com => com.id === command.id);
     this.scene.commands.splice(index, 1);
-    this.sceneService.updateScene(this.scene);
+    this.scenesService.updateScene(this.scene);
   }
 }

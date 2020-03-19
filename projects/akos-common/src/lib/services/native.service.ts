@@ -51,11 +51,11 @@ export class NativeService {
       filters: filters
     };
 
-    if (options.create) {
+    if (options?.create) {
       dialogOptions.properties.push('promptToCreate');
     }
 
-    if (options.defaultPath) {
+    if (options?.defaultPath) {
       dialogOptions.defaultPath = options.defaultPath;
     }
 

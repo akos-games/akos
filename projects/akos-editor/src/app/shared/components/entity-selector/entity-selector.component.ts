@@ -1,12 +1,12 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { SceneService } from '../../../core/services/scene.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EntityService } from 'akos-common';
+import { State } from 'akos-common';
+import { ScenesState } from '../../../core/states/scenes.state';
 
 interface EntityTypes {
   [type: string]: {
     icon: string;
-    service: EntityService<any>
+    state: State<any>;
   }
 }
 
@@ -39,18 +39,18 @@ export class EntitySelectorComponent implements OnInit, ControlValueAccessor {
   private propagateChange = (_: any) => {};
   private types: EntityTypes;
 
-  constructor(private sceneService: SceneService) {
+  constructor(private scenesState: ScenesState) {
     this.types = {
       scene: {
         icon: 'movie_creation',
-        service: sceneService
+        state: scenesState
       }
     }
   }
 
   ngOnInit() {
     this.icon = this.types[this.type].icon;
-    this.types[this.type].service.getObservable().subscribe(entities => this.entities = entities);
+    this.types[this.type].state.getObservable().subscribe(entities => this.entities = entities);
   }
 
   writeValue(value: any): void {

@@ -3,6 +3,7 @@ import { ProjectService } from '../core/services/project.service';
 import { NgForm } from '@angular/forms';
 import { Game } from 'akos-common';
 import { GameService } from '../core/services/game.service';
+import { GameState } from '../core/states/game.state';
 
 @Component({
   selector: 'ak-metadata',
@@ -15,11 +16,11 @@ export class MetadataView implements OnInit {
 
   game: Game;
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, private gameState: GameState) {
   }
 
   ngOnInit() {
-    this.gameService.getObservable().subscribe(game => this.game = game);
-    this.ngForm.form.valueChanges.subscribe(game => {this.gameService.setGame(game)});
+    this.gameState.getObservable().subscribe(game => this.game = game);
+    this.ngForm.form.valueChanges.subscribe(game => {this.gameService.updateGame(game)});
   }
 }

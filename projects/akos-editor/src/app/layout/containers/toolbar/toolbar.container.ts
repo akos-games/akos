@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../core/services/project.service';
 import { Project } from '../../../core/types/project';
-import { NativeService } from '../../../core/services/native.service';
+import { NativeService } from 'akos-common';
+import { ProjectState } from '../../../core/states/project.state';
+import { BuildService } from '../../../core/services/build.service';
 
 @Component({
   selector: 'ak-toolbar',
@@ -12,11 +14,16 @@ export class ToolbarContainer implements OnInit {
 
   project: Project;
 
-  constructor(private projectService: ProjectService, private nativeService: NativeService) {
+  constructor(
+    private projectService: ProjectService,
+    private buildService: BuildService,
+    private nativeService: NativeService,
+    private projectState: ProjectState
+  ) {
   }
 
   ngOnInit() {
-    this.projectService.getObservable().subscribe(project => this.project = project);
+    this.projectState.getObservable().subscribe(project => this.project = project);
   }
 
   onCreate() {
@@ -40,6 +47,6 @@ export class ToolbarContainer implements OnInit {
   }
 
   onBuildGame() {
-    this.projectService.buildGame();
+    this.buildService.buildGame();
   }
 }

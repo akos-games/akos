@@ -6,8 +6,9 @@ import { MetadataNode } from '../../types/metadata-node';
 import { ScenesNode } from '../../types/scenes-node';
 import { SceneNode } from '../../types/scene-node';
 import { Router } from '@angular/router';
-import { SceneService } from '../../../core/services/scene.service';
+import { ScenesService } from '../../../core/services/scenes.service';
 import { Scene } from 'akos-common';
+import { ScenesState } from '../../../core/states/scenes.state';
 
 @Component({
   selector: 'ak-sidebar',
@@ -24,7 +25,8 @@ export class SidebarContainer implements OnInit {
 
   constructor(
     private router: Router,
-    private sceneService: SceneService
+    private sceneService: ScenesService,
+    private scenesState: ScenesState
   ) {
 
     this.treeControl = new NestedTreeControl<TreeNode>(node => node.children);
@@ -41,7 +43,7 @@ export class SidebarContainer implements OnInit {
       this.scenes
     ];
 
-    this.sceneService.getObservable().subscribe(scenes => this.updateScenes(scenes));
+    this.scenesState.getObservable().subscribe(scenes => this.updateScenes(scenes));
   }
 
   isParent(index: number, node: TreeNode) {

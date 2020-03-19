@@ -1,12 +1,12 @@
 import { TreeNode } from './tree-node';
-import { SceneService } from '../../core/services/scene.service';
+import { ScenesService } from '../../core/services/scenes.service';
 
 export class ScenesNode implements TreeNode {
 
   name = 'Scenes';
   children = [];
 
-  constructor(private sceneService: SceneService) {
+  constructor(private sceneService: ScenesService) {
   }
 
   createChild(): string {

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { GameDescriptor, NativeService, NativeState } from 'akos-common';
+import { NativeService, NativeState } from 'akos-common';
 import { ProjectState } from '../states/project.state';
 import { ProjectService } from './project.service';
-import { GameState } from '../states/game.state';
-import { ScenesState } from '../states/scenes.state';
 
 @Injectable()
 export class BuildService {
