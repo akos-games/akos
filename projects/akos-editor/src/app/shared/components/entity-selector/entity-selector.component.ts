@@ -1,12 +1,14 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { State } from 'akos-common';
+import { CollectionState } from 'akos-common';
 import { ScenesState } from '../../../core/states/scenes.state';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 interface EntityTypes {
   [type: string]: {
     icon: string;
-    state: State<any>;
+    state: CollectionState<any>;
   }
 }
 
@@ -20,24 +22,18 @@ interface EntityTypes {
     multi: true
   }]
 })
-export class EntitySelectorComponent implements OnInit, ControlValueAccessor {
-
-  get entityId() {
-    return this._entityId;
-  }
-  set entityId(entityId) {
-    this._entityId = entityId;
-    this.propagateChange(this._entityId);
-  }
-  private _entityId;
+export class EntitySelectorComponent implements OnChanges, OnDestroy, ControlValueAccessor {
 
   @Input() type: 'scene';
+  @Input() required: boolean;
 
   entities: {id: number; name: string}[] = [];
   icon: string;
 
-  private propagateChange = (_: any) => {};
+  private _value;
   private types: EntityTypes;
+  private unsubscribe$ = new Subject();
+  private propagateChange = _ => {};
 
   constructor(private scenesState: ScenesState) {
     this.types = {
@@ -48,19 +44,47 @@ export class EntitySelectorComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  ngOnInit() {
-    this.icon = this.types[this.type].icon;
-    this.types[this.type].state.getObservable().subscribe(entities => this.entities = entities);
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (changes.type) {
+
+      // Reset subscription to avoid memory leaks
+      this.unsubscribe();
+      this.unsubscribe$ = new Subject();
+
+      this.icon = this.types[this.type].icon;
+      this.types[this.type].state.getObservable()
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(entities => this.entities = entities);
+    }
   }
 
-  writeValue(value: any): void {
-    this.entityId = value;
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 
-  registerOnChange(fn: any): void {
+  writeValue(value) {
+    this.value = value;
+  }
+
+  registerOnChange(fn) {
     this.propagateChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn) {
+  }
+
+  private unsubscribe() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(value) {
+    this._value = value;
+    this.propagateChange(this._value);
   }
 }

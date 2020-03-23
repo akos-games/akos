@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ScenesService } from '../core/services/scenes.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { generateId } from '../shared/utils/node';
+import { generateId } from '../shared/utils/entity.util';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Command, Scene } from 'akos-common';
 import { ScenesState } from '../core/states/scenes.state';

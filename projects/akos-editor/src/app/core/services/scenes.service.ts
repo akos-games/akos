@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { generateId } from '../../shared/utils/node';
+import { generateId } from '../../shared/utils/entity.util';
 import { Scene } from 'akos-common';
 import { ScenesState } from '../states/scenes.state';
 
