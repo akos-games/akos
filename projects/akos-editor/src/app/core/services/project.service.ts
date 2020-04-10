@@ -93,7 +93,7 @@ export class ProjectService {
 
   private buildProjectState(projectFile: string) {
 
-    let projectDir = projectFile.substring(0, projectFile.lastIndexOf('/') - 1);
+    let projectDir = projectFile.substring(0, projectFile.lastIndexOf('/'));
 
     this.projectState.set({
       file: projectFile,

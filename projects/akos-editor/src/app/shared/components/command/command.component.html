@@ -31,17 +31,15 @@
     Fullscreen
   </mat-checkbox>
 
-  <ak-asset *ngIf="command.type === 'displayPicture'"
-            type="image"
-            label="Image file"
-            [(file)]="command.parameters.picture">
-  </ak-asset>
+  <ak-select-asset *ngIf="command.type === 'displayPicture'" type="image" [(ngModel)]="command.parameters.picture">
+    Image file
+  </ak-select-asset>
 
   <mat-form-field *ngIf="command.type === 'displayText'">
     <textarea matInput placeholder="Text" [(ngModel)]="command.parameters.text"></textarea>
   </mat-form-field>
 
-  <ak-select-entity *ngIf="command.type === 'startScene'" [(ngModel)]="command.parameters.sceneId" type="scene">
+  <ak-select-entity *ngIf="command.type === 'startScene'" type="scene" [(ngModel)]="command.parameters.sceneId">
     Scene
   </ak-select-entity>
 

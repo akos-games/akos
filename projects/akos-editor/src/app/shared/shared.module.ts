@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AssetComponent } from './components/asset/asset.component';
 import { CommandComponent } from './components/command/command.component';
 import { EntitySelectorComponent } from './components/entity-selector/entity-selector.component';
 import { FormsModule } from '@angular/forms';
@@ -10,10 +9,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { AssetSelectorComponent } from './components/asset-selector/asset-selector.component';
 
 @NgModule({
   declarations: [
-    AssetComponent,
+    AssetSelectorComponent,
     CommandComponent,
     EntitySelectorComponent
   ],
@@ -28,7 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule
   ],
   exports: [
-    AssetComponent,
+    AssetSelectorComponent,
     CommandComponent,
     EntitySelectorComponent
   ]
