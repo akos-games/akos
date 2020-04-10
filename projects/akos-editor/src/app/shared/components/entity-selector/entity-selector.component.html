@@ -1,11 +1,11 @@
-<mat-form-field>
+<mat-form-field [formGroup]="formWrapper">
 
   <mat-label>
     <mat-icon>{{icon}}</mat-icon>
     <ng-content></ng-content>
   </mat-label>
 
-  <mat-select [(value)]="value" [required]="required">
+  <mat-select [required]="required" formControlName="entityId">
     <mat-option>None</mat-option>
     <mat-option *ngFor="let entity of entities" [value]="entity.id">
       {{entity.name}}

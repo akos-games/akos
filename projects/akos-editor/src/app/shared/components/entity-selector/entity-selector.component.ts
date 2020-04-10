@@ -1,5 +1,5 @@
-import { Component, forwardRef, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CollectionState } from 'akos-common';
 import { ScenesState } from '../../../core/states/scenes.state';
 import { Subject } from 'rxjs';
@@ -22,7 +22,7 @@ interface EntityTypes {
     multi: true
   }]
 })
-export class EntitySelectorComponent implements OnChanges, OnDestroy, ControlValueAccessor {
+export class EntitySelectorComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
 
   @Input() type: 'scene';
   @Input() required: boolean;
@@ -30,7 +30,10 @@ export class EntitySelectorComponent implements OnChanges, OnDestroy, ControlVal
   entities: {id: number; name: string}[] = [];
   icon: string;
 
-  private _value;
+  formWrapper = new FormGroup({
+    entityId: new FormControl()
+  });
+
   private types: EntityTypes;
   private unsubscribe$ = new Subject();
   private propagateChange = _ => {};
@@ -42,6 +45,10 @@ export class EntitySelectorComponent implements OnChanges, OnDestroy, ControlVal
         state: scenesState
       }
     }
+  }
+
+  ngOnInit() {
+    this.formWrapper.valueChanges.subscribe(value => this.propagateChange(value.entityId))
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -80,11 +87,11 @@ export class EntitySelectorComponent implements OnChanges, OnDestroy, ControlVal
   }
 
   get value() {
-    return this._value;
+    return this.formWrapper.getRawValue().entityId;
   }
 
   set value(value) {
-    this._value = value;
-    this.propagateChange(this._value);
+    this.formWrapper.setValue({entityId: value});
+    this.propagateChange(value);
   }
 }

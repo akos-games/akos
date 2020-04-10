@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
-import { MetadataView } from './metadata.view';
+import { GamePage } from './game.page';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../../shared/shared.module';
+import { GameRoutingModule } from './game-routing.module';
 
 @NgModule({
   declarations: [
-    MetadataView
+    GamePage
   ],
   imports: [
+    GameRoutingModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    FormsModule,
     SharedModule
   ]
 })
-export class MetadataModule {
+export class GameModule {
 }

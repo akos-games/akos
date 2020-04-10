@@ -5,9 +5,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { SceneModule } from './scene/scene.module';
-import { MetadataModule } from './metadata/metadata.module';
+import { SceneModule } from './pages/scene/scene.module';
 import { CoreModule } from './core/core.module';
+import { GameModule } from './pages/game/game.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,6 @@ import { CoreModule } from './core/core.module';
     MatSidenavModule,
     CoreModule,
     LayoutModule,
-    MetadataModule,
     SceneModule
   ],
   bootstrap: [
