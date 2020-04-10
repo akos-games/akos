@@ -82,9 +82,6 @@ export class ProjectService {
   }
 
   private getGameDescriptor(): GameDescriptor {
-
-    this.scenesService.cleanCommands();
-
     return {
       game: this.gameState.get(),
       scenes: this.scenesState.get()

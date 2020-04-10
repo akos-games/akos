@@ -28,26 +28,4 @@ export class ScenesService {
   resetScenes() {
     this.scenesState.set([]);
   }
-
-  cleanCommands() {
-
-    const authorizedParameters = {
-      displayPicture: ['waitForPlayer', 'picture', 'fullscreen'],
-      displayText: ['waitForPlayer', 'text'],
-      hideText: ['waitForPlayer'],
-      startScene: ['sceneId']
-    };
-
-    let scenes = this.scenesState.get();
-
-    scenes.forEach(scene =>
-      scene.commands.forEach(command =>
-        Object.keys(command.parameters).forEach(parameter =>
-          authorizedParameters[command.type].includes(parameter) || delete command.parameters[parameter]
-        )
-      )
-    );
-
-    this.scenesState.set(scenes);
-  }
 }

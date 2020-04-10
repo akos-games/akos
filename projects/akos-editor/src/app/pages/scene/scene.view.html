@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="sceneForm">
 
   <mat-form-field>
     <mat-label>Scene name</mat-label>
@@ -9,9 +9,7 @@
 
 <div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)" cdkDropListAutoScrollDisabled=0>
   <ak-command cdkDrag *ngFor="let command of scene.commands"
-              [command]="command"
-              (update)="onUpdateCommand()"
-              (delete)="onDeleteCommand($event)">
+              [command]="command" (delete)="onDeleteCommand($event)" [formControlName]="command.id">
   </ak-command>
 </div>
 

@@ -1,46 +1,50 @@
-<div class="header" [class.green]="isGreenHeader()" [class.red]="isRedHeader()">
+<ng-container [formGroup]="form">
 
-  <mat-form-field class="type">
-    <mat-label>Command</mat-label>
-    <mat-select [(ngModel)]="command.type">
-      <mat-option value="displayText">Display text</mat-option>
-      <mat-option value="hideText">Hide text</mat-option>
-      <mat-option value="displayPicture">Display picture</mat-option>
-      <mat-option value="startScene">Start scene</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="header" [class.green]="isGreenHeader()" [class.red]="isRedHeader()">
 
-  <mat-form-field class="comment">
-    <mat-label>Comment</mat-label>
-    <input matInput [(ngModel)]="command.comment">
-  </mat-form-field>
+    <mat-form-field class="type">
+      <mat-label>Command</mat-label>
+      <mat-select formGroupName="type">
+        <mat-option value="displayText">Display text</mat-option>
+        <mat-option value="hideText">Hide text</mat-option>
+        <mat-option value="displayPicture">Display picture</mat-option>
+        <mat-option value="startScene">Start scene</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <button mat-button class="delete" (click)="onDelete()">
-    <mat-icon>delete_forever</mat-icon>
-  </button>
+    <mat-form-field class="comment">
+      <mat-label>Comment</mat-label>
+      <input matInput formGroupName="comment">
+    </mat-form-field>
 
-</div>
+    <button mat-button class="delete" (click)="onDelete()">
+      <mat-icon>delete_forever</mat-icon>
+    </button>
 
-<div class="body">
+  </div>
 
-  <mat-checkbox *ngIf="waitForPlayerTypes.includes(command.type)" [(ngModel)]="command.parameters.waitForPlayer">
-    Wait for player click to continue
-  </mat-checkbox>
+  <div class="body">
 
-  <mat-checkbox *ngIf="command.type === 'displayPicture'" [(ngModel)]="command.parameters.fullscreen">
-    Fullscreen
-  </mat-checkbox>
+    <mat-checkbox *ngIf="isDisplayPictureCommand() || isDisplayTextCommand() || isHideTextCommand()" formGroupName="parameters.waitForPlayer">
+      Wait for player click to continue
+    </mat-checkbox>
 
-  <ak-select-asset required *ngIf="command.type === 'displayPicture'" type="image" [(ngModel)]="command.parameters.picture">
-    Image file
-  </ak-select-asset>
+    <mat-checkbox *ngIf="isDisplayPictureCommand()" formGroupName="parameters.fullscreen">
+      Fullscreen
+    </mat-checkbox>
 
-  <mat-form-field *ngIf="command.type === 'displayText'">
-    <textarea matInput placeholder="Text" [(ngModel)]="command.parameters.text"></textarea>
-  </mat-form-field>
+    <ak-select-asset required *ngIf="isDisplayPictureCommand()" type="image" formGroupName="parameters.picture">
+      Image file
+    </ak-select-asset>
 
-  <ak-select-entity *ngIf="command.type === 'startScene'" type="scene" [(ngModel)]="command.parameters.sceneId">
-    Scene
-  </ak-select-entity>
+    <mat-form-field *ngIf="isDisplayTextCommand()">
+      <textarea matInput placeholder="Text" formGroupName="parameters.text"></textarea>
+    </mat-form-field>
 
-</div>
+    <ak-select-entity *ngIf="isStartSceneCommand()" type="scene" formGroupName="parameters.sceneId">
+      Scene
+    </ak-select-entity>
+
+  </div>
+
+</ng-container>

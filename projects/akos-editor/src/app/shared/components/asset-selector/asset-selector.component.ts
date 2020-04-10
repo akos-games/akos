@@ -21,7 +21,7 @@ export class AssetSelectorComponent implements OnInit, OnChanges, OnDestroy, Con
   @Input() type: 'image';
   @Input() required: boolean;
 
-  formWrapper = new FormGroup({
+  form = new FormGroup({
     file: new FormControl([''])
   });
 
@@ -35,7 +35,7 @@ export class AssetSelectorComponent implements OnInit, OnChanges, OnDestroy, Con
 
   ngOnInit() {
 
-    this.formWrapper.valueChanges.subscribe(value => this.propagateChange(value.file));
+    this.form.valueChanges.subscribe(value => this.propagateChange(value.file));
 
     this.projectState.getObservable()
       .pipe(takeUntil(this.unsubscribe$))
@@ -88,11 +88,11 @@ export class AssetSelectorComponent implements OnInit, OnChanges, OnDestroy, Con
   }
 
   get value() {
-    return this.formWrapper.getRawValue().file;
+    return this.form.getRawValue().file;
   }
 
   set value(value) {
-    this.formWrapper.setValue({file: value});
+    this.form.setValue({file: value});
     this.propagateChange(value);
   }
 }

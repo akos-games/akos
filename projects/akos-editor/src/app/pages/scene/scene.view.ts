@@ -15,7 +15,7 @@ import { ScenesState } from '../../core/states/scenes.state';
 export class SceneView implements OnInit {
 
   scene: Scene;
-  form: FormGroup;
+  sceneForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -24,11 +24,11 @@ export class SceneView implements OnInit {
     private scenesState: ScenesState
   ) {
 
-    this.form = fb.group({
+    this.sceneForm = fb.group({
       name: '',
     });
 
-    this.form.valueChanges.subscribe(formValues => {
+    this.sceneForm.valueChanges.subscribe(formValues => {
       this.scene.name = formValues.name;
       this.scenesService.updateScene(this.scene);
     });
@@ -38,7 +38,7 @@ export class SceneView implements OnInit {
 
     this.route.params.subscribe(params => {
       this.scene = this.scenesState.getById(params.id);
-      this.form.setValue({
+      this.sceneForm.setValue({
         name: this.scene.name
       }, {
         emitEvent: false

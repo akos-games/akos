@@ -30,7 +30,7 @@ export class EntitySelectorComponent implements OnInit, OnChanges, OnDestroy, Co
   entities: {id: number; name: string}[] = [];
   icon: string;
 
-  formWrapper = new FormGroup({
+  form = new FormGroup({
     entityId: new FormControl()
   });
 
@@ -48,7 +48,7 @@ export class EntitySelectorComponent implements OnInit, OnChanges, OnDestroy, Co
   }
 
   ngOnInit() {
-    this.formWrapper.valueChanges.subscribe(value => this.propagateChange(value.entityId))
+    this.form.valueChanges.subscribe(value => this.propagateChange(value.entityId))
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -87,11 +87,11 @@ export class EntitySelectorComponent implements OnInit, OnChanges, OnDestroy, Co
   }
 
   get value() {
-    return this.formWrapper.getRawValue().entityId;
+    return this.form.getRawValue().entityId;
   }
 
   set value(value) {
-    this.formWrapper.setValue({entityId: value});
+    this.form.setValue({entityId: value});
     this.propagateChange(value);
   }
 }
