@@ -31,7 +31,7 @@
     Fullscreen
   </mat-checkbox>
 
-  <ak-select-asset *ngIf="command.type === 'displayPicture'" type="image" [(ngModel)]="command.parameters.picture">
+  <ak-select-asset required *ngIf="command.type === 'displayPicture'" type="image" [(ngModel)]="command.parameters.picture">
     Image file
   </ak-select-asset>
 

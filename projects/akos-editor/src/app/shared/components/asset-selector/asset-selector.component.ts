@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChang
 import { FileFilter } from 'electron';
 import { NativeService } from 'akos-common';
 import { ProjectState } from '../../../core/states/project.state';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -21,7 +21,10 @@ export class AssetSelectorComponent implements OnInit, OnChanges, OnDestroy, Con
   @Input() type: 'image';
   @Input() required: boolean;
 
-  private _value;
+  formWrapper = new FormGroup({
+    file: new FormControl([''])
+  });
+
   private assetsPath: string;
   private fileFilter: FileFilter;
   private unsubscribe$ = new Subject();
@@ -31,6 +34,9 @@ export class AssetSelectorComponent implements OnInit, OnChanges, OnDestroy, Con
   }
 
   ngOnInit() {
+
+    this.formWrapper.valueChanges.subscribe(value => this.propagateChange(value.file));
+
     this.projectState.getObservable()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(project => this.assetsPath = project?.assetsDir);
@@ -82,11 +88,11 @@ export class AssetSelectorComponent implements OnInit, OnChanges, OnDestroy, Con
   }
 
   get value() {
-    return this._value;
+    return this.formWrapper.getRawValue().file;
   }
 
   set value(value) {
-    this._value = value;
-    this.propagateChange(this._value);
+    this.formWrapper.setValue({file: value});
+    this.propagateChange(value);
   }
 }
