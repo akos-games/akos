@@ -25,6 +25,10 @@ export class ScenesService {
     this.scenesState.add(scene);
   }
 
+  deleteScene(id: number) {
+    this.scenesState.remove(id);
+  }
+
   resetScenes() {
     this.scenesState.set([]);
   }

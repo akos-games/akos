@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SharedModule } from '../../shared/shared.module';
 import { SceneRoutingModule } from './scene-routing.module';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { SceneRoutingModule } from './scene-routing.module';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatToolbarModule,
     SharedModule
   ]
 })

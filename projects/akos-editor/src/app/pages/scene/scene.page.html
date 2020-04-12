@@ -1,3 +1,14 @@
+<mat-toolbar>
+
+  <span class="spacer"></span>
+
+  <button mat-raised-button color="warn" (click)="onDeleteScene()">
+    <mat-icon>delete_forever</mat-icon>
+    Delete scene
+  </button>
+
+</mat-toolbar>
+
 <form [formGroup]="sceneForm">
 
   <mat-form-field>

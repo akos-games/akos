@@ -44,14 +44,13 @@ export class CollectionState<T> extends State<T[]> {
     let entityArray = Array.isArray(entitiesOrIds) ? entitiesOrIds : [entitiesOrIds];
     let deleted = [];
     entityArray.forEach(entityOrId => {
-      let id = typeof entityOrId === 'object' ? entityOrId[this.idProperty] : entityOrId;
+      let id: number = typeof entityOrId === 'object' ? entityOrId[this.idProperty] : entityOrId;
       deleted.push(this.cache.entities[id]);
       delete this.cache.entities[id];
-      this.cache.order.delete(id);
+      this.cache.order.delete(Number(id));
     });
 
     super.set(this.buildState());
-
     return Array.isArray(entitiesOrIds) ? deleted : deleted[0];
   }
 

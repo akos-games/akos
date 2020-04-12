@@ -1,4 +1,4 @@
-:host {
+form {
   display: flex;
   flex-direction: column;
   margin: 30px 50px;
@@ -11,6 +11,7 @@ mat-form-field {
 .command-list {
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
 }
 
 ak-command {
@@ -38,4 +39,8 @@ ak-command {
 
 .command-list.cdk-drop-list-dragging ak-command:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.spacer {
+  flex: 1 1 auto;
 }

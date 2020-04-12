@@ -6,7 +6,7 @@ import { generateId } from '../../shared/utils/entity.util';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Command } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'page-scene',
@@ -22,6 +22,9 @@ export class ScenePage implements OnInit {
     commands: this.commands
   });
 
+  private sceneId: number;
+  private silent = false;
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -33,16 +36,30 @@ export class ScenePage implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
+
       const scene = this.scenesState.getById(params.id);
+      this.sceneId = scene.id;
+      this.silent = true;
+
+      this.commands.clear();
       scene.commands.forEach(() => this.commands.push(this.fb.control({})));
       this.sceneForm.setValue(scene, {
         emitEvent: false
       });
+
+      this.silent = false;
     });
 
     this.sceneForm.valueChanges
-      .pipe(debounceTime(500))
+      .pipe(
+        filter(() => !this.silent),
+        debounceTime(500)
+      )
       .subscribe(value => this.scenesService.updateScene(value));
+  }
+
+  onDeleteScene() {
+    this.scenesService.deleteScene(this.sceneId);
   }
 
   onAddCommand() {

@@ -18,7 +18,7 @@ export class GamePage implements OnInit, OnDestroy {
     firstSceneId: [null]
   });
 
-  private typing = false;
+  private silent = false;
   private unsubscribe$ = new Subject();
 
   constructor(
@@ -33,7 +33,7 @@ export class GamePage implements OnInit, OnDestroy {
     this.gameState.getObservable()
       .pipe(
         takeUntil(this.unsubscribe$),
-        filter(() => !this.typing)
+        filter(() => !this.silent)
       )
       .subscribe(game => this.gameForm.patchValue(game));
 
@@ -43,9 +43,9 @@ export class GamePage implements OnInit, OnDestroy {
         debounceTime(500)
       )
       .subscribe(game => {
-        this.typing = true;
+        this.silent = true;
         this.gameService.updateGame(game)
-        this.typing = false;
+        this.silent = false;
       });
   }
 
