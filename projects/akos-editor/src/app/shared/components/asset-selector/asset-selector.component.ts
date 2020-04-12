@@ -22,7 +22,7 @@ export class AssetSelectorComponent implements OnInit, OnChanges, OnDestroy, Con
   @Input() required: boolean;
 
   form = new FormGroup({
-    file: new FormControl([''])
+    file: new FormControl('')
   });
 
   private assetsPath: string;

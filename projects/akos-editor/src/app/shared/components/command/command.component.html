@@ -4,7 +4,7 @@
 
     <mat-form-field class="type">
       <mat-label>Command</mat-label>
-      <mat-select formGroupName="type">
+      <mat-select formControlName="type">
         <mat-option value="displayText">Display text</mat-option>
         <mat-option value="hideText">Hide text</mat-option>
         <mat-option value="displayPicture">Display picture</mat-option>
@@ -14,7 +14,7 @@
 
     <mat-form-field class="comment">
       <mat-label>Comment</mat-label>
-      <input matInput formGroupName="comment">
+      <input matInput formControlName="comment">
     </mat-form-field>
 
     <button mat-button class="delete" (click)="onDelete()">
@@ -23,25 +23,25 @@
 
   </div>
 
-  <div class="body">
+  <div class="body" [formGroup]="form.get('parameters')">
 
-    <mat-checkbox *ngIf="isDisplayPictureCommand() || isDisplayTextCommand() || isHideTextCommand()" formGroupName="parameters.waitForPlayer">
+    <mat-checkbox *ngIf="isDisplayPictureCommand() || isDisplayTextCommand() || isHideTextCommand()" formControlName="waitForPlayer">
       Wait for player click to continue
     </mat-checkbox>
 
-    <mat-checkbox *ngIf="isDisplayPictureCommand()" formGroupName="parameters.fullscreen">
+    <mat-checkbox *ngIf="isDisplayPictureCommand()" formControlName="fullscreen">
       Fullscreen
     </mat-checkbox>
 
-    <ak-select-asset required *ngIf="isDisplayPictureCommand()" type="image" formGroupName="parameters.picture">
+    <ak-select-asset required *ngIf="isDisplayPictureCommand()" type="image" formControlName="picture">
       Image file
     </ak-select-asset>
 
     <mat-form-field *ngIf="isDisplayTextCommand()">
-      <textarea matInput placeholder="Text" formGroupName="parameters.text"></textarea>
+      <textarea matInput placeholder="Text" formControlName="text"></textarea>
     </mat-form-field>
 
-    <ak-select-entity *ngIf="isStartSceneCommand()" type="scene" formGroupName="parameters.sceneId">
+    <ak-select-entity *ngIf="isStartSceneCommand()" type="scene" formControlName="sceneId">
       Scene
     </ak-select-entity>
 

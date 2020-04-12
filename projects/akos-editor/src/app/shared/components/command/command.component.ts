@@ -1,6 +1,14 @@
-import { Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { Command, deepCopy } from 'akos-common';
 import { ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+const defaultParameters = {
+  waitForPlayer: false,
+  picture: '',
+  fullscreen: false,
+  text: '',
+  sceneId: null
+};
 
 @Component({
   selector: 'ak-command',
@@ -12,21 +20,16 @@ import { ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR } from '@angular/f
     multi: true
   }]
 })
-export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class CommandComponent implements OnInit, ControlValueAccessor {
 
   @Input() command: Command;
   @Output() delete = new EventEmitter<Command>();
 
   form = this.fb.group({
-    type: [''],
-    comment: [''],
-    parameters: this.fb.group({
-      waitForPlayer: [false],
-      picture: [''],
-      fullscreen: [false],
-      text: [''],
-      sceneId: [null]
-    })
+    id: null,
+    type: '',
+    comment: '',
+    parameters: this.fb.group(defaultParameters)
   });
 
   private propagateChange = _ => {};
@@ -35,11 +38,7 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
   }
 
   ngOnInit() {
-    this.form.valueChanges.subscribe(value => this.propagateChange(this.cleanCommand({...value, id: this.command.id})));
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.form.setValue(changes.command.currentValue);
+    this.form.valueChanges.subscribe(value => this.propagateChange(this.formatOutputValue(value)));
   }
 
   writeValue(value) {
@@ -81,7 +80,7 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
     return this.value.type === 'startScene';
   }
 
-  private cleanCommand(command: Command): Command {
+  private formatOutputValue(value: Command): Command {
 
     const parametersByTypes = {
       displayPicture: ['waitForPlayer', 'picture', 'fullscreen'],
@@ -90,20 +89,21 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
       startScene: ['sceneId']
     };
 
-    const cleanedCommand = deepCopy(command);
-    Object.keys(cleanedCommand.parameters).forEach(parameter =>
-      parametersByTypes[cleanedCommand.type].includes(parameter) || delete cleanedCommand.parameters[parameter]
+    const formattedValue = deepCopy(value);
+    formattedValue.id = this.command.id;
+    Object.keys(formattedValue.parameters).forEach(parameter =>
+      parametersByTypes[formattedValue.type].includes(parameter) || delete formattedValue.parameters[parameter]
     );
 
-    return cleanedCommand;
+    return formattedValue;
   }
 
   get value() {
-    return this.cleanCommand({...this.form.getRawValue(), id: this.command.id});
+    return this.formatOutputValue(this.form.getRawValue());
   }
 
   set value(value) {
-    this.form.setValue(value);
-    this.propagateChange(this.cleanCommand({...value, id: this.command.id}));
+    this.form.setValue({...value, parameters: Object.assign(defaultParameters, value.parameters)});
+    this.propagateChange(this.formatOutputValue(value));
   }
 }
