@@ -16,9 +16,7 @@
     <mat-icon>{{expanded ? 'expand_more' : 'chevron_right'}}</mat-icon>
   </button>
 
-  <span class="name">
-    {{node.name}}
-  </span>
+  <span class="name">{{node.name}}</span>
 
   <button mat-icon-button *ngIf="node.createChild" (click)="onCreate()" (mousedown)="$event.stopPropagation()">
     <mat-icon>add</mat-icon>

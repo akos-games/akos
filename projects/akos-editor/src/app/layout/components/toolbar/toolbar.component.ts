@@ -7,10 +7,10 @@ import { BuildService } from '../../../core/services/build.service';
 
 @Component({
   selector: 'ak-toolbar',
-  templateUrl: './toolbar.container.html',
-  styleUrls: ['./toolbar.container.scss']
+  templateUrl: './toolbar.component.html',
+  styleUrls: ['./toolbar.component.scss']
 })
-export class ToolbarContainer implements OnInit {
+export class ToolbarComponent implements OnInit {
 
   project: Project;
 

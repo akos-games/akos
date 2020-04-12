@@ -6,9 +6,10 @@ import { generateId } from '../../shared/utils/entity.util';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Command } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'ak-scene',
+  selector: 'page-scene',
   templateUrl: './scene.page.html',
   styleUrls: ['./scene.page.scss']
 })
@@ -39,7 +40,9 @@ export class ScenePage implements OnInit {
       });
     });
 
-    this.sceneForm.valueChanges.subscribe(value => this.scenesService.updateScene(value));
+    this.sceneForm.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe(value => this.scenesService.updateScene(value));
   }
 
   onAddCommand() {

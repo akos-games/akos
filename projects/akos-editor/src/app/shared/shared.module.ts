@@ -17,17 +17,17 @@ import { AssetSelectorComponent } from './components/asset-selector/asset-select
     CommandComponent,
     EntitySelectorComponent
   ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatSelectModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule
+  ],
   exports: [
     AssetSelectorComponent,
     CommandComponent,

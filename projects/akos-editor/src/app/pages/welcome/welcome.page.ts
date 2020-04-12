@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from '../../../core/services/project.service';
+import { ProjectService } from '../../core/services/project.service';
 
 @Component({
-  selector: 'ak-welcome',
-  templateUrl: './welcome.view.html',
-  styleUrls: ['./welcome.view.scss']
+  selector: 'page-welcome',
+  templateUrl: './welcome.page.html',
+  styleUrls: ['./welcome.page.scss']
 })
-export class WelcomeView implements OnInit {
+export class WelcomePage implements OnInit {
 
   constructor(private projectService: ProjectService) {
   }

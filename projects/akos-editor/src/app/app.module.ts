@@ -5,9 +5,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { SceneModule } from './pages/scene/scene.module';
 import { CoreModule } from './core/core.module';
-import { GameModule } from './pages/game/game.module';
 
 @NgModule({
   declarations: [
@@ -19,8 +17,7 @@ import { GameModule } from './pages/game/game.module';
     AppRoutingModule,
     MatSidenavModule,
     CoreModule,
-    LayoutModule,
-    SceneModule
+    LayoutModule
   ],
   bootstrap: [
     AppComponent

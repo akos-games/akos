@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { TreeNode } from '../../types/tree-node';
-import { MetadataNode } from '../../types/metadata-node';
+import { GameNode } from '../../types/game-node';
 import { ScenesNode } from '../../types/scenes-node';
 import { SceneNode } from '../../types/scene-node';
 import { Router } from '@angular/router';
@@ -12,15 +12,15 @@ import { ScenesState } from '../../../core/states/scenes.state';
 
 @Component({
   selector: 'ak-sidebar',
-  templateUrl: './sidebar.container.html',
-  styleUrls: ['./sidebar.container.scss']
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarContainer implements OnInit {
+export class SidebarComponent implements OnInit {
 
   treeControl: NestedTreeControl<TreeNode>;
   dataSource: MatTreeNestedDataSource<TreeNode>;
 
-  private readonly metadata: MetadataNode;
+  private readonly game: GameNode;
   private readonly scenes: ScenesNode;
 
   constructor(
@@ -32,14 +32,14 @@ export class SidebarContainer implements OnInit {
     this.treeControl = new NestedTreeControl<TreeNode>(node => node.children);
     this.dataSource = new MatTreeNestedDataSource<TreeNode>();
 
-    this.metadata = new MetadataNode();
+    this.game = new GameNode();
     this.scenes = new ScenesNode(this.sceneService);
   }
 
   ngOnInit() {
 
     this.dataSource.data = [
-      this.metadata,
+      this.game,
       this.scenes
     ];
 
@@ -81,8 +81,7 @@ export class SidebarContainer implements OnInit {
   private checkCurrentRoute() {
 
     let displayedNodeStillExists = this.dataSource.data.some(node =>
-      this.router.url === node.route
-      || node.children && node.children.some(child => this.router.url === child.route)
+      this.router.url === node.route || node.children?.some(child => this.router.url === child.route)
     );
 
     if (!displayedNodeStillExists) {
