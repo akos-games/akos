@@ -38,7 +38,7 @@ export class ScenePage implements OnInit {
       .subscribe(game => {
         this.pictureUrl = this.assetService.getAssetUrl(game.scene.picture.asset);
         this.fullscreen = game.scene.picture.fullscreen;
-        this.textContent = game.scene.text.content.replace(/\n/g, '<br>');
+        this.textContent = game.scene.text.content?.replace(/\n/g, '<br>');
         this.textVisible = game.scene.text.visible;
         this.cdRef.detectChanges();
       });
