@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
-import { SceneService } from '../core/services/scene.service';
-import { AssetService } from '../core/services/asset.service';
+import { SceneService } from '../../core/services/scene.service';
+import { AssetService } from '../../core/services/asset.service';
 import { filter } from 'rxjs/operators';
-import { GameState } from '../core/states/game.state';
+import { GameState } from '../../core/states/game.state';
 
 @Component({
-  selector: 'scene-page',
+  selector: 'page-scene',
   templateUrl: './scene.page.html',
   styleUrls: ['./scene.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

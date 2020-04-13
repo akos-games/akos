@@ -7,8 +7,13 @@ export class NativeService {
 
   private fs = window.require('fs-extra');
   private remote = window.require('electron').remote;
+  private process = window.require('process');
 
   constructor(private nativeState: NativeState) {
+
+    // Prevent error when copying asar file
+    this.process.noAsar = true;
+
     this.nativeState.set(this.remote.getGlobal('executionContext'));
   }
 

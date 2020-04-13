@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ScenePage } from './scene/scene.page';
 
 const routes: Routes = [
   {path: '', redirectTo: '/scene', pathMatch: 'full'},
-  {path: 'scene', component: ScenePage}
+  {path: 'scene', loadChildren: () => import('./pages/scene/scene.module').then(m => m.SceneModule)}
 ];
 
 @NgModule({
