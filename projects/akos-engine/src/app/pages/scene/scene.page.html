@@ -2,8 +2,6 @@
 
   <img *ngIf="pictureUrl" src="{{pictureUrl}}" [class.fullscreen]="fullscreen"/>
 
-  <div *ngIf="textVisible" class="text-container">
-    {{textContent}}
-  </div>
+  <div *ngIf="textVisible" class="text-container" [innerHTML]="textContent"></div>
 
 </div>
