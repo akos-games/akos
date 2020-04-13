@@ -34,7 +34,7 @@ export class ProjectService {
         return;
       }
 
-      if (!this.checkProjectDirIntegrity()) {
+      if (!this.checkProjectDirIntegrity(file)) {
         // TODO display a notification
         return;
       }
@@ -69,10 +69,9 @@ export class ProjectService {
     this.router.navigateByUrl('');
   }
 
-  private checkProjectDirIntegrity() {
+  private checkProjectDirIntegrity(projectFile) {
 
-    let projectDir = this.projectState.get().dir;
-    let projectFile = this.projectState.get().file;
+    let projectDir = projectFile.substring(0, projectFile.lastIndexOf('/'));
 
     let otherProjectFileCount = this.nativeService.readDir(projectDir)
       .filter(file => file.endsWith('.akp') && `${projectDir}/${file}` !== projectFile)
@@ -98,5 +97,7 @@ export class ProjectService {
       assetsDir: `${projectDir}/assets`,
       distDir: `${projectDir}/dist`
     });
+
+    this.nativeService.ensureDir(this.projectState.get().assetsDir);
   }
 }
