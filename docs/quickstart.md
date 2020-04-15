@@ -1,11 +1,11 @@
-| Quickstart | [Scenes](scenes.md) |
-| --- | --- |
+| Quickstart | [Scenes](scenes.md) | [Commands](commands.md) |
+| --- | --- | --- |
 
 # Quickstart
 
 ## Download
 
-Download the [latest stable version]().
+Download the [latest stable version](https://github.com/grimwred/akos/releases).
 
 Extract it and run the `Akos Editor` executable file.
 
