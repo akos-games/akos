@@ -36,6 +36,8 @@ Time needed to learn all the required skills to make a professional quality vide
 
 In this way, we hope to help novice game devs focus their creativity and **stay motivated** throughout their project.
 
+## [Changelog](CHANGELOG.md)
+
 ## Donations
 
 If you want to say thanks and help this projet growing.
