@@ -4,18 +4,18 @@
 # Scenes
 
 Scenes are the first level of game cutout. You can consider them as the "table of content" of your game,
-the pieces of the plot. They can be repeated if your game story is not linear.
+the pieces of the plot.
 
 ## Development
 
 A scene can be edited by clicking its name in the sidebar.
 
-Scenes are defined by a name and a set of commands, which are used to control the game engine.
+Scenes are defined by a name, and a set of commands, which are used to control the game engine.
 
 Commands are executed as a workflow from top to bottom. You can reorder them by drag & drop.
 
 A command is defined by a type, a comment, and a set of parameters.  
-- The type tell the engine what to do.
+- The type tells the engine what to do.
 - The comment is a free field where you can write some notes for yourself.
 - Parameters describe the details of action to perform depending on the type.
 
@@ -32,7 +32,7 @@ For example:
 - Intro  
 - Shootout in the bar  
 - Mysterious call  
-- Tom encounter  
+- Jane encounter  
 - Car chase  
 ...  
 - Epilogue
