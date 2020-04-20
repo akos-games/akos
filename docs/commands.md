@@ -29,7 +29,7 @@ Enable to stop execution right after the picture has been displayed.
 Both picture sides will be stretched to fill the whole screen.
 
 - **Image file**  
-Picture's file to display.
+Picture's file to display. Only files located under `assets` folder, or a subfolder, can be selected. 
 
 ## Display text
 
