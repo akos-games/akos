@@ -26,6 +26,8 @@ _Planned: :iphone: Build games for mobile_
 
 ## [Quickstart and documentation](docs/quickstart.md)
 
+## [Changelog](CHANGELOG.md)
+
 ## Why Akos?
 
 Before being able to make a living from their passion, **indie game developers** usually start developing in their spare time, alongside a full-time job.
@@ -35,8 +37,6 @@ Under these conditions, they quickly run out of a valuable resource that is impo
 Time needed to learn all the required skills to make a professional quality video game can be a source of discouragement for many creators. Akos has been designed to drastically reduce this time by **eliminating coding**, which is one of the most difficult game dev skills to master.
 
 In this way, we hope to help novice game devs focus their creativity and **stay motivated** throughout their project.
-
-## [Changelog](CHANGELOG.md)
 
 ## Donations
 
