@@ -15,11 +15,12 @@ export class ProjectGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
   {
-    if (this.projectState.get()) {
-      return true;
-    } else {
+
+    let project = this.projectState.get();
+    if (!project) {
       this.router.navigateByUrl('welcome');
-      return false;
     }
+
+    return !!project;
   }
 }

@@ -66,7 +66,7 @@ export class ProjectService {
     this.projectState.set(null);
     this.gameService.resetGame();
     this.scenesService.resetScenes();
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('welcome');
   }
 
   private checkProjectDirIntegrity(projectFile) {
