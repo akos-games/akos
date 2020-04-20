@@ -24,11 +24,11 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Akos version**
-You can find it on the "About" window.
+You can see it on the Welcome page.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Version [e.g. 22]
+ - OS: [e.g. Windows]
+ - Version: [e.g. 10]
 
 **Additional context**
 Add any other context about the problem here.

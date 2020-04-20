@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-labels: feature
+labels: feature-request
 assignees: grimwred
 
 ---
@@ -18,3 +18,6 @@ A clear and concise description of any alternative solutions or features you've 
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
+
+**Misc**
+Suggestions about anything related to the project are welcome (documentation, community, whatever you want to see improved).
