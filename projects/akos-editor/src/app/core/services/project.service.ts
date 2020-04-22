@@ -6,6 +6,8 @@ import { GameService } from './game.service';
 import { GameState } from '../states/game.state';
 import { ScenesState } from '../states/scenes.state';
 import { ProjectState } from '../states/project.state';
+import { merge } from 'rxjs';
+import { debounceTime, filter } from 'rxjs/operators';
 
 @Injectable()
 export class ProjectService {
@@ -21,6 +23,26 @@ export class ProjectService {
     private gameState: GameState,
     private scenesState: ScenesState
   ) {
+
+    merge(
+      gameState.getObservable(),
+      scenesState.getObservable()
+    )
+      .subscribe(() => {
+        let project = projectState.get();
+        if (project) {
+          project.saved = false;
+          projectState.set(project);
+        }
+      });
+
+    projectState
+      .getObservable()
+      .pipe(
+        debounceTime(2000),
+        filter(project => project && !project.saved)
+      )
+      .subscribe(() => this.saveProject());
   }
 
   async saveProject() {
@@ -44,6 +66,9 @@ export class ProjectService {
     }
 
     this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor()));
+
+    project.saved = true;
+    this.projectState.set(project);
   }
 
   async loadProject() {
@@ -55,9 +80,9 @@ export class ProjectService {
       let data = JSON.parse(this.nativeService.readFile(file));
       data.game.akosVersion = '0.1';
 
-      this.buildProjectState(file);
       this.gameState.set(data.game);
       this.scenesState.set(data.scenes);
+      this.buildProjectState(file);
       this.router.navigateByUrl('game');
     }
   }
@@ -95,7 +120,8 @@ export class ProjectService {
       file: projectFile,
       dir: projectDir,
       assetsDir: `${projectDir}/assets`,
-      distDir: `${projectDir}/dist`
+      distDir: `${projectDir}/dist`,
+      saved: true
     });
 
     this.nativeService.ensureDir(this.projectState.get().assetsDir);

@@ -4,22 +4,17 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <button mat-raised-button disabled>
-    <mat-icon>play_arrow</mat-icon>
-    Run game
-  </button>
-
-  <button mat-raised-button [disabled]="!project" (click)="onBuildGame()">
+  <button *ngIf="project" mat-raised-button (click)="onBuildGame()">
     <mat-icon>build</mat-icon>
     Build game
   </button>
 
   <span class="spacer"></span>
 
-  <button mat-raised-button color="accent" disabled>
-    <mat-icon>report_problem</mat-icon>
-    Problems
-  </button>
+  <div *ngIf="project" class="save-status" [class.saved]="project.saved">
+    <span *ngIf="project.saved">Project saved</span>
+    <span *ngIf="!project.saved">Saving project...</span>
+  </div>
 
 </mat-toolbar>
 
@@ -38,13 +33,6 @@
   <button mat-menu-item [disabled]="!project" (click)="onClose()">
     <mat-icon>close</mat-icon>
     Close
-  </button>
-
-  <mat-divider></mat-divider>
-
-  <button mat-menu-item [disabled]="!project" (click)="onSave()">
-    <mat-icon>save_alt</mat-icon>
-    Save
   </button>
 
   <mat-divider></mat-divider>
