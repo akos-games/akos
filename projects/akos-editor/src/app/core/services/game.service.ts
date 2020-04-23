@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Game } from 'akos-common';
 import { GameState } from '../states/game.state';
+import { version } from  '../../../../../../package.json';
 
 @Injectable()
 export class GameService {
@@ -10,14 +11,14 @@ export class GameService {
   }
 
   updateGame(game: Game) {
-    this.gameState.set(game);
+    this.gameState.set({...game, akosVersion: version});
   }
 
   resetGame() {
     this.gameState.set({
       name: '',
       version: '',
-      akosVersion: '0.1',
+      akosVersion: version,
       firstSceneId: null
     });
   }
