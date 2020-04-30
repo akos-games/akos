@@ -5,15 +5,15 @@
 
 ## Download
 
-Download the [latest stable version](https://github.com/grimwred/akos/releases).
+Download the [latest stable version](https://github.com/grimwred/akos/releases/latest).
 
 Extract it and run the `Akos Editor` executable file.
 
 ## Create game project
 
-From the welcome page or from the top left menu, click on `Create Project`.
+From the welcome page or from the top left menu, click on `New project`.
 
-Choose your project file location. It is recommended to create a subfolder for your project.
+Enter a file name and choose project location.
 
 ## Create a scene
 

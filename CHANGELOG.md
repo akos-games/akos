@@ -2,6 +2,10 @@
 
 ## 0.2.0
 
+### Added
+
+- New project creation page.
+
 ### Changed
 
 - Project is now saved automatically.
