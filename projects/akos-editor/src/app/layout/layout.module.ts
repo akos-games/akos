@@ -11,6 +11,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NodeComponent } from './components/node/node.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { RouterModule } from '@angular/router';
     MatMenuModule,
     MatRippleModule,
     MatToolbarModule,
-    MatTreeModule
+    MatTreeModule,
+    MatProgressBarModule
   ],
   exports: [
     SidebarComponent,
