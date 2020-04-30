@@ -10,15 +10,3 @@ mat-toolbar > * {
 .spacer {
   flex: 1 1 auto;
 }
-
-.save-status {
-  width: 130px;
-  font-size: 14px;
-  opacity: 0.4;
-  user-select: none;
-  cursor: default;
-}
-
-.saved {
-  color: lawngreen;
-}

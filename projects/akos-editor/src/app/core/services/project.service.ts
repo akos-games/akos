@@ -49,8 +49,8 @@ export class ProjectService {
   createProject(file?: string) {
 
     if (!file) {
-      this.resetProject()
       this.router.navigateByUrl('/create-project');
+      this.resetProject()
       return;
     }
 

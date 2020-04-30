@@ -11,11 +11,6 @@
 
   <span class="spacer"></span>
 
-  <div *ngIf="project" class="save-status" [class.saved]="project.saved">
-    <span *ngIf="project.saved">Project saved</span>
-    <span *ngIf="!project.saved">Saving project...</span>
-  </div>
-
 </mat-toolbar>
 
 <mat-menu #rootMenu="matMenu">
