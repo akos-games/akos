@@ -11,7 +11,7 @@ export class GameService {
   }
 
   updateGame(game: Game) {
-    this.gameState.set({...game, akosVersion: version});
+    this.gameState.set(game);
   }
 
   resetGame() {

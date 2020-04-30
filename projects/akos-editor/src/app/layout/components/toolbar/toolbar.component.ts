@@ -27,7 +27,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   onCreate() {
-    this.projectService.saveProject();
+    this.projectService.createProject();
   }
 
   onOpen() {

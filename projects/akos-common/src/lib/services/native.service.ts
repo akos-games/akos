@@ -49,10 +49,10 @@ export class NativeService {
     this.fs.removeSync(fileOrDir);
   }
 
-  async showOpenDialog(filters?: FileFilter[], options?: {create?: boolean, defaultPath?: string}): Promise<string> {
+  async showOpenDialog(filters?: FileFilter[], options?: {create?: boolean, defaultPath?: string, directory?: boolean}): Promise<string> {
 
     let dialogOptions: any = {
-      properties: ['openFile', 'createDirectory'],
+      properties: [options?.directory ? 'openDirectory' : 'openFile', 'createDirectory'],
       filters: filters
     };
 

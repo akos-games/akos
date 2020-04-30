@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.content {
+  width: 700px;
+  height: 500px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+
+  .project-location {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 15px;
+
+    button {
+      min-width: 185px;
+    }
+
+    mat-label, mat-error {
+      margin-left: 20px;
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  button {
+    margin: 10px 5px;
+  }
+}

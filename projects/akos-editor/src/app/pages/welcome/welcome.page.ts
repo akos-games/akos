@@ -17,10 +17,6 @@ export class WelcomePage implements OnInit {
   ngOnInit() {
   }
 
-  onCreate() {
-    this.projectService.saveProject();
-  }
-
   onOpen() {
     this.projectService.loadProject();
   }

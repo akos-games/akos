@@ -8,6 +8,7 @@ import { ScenesState } from '../states/scenes.state';
 import { ProjectState } from '../states/project.state';
 import { merge } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
+import { version } from  '../../../../../../package.json';
 
 @Injectable()
 export class ProjectService {
@@ -45,28 +46,27 @@ export class ProjectService {
       .subscribe(() => this.saveProject());
   }
 
-  async saveProject() {
+  createProject(file?: string) {
 
-    let project = this.projectState.get();
-    if (!project) {
-
-      let file = await this.nativeService.showOpenDialog([ProjectService.PROJECT_FILTER], {create: true});
-      if (!file) {
-        // Selection has been cancelled
-        return;
-      }
-
-      if (!this.checkProjectDirIntegrity(file)) {
-        // TODO display a notification
-        return;
-      }
-
-      this.buildProjectState(file);
-      this.router.navigateByUrl('game');
+    if (!file) {
+      this.resetProject()
+      this.router.navigateByUrl('/create-project');
+      return;
     }
 
-    this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor()));
+    this.buildProjectState(file);
+    this.saveProject();
+    this.router.navigateByUrl('/game');
+  }
 
+  closeProject() {
+    this.resetProject()
+    this.router.navigateByUrl('/welcome');
+  }
+
+  async saveProject() {
+    let project = this.projectState.get();
+    this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor()));
     project.saved = true;
     this.projectState.set(project);
   }
@@ -78,31 +78,23 @@ export class ProjectService {
     if (file) {
 
       let data = JSON.parse(this.nativeService.readFile(file));
-      data.game.akosVersion = '0.1';
+      data.game.akosVersion = version;
 
       this.gameState.set(data.game);
       this.scenesState.set(data.scenes);
       this.buildProjectState(file);
-      this.router.navigateByUrl('game');
+      this.router.navigateByUrl('/game');
     }
   }
 
-  closeProject() {
+  isAkosDir(projectDir): boolean {
+    return projectDir && this.nativeService.readDir(projectDir).filter(file => file.endsWith('.akp')).length > 0;
+  }
+
+  private resetProject() {
     this.projectState.set(null);
     this.gameService.resetGame();
     this.scenesService.resetScenes();
-    this.router.navigateByUrl('welcome');
-  }
-
-  private checkProjectDirIntegrity(projectFile) {
-
-    let projectDir = projectFile.substring(0, projectFile.lastIndexOf('/'));
-
-    let otherProjectFileCount = this.nativeService.readDir(projectDir)
-      .filter(file => file.endsWith('.akp') && `${projectDir}/${file}` !== projectFile)
-      .length;
-
-    return otherProjectFileCount === 0;
   }
 
   private getGameDescriptor(): GameDescriptor {

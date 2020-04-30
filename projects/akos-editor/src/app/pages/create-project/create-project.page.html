@@ -1,0 +1,56 @@
+<div class="content">
+
+  <form [formGroup]="projectForm">
+
+    <h2>New project</h2>
+
+    <mat-form-field>
+
+      <mat-label>File name</mat-label>
+      <input matInput formControlName="filename" maxlength="128">
+
+      <mat-hint *ngIf="projectForm.valid">
+        {{projectFile}}
+      </mat-hint>
+
+      <mat-error *ngIf="projectForm.get('filename').hasError('filename')">
+        File name contains illegal characters
+      </mat-error>
+
+      <mat-error *ngIf="projectForm.get('filename').hasError('required')">
+        File name is required
+      </mat-error>
+
+    </mat-form-field>
+
+    <div class="project-location">
+
+      <button mat-stroked-button color="primary" (click)="onSelectProjectDir()">
+        Select project location...
+      </button>
+
+      <mat-label *ngIf="!projectForm.get('directory').hasError('directory')">
+        {{projectForm.get('directory').value}}
+      </mat-label>
+
+      <mat-error *ngIf="projectForm.get('directory').hasError('directory')">
+        This directory already contains an Akos project
+      </mat-error>
+
+    </div>
+
+  </form>
+
+  <div class="buttons">
+
+    <button mat-raised-button color="primary" [disabled]="!projectForm.valid" (click)="onCreate()">
+      Create
+    </button>
+
+    <button mat-button routerLink="/welcome">
+      Cancel
+    </button>
+
+  </div>
+
+</div>

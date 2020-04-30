@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProjectGuard } from './core/guards/project.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/game',
+    redirectTo: '/welcome',
     pathMatch: 'full'
   },
   {
+    path: 'create-project',
+    loadChildren: () => import('./pages/create-project/create-project.module').then(m => m.CreateProjectModule)
+  },
+  {
     path: 'game',
-    canActivate: [ProjectGuard],
     loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule)
   },
   {
     path: 'scene',
-    canActivate: [ProjectGuard],
     loadChildren: () => import('./pages/scene/scene.module').then(m => m.SceneModule)
   },
   {
