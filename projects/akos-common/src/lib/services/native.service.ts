@@ -5,15 +5,10 @@ import { NativeState } from '../states/native.state';
 @Injectable()
 export class NativeService {
 
-  private fs = window.require('fs-extra');
   private remote = window.require('electron').remote;
-  private process = window.require('process');
+  private fs = this.remote.require('fs-extra');
 
   constructor(private nativeState: NativeState) {
-
-    // Prevent error when copying asar file
-    this.process.noAsar = true;
-
     this.nativeState.set(this.remote.getGlobal('executionContext'));
   }
 
@@ -21,32 +16,50 @@ export class NativeService {
     this.remote.getCurrentWindow().close();
   }
 
-  readFile(file: string): any {
-    return this.fs.readFileSync(file);
+  async readFile(file: string): Promise<any> {
+    return new Promise<any>((resolve, reject) => this.fs.readFile(file, (error, data) => {
+      error && reject(error);
+      resolve(data);
+    }));
   }
 
-  writeFile(file: string, data) {
-    this.fs.writeFileSync(file, data);
+  async writeFile(file: string, data) {
+    return new Promise<void>((resolve, reject) => this.fs.writeFile(file, data, error => {
+      error && reject(error);
+      resolve();
+    }));
   }
 
-  readDir(dir: string): string[] {
-    return this.fs.readdirSync(dir);
+  async readDir(dir: string): Promise<string[]> {
+    return new Promise<string[]>((resolve, reject) => this.fs.readdir(dir, (error, files) => {
+      error && reject(error);
+      resolve(files);
+    }));
   }
 
-  ensureDir(dir: string) {
-    this.fs.ensureDirSync(dir);
+  async ensureDir(dir: string) {
+    return new Promise<void>((resolve, reject) => this.fs.ensureDir(dir, error => {
+      error && reject(error);
+      resolve();
+    }));
   }
 
-  exists(fileOrDir: string): boolean {
-    return this.fs.existsSync(fileOrDir);
+  async exists(fileOrDir: string): Promise<boolean> {
+    return new Promise<boolean>(resolve => this.fs.access(fileOrDir, error => resolve(!error)));
   }
 
-  copy(source: string, destination: string) {
-    this.fs.copySync(source, destination)
+  async copy(source: string, destination: string) {
+    return new Promise<void>((resolve, reject) => this.fs.copy(source, destination, error => {
+      error && reject(error);
+      resolve();
+    }));
   }
 
-  remove(fileOrDir: string) {
-    this.fs.removeSync(fileOrDir);
+  async remove(fileOrDir: string) {
+    return new Promise<void>((resolve, reject) => this.fs.remove(fileOrDir, error => {
+      error && reject(error);
+      resolve();
+    }));
   }
 
   async showOpenDialog(filters?: FileFilter[], options?: {create?: boolean, defaultPath?: string, directory?: boolean}): Promise<string> {

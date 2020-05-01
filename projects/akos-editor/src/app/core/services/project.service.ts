@@ -46,7 +46,7 @@ export class ProjectService {
       .subscribe(() => this.saveProject());
   }
 
-  createProject(file?: string) {
+  async createProject(file?: string) {
 
     if (!file) {
       this.router.navigateByUrl('/create-project');
@@ -54,8 +54,8 @@ export class ProjectService {
       return;
     }
 
-    this.buildProjectState(file);
-    this.saveProject();
+    await this.buildProjectState(file);
+    await this.saveProject();
     this.router.navigateByUrl('/game');
   }
 
@@ -66,7 +66,7 @@ export class ProjectService {
 
   async saveProject() {
     let project = this.projectState.get();
-    this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor()));
+    await this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor()));
     project.saved = true;
     this.projectState.set(project);
   }
@@ -77,18 +77,18 @@ export class ProjectService {
 
     if (file) {
 
-      let data = JSON.parse(this.nativeService.readFile(file));
+      let data = JSON.parse(await this.nativeService.readFile(file));
       data.game.akosVersion = version;
 
       this.gameState.set(data.game);
       this.scenesState.set(data.scenes);
-      this.buildProjectState(file);
-      this.router.navigateByUrl('/game');
+      await this.buildProjectState(file);
+      await this.router.navigateByUrl('/game');
     }
   }
 
-  isAkosDir(projectDir): boolean {
-    return projectDir && this.nativeService.readDir(projectDir).filter(file => file.endsWith('.akp')).length > 0;
+  async isAkosDir(projectDir): Promise<boolean> {
+    return projectDir && (await this.nativeService.readDir(projectDir)).filter(file => file.endsWith('.akp')).length > 0;
   }
 
   private resetProject() {
@@ -104,7 +104,7 @@ export class ProjectService {
     };
   }
 
-  private buildProjectState(projectFile: string) {
+  private async buildProjectState(projectFile: string) {
 
     let projectDir = projectFile.substring(0, projectFile.lastIndexOf('/'));
 
@@ -116,6 +116,6 @@ export class ProjectService {
       saved: true
     });
 
-    this.nativeService.ensureDir(this.projectState.get().assetsDir);
+    await this.nativeService.ensureDir(this.projectState.get().assetsDir);
   }
 }

@@ -3,6 +3,8 @@ import { NativeService } from 'akos-common';
 import { ProjectService } from '../../core/services/project.service';
 import sanitize from 'sanitize-filename';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { fromPromise } from 'rxjs/internal-compatibility';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'page-create-project',
@@ -15,7 +17,7 @@ export class CreateProjectPage implements OnInit {
 
   projectForm = this.fb.group({
     filename: new FormControl('', [Validators.required, this.filenameValidator()]),
-    directory: new FormControl('', [Validators.required, this.directoryValidator()])
+    directory: new FormControl('', Validators.required, this.directoryAsyncValidator())
   })
 
   constructor(
@@ -45,7 +47,8 @@ export class CreateProjectPage implements OnInit {
     return (control: FormControl) => control?.value !== sanitize(control?.value) ? {filename: true} : null;
   }
 
-  private directoryValidator() {
-    return (control: FormControl) => this.projectService.isAkosDir(control?.value) ? {directory: true} : null;
+  private directoryAsyncValidator() {
+    return (control: FormControl) => fromPromise(this.projectService.isAkosDir(control?.value))
+      .pipe(map(isAkosDir => isAkosDir ? {directory: true} : null));
   }
 }

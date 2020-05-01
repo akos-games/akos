@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NativeService, NativeState } from 'akos-common';
 import { ProjectState } from '../states/project.state';
 import { ProjectService } from './project.service';
+import { UiService } from './ui.service';
 
 @Injectable()
 export class BuildService {
@@ -11,6 +12,7 @@ export class BuildService {
   constructor(
     private nativeService: NativeService,
     private projectService: ProjectService,
+    private uiService: UiService,
     private nativeState: NativeState,
     private projectState: ProjectState
   ) {
@@ -21,27 +23,31 @@ export class BuildService {
 
   async buildGame() {
 
+    this.uiService.startLoading();
     await this.projectService.saveProject();
 
     let distDir = this.projectState.get().distDir;
 
-    this.nativeService.remove(distDir);
-    this.nativeService.ensureDir(distDir);
-    this.nativeService.copy(this.engineDir, distDir);
+    await this.nativeService.remove(distDir);
+    await this.nativeService.ensureDir(distDir);
+    await this.nativeService.copy(this.engineDir, distDir);
 
-    this.buildDesktop('win');
-    this.buildDesktop('mac');
-    this.buildDesktop('linux');
+    await this.buildDesktop('win');
+    await this.buildDesktop('mac');
+    await this.buildDesktop('linux');
+
+    this.uiService.snackBar('Build success');
+    this.uiService.stopLoading();
   }
 
-  private buildDesktop(platform: string) {
+  private async buildDesktop(platform: string) {
 
     let projectSate = this.projectState.get();
     let distDir = projectSate.distDir;
 
-    if (this.nativeService.exists(`${distDir}/${platform}`)) {
-      this.nativeService.copy(projectSate.file, `${distDir}/${platform}/game-descriptor.akg`);
-      this.nativeService.copy(projectSate.assetsDir, `${distDir}/${platform}/assets`);
+    if (await this.nativeService.exists(`${distDir}/${platform}`)) {
+      await this.nativeService.copy(projectSate.file, `${distDir}/${platform}/game-descriptor.akg`);
+      await this.nativeService.copy(projectSate.assetsDir, `${distDir}/${platform}/assets`);
     }
   }
 }

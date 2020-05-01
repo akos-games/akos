@@ -3,6 +3,9 @@ import { format } from 'url';
 
 declare const global: any;
 
+// Prevent error when copying asar file
+process.noAsar = true;
+
 let mainWindow: BrowserWindow;
 
 // Default args values

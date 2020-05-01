@@ -19,17 +19,17 @@ export class ApplicationService {
 
     this.nativeState.getObservable()
       .pipe(filter(nativeContext => !!nativeContext))
-      .subscribe(() => {
-        let gameDescriptor = this.loadGameDescriptor();
+      .subscribe(async () => {
+        let gameDescriptor = await this.loadGameDescriptor();
         this.nativeService.setWindowTitle(gameDescriptor.game.name);
         this.gameService.newGame();
       });
   }
 
-  private loadGameDescriptor(): GameDescriptor {
+  private async loadGameDescriptor(): Promise<GameDescriptor> {
 
     let file = `${this.nativeState.get().workingDir}/game-descriptor.akg`;
-    let gameDescriptor = JSON.parse(this.nativeService.readFile(file));
+    let gameDescriptor = JSON.parse(await this.nativeService.readFile(file));
 
     this.gameDescriptorState.set(gameDescriptor);
     return gameDescriptor;
