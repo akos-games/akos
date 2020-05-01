@@ -29,19 +29,14 @@ export class ProjectService {
       gameState.getObservable(),
       scenesState.getObservable()
     )
-      .subscribe(() => {
-        let project = projectState.get();
-        if (project) {
-          project.saved = false;
-          projectState.set(project);
-        }
-      });
+      .pipe(filter(() => !!projectState.get()))
+      .subscribe(() => projectState.setSaved(false));
 
     projectState
       .getObservable()
       .pipe(
         debounceTime(2000),
-        filter(project => project && !project.saved)
+        filter(project => project && !project.saved && !project.building)
       )
       .subscribe(() => this.saveProject());
   }
@@ -65,10 +60,8 @@ export class ProjectService {
   }
 
   async saveProject() {
-    let project = this.projectState.get();
     await this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor()));
-    project.saved = true;
-    this.projectState.set(project);
+    this.projectState.setSaved(true);
   }
 
   async loadProject() {
@@ -113,7 +106,8 @@ export class ProjectService {
       dir: projectDir,
       assetsDir: `${projectDir}/assets`,
       distDir: `${projectDir}/dist`,
-      saved: true
+      saved: true,
+      building: false
     });
 
     await this.nativeService.ensureDir(this.projectState.get().assetsDir);

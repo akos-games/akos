@@ -4,7 +4,7 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <button *ngIf="project" mat-raised-button (click)="onBuildGame()">
+  <button *ngIf="project | async" mat-raised-button [disabled]="(project | async).building" (click)="onBuildGame()">
     <mat-icon>build</mat-icon>
     Build game
   </button>
@@ -13,22 +13,22 @@
 
 </mat-toolbar>
 
-<mat-progress-bar *ngIf="!loading" color="primary" mode="determinate" [value]="100"></mat-progress-bar>
-<mat-progress-bar *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar *ngIf="!(ui | async)?.loading" color="primary" mode="determinate" [value]="100"></mat-progress-bar>
+<mat-progress-bar *ngIf="(ui | async)?.loading" color="primary" mode="indeterminate"></mat-progress-bar>
 
 <mat-menu #rootMenu="matMenu">
 
-  <button mat-menu-item (click)="onCreate()">
+  <button mat-menu-item [disabled]="(project | async)?.building" (click)="onCreate()">
     <mat-icon>create_new_folder</mat-icon>
     New project
   </button>
 
-  <button mat-menu-item (click)="onOpen()">
+  <button mat-menu-item [disabled]="(project | async)?.building" (click)="onOpen()">
     <mat-icon>drive_file_move_outline</mat-icon>
     Open
   </button>
 
-  <button mat-menu-item [disabled]="!project" (click)="onClose()">
+  <button mat-menu-item [disabled]="!(project | async) || (project | async).building" (click)="onClose()">
     <mat-icon>close</mat-icon>
     Close
   </button>

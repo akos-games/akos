@@ -24,6 +24,7 @@ export class BuildService {
   async buildGame() {
 
     this.uiService.startLoading();
+    this.projectState.setBuilding(true);
     await this.projectService.saveProject();
 
     let distDir = this.projectState.get().distDir;
@@ -37,6 +38,7 @@ export class BuildService {
     await this.buildDesktop('linux');
 
     this.uiService.snackBar('Build success');
+    this.projectState.setBuilding(false);
     this.uiService.stopLoading();
   }
 

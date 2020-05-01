@@ -5,6 +5,8 @@ import { NativeService } from 'akos-common';
 import { ProjectState } from '../../../core/states/project.state';
 import { BuildService } from '../../../core/services/build.service';
 import { UiState } from '../../../core/states/ui.state';
+import { Observable } from 'rxjs';
+import { Ui } from '../../../core/types/ui';
 
 @Component({
   selector: 'ak-toolbar',
@@ -13,8 +15,8 @@ import { UiState } from '../../../core/states/ui.state';
 })
 export class ToolbarComponent implements OnInit {
 
-  project: Project;
-  loading = false;
+  project: Observable<Project>;
+  ui: Observable<Ui>;
 
   constructor(
     private projectService: ProjectService,
@@ -23,11 +25,11 @@ export class ToolbarComponent implements OnInit {
     private projectState: ProjectState,
     private uiState: UiState
   ) {
+    this.project = projectState.getObservable();
+    this.ui = this.uiState.getObservable();
   }
 
   ngOnInit() {
-    this.projectState.getObservable().subscribe(project => this.project = project);
-    this.uiState.getObservable().subscribe(ui => this.loading = ui.loading);
   }
 
   onCreate() {

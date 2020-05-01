@@ -4,4 +4,5 @@ export interface Project {
   assetsDir: string;
   distDir: string;
   saved: boolean;
+  building: boolean;
 }
