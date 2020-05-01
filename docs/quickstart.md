@@ -31,7 +31,7 @@ Come back to the game properties page and set all the required fields (marked wi
 
 Click on the `Build game` button in the top toolbar.
 
-Now open your file explorer and find your project file. You will notice a `dist` folder next to it, which contains your game deliverable.
+You can open the build folder by clicking the `Open build folder` menu item.
 
 Find game executable file and run it!
 

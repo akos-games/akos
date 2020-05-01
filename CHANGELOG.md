@@ -5,10 +5,14 @@
 ### Added
 
 - New project creation page.
+- Open `dist` folder from menu.
+- A loading indicator during build.
+- Snack bar notifications.
 
 ### Changed
 
-- Project is now saved automatically.
+- Project is saved automatically.
+- Project relative actions are disabled during build.
 
 ### Known issues
 
