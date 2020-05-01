@@ -60,8 +60,10 @@ export class ProjectService {
   }
 
   async saveProject() {
-    await this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor()));
-    this.projectState.setSaved(true);
+    if (this.projectState.get() && !this.projectState.get().saved) {
+      await this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor()));
+      this.projectState.setSaved(true);
+    }
   }
 
   async loadProject() {

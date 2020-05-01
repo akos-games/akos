@@ -62,6 +62,10 @@ export class NativeService {
     }));
   }
 
+  desktopOpen(fileOrDir: string): boolean {
+    return this.remote.shell.openItem(fileOrDir);
+  }
+
   async showOpenDialog(filters?: FileFilter[], options?: {create?: boolean, defaultPath?: string, directory?: boolean}): Promise<string> {
 
     let dialogOptions: any = {

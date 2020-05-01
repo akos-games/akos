@@ -10,12 +10,14 @@ import { ScenesState } from './states/scenes.state';
 import { UiService } from './services/ui.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UiState } from './states/ui.state';
+import { ApplicationService } from './services/application.service';
 
 @NgModule({
   imports: [
     MatSnackBarModule
   ],
   providers: [
+    ApplicationService,
     NativeService,
     ProjectService,
     BuildService,

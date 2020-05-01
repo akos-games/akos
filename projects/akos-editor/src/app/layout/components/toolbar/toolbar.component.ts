@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../core/services/project.service';
-import { Project } from '../../../core/types/project';
 import { NativeService } from 'akos-common';
 import { ProjectState } from '../../../core/states/project.state';
 import { BuildService } from '../../../core/services/build.service';
 import { UiState } from '../../../core/states/ui.state';
-import { Observable } from 'rxjs';
-import { Ui } from '../../../core/types/ui';
+import { map } from 'rxjs/operators';
+import { ApplicationService } from '../../../core/services/application.service';
 
 @Component({
   selector: 'ak-toolbar',
@@ -15,18 +14,18 @@ import { Ui } from '../../../core/types/ui';
 })
 export class ToolbarComponent implements OnInit {
 
-  project: Observable<Project>;
-  ui: Observable<Ui>;
+  project$ = this.projectState.getObservable();
+  ui$ = this.uiState.getObservable();
+  building$ = this.project$.pipe(map(project => project?.building));
+  loading$ = this.ui$.pipe(map(ui => ui?.loading));
 
   constructor(
     private projectService: ProjectService,
     private buildService: BuildService,
-    private nativeService: NativeService,
+    private applicationService: ApplicationService,
     private projectState: ProjectState,
     private uiState: UiState
   ) {
-    this.project = projectState.getObservable();
-    this.ui = this.uiState.getObservable();
   }
 
   ngOnInit() {
@@ -44,8 +43,12 @@ export class ToolbarComponent implements OnInit {
     this.projectService.closeProject();
   }
 
+  onOpenDistDir() {
+    this.applicationService.openDistDir();
+  }
+
   onQuit() {
-    this.nativeService.exit();
+    this.applicationService.closeApp();
   }
 
   onBuildGame() {
