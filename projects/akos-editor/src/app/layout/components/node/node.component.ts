@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TreeNode } from '../../types/tree-node';
+import { TreeNode } from '../../types/nodes/tree.node';
 
 @Component({
   selector: 'ak-node',

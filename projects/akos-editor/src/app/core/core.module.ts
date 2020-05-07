@@ -11,6 +11,8 @@ import { UiService } from './services/ui.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UiState } from './states/ui.state';
 import { ApplicationService } from './services/application.service';
+import { ThemeState } from './states/theme.state';
+import { ThemeService } from './services/theme.service';
 
 @NgModule({
   imports: [
@@ -23,11 +25,13 @@ import { ApplicationService } from './services/application.service';
     BuildService,
     UiService,
     GameService,
+    ThemeService,
     ScenesService,
     NativeState,
     ProjectState,
     UiState,
     GameState,
+    ThemeState,
     ScenesState
   ]
 })

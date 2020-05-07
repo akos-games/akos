@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { TreeNode } from '../../types/tree-node';
-import { GameNode } from '../../types/game-node';
-import { ScenesNode } from '../../types/scenes-node';
-import { SceneNode } from '../../types/scene-node';
+import { TreeNode } from '../../types/nodes/tree.node';
+import { GameNode } from '../../types/nodes/game.node';
+import { ScenesNode } from '../../types/nodes/scenes.node';
+import { SceneNode } from '../../types/nodes/scene.node';
 import { Router } from '@angular/router';
 import { ScenesService } from '../../../core/services/scenes.service';
 import { Scene } from 'akos-common';
 import { ScenesState } from '../../../core/states/scenes.state';
+import { ThemeNode } from '../../types/nodes/theme.node';
 
 @Component({
   selector: 'ak-sidebar',
@@ -21,6 +22,7 @@ export class SidebarComponent implements OnInit {
   dataSource: MatTreeNestedDataSource<TreeNode>;
 
   private readonly game: GameNode;
+  private readonly theme: ThemeNode;
   private readonly scenes: ScenesNode;
 
   constructor(
@@ -33,6 +35,7 @@ export class SidebarComponent implements OnInit {
     this.dataSource = new MatTreeNestedDataSource<TreeNode>();
 
     this.game = new GameNode();
+    this.theme = new ThemeNode();
     this.scenes = new ScenesNode(this.sceneService);
   }
 
@@ -40,6 +43,7 @@ export class SidebarComponent implements OnInit {
 
     this.dataSource.data = [
       this.game,
+      this.theme,
       this.scenes
     ];
 

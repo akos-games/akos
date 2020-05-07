@@ -1,21 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { GameService } from '../../core/services/game.service';
-import { GameState } from '../../core/states/game.state';
+import { ThemeService } from '../../core/services/theme.service';
+import { ThemeState } from '../../core/states/theme.state';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'page-game',
-  templateUrl: './game.page.html',
-  styleUrls: ['./game.page.scss']
+  selector: 'page-theme',
+  templateUrl: './theme.page.html',
+  styleUrls: ['./theme.page.scss']
 })
-export class GamePage implements OnInit, OnDestroy {
+export class ThemePage implements OnInit, OnDestroy {
 
-  gameForm = this.fb.group({
-    name: '',
-    version: '',
-    firstSceneId: null
+  themeForm = this.fb.group({
+    mainMenuBackground: ''
   });
 
   private silent = false;
@@ -23,29 +21,29 @@ export class GamePage implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private gameService: GameService,
-    private gameState: GameState
+    private themeService: ThemeService,
+    private themeState: ThemeState
   ) {
   }
 
   ngOnInit() {
 
-    this.gameState
+    this.themeState
       .getObservable()
       .pipe(
         takeUntil(this.unsubscribe$),
         filter(() => !this.silent)
       )
-      .subscribe(game => this.gameForm.patchValue(game));
+      .subscribe(theme => this.themeForm.patchValue(theme));
 
-    this.gameForm.valueChanges
+    this.themeForm.valueChanges
       .pipe(
         takeUntil(this.unsubscribe$),
         debounceTime(500)
       )
-      .subscribe(game => {
+      .subscribe(theme => {
         this.silent = true;
-        this.gameService.updateGame(game)
+        this.themeService.updateTheme(theme)
         this.silent = false;
       });
   }

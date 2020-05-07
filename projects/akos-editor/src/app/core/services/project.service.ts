@@ -9,6 +9,8 @@ import { ProjectState } from '../states/project.state';
 import { merge } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { version } from  '../../../../../../package.json';
+import { ThemeState } from '../states/theme.state';
+import { ThemeService } from './theme.service';
 
 @Injectable()
 export class ProjectService {
@@ -19,14 +21,17 @@ export class ProjectService {
     private router: Router,
     private nativeService: NativeService,
     private gameService: GameService,
+    private themeService: ThemeService,
     private scenesService: ScenesService,
     private projectState: ProjectState,
     private gameState: GameState,
+    private themeState: ThemeState,
     private scenesState: ScenesState
   ) {
 
     merge(
       gameState.getObservable(),
+      themeState.getObservable(),
       scenesState.getObservable()
     )
       .pipe(filter(() => !!projectState.get()))
@@ -89,13 +94,15 @@ export class ProjectService {
   private resetProject() {
     this.projectState.set(null);
     this.gameService.resetGame();
+    this.themeService.resetTheme();
     this.scenesService.resetScenes();
   }
 
   private getGameDescriptor(): GameDescriptor {
     return {
       game: this.gameState.get(),
-      scenes: this.scenesState.get()
+      scenes: this.scenesState.get(),
+      theme: this.themeState.get()
     };
   }
 
