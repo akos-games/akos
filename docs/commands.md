@@ -1,5 +1,5 @@
-| [Quickstart](quickstart.md) | [Scenes](scenes.md) | Commands |
-| --- | --- | --- |
+| [Quickstart](quickstart.md) | [Scenes](scenes.md) | Commands | [Theming](theming.md)
+| --- | --- | --- | --- |
 
 # Commands
 
