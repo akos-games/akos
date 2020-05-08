@@ -4,10 +4,12 @@
 
 ### Added
 
-- New project creation page.
+- Game main menu.
+- Editor _Theme_ page, from which main menu background can be customized.
+- Project creation page.
 - Open `dist` folder from menu.
-- A loading indicator during build.
-- Snack bar notifications.
+- Loading indicator during build.
+- Editor snack bar notifications.
 
 ### Changed
 
