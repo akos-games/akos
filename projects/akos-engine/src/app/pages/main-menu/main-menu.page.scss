@@ -13,7 +13,6 @@ img {
 
 .menu {
   position: absolute;
-  margin: auto;
   background: rgba(0, 0, 0, 0.75);
 
   .item {
@@ -30,4 +29,13 @@ img {
     cursor: pointer;
     background: rgba(255, 255, 255, 0.25);
   }
+}
+
+.version {
+  position: absolute;
+  color: white;
+  bottom: 0;
+  left: 0;
+  margin: 0.3em;
+  font-size: 0.5em;
 }
