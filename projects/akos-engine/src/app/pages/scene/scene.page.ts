@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { SceneService } from '../../core/services/scene.service';
 import { AssetService } from '../../core/services/asset.service';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { GameState } from '../../core/states/game.state';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'page-scene',
@@ -11,12 +12,14 @@ import { GameState } from '../../core/states/game.state';
   styleUrls: ['./scene.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScenePage implements OnInit {
+export class ScenePage implements OnInit, OnDestroy {
 
   pictureUrl: string;
   fullscreen: boolean;
   textContent: string;
   textVisible: boolean;
+
+  private unsubscribe$ = new Subject();
 
   constructor(
     private gameState: GameState,
@@ -34,7 +37,10 @@ export class ScenePage implements OnInit {
   ngOnInit() {
 
     this.gameState.getObservable()
-      .pipe(filter(game => !!game?.scene))
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(game => !!game?.scene)
+      )
       .subscribe(game => {
         this.pictureUrl = this.assetService.getAssetUrl(game.scene.picture.asset);
         this.fullscreen = game.scene.picture.fullscreen;
@@ -47,5 +53,10 @@ export class ScenePage implements OnInit {
   @HostListener('click')
   onClick() {
     this.sceneService.nextCommand();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

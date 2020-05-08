@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HotkeyModule } from 'angular2-hotkeys';
-import { SceneModule } from './pages/scene/scene.module';
 import { CoreModule } from './core/core.module';
 
 @NgModule({
@@ -14,8 +13,7 @@ import { CoreModule } from './core/core.module';
     BrowserModule,
     AppRoutingModule,
     HotkeyModule.forRoot(),
-    CoreModule,
-    SceneModule
+    CoreModule
   ],
   bootstrap: [
     AppComponent

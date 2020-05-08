@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { SceneService } from './scene.service';
 import { GameDescriptorState } from '../states/game-descriptor.state';
 import { GameState } from '../states/game.state';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class GameService {
 
   constructor(
+    private router: Router,
     private gameState: GameState,
     private gameDescriptorState: GameDescriptorState,
     private sceneService: SceneService
@@ -21,5 +23,6 @@ export class GameService {
 
     this.gameState.applyChanges();
     this.sceneService.startScene(this.gameDescriptorState.get().game.firstSceneId);
+    this.router.navigateByUrl('/scene');
   }
 }

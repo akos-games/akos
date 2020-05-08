@@ -1,0 +1,15 @@
+<img *ngIf="backgroundUrl" [src]="backgroundUrl"/>
+
+<div class="menu">
+
+  <div class="item disabled">Continue</div>
+
+  <div class="item" (click)="newGame()">New game</div>
+
+  <div class="item disabled">Load game</div>
+
+  <div class="item disabled">Settings</div>
+
+  <div class="item" (click)="exit()">Exit</div>
+
+</div>

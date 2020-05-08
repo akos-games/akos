@@ -12,4 +12,5 @@ import { SceneRoutingModule } from './scene-routing.module';
     SceneRoutingModule
   ]
 })
-export class SceneModule { }
+export class SceneModule {
+}

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Command, NativeService, Scene } from 'akos-common';
 import { GameDescriptorState } from '../states/game-descriptor.state';
 import { GameState } from '../states/game.state';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class SceneService {
@@ -9,6 +10,7 @@ export class SceneService {
   private scene: Scene;
 
   constructor(
+    private router: Router,
     private gameState: GameState,
     private gameDescriptorState: GameDescriptorState,
     private nativeService: NativeService
@@ -24,7 +26,8 @@ export class SceneService {
 
       let commandIndex = this.gameState.get().scene.commandIndex;
       if (this.scene.commands.length <= commandIndex) {
-        this.nativeService.exit();
+        this.router.navigateByUrl('/main-menu');
+        return;
       }
 
       command = this.scene.commands[commandIndex];

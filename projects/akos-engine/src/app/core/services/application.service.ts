@@ -22,8 +22,11 @@ export class ApplicationService {
       .subscribe(async () => {
         let gameDescriptor = await this.loadGameDescriptor();
         this.nativeService.setWindowTitle(gameDescriptor.game.name);
-        this.gameService.newGame();
       });
+  }
+
+  exit() {
+    this.nativeService.exit();
   }
 
   private async loadGameDescriptor(): Promise<GameDescriptor> {

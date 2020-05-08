@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.menu {
+  position: absolute;
+  margin: auto;
+  background: rgba(0, 0, 0, 0.75);
+
+  .item {
+    color: white;
+    text-align: center;
+    padding: 0.3em 3em;
+  }
+
+  .item.disabled {
+    color: grey;
+  }
+
+  .item:hover:not(.disabled) {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
