@@ -3,6 +3,7 @@ import { GameDescriptor, NativeService, NativeState } from 'akos-common';
 import { filter } from 'rxjs/operators';
 import { GameDescriptorState } from '../states/game-descriptor.state';
 import { GameService } from './game.service';
+import { SettingsService } from './settings.service';
 
 @Injectable()
 export class ApplicationService {
@@ -11,6 +12,7 @@ export class ApplicationService {
     private nativeState: NativeState,
     private nativeService: NativeService,
     private gameService: GameService,
+    private settingsService: SettingsService,
     private gameDescriptorState: GameDescriptorState
   ) {
   }
@@ -20,6 +22,7 @@ export class ApplicationService {
     this.nativeState.getObservable()
       .pipe(filter(nativeContext => !!nativeContext))
       .subscribe(async () => {
+        await this.settingsService.loadSettings();
         let gameDescriptor = await this.loadGameDescriptor();
         this.nativeService.setWindowTitle(gameDescriptor.game.name);
       });

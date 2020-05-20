@@ -1,0 +1,22 @@
+label,
+input {
+  cursor: pointer;
+}
+
+[type="checkbox"] {
+  position: relative;
+  appearance: none;
+  margin: auto 0.5em;
+  border: solid 0.1em white;
+  width: 0.8em;
+  height: 0.8em;
+  font-size: 1em;
+  outline: none;
+}
+
+[type="checkbox"]:checked::after {
+  position: absolute;
+  content: "\00d7";
+  color: white;
+  top: -0.25em;
+}

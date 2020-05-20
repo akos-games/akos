@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Command, NativeService, Scene } from 'akos-common';
+import { Command, Scene } from 'akos-common';
 import { GameDescriptorState } from '../states/game-descriptor.state';
 import { GameState } from '../states/game.state';
 import { Router } from '@angular/router';
@@ -12,8 +12,7 @@ export class SceneService {
   constructor(
     private router: Router,
     private gameState: GameState,
-    private gameDescriptorState: GameDescriptorState,
-    private nativeService: NativeService
+    private gameDescriptorState: GameDescriptorState
   ) {
   }
 
@@ -50,9 +49,9 @@ export class SceneService {
           break;
       }
 
-      let state = this.gameState.get();
-      state.scene.commandIndex++;
-      this.gameState.set(state);
+      let game = this.gameState.get();
+      game.scene.commandIndex++;
+      this.gameState.set(game);
 
     } while (!command.parameters.waitForPlayer && !nextSceneId);
 
@@ -65,10 +64,10 @@ export class SceneService {
 
   startScene(sceneId: number) {
 
-    let state = this.gameState.get();
+    let game = this.gameState.get();
 
     this.scene = this.gameDescriptorState.getScene(sceneId);
-    state.scene = {
+    game.scene = {
       sceneId,
       commandIndex: 0,
       picture: {
@@ -80,27 +79,27 @@ export class SceneService {
         visible: false
       }
     };
-    this.gameState.set(state);
+    this.gameState.set(game);
     this.nextCommand();
   }
 
   displayPicture(asset: string, fullscreen: boolean) {
-    let state = this.gameState.get();
-    state.scene.picture.asset = asset;
-    state.scene.picture.fullscreen = fullscreen;
-    this.gameState.set(state);
+    let game = this.gameState.get();
+    game.scene.picture.asset = asset;
+    game.scene.picture.fullscreen = fullscreen;
+    this.gameState.set(game);
   }
 
   displayText(content: string) {
-    let state = this.gameState.get();
-    state.scene.text.content = content;
-    state.scene.text.visible = true;
-    this.gameState.set(state);
+    let game = this.gameState.get();
+    game.scene.text.content = content;
+    game.scene.text.visible = true;
+    this.gameState.set(game);
   }
 
   hideText() {
-    let state = this.gameState.get();
-    state.scene.text.visible = false;
-    this.gameState.set(state);
+    let game = this.gameState.get();
+    game.scene.text.visible = false;
+    this.gameState.set(game);
   }
 }

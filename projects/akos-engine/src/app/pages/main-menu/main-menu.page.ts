@@ -5,6 +5,7 @@ import { ApplicationService } from '../../core/services/application.service';
 import { GameService } from '../../core/services/game.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SettingsService } from '../../core/services/settings.service';
 
 @Component({
   selector: 'ak-main-menu',
@@ -22,7 +23,8 @@ export class MainMenuPage implements OnInit, OnDestroy {
     private applicationService: ApplicationService,
     private assetService: AssetService,
     private gameDescriptorState: GameDescriptorState,
-    private gameService: GameService
+    private gameService: GameService,
+    private settingsService: SettingsService
   ) {
   }
 
@@ -37,16 +39,20 @@ export class MainMenuPage implements OnInit, OnDestroy {
       });
   }
 
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
   newGame() {
     this.gameService.newGame();
   }
 
-  exit() {
-    this.applicationService.exit();
+  showSettings() {
+    this.settingsService.showSettings();
   }
 
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+  exit() {
+    this.applicationService.exit();
   }
 }

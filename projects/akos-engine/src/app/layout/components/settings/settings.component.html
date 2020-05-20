@@ -1,0 +1,20 @@
+<div class="tabs">
+  <div class="tab selected">Display</div>
+</div>
+
+<div class="settings">
+
+  <form [formGroup]="settingsForm">
+
+    <label class="setting">
+      <input type="checkbox" formControlName="fullscreen"/>
+      Fullscreen (Alt+Enter)
+    </label>
+
+  </form>
+
+</div>
+
+<div class="buttons">
+  <div class="button" (click)="back()">Back</div>
+</div>

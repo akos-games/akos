@@ -26,3 +26,22 @@ $ratio: 0.5625;
     @include resize($width, $height);
   }
 }
+
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.blur {
+  filter: blur(0.5em);
+}
+
+.overlay {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}

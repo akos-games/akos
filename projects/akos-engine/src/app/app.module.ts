@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HotkeyModule } from 'angular2-hotkeys';
 import { CoreModule } from './core/core.module';
+import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { CoreModule } from './core/core.module';
     BrowserModule,
     AppRoutingModule,
     HotkeyModule.forRoot(),
-    CoreModule
+    CoreModule,
+    LayoutModule
   ],
   bootstrap: [
     AppComponent

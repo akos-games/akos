@@ -94,6 +94,10 @@ export class NativeService {
     return path;
   }
 
+  setFullscreen(fullscreen: boolean) {
+    this.remote.getCurrentWindow().setFullScreen(fullscreen);
+  }
+
   setWindowTitle(title: string) {
     this.remote.getCurrentWindow().setTitle(title);
   }

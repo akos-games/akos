@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApplicationService } from './core/services/application.service';
+import { UiState } from './core/states/ui.state';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,12 @@ import { ApplicationService } from './core/services/application.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private applicationService: ApplicationService) {
+  displaySettings$ = this.uiState.getObservable().pipe(map(ui => ui.displaySettings));
+
+  constructor(
+    private applicationService: ApplicationService,
+    private uiState: UiState
+  ) {
   }
 
   ngOnInit() {

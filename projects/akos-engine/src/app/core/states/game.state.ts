@@ -1,6 +1,20 @@
 import { Injectable } from '@angular/core';
 import { deepCopy, State } from 'akos-common';
-import { Game } from '../types/game';
+
+export interface Game {
+  scene: {
+    sceneId: number;
+    commandIndex: number;
+    picture: {
+      asset: string;
+      fullscreen: boolean;
+    },
+    text: {
+      content: string;
+      visible: boolean;
+    }
+  }
+}
 
 @Injectable()
 export class GameState extends State<Game> {

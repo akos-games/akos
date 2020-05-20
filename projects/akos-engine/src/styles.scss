@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import "assets/styles/forms";
 
 html, body {
   background-color: black;
   user-select: none;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: white;
 }
