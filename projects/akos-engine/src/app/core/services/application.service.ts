@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameDescriptor, NativeService, NativeState } from 'akos-common';
-import { filter } from 'rxjs/operators';
+import { filter, first } from 'rxjs/operators';
 import { GameDescriptorState } from '../states/game-descriptor.state';
 import { GameService } from './game.service';
 import { SettingsService } from './settings.service';
@@ -20,11 +20,14 @@ export class ApplicationService {
   start() {
 
     this.nativeState.getObservable()
-      .pipe(filter(nativeContext => !!nativeContext))
+      .pipe(
+        filter(nativeContext => !!nativeContext),
+        first()
+      )
       .subscribe(async () => {
-        await this.settingsService.loadSettings();
         let gameDescriptor = await this.loadGameDescriptor();
-        this.nativeService.setWindowTitle(gameDescriptor.game.name);
+        this.nativeService.setAppName(gameDescriptor.game.name);
+        await this.settingsService.loadSettings();
       });
   }
 

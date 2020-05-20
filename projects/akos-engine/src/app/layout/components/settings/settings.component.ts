@@ -3,7 +3,7 @@ import { SettingsService } from '../../../core/services/settings.service';
 import { FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { SettingsState } from '../../../core/states/settings.state';
-import { filter, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 
 @Component({
@@ -17,7 +17,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
     fullscreen: false
   });
 
-  private silent = false;
   private unsubscribe$ = new Subject();
 
   constructor(
@@ -37,16 +36,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.settingsState
       .getObservable()
       .pipe(
-        takeUntil(this.unsubscribe$),
-        filter(() => !this.silent)
+        takeUntil(this.unsubscribe$)
       )
-      .subscribe(settings => this.settingsForm.setValue(settings));
+      .subscribe(settings => this.settingsForm.setValue(settings, {emitEvent: false}));
 
     this.settingsForm.valueChanges
-      .subscribe(settings => {
-        this.silent = true;
-        this.settingsService.saveSettings(settings);
-        this.silent = false;
+      .subscribe(async settings => {
+        await this.settingsService.saveSettings(settings);
       });
   }
 
@@ -57,5 +53,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   back() {
     this.settingsService.hideSettings();
+  }
+
+  async restoreDefaults() {
+    await this.settingsService.restoreDefaults();
   }
 }

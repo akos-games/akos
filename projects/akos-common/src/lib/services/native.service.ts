@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FileFilter } from 'electron';
 import { NativeState } from '../states/native.state';
+import sanitize from 'sanitize-filename';
 
 @Injectable()
 export class NativeService {
@@ -92,6 +93,14 @@ export class NativeService {
     }
 
     return path;
+  }
+
+  setAppName(name: string) {
+    this.setWindowTitle(name);
+    this.nativeState.set({
+      ...this.nativeState.get(),
+      appDataDir: `${this.remote.app.getPath('appData')}/${sanitize(name)}`
+    });
   }
 
   setFullscreen(fullscreen: boolean) {
