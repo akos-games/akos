@@ -1,7 +1,12 @@
 import { app, BrowserWindow } from 'electron';
 import { format } from 'url';
+import * as fs from 'fs-extra';
 
 declare const global: any;
+
+// Needed to include fs-extra in Electron build
+// noinspection BadExpressionStatementJS
+fs;
 
 let mainWindow: BrowserWindow;
 
