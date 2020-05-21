@@ -4,8 +4,11 @@
 
 ### Added
 
-- Game main menu.
+- In-game main menu.
 - Editor _Theme_ page, from which main menu background can be customized.
+- In-game settings menu.
+- In-game fullscreen / windowed mode setting.
+- Switch in-game fullscreen mode by pressing Alt+Enter.
 - Project creation page.
 - Open `dist` folder from menu.
 - Loading indicator during build.
