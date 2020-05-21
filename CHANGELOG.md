@@ -6,6 +6,7 @@
 
 - In-game main menu.
 - Editor _Theme_ page, from which main menu background can be customized.
+- In-game pause menu.
 - In-game settings menu.
 - In-game fullscreen / windowed mode setting.
 - Switch in-game fullscreen mode by pressing Alt+Enter.
@@ -16,7 +17,7 @@
 
 ### Changed
 
-- Project is saved automatically.
+- Project is automatically saved.
 - Project relative actions are disabled during build.
 
 ### Known issues

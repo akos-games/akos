@@ -25,4 +25,14 @@ export class GameService {
     this.sceneService.startScene(this.gameDescriptorState.get().game.firstSceneId);
     this.router.navigateByUrl('/scene');
   }
+
+  exitGame() {
+
+    this.router.navigateByUrl('/main-menu');
+
+    this.gameState.set({
+      scene: null
+    });
+    this.gameState.applyChanges();
+  }
 }

@@ -1,7 +1,11 @@
 <div class="wrapper">
 
-  <img *ngIf="pictureUrl" src="{{pictureUrl}}" [class.fullscreen]="fullscreen"/>
+  <div class="canva">
+    <img *ngIf="pictureUrl" src="{{pictureUrl}}" [class.fullscreen]="fullscreen"/>
+  </div>
 
   <div *ngIf="textVisible" class="text-container" [innerHTML]="textContent"></div>
 
 </div>
+
+<ak-pause-menu *ngIf="showPauseMenu" (close)="showPauseMenu = false"></ak-pause-menu>

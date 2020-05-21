@@ -19,6 +19,8 @@ export class ScenePage implements OnInit, OnDestroy {
   textContent: string;
   textVisible: boolean;
 
+  showPauseMenu = false;
+
   private unsubscribe$ = new Subject();
 
   constructor(
@@ -28,10 +30,20 @@ export class ScenePage implements OnInit, OnDestroy {
     private hotkeysService: HotkeysService,
     private cdRef: ChangeDetectorRef
   ) {
-    this.hotkeysService.add(new Hotkey('space', () => {
-      this.sceneService.nextCommand();
-      return false;
-    }));
+
+    this.hotkeysService.add([
+      new Hotkey('space', () => {
+        if (!this.showPauseMenu) {
+          this.sceneService.nextCommand();
+        }
+        return false;
+      }),
+      new Hotkey('esc', () => {
+        this.showPauseMenu = !this.showPauseMenu;
+        this.cdRef.detectChanges();
+        return false;
+      })
+    ]);
   }
 
   ngOnInit() {
@@ -52,7 +64,9 @@ export class ScenePage implements OnInit, OnDestroy {
 
   @HostListener('click')
   onClick() {
-    this.sceneService.nextCommand();
+    if (!this.showPauseMenu) {
+      this.sceneService.nextCommand();
+    }
   }
 
   ngOnDestroy() {
