@@ -32,7 +32,7 @@ possible to build an inconsistent game.
 
 - User-friendly editor
 - Game scenes
-- Build standalone executable game (Windows only at the moment$) 
+- Build standalone executable game (Windows only at the moment) 
 
 ### Known issues
 
