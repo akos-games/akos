@@ -81,6 +81,7 @@ export class ProjectService {
       data.game.akosVersion = version;
 
       this.gameState.set(data.game);
+      this.themeState.set(data.theme);
       this.scenesState.set(data.scenes);
       await this.buildProjectState(file);
       await this.router.navigateByUrl('/game');
