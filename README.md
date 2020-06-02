@@ -43,7 +43,11 @@ In this way, we hope to help novice game devs focus their creativity and **stay 
 If you want to say thanks and help this projet growing.
 
 <a href="https://paypal.me/grimwred">
-  <img src="https://img.shields.io/badge/donate via-paypal-blue?style=for-the-badge&logo=paypal"/>
+  <img src="https://img.shields.io/badge/become a-patron-F96854?style=for-the-badge&logo=patreon"/>
+</a>  
+<p></p>
+<a href="https://paypal.me/grimwred">
+  <img src="https://img.shields.io/badge/donate via-paypal-00457C?style=for-the-badge&logo=paypal"/>
 </a>
 
 ## License
