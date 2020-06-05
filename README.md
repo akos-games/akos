@@ -1,3 +1,5 @@
+<img  align="left" width="80" height="80" src="readme/akos.png"/>
+
 # Akos - Visual novel engine
 
 Akos is a nocode visual-novel engine. It features anything creators and artists needs to create professional quality games, focusing on art, script and game design, without wasting time and energy on coding.
