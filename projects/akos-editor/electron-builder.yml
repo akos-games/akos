@@ -1,9 +1,11 @@
 productName: "Akos Editor"
 artifactName: "akos-editor-${version}-${os}.${ext}"
 directories:
+  buildResources: "projects/akos-editor/build"
   output: "dist/build/akos-editor"
 files:
   - "package.json"
+  - "projects/akos-editor/build/icon.png"
   - from: "dist/compile/akos-editor"
     to: ""
     filter:

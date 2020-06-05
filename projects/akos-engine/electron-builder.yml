@@ -1,8 +1,10 @@
 productName: "Akos Engine"
 directories:
+  buildResources: "projects/akos-engine/build"
   output: "dist/build/akos-engine"
 files:
   - "package.json"
+    - "projects/akos-engine/build/icon.png"
   - from: "dist/compile/akos-engine"
     to: ""
     filter:
