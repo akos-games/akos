@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.0
+
+### Added
+
+### Changed
+
+- Editor visual theme.
+
+### Known issues
+
+- There is no project integrity check implemented yet, so it is 
+possible to build an inconsistent game. 
+- Game build could fail if a file explorer window is open at the `dist` folder location.
+
 ## 0.2.0 - 2020-05-25
 
 ### Added
@@ -30,9 +44,9 @@ possible to build an inconsistent game.
 
 ### Added
 
-- User-friendly editor
-- Game scenes
-- Build standalone executable game (Windows only at the moment) 
+- User-friendly editor.
+- Game scenes.
+- Build standalone executable game (Windows only at the moment) .
 
 ### Known issues
 
