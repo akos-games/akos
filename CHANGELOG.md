@@ -8,6 +8,10 @@
 
 - Editor visual theme.
 
+### Fixed
+
+- Deleting a scene shows welcome page
+
 ### Known issues
 
 - There is no project integrity check implemented yet, so it is 
