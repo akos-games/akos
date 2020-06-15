@@ -6,10 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AssetSelectorComponent } from './components/asset-selector/asset-selector.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { AssetSelectorComponent } from './components/asset-selector/asset-select
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
     MatButtonModule,
     MatCheckboxModule,
     MatFormFieldModule,
@@ -35,4 +38,8 @@ import { AssetSelectorComponent } from './components/asset-selector/asset-select
   ]
 })
 export class SharedModule {
+
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer){
+    matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('assets/mdi.svg'));
+  }
 }

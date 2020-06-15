@@ -12,6 +12,7 @@ import { NodeComponent } from './components/node/node.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   imports: [
     CommonModule,
     RouterModule,
+    SharedModule,
     MatButtonModule,
     MatDividerModule,
     MatIconModule,

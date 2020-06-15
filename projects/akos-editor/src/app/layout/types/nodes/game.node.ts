@@ -2,6 +2,6 @@ import { TreeNode } from './tree.node';
 
 export class GameNode implements TreeNode {
   name = 'Game';
-  icon = 'list_alt';
+  icon = 'clipboard-text';
   route = '/game';
 }

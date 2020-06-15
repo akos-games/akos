@@ -2,12 +2,12 @@
   width: 100%;
 }
 
-.candy-icon {
-  line-height: 40px !important;
-}
-
 .name {
   flex: 1 1 auto;
+}
+
+.leaf mat-icon {
+  margin: 8px;
 }
 
 .leaf, .clickable {

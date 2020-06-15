@@ -28,11 +28,13 @@ export class NodeComponent implements OnInit {
     return this.node.children.length > 0;
   }
 
-  onCreate() {
+  onCreate(event) {
+    event.stopPropagation();
     this.create.emit(this.node);
   }
 
-  onToggleExpand() {
+  onToggleExpand(event) {
+    event.stopPropagation();
     if (this.isExpandable()) {
       this.toggleExpand.emit(this.node);
     }

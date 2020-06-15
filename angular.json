@@ -24,8 +24,12 @@
             "tsConfig": "projects/akos-editor/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "projects/akos-editor/src/favicon.ico",
-              "projects/akos-editor/src/assets"
+              "projects/akos-editor/src/assets",
+              {
+                "glob": "mdi.svg",
+                "input": "node_modules/@mdi/angular-material",
+                "output": "assets"
+              }
             ],
             "styles": [
               "projects/akos-editor/src/assets/styles/theme.scss",
@@ -89,7 +93,6 @@
             "tsConfig": "projects/akos-editor/tsconfig.spec.json",
             "karmaConfig": "projects/akos-editor/karma.conf.js",
             "assets": [
-              "projects/akos-editor/src/favicon.ico",
               "projects/akos-editor/src/assets"
             ],
             "styles": [
@@ -147,7 +150,6 @@
             "tsConfig": "projects/akos-engine/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "projects/akos-engine/src/favicon.ico",
               "projects/akos-engine/src/assets"
             ],
             "styles": [
@@ -211,7 +213,6 @@
             "tsConfig": "projects/akos-engine/tsconfig.spec.json",
             "karmaConfig": "projects/akos-engine/karma.conf.js",
             "assets": [
-              "projects/akos-engine/src/favicon.ico",
               "projects/akos-engine/src/assets"
             ],
             "styles": [

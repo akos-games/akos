@@ -4,7 +4,7 @@ export class SceneNode implements TreeNode {
 
   id: number;
   name: string;
-  icon = 'movie_creation';
+  icon = 'movie-open';
   route: string;
 
   constructor(id: number, name: string) {

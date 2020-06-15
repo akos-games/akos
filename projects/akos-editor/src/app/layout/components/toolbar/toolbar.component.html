@@ -1,11 +1,11 @@
 <mat-toolbar color="primary">
 
   <button mat-icon-button [matMenuTriggerFor]="rootMenu">
-    <mat-icon>menu</mat-icon>
+    <mat-icon svgIcon="menu"></mat-icon>
   </button>
 
   <button *ngIf="project$ | async" mat-raised-button [disabled]="building$ | async" (click)="onBuildGame()">
-    <mat-icon>build</mat-icon>
+    <mat-icon svgIcon="hammer-wrench"></mat-icon>
     Build game
   </button>
 
@@ -19,43 +19,43 @@
 <mat-menu #rootMenu="matMenu">
 
   <button mat-menu-item [disabled]="building$ | async" (click)="onCreate()">
-    <mat-icon>create_new_folder</mat-icon>
+    <mat-icon svgIcon="folder-plus"></mat-icon>
     New project...
   </button>
 
   <button mat-menu-item [disabled]="building$ | async" (click)="onOpen()">
-    <mat-icon>drive_file_move_outline</mat-icon>
+    <mat-icon svgIcon="folder-open"></mat-icon>
     Open...
   </button>
 
   <button mat-menu-item *ngIf="project$ | async" [disabled]="building$ | async" (click)="onClose()">
-    <mat-icon>close</mat-icon>
+    <mat-icon svgIcon="close"></mat-icon>
     Close
   </button>
 
   <mat-divider *ngIf="project$ | async"></mat-divider>
 
   <button mat-menu-item *ngIf="project$ | async" [disabled]="building$ | async" (click)="onOpenDistDir()">
-    <mat-icon>folder_open</mat-icon>
+    <mat-icon svgIcon="folder-cog-outline"></mat-icon>
     Open build folder
   </button>
 
   <mat-divider></mat-divider>
 
   <button mat-menu-item disabled>
-    <mat-icon>library_books</mat-icon>
+    <mat-icon svgIcon="book-open-variant"></mat-icon>
     Documentation
   </button>
 
   <button mat-menu-item disabled>
-    <mat-icon>help</mat-icon>
+    <mat-icon svgIcon="help-circle"></mat-icon>
     About
   </button>
 
   <mat-divider></mat-divider>
 
   <button mat-menu-item (click)="onQuit()">
-    <mat-icon>exit_to_app</mat-icon>
+    <mat-icon svgIcon="exit-to-app"></mat-icon>
     Quit
   </button>
 

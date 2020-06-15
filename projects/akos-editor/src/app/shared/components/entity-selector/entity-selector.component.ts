@@ -41,7 +41,7 @@ export class EntitySelectorComponent implements OnInit, OnChanges, OnDestroy, Co
   constructor(private scenesState: ScenesState) {
     this.types = {
       scene: {
-        icon: 'movie_creation',
+        icon: 'movie-open',
         state: scenesState
       }
     }
