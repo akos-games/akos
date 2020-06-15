@@ -40,7 +40,7 @@ In this way, we hope to help novice game devs focus their creativity and **stay 
 
 ## Donations
 
-If you want to say thanks and help this projet growing.
+If you want to say thanks and help this project growing.
 
 <a href="https://www.patreon.com/akosgames">
   <img src="https://img.shields.io/badge/become a-patron-F96854?style=for-the-badge&logo=patreon"/>
