@@ -47,6 +47,10 @@ export class ToolbarComponent implements OnInit {
     this.applicationService.openDistDir();
   }
 
+  onOpenDocumentation() {
+    this.applicationService.openDocumentation();
+  }
+
   onQuit() {
     this.applicationService.closeApp();
   }

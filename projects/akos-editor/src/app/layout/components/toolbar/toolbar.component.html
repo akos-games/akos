@@ -42,9 +42,14 @@
 
   <mat-divider></mat-divider>
 
-  <button mat-menu-item disabled>
+  <button mat-menu-item (click)="onOpenDocumentation()">
     <mat-icon svgIcon="book-open-variant"></mat-icon>
     Documentation
+  </button>
+
+  <button mat-menu-item disabled>
+    <mat-icon svgIcon="heart"></mat-icon>
+    Contributors
   </button>
 
   <button mat-menu-item disabled>

@@ -3,6 +3,7 @@ import { ProjectService } from './project.service';
 import { NativeService } from 'akos-common';
 import { ProjectState } from '../states/project.state';
 import { UiService } from './ui.service';
+import { version } from  '../../../../../../package.json';
 
 @Injectable()
 export class ApplicationService {
@@ -31,5 +32,9 @@ export class ApplicationService {
         this.nativeService.desktopOpen(distDir);
       }
     }
+  }
+
+  async openDocumentation() {
+    this.nativeService.desktopOpen(`https://github.com/grimwred/akos/blob/v${version}/docs/quickstart.md`);
   }
 }

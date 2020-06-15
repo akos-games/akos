@@ -4,6 +4,8 @@
 
 ### Added
 
+- Open editor documentation from menu.
+
 ### Changed
 
 - Editor visual theme.
