@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NativeService } from 'akos-common';
 import { ProjectService } from '../../core/services/project.service';
 import sanitize from 'sanitize-filename';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'page-create-project',
   templateUrl: './create-project.page.html',
   styleUrls: ['./create-project.page.scss']
 })
-export class CreateProjectPage implements OnInit {
+export class CreateProjectPage implements OnInit, OnDestroy {
 
   projectFile = '';
-
   projectForm = this.fb.group({
     filename: new FormControl('', [Validators.required, this.filenameValidator()]),
     directory: new FormControl('', Validators.required, this.directoryAsyncValidator())
   })
+
+  private unsubscribe$ = new Subject();
 
   constructor(
     private fb: FormBuilder,
@@ -29,7 +31,13 @@ export class CreateProjectPage implements OnInit {
 
   ngOnInit(): void {
     this.projectForm.valueChanges
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(values => this.projectFile = `${values.directory}/${values.filename}.akp`)
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   async onSelectProjectDir() {
