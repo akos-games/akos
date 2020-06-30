@@ -17,6 +17,7 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CoreModule } from '../core/core.module';
+import { LayoutService } from './layout.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,12 @@ import { CoreModule } from '../core/core.module';
   exports: [
     SidebarComponent,
     ToolbarComponent
+  ],
+  providers: [
+    LayoutService
   ]
 })
 export class LayoutModule {
+  constructor(private layoutService: LayoutService) {
+  }
 }

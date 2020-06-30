@@ -8,8 +8,18 @@ export class UiState extends State<Ui> {
   constructor() {
     super();
     this.subject.next({
-      loading: false
-    })
+      loading: false,
+      errors: [],
+      errorDialogOpen: false
+    });
+  }
+
+  setErrorDialogOpen(open: boolean) {
+    this.set({...this.subject.value, errorDialogOpen: open});
+  }
+
+  setErrors(errors) {
+    this.set({...this.subject.value, errors});
   }
 
   setLoading(loading: boolean) {

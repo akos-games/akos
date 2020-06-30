@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UiState } from '../states/ui.state';
-import { MatDialog } from '@angular/material/dialog';
-import { ErrorDialogComponent } from '../../layout/components/error-dialog/error-dialog.component';
 
 @Injectable()
 export class UiService {
 
   constructor(
     private uiState: UiState,
-    private matSnackBar: MatSnackBar,
-    private matDialog: MatDialog
+    private matSnackBar: MatSnackBar
   ) {
   }
 
-  errorDialog(error: Error) {
-    this.matDialog.open(ErrorDialogComponent, {
-      disableClose: true,
-      data: error
-    });
+  enqueueError(error: Error) {
+    this.uiState.setErrors([...this.uiState.get().errors, {message: error.message, stack: error.stack}]);
+  }
+
+  dequeueError() {
+    this.uiState.setErrors(this.uiState.get().errors.splice(1));
   }
 
   snackBar(message: string, action = 'OK', actionFn = () => {}) {
@@ -35,5 +33,9 @@ export class UiService {
 
   stopLoading() {
     this.uiState.setLoading(false);
+  }
+
+  setErrorDialogOpen(open: boolean) {
+    this.uiState.setErrorDialogOpen(open);
   }
 }
