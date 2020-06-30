@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -6,6 +6,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+import { GlobalErrorHandler } from './shared/global-error.handler';
 
 @NgModule({
   declarations: [
@@ -16,8 +18,12 @@ import { CoreModule } from './core/core.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     MatSidenavModule,
+    SharedModule,
     CoreModule,
     LayoutModule
+  ],
+  providers: [
+    {provide: ErrorHandler, useClass: GlobalErrorHandler}
   ],
   bootstrap: [
     AppComponent

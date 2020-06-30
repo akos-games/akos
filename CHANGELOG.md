@@ -4,6 +4,7 @@
 
 ### Added
 
+- Display a popup when an error occurred in the editor.
 - Open editor documentation from menu.
 
 ### Changed
