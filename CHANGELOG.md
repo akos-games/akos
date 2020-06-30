@@ -14,6 +14,7 @@
 ### Fixed
 
 - Deleting a scene shows welcome page
+- "Esc" hotkey broken during game after opening settings
 
 ### Known issues
 

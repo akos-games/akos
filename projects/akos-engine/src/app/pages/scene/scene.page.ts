@@ -5,6 +5,7 @@ import { AssetService } from '../../core/services/asset.service';
 import { filter, takeUntil } from 'rxjs/operators';
 import { GameState } from '../../core/states/game.state';
 import { Subject } from 'rxjs';
+import { UiState } from '../../core/states/ui.state';
 
 @Component({
   selector: 'page-scene',
@@ -25,11 +26,55 @@ export class ScenePage implements OnInit, OnDestroy {
 
   constructor(
     private gameState: GameState,
+    private uiState: UiState,
     private sceneService: SceneService,
     private assetService: AssetService,
     private hotkeysService: HotkeysService,
     private cdRef: ChangeDetectorRef
   ) {
+  }
+
+  ngOnInit() {
+
+    this.initHotkeys();
+
+    this.gameState.getObservable()
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(game => !!game?.scene)
+      )
+      .subscribe(game => {
+        this.pictureUrl = this.assetService.getAssetUrl(game.scene.picture.asset);
+        this.fullscreen = game.scene.picture.fullscreen;
+        this.textContent = game.scene.text.content?.replace(/\n/g, '<br>');
+        this.textVisible = game.scene.text.visible;
+        this.cdRef.detectChanges();
+      });
+
+    this.uiState.getObservable()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => this.initHotkeys());
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  @HostListener('click')
+  onClick() {
+    if (!this.showPauseMenu) {
+      this.sceneService.nextCommand();
+    }
+  }
+
+  onPauseMenuClosed() {
+    this.showPauseMenu = false;
+    this.cdRef.detectChanges();
+    this.initHotkeys();
+  }
+
+  private initHotkeys() {
 
     this.hotkeysService.add([
       new Hotkey('space', () => {
@@ -44,33 +89,5 @@ export class ScenePage implements OnInit, OnDestroy {
         return false;
       })
     ]);
-  }
-
-  ngOnInit() {
-
-    this.gameState.getObservable()
-      .pipe(
-        takeUntil(this.unsubscribe$),
-        filter(game => !!game?.scene)
-      )
-      .subscribe(game => {
-        this.pictureUrl = this.assetService.getAssetUrl(game.scene.picture.asset);
-        this.fullscreen = game.scene.picture.fullscreen;
-        this.textContent = game.scene.text.content?.replace(/\n/g, '<br>');
-        this.textVisible = game.scene.text.visible;
-        this.cdRef.detectChanges();
-      });
-  }
-
-  @HostListener('click')
-  onClick() {
-    if (!this.showPauseMenu) {
-      this.sceneService.nextCommand();
-    }
-  }
-
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
   }
 }
