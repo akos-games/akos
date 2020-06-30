@@ -6,8 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
-import { GlobalErrorHandler } from './shared/global-error.handler';
+import { GlobalErrorHandler } from './layout/global-error.handler';
 
 @NgModule({
   declarations: [
@@ -17,10 +16,9 @@ import { GlobalErrorHandler } from './shared/global-error.handler';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MatSidenavModule,
-    SharedModule,
     CoreModule,
-    LayoutModule
+    LayoutModule,
+    MatSidenavModule
   ],
   providers: [
     {provide: ErrorHandler, useClass: GlobalErrorHandler}

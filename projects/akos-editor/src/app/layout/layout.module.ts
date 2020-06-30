@@ -13,9 +13,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SharedModule } from '../shared/shared.module';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
+    ErrorDialogComponent,
     NodeComponent,
     SidebarComponent,
     ToolbarComponent
@@ -25,13 +29,15 @@ import { SharedModule } from '../shared/shared.module';
     RouterModule,
     SharedModule,
     MatButtonModule,
+    MatDialogModule,
     MatDividerModule,
+    MatExpansionModule,
     MatIconModule,
     MatMenuModule,
+    MatProgressBarModule,
     MatRippleModule,
     MatToolbarModule,
-    MatTreeModule,
-    MatProgressBarModule
+    MatTreeModule
   ],
   exports: [
     SidebarComponent,

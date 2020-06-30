@@ -12,30 +12,24 @@ import { MatSelectModule } from '@angular/material/select';
 import { AssetSelectorComponent } from './components/asset-selector/asset-selector.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
     AssetSelectorComponent,
     CommandComponent,
-    EntitySelectorComponent,
-    ErrorDialogComponent
+    EntitySelectorComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatDialogModule,
-    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatSelectModule,
-    ReactiveFormsModule
+    MatSelectModule
   ],
   exports: [
     AssetSelectorComponent,
