@@ -13,9 +13,11 @@ import { UiState } from './states/ui.state';
 import { ApplicationService } from './services/application.service';
 import { ThemeState } from './states/theme.state';
 import { ThemeService } from './services/theme.service';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
+    MatDialogModule,
     MatSnackBarModule
   ],
   providers: [

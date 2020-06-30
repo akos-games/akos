@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { GlobalErrorHandler } from './layout/global-error.handler';
+import { GlobalErrorHandler } from './core/global-error.handler';
 
 @NgModule({
   declarations: [
