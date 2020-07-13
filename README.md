@@ -22,7 +22,7 @@ _Planned: :video_game: Steam integration_
 _Planned: :computer: Build games for / from Windows, Mac and Linux_  
 _Planned: :iphone: Build games for mobile_  
 
-## [Download](releases/latest)
+## [Download](https://github.com/akosgames/akos/releases/latest)
 
 ## [Quickstart and documentation](docs/quickstart.md)
 
