@@ -24,7 +24,7 @@ _Planned: :video_game: Steam integration_
 _Planned: :computer: Build games for / from Windows, Mac and Linux_  
 _Planned: :iphone: Build games for mobile_  
 
-## [Download](https://github.com/grimwred/akos/releases/latest)
+## [Download](https://github.com/akosgames/akos/releases/latest)
 
 ## [Quickstart and documentation](docs/quickstart.md)
 
@@ -39,18 +39,6 @@ Under these conditions, they quickly run out of a valuable resource that is impo
 Time needed to learn all the required skills to make a professional quality video game can be a source of discouragement for many creators. Akos has been designed to drastically reduce this time by **eliminating coding**, which is one of the most difficult game dev skills to master.
 
 In this way, we hope to help novice game devs focus their creativity and **stay motivated** throughout their project.
-
-## Donations
-
-If you want to say thanks and help this project growing.
-
-<a href="https://www.patreon.com/akosgames">
-  <img src="https://img.shields.io/badge/become a-patron-F96854?style=for-the-badge&logo=patreon"/>
-</a>  
-<p></p>
-<a href="https://paypal.me/grimwred">
-  <img src="https://img.shields.io/badge/donate via-paypal-00457C?style=for-the-badge&logo=paypal"/>
-</a>
 
 ## License
 

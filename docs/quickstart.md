@@ -5,7 +5,7 @@
 
 ## Download
 
-Download the [latest stable version](https://github.com/grimwred/akos/releases/latest).
+Download the [latest stable version](https://github.com/akosgames/akos/releases/latest).
 
 Extract it and run the `Akos Editor` executable file.
 
