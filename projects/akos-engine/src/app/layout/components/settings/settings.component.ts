@@ -34,7 +34,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   async ngOnInit() {
 
     this.settingsState
-      .getObservable()
+      .observe()
       .pipe(
         takeUntil(this.unsubscribe$)
       )

@@ -37,7 +37,7 @@ export class AssetSelectorComponent implements OnInit, OnChanges, OnDestroy, Con
 
     this.form.valueChanges.subscribe(value => this.propagateChange(value.file));
 
-    this.projectState.getObservable()
+    this.projectState.observe()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(project => this.assetsPath = project?.assetsDir);
   }

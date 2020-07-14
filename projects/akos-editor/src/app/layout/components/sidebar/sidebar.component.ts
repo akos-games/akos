@@ -47,7 +47,7 @@ export class SidebarComponent implements OnInit {
       this.scenes
     ];
 
-    this.scenesState.getObservable().subscribe(scenes => this.updateScenes(scenes));
+    this.scenesState.observe().subscribe(scenes => this.updateScenes(scenes));
   }
 
   isParent(index: number, node: TreeNode) {

@@ -30,15 +30,15 @@ export class ProjectService {
   ) {
 
     merge(
-      gameState.getObservable(),
-      themeState.getObservable(),
-      scenesState.getObservable()
+      gameState.observe(),
+      themeState.observe(),
+      scenesState.observe()
     )
       .pipe(filter(() => !!projectState.get()))
       .subscribe(() => projectState.setSaved(false));
 
     projectState
-      .getObservable()
+      .observe()
       .pipe(
         debounceTime(2000),
         filter(project => project && !project.saved && !project.building)

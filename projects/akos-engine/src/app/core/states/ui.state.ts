@@ -10,7 +10,7 @@ export class UiState extends State<Ui> {
 
   constructor() {
     super();
-    this.subject.next({
+    this.subject$.next({
       displaySettings: false
     });
   }

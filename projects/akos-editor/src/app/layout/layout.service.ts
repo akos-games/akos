@@ -13,7 +13,7 @@ export class LayoutService {
     private uiService: UiService,
     private matDialog: MatDialog
   ) {
-    this.uiState.getObservable()
+    this.uiState.observe()
       .pipe(
         filter(ui => ui.errors.length > 0 && !ui.errorDialogOpen),
         map(ui => ui.errors[0])

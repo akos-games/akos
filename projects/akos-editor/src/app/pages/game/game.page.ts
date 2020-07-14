@@ -31,7 +31,7 @@ export class GamePage implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.gameState
-      .getObservable()
+      .observe()
       .pipe(
         takeUntil(this.unsubscribe$),
         filter(() => !this.silent)

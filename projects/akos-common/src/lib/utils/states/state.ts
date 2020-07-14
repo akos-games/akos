@@ -3,17 +3,17 @@ import { deepCopy } from '../object';
 
 export class State<T> {
 
-  protected subject = new BehaviorSubject<T>(undefined);
+  protected subject$ = new BehaviorSubject<T>(undefined);
 
-  getObservable(): Observable<T> {
-    return this.subject.asObservable();
+  observe(): Observable<T> {
+    return this.subject$.asObservable();
   }
 
   get(): T {
-    return deepCopy(this.subject.value);
+    return deepCopy(this.subject$.value);
   }
 
   set(value: T) {
-    this.subject.next(deepCopy(value));
+    this.subject$.next(deepCopy(value));
   }
 }

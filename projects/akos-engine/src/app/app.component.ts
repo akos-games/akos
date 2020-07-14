@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
 
-  displaySettings$ = this.uiState.getObservable().pipe(map(ui => ui.displaySettings));
+  displaySettings$ = this.uiState.observe().pipe(map(ui => ui.displaySettings));
 
   constructor(
     private applicationService: ApplicationService,

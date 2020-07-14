@@ -16,7 +16,7 @@ export class BuildService {
     private nativeState: NativeState,
     private projectState: ProjectState
   ) {
-    nativeState.getObservable().subscribe(nativeContext =>
+    nativeState.observe().subscribe(nativeContext =>
       this.engineDir = nativeContext.serveDistDir ? `${nativeContext.serveDistDir}/build/akos-engine` : `${nativeContext.workingDir}/engine`
     );
   }

@@ -7,7 +7,7 @@ export class UiState extends State<Ui> {
 
   constructor() {
     super();
-    this.subject.next({
+    this.subject$.next({
       loading: false,
       errors: [],
       errorDialogOpen: false
@@ -15,14 +15,14 @@ export class UiState extends State<Ui> {
   }
 
   setErrorDialogOpen(open: boolean) {
-    this.set({...this.subject.value, errorDialogOpen: open});
+    this.set({...this.subject$.value, errorDialogOpen: open});
   }
 
   setErrors(errors) {
-    this.set({...this.subject.value, errors});
+    this.set({...this.subject$.value, errors});
   }
 
   setLoading(loading: boolean) {
-    this.set({...this.subject.value, loading});
+    this.set({...this.subject$.value, loading});
   }
 }

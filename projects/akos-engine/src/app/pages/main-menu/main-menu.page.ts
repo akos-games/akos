@@ -31,7 +31,7 @@ export class MainMenuPage implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.gameDescriptorState
-      .getObservable()
+      .observe()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(descriptor => {
         this.backgroundUrl = this.assetService.getAssetUrl(descriptor.theme.mainMenuBackground);

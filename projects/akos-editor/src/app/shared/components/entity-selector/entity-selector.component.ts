@@ -60,7 +60,7 @@ export class EntitySelectorComponent implements OnInit, OnChanges, OnDestroy, Co
       this.unsubscribe$ = new Subject();
 
       this.icon = this.types[this.type].icon;
-      this.types[this.type].state.getObservable()
+      this.types[this.type].state.observe()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(entities => this.entities = entities);
     }

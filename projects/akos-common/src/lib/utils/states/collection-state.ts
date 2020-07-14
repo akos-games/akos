@@ -14,7 +14,7 @@ export class CollectionState<T> extends State<T[]> {
 
   constructor() {
     super();
-    this.subject = new BehaviorSubject<T[]>([]);
+    this.subject$ = new BehaviorSubject<T[]>([]);
   }
 
   set(entities: T[]) {

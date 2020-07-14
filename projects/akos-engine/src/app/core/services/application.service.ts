@@ -19,7 +19,7 @@ export class ApplicationService {
 
   start() {
 
-    this.nativeState.getObservable()
+    this.nativeState.observe()
       .pipe(
         filter(nativeContext => !!nativeContext),
         first()

@@ -64,7 +64,7 @@ export class ScenePage implements OnInit, OnDestroy {
       .subscribe(value => this.scenesService.updateScene(value));
 
     this.scenesState
-      .getObservable()
+      .observe()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(scenes => {
         if (!scenes.some(scene => scene.id === this.sceneId)) {

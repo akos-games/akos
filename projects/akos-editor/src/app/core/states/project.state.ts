@@ -6,10 +6,10 @@ import { Injectable } from '@angular/core';
 export class ProjectState extends State<Project> {
 
   setBuilding(building: boolean) {
-    this.set({...this.subject.value, building})
+    this.set({...this.subject$.value, building})
   }
 
   setSaved(saved: boolean) {
-    this.set({...this.subject.value, saved})
+    this.set({...this.subject$.value, saved})
   }
 }

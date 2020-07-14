@@ -14,8 +14,8 @@ import { ApplicationService } from '../../../core/services/application.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  project$ = this.projectState.getObservable();
-  ui$ = this.uiState.getObservable();
+  project$ = this.projectState.observe();
+  ui$ = this.uiState.observe();
   building$ = this.project$.pipe(map(project => project?.building));
   loading$ = this.ui$.pipe(map(ui => ui?.loading));
 

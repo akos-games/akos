@@ -29,7 +29,7 @@ export class ThemePage implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.themeState
-      .getObservable()
+      .observe()
       .pipe(
         takeUntil(this.unsubscribe$),
         filter(() => !this.silent)

@@ -23,7 +23,7 @@ export class GameState extends State<Game> {
 
   constructor() {
     super();
-    this.unpublishedState = this.subject.getValue();
+    this.unpublishedState = this.subject$.getValue();
   }
 
   get(): Game {

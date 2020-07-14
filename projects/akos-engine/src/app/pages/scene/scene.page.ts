@@ -38,7 +38,7 @@ export class ScenePage implements OnInit, OnDestroy {
 
     this.initHotkeys();
 
-    this.gameState.getObservable()
+    this.gameState.observe()
       .pipe(
         takeUntil(this.unsubscribe$),
         filter(game => !!game?.scene)
@@ -51,7 +51,7 @@ export class ScenePage implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
       });
 
-    this.uiState.getObservable()
+    this.uiState.observe()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => this.initHotkeys());
   }
