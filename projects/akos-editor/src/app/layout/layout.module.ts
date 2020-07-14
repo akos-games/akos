@@ -17,7 +17,8 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CoreModule } from '../core/core.module';
-import { LayoutService } from './layout.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NotificationService } from './services/notification.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { LayoutService } from './layout.service';
     MatMenuModule,
     MatProgressBarModule,
     MatRippleModule,
+    MatSnackBarModule,
     MatToolbarModule,
     MatTreeModule
   ],
@@ -47,10 +49,10 @@ import { LayoutService } from './layout.service';
     ToolbarComponent
   ],
   providers: [
-    LayoutService
+    NotificationService
   ]
 })
 export class LayoutModule {
-  constructor(private layoutService: LayoutService) {
+  constructor(private notificationService: NotificationService) {
   }
 }

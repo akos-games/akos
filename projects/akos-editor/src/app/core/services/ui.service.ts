@@ -1,30 +1,23 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { UiState } from '../states/ui.state';
+import { Notification } from '../types/notification';
 
 @Injectable()
 export class UiService {
 
   constructor(
-    private uiState: UiState,
-    private matSnackBar: MatSnackBar
+    private uiState: UiState
   ) {
   }
 
-  enqueueError(error: Error) {
-    this.uiState.setErrors([...this.uiState.get().errors, {message: error.message, stack: error.stack}]);
+  error(error) {
+    this.uiState.setError(error);
   }
 
-  dequeueError() {
-    this.uiState.setErrors(this.uiState.get().errors.splice(1));
-  }
-
-  snackBar(message: string, action = 'OK', actionFn = () => {}) {
-    this.matSnackBar.open(message, action, {
-      verticalPosition: 'top'
-    })
-      .onAction()
-      .subscribe(() => actionFn());
+  notify(message: string);
+  notify(notification: Notification);
+  notify(notification) {
+    this.uiState.setNotification(typeof notification === 'string' ? {message: notification} : notification);
   }
 
   startLoading() {
@@ -33,9 +26,5 @@ export class UiService {
 
   stopLoading() {
     this.uiState.setLoading(false);
-  }
-
-  setErrorDialogOpen(open: boolean) {
-    this.uiState.setErrorDialogOpen(open);
   }
 }

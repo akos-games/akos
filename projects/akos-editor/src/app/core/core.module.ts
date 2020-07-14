@@ -8,16 +8,12 @@ import { ProjectState } from './states/project.state';
 import { GameState } from './states/game.state';
 import { ScenesState } from './states/scenes.state';
 import { UiService } from './services/ui.service';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UiState } from './states/ui.state';
 import { ApplicationService } from './services/application.service';
 import { ThemeState } from './states/theme.state';
 import { ThemeService } from './services/theme.service';
 
 @NgModule({
-  imports: [
-    MatSnackBarModule
-  ],
   providers: [
     ApplicationService,
     NativeService,

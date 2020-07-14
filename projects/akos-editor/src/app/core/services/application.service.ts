@@ -27,7 +27,7 @@ export class ApplicationService {
 
       let distDir = this.projectState.get().distDir;
       if (!await this.nativeService.exists(distDir)) {
-        this.uiService.snackBar('Game has not been built yet');
+        this.uiService.notify('Game has not been built yet');
       } else {
         this.nativeService.desktopOpen(distDir);
       }

@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UiService } from '../../../core/services/ui.service';
 
 @Component({
   selector: 'ak-error-dialog',
@@ -9,17 +8,9 @@ import { UiService } from '../../../core/services/ui.service';
 })
 export class ErrorDialogComponent implements OnInit {
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public error: Error,
-    private uiService: UiService
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public error: Error) {
   }
 
   ngOnInit() {
-  }
-
-  onClose() {
-    this.uiService.dequeueError();
-    this.uiService.setErrorDialogOpen(false);
   }
 }

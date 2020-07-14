@@ -37,7 +37,7 @@ export class BuildService {
     await this.buildDesktop('mac');
     await this.buildDesktop('linux');
 
-    this.uiService.snackBar('Build success');
+    this.uiService.notify('Build success');
     this.projectState.setBuilding(false);
     this.uiService.stopLoading();
   }

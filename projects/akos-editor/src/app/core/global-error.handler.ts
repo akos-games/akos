@@ -9,6 +9,6 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   handleError(error) {
     console.error(error);
-    this.uiService.enqueueError(error);
+    this.uiService.error(error);
   }
 }
