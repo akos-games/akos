@@ -11,6 +11,8 @@ import { map } from 'rxjs/operators';
 export class AppComponent implements OnInit {
 
   displaySettings$ = this.uiState.observe().pipe(map(ui => ui.displaySettings));
+  displayError$ = this.uiState.observeError();
+  windowOpen$ = this.uiState.observeWindowOpen();
 
   constructor(
     private applicationService: ApplicationService,

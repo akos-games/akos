@@ -1,0 +1,28 @@
+:host {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.error {
+  padding: 1em;
+  
+   pre {
+     font-size: 0.6em;
+     user-select: text;
+   }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  text-align: center;
+  padding: 0.3em 3em;
+}
+
+.button:hover {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.25);
+}

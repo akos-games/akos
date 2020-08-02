@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { ProjectService } from './services/project.service';
 import { ScenesService } from './services/scenes.service';
 import { BuildService } from './services/build.service';
@@ -12,9 +12,11 @@ import { UiState } from './states/ui.state';
 import { ApplicationService } from './services/application.service';
 import { ThemeState } from './states/theme.state';
 import { ThemeService } from './services/theme.service';
+import { GlobalErrorHandler } from './global-error.handler';
 
 @NgModule({
   providers: [
+    {provide: ErrorHandler, useClass: GlobalErrorHandler},
     ApplicationService,
     NativeService,
     ProjectService,

@@ -1,7 +1,11 @@
-<div class="page" [class.blur]="displaySettings$ | async">
+<div class="page" [class.blur]="windowOpen$ | async">
   <router-outlet></router-outlet>
 </div>
 
 <div class="overlay" *ngIf="displaySettings$ | async">
   <ak-settings></ak-settings>
+</div>
+
+<div class="overlay" *ngIf="displayError$ | async">
+  <ak-error></ak-error>
 </div>

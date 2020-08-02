@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { GameService } from './services/game.service';
 import { AssetService } from './services/asset.service';
 import { SceneService } from './services/scene.service';
@@ -9,9 +9,12 @@ import { NativeService, NativeState } from 'akos-common';
 import { UiState } from './states/ui.state';
 import { SettingsService } from './services/settings.service';
 import { SettingsState } from './states/settings.state';
+import { GlobalErrorHandler } from './global-error.handler';
+import { UiService } from './services/ui.service';
 
 @NgModule({
   providers: [
+    {provide: ErrorHandler, useClass: GlobalErrorHandler},
     NativeState,
     GameDescriptorState,
     UiState,
@@ -20,6 +23,7 @@ import { SettingsState } from './states/settings.state';
     ApplicationService,
     NativeService,
     SettingsService,
+    UiService,
     GameService,
     AssetService,
     SceneService

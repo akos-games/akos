@@ -12,10 +12,10 @@ import { LayoutModule } from './layout/layout.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HotkeyModule.forRoot(),
     CoreModule,
-    LayoutModule
+    LayoutModule,
+    AppRoutingModule
   ],
   bootstrap: [
     AppComponent
