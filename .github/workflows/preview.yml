@@ -1,3 +1,10 @@
+# TODO
+# Fix Windows build
+# Fix engine artifact path
+# Fix editor artifact
+# Fix engine exec permission
+# Fix dependency cache
+
 name: Preview channel
 on:
   workflow_dispatch:
