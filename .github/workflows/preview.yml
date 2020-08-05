@@ -5,7 +5,7 @@ env:
   NODE_VERSION: 14.x
 defaults:
   run:
-    shell: bash
+    shell: sh
 jobs:
   build_engine:
     runs-on: ${{ matrix.os }}
