@@ -1,14 +1,22 @@
 :host {
   background: rgba(0, 0, 0, 0.75);
+  max-height: 100%;
+  overflow: auto;
 }
 
 .error {
   padding: 1em;
-  
-   pre {
-     font-size: 0.6em;
-     user-select: text;
-   }
+
+  .message {
+    font-size: 0.7em;
+    white-space: pre-wrap;
+  }
+
+  .stack {
+    font-size: 0.6em;
+    user-select: text;
+    white-space: pre-wrap;
+  }
 }
 
 .buttons {

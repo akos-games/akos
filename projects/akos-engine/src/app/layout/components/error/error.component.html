@@ -1,12 +1,18 @@
 <div class="error">
 
-  An unexpected error occurred:<br>
-  {{error.message}}<br>
-  Error details:
-  <pre>{{error.stack}}</pre>
+  <h4>An unexpected error occurred:</h4>
+  <pre class="message">
+    {{error.message}}
+  </pre>
+
+  <h4>Error details:</h4>
+  <pre class="stack">
+    {{error.stack}}
+  </pre>
+
 </div>
 
 <div class="buttons">
   <div class="button" (click)="loadGame()">Load game</div>
-  <div class="button" (click)="back()">Back to title</div>
+  <div class="button" (click)="exitToMainMenu()">Exit to title</div>
 </div>

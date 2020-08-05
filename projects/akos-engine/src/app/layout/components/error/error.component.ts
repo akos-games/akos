@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UiState } from '../../../core/states/ui.state';
 import { UiService } from '../../../core/services/ui.service';
+import { GameService } from '../../../core/services/game.service';
 
 @Component({
   selector: 'ak-error',
@@ -13,20 +14,21 @@ export class ErrorComponent implements OnInit {
 
   constructor(
     private uiState: UiState,
-    private uiService: UiService
+    private uiService: UiService,
+    private gameService: GameService
   ) {
   }
 
   ngOnInit() {
-    console.log(this.uiState.get());
     this.error = this.uiState.get().error;
   }
 
-  back() {
-
+  exitToMainMenu() {
+    this.uiService.clearError();
+    this.gameService.exitGame();
   }
 
   loadGame() {
-
+    this.uiService.clearError();
   }
 }

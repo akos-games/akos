@@ -7,7 +7,13 @@ export class UiService {
   constructor(private uiState: UiState) {
   }
 
+  clearError() {
+    this.uiState.setError(null);
+  }
+
   error(error) {
-    this.uiState.setError(error);
+    if (!this.uiState.get().error) {
+      this.uiState.setError(error);
+    }
   }
 }

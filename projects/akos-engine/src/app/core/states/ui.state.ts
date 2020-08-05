@@ -36,6 +36,6 @@ export class UiState extends State<Ui> {
   }
 
   setError(error) {
-    this.set({...this.get(), error: {message: error.message, stack: error.stack}});
+    this.set({...this.get(), error: error ? {message: error.message, stack: error.stack} : null});
   }
 }

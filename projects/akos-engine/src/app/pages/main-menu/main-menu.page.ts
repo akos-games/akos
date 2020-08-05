@@ -37,8 +37,6 @@ export class MainMenuPage implements OnInit, OnDestroy {
         this.backgroundUrl = this.assetService.getAssetUrl(descriptor.theme.mainMenuBackground);
         this.gameVersion = descriptor.game.version;
       });
-
-    throw new Error('Coincoin');
   }
 
   ngOnDestroy() {
