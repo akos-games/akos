@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build engine
-        run: bash -e npm run build:engine
+        run: npm run build:engine
       - name: Store engine artifact
         uses: actions/upload-artifact@v2
         with:
