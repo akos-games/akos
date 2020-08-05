@@ -8,15 +8,15 @@
   "author": "Sébastien Roux",
   "scripts": {
     "build": "npm run build:engine && npm run build:editor",
-    "build:editor": "scripts/build-editor.sh",
-    "build:engine": "scripts/build-engine.sh",
+    "build:editor": "./scripts/build-editor.sh",
+    "build:engine": "./scripts/build-engine.sh",
     "e2e": "ng e2e",
     "lint": "ng lint",
     "ng": "ng",
-    "serve": "scripts/serve.sh",
+    "serve": "./scripts/serve.sh",
     "start": "npm run start:editor",
-    "start:editor": "scripts/start.sh akos-editor 4200 5858",
-    "start:engine": "scripts/start.sh akos-engine 4201 5859",
+    "start:editor": "./scripts/start.sh akos-editor 4200 5858",
+    "start:engine": "./scripts/start.sh akos-engine 4201 5859",
     "test": "ng test"
   },
   "dependencies": {
