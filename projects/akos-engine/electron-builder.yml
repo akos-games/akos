@@ -4,10 +4,13 @@ directories:
   output: "dist/build/akos-engine"
 files:
   - "package.json"
-    - "projects/akos-engine/build/icon.png"
+  - "projects/akos-engine/build/icon.png"
   - from: "dist/compile/akos-engine"
     to: ""
     filter:
       - "!**/*.js.map"
 win:
   target: dir
+linux:
+  target: dir
+  executableName: "Akos Engine"

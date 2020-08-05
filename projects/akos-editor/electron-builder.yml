@@ -17,4 +17,6 @@ extraFiles:
       - "!**/*.yaml"
 win:
   target: zip
-
+linux:
+  target: zip
+  executableName: "Akos Editor"
