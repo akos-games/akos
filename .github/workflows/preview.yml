@@ -23,13 +23,17 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
         run: npm install
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-cache
       - name: Build engine
         run: npm run build:engine
-      - name: Store engine artifact
+      - name: Upload engine artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.os }}
-          path: dist/build/akos-engine
+          path: dist/build/akos-engine/*
   build_editor:
     runs-on: ${{ matrix.os }}
     needs: [build_engine]
@@ -38,4 +42,27 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - name: Checkout branch develop
-        run: ls -l
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-cache
+      - name: Install dependencies
+        run: npm install
+      - name: Prepare engine directory
+        run: mkdir -p dist/build/akos-engine
+      - name: Download engine artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: dist/build/akos-engine
+      - name: Build editor
+        run: npm run build:editor
+      - name: Upload editor
+        uses: actions/upload-artifact@v2
+        with:
+          path: dist/release/*
+          
+        
