@@ -10,8 +10,8 @@ jobs:
   build_engine:
     runs-on: ${{ matrix.os }}
     strategy:
-        matrix:
-          os: [ubuntu-latest]
+      matrix:
+        os: [ubuntu-latest]
     steps:
       - name: Checkout branch develop
         uses: actions/checkout@v2
@@ -29,4 +29,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.os }}
-          path: dist/build
+          path: dist/build/akos-engine
+  build_editor:
+    runs-on: ${{ matrix.os }}
+    needs: [build_engine]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - name: Checkout branch develop
+        run: ls -l
