@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { SceneService } from '../../core/services/scene.service';
 import { AssetService } from '../../core/services/asset.service';
 import { filter, takeUntil } from 'rxjs/operators';
 import { GameState } from '../../core/states/game.state';
 import { Subject } from 'rxjs';
 import { UiState } from '../../core/states/ui.state';
+import { ShortcutInput } from 'ng-keyboard-shortcuts';
 
 @Component({
   selector: 'page-scene',
@@ -21,7 +21,9 @@ export class ScenePage implements OnInit, OnDestroy {
   textVisible: boolean;
 
   showPauseMenu = false;
+  shortcuts: ShortcutInput[] = [];
 
+  windowOpen$ = this.uiState.observeWindowOpen();
   private unsubscribe$ = new Subject();
 
   constructor(
@@ -29,16 +31,31 @@ export class ScenePage implements OnInit, OnDestroy {
     private uiState: UiState,
     private sceneService: SceneService,
     private assetService: AssetService,
-    private hotkeysService: HotkeysService,
     private cdRef: ChangeDetectorRef
   ) {
   }
 
   ngOnInit() {
 
-    this.initHotkeys();
+    this.shortcuts.push({
+      key: 'space',
+      preventDefault: true,
+      command: () => {
+        if (!this.showPauseMenu) {
+          this.sceneService.nextCommand();
+        }
+      }
+    }, {
+      key: 'esc',
+      preventDefault: true,
+      command: () => {
+        this.showPauseMenu = !this.showPauseMenu;
+        this.cdRef.detectChanges();
+      }
+    });
 
-    this.gameState.observe()
+    this.gameState
+      .observe()
       .pipe(
         takeUntil(this.unsubscribe$),
         filter(game => !!game?.scene)
@@ -50,10 +67,6 @@ export class ScenePage implements OnInit, OnDestroy {
         this.textVisible = game.scene.text.visible;
         this.cdRef.detectChanges();
       });
-
-    this.uiState.observe()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => this.initHotkeys());
   }
 
   ngOnDestroy() {
@@ -71,23 +84,5 @@ export class ScenePage implements OnInit, OnDestroy {
   onPauseMenuClosed() {
     this.showPauseMenu = false;
     this.cdRef.detectChanges();
-    this.initHotkeys();
-  }
-
-  private initHotkeys() {
-
-    this.hotkeysService.add([
-      new Hotkey('space', () => {
-        if (!this.showPauseMenu) {
-          this.sceneService.nextCommand();
-        }
-        return false;
-      }),
-      new Hotkey('esc', () => {
-        this.showPauseMenu = !this.showPauseMenu;
-        this.cdRef.detectChanges();
-        return false;
-      })
-    ]);
   }
 }

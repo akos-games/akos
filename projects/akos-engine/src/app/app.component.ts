@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApplicationService } from './core/services/application.service';
 import { UiState } from './core/states/ui.state';
 import { map } from 'rxjs/operators';
+import { ShortcutInput } from 'ng-keyboard-shortcuts';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+  shortcuts: ShortcutInput[] = [];
 
   displaySettings$ = this.uiState.observe().pipe(map(ui => ui.displaySettings));
   displayError$ = this.uiState.observeError();
@@ -22,5 +25,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.applicationService.start();
+
+    this.shortcuts.push({
+      key: 'alt + enter',
+      command: () => {}
+    })
   }
 }

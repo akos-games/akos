@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { SettingsState } from '../../../core/states/settings.state';
 import { takeUntil } from 'rxjs/operators';
-import { Hotkey, HotkeysService } from 'angular2-hotkeys';
+import { ShortcutInput } from 'ng-keyboard-shortcuts';
 
 @Component({
   selector: 'ak-settings',
@@ -13,6 +13,7 @@ import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 })
 export class SettingsComponent implements OnInit, OnDestroy {
 
+  shortcuts: ShortcutInput[] = [];
   settingsForm = this.fb.group({
     fullscreen: false
   });
@@ -22,16 +23,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private settingsService: SettingsService,
-    private settingsState: SettingsState,
-    private hotkeysService: HotkeysService
+    private settingsState: SettingsState
   ) {
-    this.hotkeysService.add(new Hotkey('esc', () => {
-      this.settingsService.hideSettings();
-      return false;
-    }));
   }
 
   async ngOnInit() {
+
+    this.shortcuts.push({
+      key: 'esc',
+      preventDefault: true,
+      command: () => this.settingsService.hideSettings()
+    });
 
     this.settingsState
       .observe()

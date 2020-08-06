@@ -2,22 +2,21 @@ import { Injectable } from '@angular/core';
 import { UiState } from '../states/ui.state';
 import { Settings, SettingsState } from '../states/settings.state';
 import { NativeService, NativeState } from 'akos-common';
-import { Hotkey, HotkeysService } from 'angular2-hotkeys';
+import { KeyboardShortcutsSelectService } from 'ng-keyboard-shortcuts';
 
 @Injectable()
 export class SettingsService {
 
   constructor(
     private nativeService: NativeService,
+    private shortcutService: KeyboardShortcutsSelectService,
     private nativeState: NativeState,
     private settingsState: SettingsState,
     private uiState: UiState,
-    private hotkeysService: HotkeysService
   ) {
-    this.hotkeysService.add(new Hotkey('alt+enter', () => {
-      this.toggleFullscreen();
-      return false;
-    }));
+    this.shortcutService
+      .select('alt + enter')
+      .subscribe(() => this.toggleFullscreen());
   }
 
   async loadSettings() {

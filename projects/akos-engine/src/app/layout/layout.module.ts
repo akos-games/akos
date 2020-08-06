@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SettingsComponent } from './components/settings/settings.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorComponent } from './components/error/error.component';
+import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { ErrorComponent } from './components/error/error.component';
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    KeyboardShortcutsModule
   ],
   exports: [
     SettingsComponent,

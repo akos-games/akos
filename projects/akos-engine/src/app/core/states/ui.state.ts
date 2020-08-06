@@ -1,6 +1,6 @@
 import { State } from 'akos-common';
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface Ui {
