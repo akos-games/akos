@@ -5,6 +5,7 @@
 ### Added
 
 - Display a popup when an error occurred in the editor.
+- Display a popup when an error occurred in game.
 - Open editor documentation from menu.
 
 ### Changed
@@ -13,8 +14,8 @@
 
 ### Fixed
 
-- Deleting a scene shows welcome page
-- "Esc" hotkey broken during game after opening settings
+- Deleting a scene shows welcome page.
+- "Esc" shortcut broken during game after opening settings.
 
 ### Known issues
 
