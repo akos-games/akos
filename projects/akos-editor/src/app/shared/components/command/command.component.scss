@@ -1,5 +1,6 @@
 $border-radius: 4px;
 $padding: 10px 10px 5px 10px;
+$inner-border: dotted #636363 1px;
 
 :host {
   border: solid #636363 1px;
@@ -13,7 +14,32 @@ $padding: 10px 10px 5px 10px;
   flex-direction: row;
   padding: $padding;
   border-radius: $border-radius $border-radius 0 0;
-  border-bottom: dotted #636363 1px;
+  border-bottom: $inner-border;
+
+  .icon-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+  }
+
+  .type {
+    width: 300px;
+  }
+
+  .comment {
+    flex: 1;
+    margin: 0 10px 0 20px;
+  }
+
+  .mat-button-toggle:not(.mat-button-toggle-checked) {
+    border: 0;
+    background-color: transparent;
+  }
+
+  button {
+    min-width: 0;
+    padding: 0 12px;
+  }
 }
 
 .header.green {
@@ -32,6 +58,15 @@ $padding: 10px 10px 5px 10px;
   background-color: #fffde7;
 }
 
+header.grey {
+  background-color: #eeeeee;
+}
+
+.expression {
+  border-bottom: $inner-border;
+  padding: $padding;
+}
+
 .body {
   display: flex;
   flex-direction: column;
@@ -43,20 +78,6 @@ $padding: 10px 10px 5px 10px;
 
 .body > * {
   margin: 3px;
-}
-
-.type {
-  width: 300px;
-}
-
-.comment {
-  flex: 1;
-  margin: 0 10px 0 20px;
-}
-
-.delete {
-  min-width: 0;
-  padding: 0 8px;
 }
 
 textarea {

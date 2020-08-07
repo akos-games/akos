@@ -1,6 +1,7 @@
 export interface Command {
   id: number;
-  type: string;
+  type: 'displayPicture' | 'displayText' | 'hideText' | 'startScene';
+  condition: any;
   comment?: string;
   parameters?: {
 

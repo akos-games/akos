@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScenesService } from '../../core/services/scenes.service';
 import { FormBuilder } from '@angular/forms';
@@ -12,7 +12,8 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'page-scene',
   templateUrl: './scene.page.html',
-  styleUrls: ['./scene.page.scss']
+  styleUrls: ['./scene.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScenePage implements OnInit, OnDestroy {
 
@@ -28,6 +29,7 @@ export class ScenePage implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject();
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,

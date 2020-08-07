@@ -1,4 +1,13 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import { Command, deepCopy } from 'akos-common';
 import { ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -10,10 +19,19 @@ const defaultParameters = {
   sceneId: null
 };
 
+interface CommandType {
+  type: string;
+  icon: string;
+  text: string;
+  header: 'green' | 'blue' | 'yellow' | 'red';
+  parameters?: string[];
+}
+
 @Component({
   selector: 'ak-command',
   templateUrl: './command.component.html',
   styleUrls: ['./command.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => CommandComponent),
@@ -25,6 +43,8 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   @Input() command: Command;
   @Output() delete = new EventEmitter<Command>();
 
+  expressionEnabled = false;
+
   form = this.fb.group({
     id: null,
     type: '',
@@ -32,9 +52,39 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
     parameters: this.fb.group(defaultParameters)
   });
 
+  types: CommandType[] = [{
+    type: 'displayText',
+    icon: 'text-box',
+    text: 'Display text',
+    header: 'green',
+    parameters: ['waitForPlayer', 'text']
+  }, {
+    type: 'hideText',
+    icon: 'text-box-remove',
+    text: 'Hide text',
+    header: 'green',
+    parameters: ['waitForPlayer']
+  }, {
+    type: 'displayPicture',
+    icon: 'image',
+    text: 'Display picture',
+    header: 'green',
+    parameters: ['waitForPlayer', 'picture', 'fullscreen']
+  }, {
+    type: 'startScene',
+    icon: 'movie-open',
+    text: 'Start scene',
+    header: 'red',
+    parameters: ['sceneId']
+  }];
+
   private propagateChange = _ => {};
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    private fb: FormBuilder
+  ) {
+    this.types = this.types.sort((a, b) => a.text.localeCompare(b.text));
   }
 
   ngOnInit() {
@@ -56,43 +106,16 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
     this.delete.emit(this.value);
   }
 
-  isGreenHeader() {
-    return ['displayText', 'hideText', 'displayPicture'].includes(this.value.type);
-  }
-
-  isRedHeader() {
-    return ['startScene'].includes(this.value.type);
-  }
-
-  isDisplayPictureCommand(): boolean {
-    return this.value.type === 'displayPicture';
-  }
-
-  isDisplayTextCommand(): boolean {
-    return this.value.type === 'displayText';
-  }
-
-  isHideTextCommand(): boolean {
-    return this.value.type === 'hideText';
-  }
-
-  isStartSceneCommand(): boolean {
-    return this.value.type === 'startScene';
+  selectedType() {
+    return this.types.find(type => this.form.getRawValue().type === type.type);
   }
 
   private formatOutputValue(value: Command): Command {
 
-    const parametersByTypes = {
-      displayPicture: ['waitForPlayer', 'picture', 'fullscreen'],
-      displayText: ['waitForPlayer', 'text'],
-      hideText: ['waitForPlayer'],
-      startScene: ['sceneId']
-    };
-
     const formattedValue = deepCopy(value);
     formattedValue.id = this.command.id;
     Object.keys(formattedValue.parameters).forEach(parameter =>
-      parametersByTypes[formattedValue.type].includes(parameter) || delete formattedValue.parameters[parameter]
+      this.selectedType().parameters.includes(parameter) || delete formattedValue.parameters[parameter]
     );
 
     return formattedValue;
@@ -104,6 +127,7 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
 
   set value(value) {
     this.form.setValue({...value, parameters: Object.assign(defaultParameters, value.parameters)});
+    this.expressionEnabled = !!value.condition;
     this.propagateChange(this.formatOutputValue(value));
   }
 }

@@ -1,14 +1,20 @@
 <ng-container [formGroup]="form">
 
-  <div class="header" [class.green]="isGreenHeader()" [class.red]="isRedHeader()">
+  <div class="header" [class]="selectedType().header">
+
+    <div class="icon-wrapper">
+      <mat-icon [svgIcon]="selectedType().icon"></mat-icon>
+    </div>
 
     <mat-form-field class="type">
       <mat-label>Command</mat-label>
       <mat-select formControlName="type">
-        <mat-option value="displayText">Display text</mat-option>
-        <mat-option value="hideText">Hide text</mat-option>
-        <mat-option value="displayPicture">Display picture</mat-option>
-        <mat-option value="startScene">Start scene</mat-option>
+
+        <mat-option *ngFor="let type of types" [value]="type.type">
+          <mat-icon [svgIcon]="type.icon"></mat-icon>
+          {{type.text}}
+        </mat-option>
+
       </mat-select>
     </mat-form-field>
 
@@ -17,31 +23,39 @@
       <input matInput formControlName="comment">
     </mat-form-field>
 
-    <button mat-button class="delete" (click)="onDelete()">
+    <mat-button-toggle (change)="expressionEnabled = !expressionEnabled">
+      <mat-icon svgIcon="square-root"></mat-icon>
+    </mat-button-toggle>
+
+    <button mat-button (click)="onDelete()">
       <mat-icon svgIcon="delete-forever"></mat-icon>
     </button>
 
   </div>
 
+  <div *ngIf="expressionEnabled" class="expression">
+    Not implemented yet
+  </div>
+
   <div class="body" [formGroup]="form.get('parameters')">
 
-    <mat-checkbox *ngIf="isDisplayPictureCommand() || isDisplayTextCommand() || isHideTextCommand()" formControlName="waitForPlayer">
+    <mat-checkbox *ngIf="selectedType().parameters.includes('waitForPlayer')" formControlName="waitForPlayer">
       Wait for player click to continue
     </mat-checkbox>
 
-    <mat-checkbox *ngIf="isDisplayPictureCommand()" formControlName="fullscreen">
+    <mat-checkbox *ngIf="selectedType().parameters.includes('fullscreen')" formControlName="fullscreen">
       Fullscreen
     </mat-checkbox>
 
-    <ak-select-asset required *ngIf="isDisplayPictureCommand()" type="image" formControlName="picture">
+    <ak-select-asset required *ngIf="selectedType().parameters.includes('picture')" type="image" formControlName="picture">
       Image file
     </ak-select-asset>
 
-    <mat-form-field *ngIf="isDisplayTextCommand()">
+    <mat-form-field *ngIf="selectedType().parameters.includes('text')">
       <textarea matInput placeholder="Text" formControlName="text"></textarea>
     </mat-form-field>
 
-    <ak-select-entity *ngIf="isStartSceneCommand()" type="scene" formControlName="sceneId">
+    <ak-select-entity *ngIf="selectedType().parameters.includes('sceneId')" type="scene" formControlName="sceneId">
       Scene
     </ak-select-entity>
 
