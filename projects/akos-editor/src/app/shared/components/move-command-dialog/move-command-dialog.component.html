@@ -1,0 +1,11 @@
+<div mat-dialog-content>
+  Move command to position
+  <mat-form-field class="position">
+    <input matInput type="number" [min]="0" [(ngModel)]="data.index">
+  </mat-form-field>
+</div>
+
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" [mat-dialog-close]="data.index" cdkFocusInitial>Ok</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

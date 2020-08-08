@@ -24,6 +24,7 @@
                 [index]="i"
                 (moveToStart)="onMoveCommandToStart($event)"
                 (moveToEnd)="onMoveCommandToEnd($event)"
+                (moveToPosition)="onMoveCommandToPosition($event.command, $event.index)"
                 (delete)="onDeleteCommand($event)">
     </ak-command>
   </div>

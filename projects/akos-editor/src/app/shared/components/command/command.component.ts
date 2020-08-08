@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import { Command, deepCopy } from 'akos-common';
 import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MoveCommandDialogComponent } from '../move-command-dialog/move-command-dialog.component';
 
 const defaultParameters = {
   waitForPlayer: false,
@@ -45,6 +47,7 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   @Input() index: number;
   @Output() moveToStart = new EventEmitter<Command>();
   @Output() moveToEnd = new EventEmitter<Command>();
+  @Output() moveToPosition = new EventEmitter<{command: Command, index: number}>();
   @Output() delete = new EventEmitter<Command>();
 
   form = this.fb.group({
@@ -85,7 +88,8 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog
   ) {
     this.types = this.types.sort((a, b) => a.text.localeCompare(b.text));
   }
@@ -111,6 +115,14 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
 
   onMoveToPosition() {
 
+    const dialogRef = this.dialog.open(MoveCommandDialogComponent, {
+      data: {index: this.index}
+    });
+
+    dialogRef.afterClosed().subscribe(result => this.moveToPosition.emit({
+      command: this.value,
+      index: result
+    }));
   }
 
   onMoveToEnd() {

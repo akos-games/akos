@@ -113,6 +113,12 @@ export class ScenePage implements OnInit, OnDestroy {
     this.commands.updateValueAndValidity();
   }
 
+  onMoveCommandToPosition(command: Command, index: number) {
+    let maxIndex = this.commands.length - 1;
+    moveItemInArray(this.commands.controls, this.getCommandIndex(command), index > maxIndex ? maxIndex : index);
+    this.commands.updateValueAndValidity();
+  }
+
   onDeleteCommand(command: Command) {
     this.commands.removeAt(this.getCommandIndex(command));
   }

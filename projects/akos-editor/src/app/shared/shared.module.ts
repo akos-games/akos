@@ -15,12 +15,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MoveCommandDialogComponent } from './components/move-command-dialog/move-command-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AssetSelectorComponent,
     CommandComponent,
-    EntitySelectorComponent
+    EntitySelectorComponent,
+    MoveCommandDialogComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +38,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatSelectModule,
     MatButtonToggleModule,
     MatMenuModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDialogModule
   ],
   exports: [
     AssetSelectorComponent,

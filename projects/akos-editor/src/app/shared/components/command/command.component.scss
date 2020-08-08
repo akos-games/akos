@@ -1,4 +1,7 @@
-$padding: 10px 10px 5px 10px;
+@import '~@angular/material/theming';
+@import '../../../../assets/styles/theme';
+
+$padding: 10px;
 $inner-border: dotted #636363 1px;
 $border-radius: 4px;
 
@@ -95,4 +98,8 @@ textarea {
 
 ak-select-entity {
   width: 500px;
+}
+
+.menu-delete {
+  color: mat-color($candy-app-warn);
 }
