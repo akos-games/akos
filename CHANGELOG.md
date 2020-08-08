@@ -4,9 +4,14 @@
 
 ### Added
 
+- Add a marker to a command to be able to jump to it from elsewhere within the same scene.
 - Display a popup when an error occurred in the editor.
 - Display a popup when an error occurred in game.
 - Open editor documentation from menu.
+- Scene command duplication.
+- Scene command position number.
+- Move a command to start / end / specific position.
+- Scene command deletion confirmation.
 
 ### Changed
 
@@ -15,10 +20,15 @@
 ### Fixed
 
 - Deleting a scene shows welcome page.
-- "Esc" shortcut broken during game after opening settings.
+- _Esc_ shortcut broken during game after opening settings.
+
+### Removed
+
+- Scene command comment.
 
 ### Known issues
 
+- In some cases, when editor / game is broken due to an error, the error popup may be broken too.
 - There is no project integrity check implemented yet, so it is 
 possible to build an inconsistent game. 
 - Game build could fail if a file explorer window is open at the `dist` folder location.
