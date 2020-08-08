@@ -103,8 +103,18 @@ export class ScenePage implements OnInit, OnDestroy {
     }));
   }
 
+  onMoveCommandToStart(command: Command) {
+    moveItemInArray(this.commands.controls, this.getCommandIndex(command), 0);
+    this.commands.updateValueAndValidity();
+  }
+
+  onMoveCommandToEnd(command: Command) {
+    moveItemInArray(this.commands.controls, this.getCommandIndex(command), this.commands.length - 1);
+    this.commands.updateValueAndValidity();
+  }
+
   onDeleteCommand(command: Command) {
-    this.commands.removeAt(this.commands.getRawValue().findIndex(c => c.id === command.id));
+    this.commands.removeAt(this.getCommandIndex(command));
   }
 
   onDropCommand(event: CdkDragDrop<Command[]>) {
@@ -115,5 +125,9 @@ export class ScenePage implements OnInit, OnDestroy {
   private indexMarkers(commands: Command[]) {
     this.usedMarkers = {}
     commands.forEach(command => this.usedMarkers[command.id] = command.marker);
+  }
+
+  private getCommandIndex(command: Command): number {
+    return this.commands.getRawValue().findIndex(c => c.id === command.id);
   }
 }

@@ -2,11 +2,9 @@
 
   <mat-toolbar class="header" [class]="selectedType().header">
 
-<!--  <div class="header" [class]="selectedType().header">-->
+    <span class="index">#{{index}}</span>
 
-<!--    <div class="icon-wrapper">-->
-      <mat-icon [svgIcon]="selectedType().icon" class="type-icon"></mat-icon>
-<!--    </div>-->
+    <mat-icon [svgIcon]="selectedType().icon" class="type-icon"></mat-icon>
 
     <mat-form-field class="type">
       <mat-label>Command</mat-label>
@@ -80,6 +78,21 @@
 </ng-container>
 
 <mat-menu #commandMenu="matMenu">
+
+  <button mat-menu-item (click)="onMoveToStart()">
+    <mat-icon svgIcon="chevron-double-up"></mat-icon>
+    Move to start
+  </button>
+
+  <button mat-menu-item (click)="onMoveToPosition()">
+    <mat-icon svgIcon="unfold-more-horizontal"></mat-icon>
+    Move to position...
+  </button>
+
+  <button mat-menu-item (click)="onMoveToEnd()">
+    <mat-icon svgIcon="chevron-double-down"></mat-icon>
+    Move to end
+  </button>
 
   <button mat-menu-item (click)="onDelete()">
     <mat-icon svgIcon="delete-forever" color="warn"></mat-icon>

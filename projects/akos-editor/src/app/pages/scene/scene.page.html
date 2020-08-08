@@ -17,11 +17,14 @@
   </mat-form-field>
 
   <div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)" cdkDropListAutoScrollDisabled=0>
-    <ak-command cdkDrag *ngFor="let command of commands.controls"
+    <ak-command cdkDrag *ngFor="let command of commands.controls; let i = index"
                 [command]="command.value"
-                (delete)="onDeleteCommand($event)"
                 [formControl]="$any(command)"
-                [usedMarkers]="usedMarkers">
+                [usedMarkers]="usedMarkers"
+                [index]="i"
+                (moveToStart)="onMoveCommandToStart($event)"
+                (moveToEnd)="onMoveCommandToEnd($event)"
+                (delete)="onDeleteCommand($event)">
     </ak-command>
   </div>
 

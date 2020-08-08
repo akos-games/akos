@@ -42,6 +42,9 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
 
   @Input() command: Command;
   @Input() usedMarkers: any;
+  @Input() index: number;
+  @Output() moveToStart = new EventEmitter<Command>();
+  @Output() moveToEnd = new EventEmitter<Command>();
   @Output() delete = new EventEmitter<Command>();
 
   form = this.fb.group({
@@ -100,6 +103,18 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   }
 
   registerOnTouched(fn) {
+  }
+
+  onMoveToStart() {
+    this.moveToStart.emit(this.value);
+  }
+
+  onMoveToPosition() {
+
+  }
+
+  onMoveToEnd() {
+    this.moveToEnd.emit(this.value);
   }
 
   onDelete() {
