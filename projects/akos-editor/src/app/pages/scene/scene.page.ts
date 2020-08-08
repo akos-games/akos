@@ -4,7 +4,7 @@ import { ScenesService } from '../../core/services/scenes.service';
 import { FormBuilder } from '@angular/forms';
 import { generateId } from '../../shared/utils/entity.util';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Command } from 'akos-common';
+import { Command, deepCopy } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
 import { debounceTime, filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -117,6 +117,13 @@ export class ScenePage implements OnInit, OnDestroy {
     let maxIndex = this.commands.length - 1;
     moveItemInArray(this.commands.controls, this.getCommandIndex(command), index > maxIndex ? maxIndex : index);
     this.commands.updateValueAndValidity();
+  }
+
+  onDuplicate(command: Command) {
+    this.commands.insert(this.getCommandIndex(command) + 1, this.fb.control({
+      ...deepCopy(command),
+      id: generateId()
+    }));
   }
 
   onDeleteCommand(command: Command) {

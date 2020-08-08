@@ -94,6 +94,11 @@
     Move to end
   </button>
 
+  <button mat-menu-item (click)="onDuplicate()">
+    <mat-icon svgIcon="plus-circle-multiple-outline"></mat-icon>
+    Duplicate
+  </button>
+
   <button mat-menu-item (click)="onDelete()">
     <mat-icon svgIcon="delete-forever" color="warn"></mat-icon>
     <span class="menu-delete">Delete command</span>

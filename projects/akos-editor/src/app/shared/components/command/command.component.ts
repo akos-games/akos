@@ -48,6 +48,7 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   @Output() moveToStart = new EventEmitter<Command>();
   @Output() moveToEnd = new EventEmitter<Command>();
   @Output() moveToPosition = new EventEmitter<{command: Command, index: number}>();
+  @Output() duplicate = new EventEmitter<Command>();
   @Output() delete = new EventEmitter<Command>();
 
   form = this.fb.group({
@@ -127,6 +128,10 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
 
   onMoveToEnd() {
     this.moveToEnd.emit(this.value);
+  }
+
+  onDuplicate() {
+    this.duplicate.emit(this.value);
   }
 
   onDelete() {
