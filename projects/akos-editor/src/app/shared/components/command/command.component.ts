@@ -12,6 +12,7 @@ import { Command, deepCopy } from 'akos-common';
 import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MoveCommandDialogComponent } from '../move-command-dialog/move-command-dialog.component';
+import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 
 const defaultParameters = {
   waitForPlayer: false,
@@ -117,10 +118,11 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   onMoveToPosition() {
 
     const dialogRef = this.dialog.open(MoveCommandDialogComponent, {
+      disableClose: true,
       data: {index: this.index}
     });
 
-    dialogRef.afterClosed().subscribe(result => this.moveToPosition.emit({
+    dialogRef.afterClosed().subscribe(result => result && this.moveToPosition.emit({
       command: this.value,
       index: result
     }));
@@ -135,7 +137,12 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   }
 
   onDelete() {
-    this.delete.emit(this.value);
+
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => result && this.delete.emit(this.value));
   }
 
   selectedType() {

@@ -17,13 +17,15 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MoveCommandDialogComponent } from './components/move-command-dialog/move-command-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @NgModule({
   declarations: [
     AssetSelectorComponent,
     CommandComponent,
     EntitySelectorComponent,
-    MoveCommandDialogComponent
+    MoveCommandDialogComponent,
+    ConfirmDeleteDialogComponent
   ],
   imports: [
     CommonModule,
