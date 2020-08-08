@@ -1,10 +1,12 @@
 <ng-container [formGroup]="form">
 
-  <div class="header" [class]="selectedType().header">
+  <mat-toolbar class="header" [class]="selectedType().header">
 
-    <div class="icon-wrapper">
-      <mat-icon [svgIcon]="selectedType().icon"></mat-icon>
-    </div>
+<!--  <div class="header" [class]="selectedType().header">-->
+
+<!--    <div class="icon-wrapper">-->
+      <mat-icon [svgIcon]="selectedType().icon" class="type-icon"></mat-icon>
+<!--    </div>-->
 
     <mat-form-field class="type">
       <mat-label>Command</mat-label>
@@ -29,21 +31,29 @@
 
     </mat-form-field>
 
-    <mat-button-toggle (change)="expressionEnabled = !expressionEnabled">
-      <mat-icon svgIcon="square-root"></mat-icon>
-    </mat-button-toggle>
+    <mat-button-toggle-group multiple="true" formControlName="displayedSections">
 
-    <button mat-button (click)="onDelete()">
-      <mat-icon svgIcon="delete-forever"></mat-icon>
+      <mat-button-toggle value="condition">
+        <mat-icon svgIcon="square-root"></mat-icon>
+      </mat-button-toggle>
+
+      <mat-button-toggle value="body">
+        <mat-icon svgIcon="card-bulleted"></mat-icon>
+      </mat-button-toggle>
+
+    </mat-button-toggle-group>
+
+    <button mat-icon-button [matMenuTriggerFor]="commandMenu">
+      <mat-icon svgIcon="dots-vertical"></mat-icon>
     </button>
 
-  </div>
+  </mat-toolbar>
 
-  <div *ngIf="expressionEnabled" class="expression">
+  <div *ngIf="value.displayedSections.includes('condition')" class="condition">
     Not implemented yet
   </div>
 
-  <div class="body" [formGroup]="form.get('parameters')">
+  <div *ngIf="value.displayedSections.includes('body')" class="body" [formGroup]="form.get('parameters')">
 
     <mat-checkbox *ngIf="selectedType().parameters.includes('waitForPlayer')" formControlName="waitForPlayer">
       Wait for player click to continue
@@ -68,3 +78,12 @@
   </div>
 
 </ng-container>
+
+<mat-menu #commandMenu="matMenu">
+
+  <button mat-menu-item (click)="onDelete()">
+    <mat-icon svgIcon="delete-forever" color="warn"></mat-icon>
+    Delete command
+  </button>
+
+</mat-menu>

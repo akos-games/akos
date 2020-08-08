@@ -94,6 +94,7 @@ export class ScenePage implements OnInit, OnDestroy {
     this.commands.push(this.fb.control({
       id: generateId(),
       type: 'displayText',
+      displayedSections: ['body'],
       marker: '',
       parameters: {
         waitForPlayer: true,

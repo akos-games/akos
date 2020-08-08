@@ -1,6 +1,7 @@
 export interface Command {
   id: number;
   type: 'displayPicture' | 'displayText' | 'hideText' | 'startScene';
+  displayedSections: ('body' | 'condition')[]
   condition: any;
   marker?: string;
   parameters?: {

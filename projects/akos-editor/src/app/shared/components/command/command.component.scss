@@ -1,24 +1,28 @@
-$border-radius: 4px;
 $padding: 10px 10px 5px 10px;
 $inner-border: dotted #636363 1px;
+$border-radius: 4px;
 
 :host {
   border: solid #636363 1px;
   border-radius: $border-radius;
   max-width: 1080px;
   cursor: move;
+
+  > *:not(mat-menu) {
+    padding: $padding;
+    border-radius: 0 0 $border-radius $border-radius;
+  }
 }
 
 .header {
-  display: flex;
-  flex-flow: row wrap;
-  padding: $padding;
-  border-radius: $border-radius $border-radius 0 0;
-  border-bottom: $inner-border;
+  height: 80px;
+  border-radius: $border-radius !important;
 
-  .icon-wrapper {
-    display: flex;
-    align-items: center;
+  mat-form-field {
+    font-size: 16px;
+  }
+
+  .type-icon {
     margin-right: 8px;
   }
 
@@ -31,14 +35,13 @@ $inner-border: dotted #636363 1px;
     margin: 0 10px 0 20px;
   }
 
+  .mat-button-toggle-group {
+    border: 0;
+  }
+
   .mat-button-toggle:not(.mat-button-toggle-checked) {
     border: 0;
     background-color: transparent;
-  }
-
-  button {
-    min-width: 0;
-    padding: 0 12px;
   }
 }
 
@@ -62,17 +65,15 @@ header.grey {
   background-color: #eeeeee;
 }
 
-.expression {
-  border-bottom: $inner-border;
-  padding: $padding;
+.condition {
+  border-top: $inner-border;
 }
 
 .body {
   display: flex;
   flex-direction: column;
   flex-basis: auto;
-  padding: $padding;
-  border-radius: $border-radius;
+  border-top: $inner-border;
   background-color: white;
 }
 

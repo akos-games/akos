@@ -13,6 +13,8 @@ import { AssetSelectorComponent } from './components/asset-selector/asset-select
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatIconModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatMenuModule,
+    MatToolbarModule
   ],
   exports: [
     AssetSelectorComponent,

@@ -44,11 +44,10 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   @Input() usedMarkers: any;
   @Output() delete = new EventEmitter<Command>();
 
-  expressionEnabled = false;
-
   form = this.fb.group({
     id: null,
     type: '',
+    displayedSections: '',
     marker: new FormControl('', this.markerValidator()),
     parameters: this.fb.group(defaultParameters)
   });
@@ -128,7 +127,6 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
 
   set value(value) {
     this.form.setValue({...value, parameters: Object.assign(defaultParameters, value.parameters)});
-    this.expressionEnabled = !!value.condition;
     this.propagateChange(this.formatOutputValue(value));
   }
 
