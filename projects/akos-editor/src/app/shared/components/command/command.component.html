@@ -18,9 +18,15 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="comment">
-      <mat-label>Comment</mat-label>
-      <input matInput formControlName="comment">
+    <mat-form-field class="marker">
+
+      <mat-label>Marker</mat-label>
+      <input matInput formControlName="marker">
+
+      <mat-error *ngIf="form.get('marker').hasError('marker')">
+        This marker is already used in another command
+      </mat-error>
+
     </mat-form-field>
 
     <mat-button-toggle (change)="expressionEnabled = !expressionEnabled">

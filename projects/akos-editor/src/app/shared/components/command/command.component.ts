@@ -9,7 +9,7 @@ import {
   Output
 } from '@angular/core';
 import { Command, deepCopy } from 'akos-common';
-import { ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const defaultParameters = {
   waitForPlayer: false,
@@ -41,6 +41,7 @@ interface CommandType {
 export class CommandComponent implements OnInit, ControlValueAccessor {
 
   @Input() command: Command;
+  @Input() usedMarkers: any;
   @Output() delete = new EventEmitter<Command>();
 
   expressionEnabled = false;
@@ -48,7 +49,7 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   form = this.fb.group({
     id: null,
     type: '',
-    comment: '',
+    marker: new FormControl('', this.markerValidator()),
     parameters: this.fb.group(defaultParameters)
   });
 
@@ -129,5 +130,23 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
     this.form.setValue({...value, parameters: Object.assign(defaultParameters, value.parameters)});
     this.expressionEnabled = !!value.condition;
     this.propagateChange(this.formatOutputValue(value));
+  }
+
+  private markerValidator() {
+    return (control: FormControl) => {
+
+      if (!this.usedMarkers) {
+        return null;
+      }
+
+      let used = false;
+      Object.keys(this.usedMarkers).forEach(id => {
+        if (control?.value !== '' && control?.value === this.usedMarkers[id] && Number(id) !== this.command.id) {
+          used = true;
+        }
+      });
+
+      return used ? {marker: true} : null;
+    };
   }
 }

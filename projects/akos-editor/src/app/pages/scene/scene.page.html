@@ -18,7 +18,10 @@
 
   <div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)" cdkDropListAutoScrollDisabled=0>
     <ak-command cdkDrag *ngFor="let command of commands.controls"
-                [command]="command.value" (delete)="onDeleteCommand($event)" [formControl]="$any(command)">
+                [command]="command.value"
+                (delete)="onDeleteCommand($event)"
+                [formControl]="$any(command)"
+                [usedMarkers]="usedMarkers">
     </ak-command>
   </div>
 

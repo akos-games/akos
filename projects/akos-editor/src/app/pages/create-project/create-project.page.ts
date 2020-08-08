@@ -18,7 +18,7 @@ export class CreateProjectPage implements OnInit, OnDestroy {
   projectForm = this.fb.group({
     filename: new FormControl('', [Validators.required, this.filenameValidator()]),
     directory: new FormControl('', Validators.required, this.directoryAsyncValidator())
-  })
+  });
 
   private unsubscribe$ = new Subject();
 

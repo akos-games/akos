@@ -2,7 +2,7 @@ export interface Command {
   id: number;
   type: 'displayPicture' | 'displayText' | 'hideText' | 'startScene';
   condition: any;
-  comment?: string;
+  marker?: string;
   parameters?: {
 
     // Commons

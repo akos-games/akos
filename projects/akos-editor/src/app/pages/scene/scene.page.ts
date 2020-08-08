@@ -17,6 +17,8 @@ import { Subject } from 'rxjs';
 })
 export class ScenePage implements OnInit, OnDestroy {
 
+  usedMarkers = {};
+
   commands = this.fb.array([]);
   sceneForm = this.fb.group({
     id: null,
@@ -55,6 +57,7 @@ export class ScenePage implements OnInit, OnDestroy {
         });
 
         this.silent = false;
+        this.indexMarkers(scene.commands);
       });
 
     this.sceneForm.valueChanges
@@ -63,7 +66,10 @@ export class ScenePage implements OnInit, OnDestroy {
         filter(() => !this.silent),
         debounceTime(500)
       )
-      .subscribe(value => this.scenesService.updateScene(value));
+      .subscribe(value => {
+        this.indexMarkers(value.commands);
+        this.scenesService.updateScene(value);
+      });
 
     this.scenesState
       .observe()
@@ -88,7 +94,7 @@ export class ScenePage implements OnInit, OnDestroy {
     this.commands.push(this.fb.control({
       id: generateId(),
       type: 'displayText',
-      comment: '',
+      marker: '',
       parameters: {
         waitForPlayer: true,
         text: ''
@@ -103,5 +109,10 @@ export class ScenePage implements OnInit, OnDestroy {
   onDropCommand(event: CdkDragDrop<Command[]>) {
     moveItemInArray(this.commands.controls, event.previousIndex, event.currentIndex);
     this.commands.updateValueAndValidity();
+  }
+
+  private indexMarkers(commands: Command[]) {
+    this.usedMarkers = {}
+    commands.forEach(command => this.usedMarkers[command.id] = command.marker);
   }
 }
