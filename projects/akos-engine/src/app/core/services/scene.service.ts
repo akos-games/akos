@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 export class SceneService {
 
   private scene: Scene;
+  private markers: {[marker: string]: number};
 
   constructor(
     private router: Router,
@@ -23,6 +24,7 @@ export class SceneService {
 
     do {
 
+      let jumpToIndex = null;
       let commandIndex = this.gameState.get().scene.commandIndex;
       if (this.scene.commands.length <= commandIndex) {
         this.router.navigateByUrl('/main-menu');
@@ -47,10 +49,19 @@ export class SceneService {
         case 'startScene':
           nextSceneId = command.parameters.sceneId;
           break;
+
+        case 'jumpToMarker':
+          jumpToIndex = this.markers[command.parameters.toMarker];
+          break;
       }
 
       let game = this.gameState.get();
-      game.scene.commandIndex++;
+      if (jumpToIndex) {
+        game.scene.commandIndex = jumpToIndex;
+      } else {
+        game.scene.commandIndex++;
+      }
+
       this.gameState.set(game);
 
     } while (!command.parameters.waitForPlayer && !nextSceneId);
@@ -64,9 +75,11 @@ export class SceneService {
 
   startScene(sceneId: number) {
 
-    let game = this.gameState.get();
-
+    this.markers = {};
     this.scene = this.gameDescriptorState.getScene(sceneId);
+    this.scene.commands.forEach((command,index) => command.marker && (this.markers[command.marker] = index));
+
+    let game = this.gameState.get();
     game.scene = {
       sceneId,
       commandIndex: 0,
