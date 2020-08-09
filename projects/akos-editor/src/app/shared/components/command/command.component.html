@@ -73,6 +73,16 @@
       Scene
     </ak-select-entity>
 
+    <mat-form-field *ngIf="selectedType().parameters.includes('toMarker')" class="toMaker">
+      <mat-label>Marker</mat-label>
+      <mat-select formControlName="toMarker">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let marker of markers()" [value]="marker">
+          {{marker}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
   </div>
 
 </ng-container>

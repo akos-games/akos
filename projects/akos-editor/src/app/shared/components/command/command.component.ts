@@ -19,7 +19,8 @@ const defaultParameters = {
   picture: '',
   fullscreen: false,
   text: '',
-  sceneId: null
+  sceneId: null,
+  toMarker: null
 };
 
 interface CommandType {
@@ -84,6 +85,12 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
     text: 'Start scene',
     header: 'red',
     parameters: ['sceneId']
+  }, {
+    type: 'jumpToMarker',
+    icon: 'debug-step-over',
+    text: 'Jump to marker',
+    header: 'yellow',
+    parameters: ['toMarker']
   }];
 
   private propagateChange = _ => {};
@@ -147,6 +154,12 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
 
   selectedType() {
     return this.types.find(type => this.form.getRawValue().type === type.type);
+  }
+
+  markers() {
+    return Object.keys(this.usedMarkers)
+      .filter(commandId => this.usedMarkers[commandId] && commandId !== this.command.id.toString())
+      .map(commandId => this.usedMarkers[commandId])
   }
 
   private formatOutputValue(value: Command): Command {

@@ -4,6 +4,7 @@
 $padding: 10px;
 $inner-border: dotted #636363 1px;
 $border-radius: 4px;
+$param-width: 500px;
 
 :host {
   border: solid #636363 1px;
@@ -97,9 +98,13 @@ textarea {
 }
 
 ak-select-entity {
-  width: 500px;
+  width: $param-width;
 }
 
 .menu-delete {
   color: mat-color($candy-app-warn);
+}
+
+.toMaker {
+  width: $param-width;
 }

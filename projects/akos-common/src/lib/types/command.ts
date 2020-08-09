@@ -1,6 +1,6 @@
 export interface Command {
   id: number;
-  type: 'displayPicture' | 'displayText' | 'hideText' | 'startScene';
+  type: 'displayPicture' | 'displayText' | 'hideText' | 'startScene' | 'jumpToMarker';
   displayedSections: ('body' | 'condition')[]
   condition: any;
   marker?: string;
@@ -18,5 +18,8 @@ export interface Command {
 
     // startScene
     sceneId?: number;
+
+    // jumpToMarker
+    toMarker?: string;
   }
 }

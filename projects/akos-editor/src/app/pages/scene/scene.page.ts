@@ -4,7 +4,7 @@ import { ScenesService } from '../../core/services/scenes.service';
 import { FormBuilder } from '@angular/forms';
 import { generateId } from '../../shared/utils/entity.util';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Command, deepCopy } from 'akos-common';
+import { Command, deepCopy, Scene } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
 import { debounceTime, filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -27,7 +27,6 @@ export class ScenePage implements OnInit, OnDestroy {
   });
 
   private sceneId: number;
-  private silent = false;
   private unsubscribe$ = new Subject();
 
   constructor(
@@ -48,7 +47,6 @@ export class ScenePage implements OnInit, OnDestroy {
 
         const scene = this.scenesState.getById(params.id);
         this.sceneId = scene.id;
-        this.silent = true;
 
         this.commands.clear();
         scene.commands.forEach(() => this.commands.push(this.fb.control({})));
@@ -56,18 +54,17 @@ export class ScenePage implements OnInit, OnDestroy {
           emitEvent: false
         });
 
-        this.silent = false;
         this.indexMarkers(scene.commands);
       });
 
     this.sceneForm.valueChanges
       .pipe(
         takeUntil(this.unsubscribe$),
-        filter(() => !this.silent),
         debounceTime(500)
       )
       .subscribe(value => {
         this.indexMarkers(value.commands);
+        this.cleanScene(value);
         this.scenesService.updateScene(value);
       });
 
@@ -142,5 +139,20 @@ export class ScenePage implements OnInit, OnDestroy {
 
   private getCommandIndex(command: Command): number {
     return this.commands.getRawValue().findIndex(c => c.id === command.id);
+  }
+
+  private cleanScene(scene: Scene) {
+
+    scene.commands.forEach(command => {
+
+      if (command.type === 'jumpToMarker'
+        && !Object.keys(this.usedMarkers).some(commandId => this.usedMarkers[commandId] === command.parameters.toMarker)) {
+
+        command.parameters.toMarker = null;
+        this.sceneForm.setValue(scene, {
+          emitEvent: false
+        });
+      }
+    });
   }
 }
