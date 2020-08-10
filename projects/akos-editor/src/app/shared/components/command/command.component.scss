@@ -50,6 +50,10 @@ $param-width: 500px;
     border: 0;
   }
 
+  .mat-button-toggle {
+    border-left: 0 !important;
+  }
+
   .mat-button-toggle:not(.mat-button-toggle-checked) {
     border: 0;
     background-color: transparent;
@@ -86,25 +90,37 @@ header.grey {
   flex-basis: auto;
   border-top: $inner-border;
   background-color: white;
-}
 
-.body > * {
-  margin: 3px;
-}
+  > * {
+    margin: 3px;
+  }
 
-textarea {
-  height: 75px;
-  resize: none;
-}
+  ak-select-entity,
+  .toMarker {
+    width: $param-width;
+  }
 
-ak-select-entity {
-  width: $param-width;
+  .choices > :nth-child(even):not(button) {
+    background-color: #eeeeee;
+  }
+
+  .choices > button {
+    margin-top: 5px;
+  }
+
+  .choice {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    padding: 5px 10px 0 10px;
+    margin-bottom: 10px;
+
+    .choice-text {
+      width: 100%;
+    }
+  }
 }
 
 .menu-delete {
   color: mat-color($candy-app-warn);
-}
-
-.toMaker {
-  width: $param-width;
 }

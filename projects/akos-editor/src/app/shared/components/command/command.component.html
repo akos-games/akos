@@ -66,14 +66,14 @@
     </ak-select-asset>
 
     <mat-form-field *ngIf="selectedType().parameters.includes('text')">
-      <textarea matInput placeholder="Text" formControlName="text"></textarea>
+      <textarea matInput matTextareaAutosize [matAutosizeMaxRows]="4" placeholder="Text" formControlName="text"></textarea>
     </mat-form-field>
 
     <ak-select-entity *ngIf="selectedType().parameters.includes('sceneId')" type="scene" formControlName="sceneId">
       Scene
     </ak-select-entity>
 
-    <mat-form-field *ngIf="selectedType().parameters.includes('toMarker')" class="toMaker">
+    <mat-form-field *ngIf="selectedType().parameters.includes('toMarker')" class="toMarker">
       <mat-label>Marker</mat-label>
       <mat-select formControlName="toMarker">
         <mat-option>None</mat-option>
@@ -82,6 +82,49 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <div *ngIf="selectedType().parameters.includes('choices')" class="choices">
+
+      <form *ngFor="let choice of choices.controls; let i = index" [formGroup]="choice" class="choice">
+
+        <mat-form-field class="choice-text">
+          <textarea matInput matTextareaAutosize placeholder="Text" formControlName="text"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="toMarker">
+          <mat-label>Jump to marker</mat-label>
+          <mat-select formControlName="marker">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let marker of markers()" [value]="marker">
+              {{marker}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="buttons">
+
+          <button mat-icon-button color="warn" (click)="onDeleteChoice(i)">
+            <mat-icon svgIcon="delete-forever"></mat-icon>
+          </button>
+
+          <button mat-icon-button *ngIf="i > 0" (click)="onMoveChoiceUp(i)">
+            <mat-icon svgIcon="chevron-up"></mat-icon>
+          </button>
+
+          <button mat-icon-button *ngIf="i < choices.controls.length - 1" (click)="onMoveChoiceDown(i)">
+            <mat-icon svgIcon="chevron-down"></mat-icon>
+          </button>
+
+        </div>
+
+      </form>
+
+      <button mat-raised-button color="primary" (click)="onAddChoice()">
+        <mat-icon svgIcon="plus"></mat-icon>
+        Add choice
+      </button>
+
+    </div>
 
   </div>
 

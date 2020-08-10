@@ -9,7 +9,7 @@ import {
   Output
 } from '@angular/core';
 import { Command, deepCopy } from 'akos-common';
-import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormArray, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MoveCommandDialogComponent } from '../move-command-dialog/move-command-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
@@ -53,12 +53,13 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   @Output() duplicate = new EventEmitter<Command>();
   @Output() delete = new EventEmitter<Command>();
 
+  choices = this.fb.array([]);
   form = this.fb.group({
     id: null,
     type: '',
     displayedSections: '',
     marker: new FormControl('', this.markerValidator()),
-    parameters: this.fb.group(defaultParameters)
+    parameters: this.fb.group({...defaultParameters, choices: this.choices})
   });
 
   types: CommandType[] = [{
@@ -91,6 +92,12 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
     text: 'Jump to marker',
     header: 'yellow',
     parameters: ['toMarker']
+  }, {
+    type: 'playerChoice',
+    icon: 'arrow-decision',
+    text: 'Player choice',
+    header: 'green',
+    parameters: ['choices']
   }];
 
   private propagateChange = _ => {};
@@ -160,6 +167,32 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
     return Object.keys(this.usedMarkers)
       .filter(commandId => this.usedMarkers[commandId] && commandId !== this.command.id.toString())
       .map(commandId => this.usedMarkers[commandId])
+      .sort((a, b) => a.text.localeCompare(b.text));
+  }
+
+  isMarkerReferenced() {
+
+  }
+
+  onAddChoice() {
+    this.choices.push(this.fb.group({
+      marker: null,
+      text: ''
+    }));
+  }
+
+  onDeleteChoice(index: number) {
+    this.choices.removeAt(index);
+  }
+
+  onMoveChoiceUp(index: number) {
+    let controls = this.choices.controls;
+    [controls[index - 1], controls[index]] = [controls[index], controls[index - 1]];
+  }
+
+  onMoveChoiceDown(index: number) {
+    let controls = this.choices.controls;
+    [controls[index], controls[index + 1]] = [controls[index + 1], controls[index]];
   }
 
   private formatOutputValue(value: Command): Command {
@@ -178,7 +211,7 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   }
 
   set value(value) {
-    this.form.setValue({...value, parameters: Object.assign(defaultParameters, value.parameters)});
+    this.form.setValue({...value, parameters: Object.assign(defaultParameters, {...value.parameters, choices: []})});
     this.propagateChange(this.formatOutputValue(value));
   }
 

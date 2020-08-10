@@ -1,6 +1,11 @@
 export interface Command {
   id: number;
-  type: 'displayPicture' | 'displayText' | 'hideText' | 'startScene' | 'jumpToMarker';
+  type: 'displayPicture'
+    | 'displayText'
+    | 'hideText'
+    | 'startScene'
+    | 'jumpToMarker'
+    | 'playerChoice';
   displayedSections: ('body' | 'condition')[]
   condition: any;
   marker?: string;
@@ -21,5 +26,8 @@ export interface Command {
 
     // jumpToMarker
     toMarker?: string;
+
+    // playerChoice
+    choices?: {marker: string; text: string;}[]
   }
 }
