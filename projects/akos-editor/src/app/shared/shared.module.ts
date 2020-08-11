@@ -14,7 +14,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MoveCommandDialogComponent } from './components/move-command-dialog/move-command-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog/confirm-delete-dialog.component';
@@ -40,7 +39,6 @@ import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog
     MatSelectModule,
     MatButtonToggleModule,
     MatMenuModule,
-    MatToolbarModule,
     MatDialogModule
   ],
   exports: [

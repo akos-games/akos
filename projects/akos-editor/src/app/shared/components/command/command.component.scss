@@ -20,12 +20,10 @@ $placeholder-color: rgba(0, 0, 0, 0.54);
 }
 
 .header {
-  height: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   border-radius: $border-radius !important;
-
-  mat-form-field {
-    font-size: 16px;
-  }
 
   .index {
     width: auto;

@@ -1,6 +1,6 @@
 <ng-container [formGroup]="form">
 
-  <mat-toolbar class="header" [class]="selectedType().header">
+  <div class="header" [class]="selectedType().header">
 
     <span class="index">#{{index}}</span>
 
@@ -49,7 +49,7 @@
       <mat-icon svgIcon="dots-vertical"></mat-icon>
     </button>
 
-  </mat-toolbar>
+  </div>
 
   <div *ngIf="value.displayedSections.includes('condition')" class="condition">
     Not implemented yet
