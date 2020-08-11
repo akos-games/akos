@@ -4,8 +4,8 @@
 
 ### Added
 
-- Add a marker to a command to be able to jump to it from elsewhere within the same scene.
-- Add _Jump to marker_ command.
+- Command references.
+- _Jump to command_ command.
 - Display a popup when an error occurred in the editor.
 - Display a popup when an error occurred in game.
 - Open editor documentation from menu.
