@@ -8,7 +8,7 @@ import {
   OnInit,
   Output, SimpleChanges
 } from '@angular/core';
-import { Command, deepCopy } from 'akos-common';
+import { Command } from 'akos-common';
 import { ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MoveCommandDialogComponent } from '../move-command-dialog/move-command-dialog.component';
@@ -37,7 +37,6 @@ interface CommandType {
 })
 export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor {
 
-  @Input() command: Command;
   @Input() references: any;
   @Input() referenced: boolean;
   @Input() index: number;
@@ -47,6 +46,7 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
   @Output() duplicate = new EventEmitter<Command>();
   @Output() delete = new EventEmitter<Command>();
 
+  command: Command;
   choices: FormArray;
   form: FormGroup;
   selectableReferences: {commandId: number; text: string;}[];
@@ -117,27 +117,26 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
         emitEvent: false
       });
 
+      this.command = value;
+
       if (this.form.valid) {
-        this.propagateChange(this.formatOutputValue(value));
+        this.propagateChange(value);
       }
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
 
-    if (changes.references) {
-
-      let references = changes.references.currentValue;
-
-      this.selectableReferences = Object.keys(references)
-        .filter(commandId => commandId !== this.command.id.toString())
-        .map(commandId => ({commandId: Number(commandId), text: references[Number(commandId)]}))
-        .sort((a, b) => a.text.localeCompare(b.text));
+    if (!this.command) {
+      return;
     }
+
+    changes.references && this.updateReferences(changes.references.currentValue);
   }
 
   writeValue(value) {
     this.value = value;
+    this.updateReferences(this.references);
   }
 
   registerOnChange(fn) {
@@ -145,10 +144,6 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
   }
 
   registerOnTouched(fn) {
-  }
-
-  onTypeChange() {
-    this.updateParametersForm(this.form.getRawValue());
   }
 
   onMoveToStart() {
@@ -169,11 +164,11 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
   }
 
   onMoveToEnd() {
-    this.moveToEnd.emit(this.value);
+    this.moveToEnd.emit(this.command);
   }
 
   onDuplicate() {
-    this.duplicate.emit(this.value);
+    this.duplicate.emit(this.command);
   }
 
   onDelete() {
@@ -187,11 +182,11 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe(result => result && this.delete.emit(this.value));
+    dialogRef.afterClosed().subscribe(result => result && this.delete.emit(this.command));
   }
 
   selectedType() {
-    return this.types.find(type => this.form.getRawValue().type === type.type);
+    return this.types.find(type => this.command.type === type.type);
   }
 
   onAddChoice() {
@@ -219,19 +214,9 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
     this.form.updateValueAndValidity();
   }
 
-  get value() {
-    return this.formatOutputValue(this.form.getRawValue());
-  }
+  updateParametersForm() {
 
-  set value(value) {
-    this.updateParametersForm(value);
-    this.form.setValue(value);
-    this.propagateChange(this.formatOutputValue(value));
-  }
-
-  private updateParametersForm(command: Command) {
-
-    this.choices = this.fb.array(command.parameters.choices?.map(choice => this.fb.group(choice)) || []);
+    this.choices = this.fb.array(this.command.parameters.choices?.map(choice => this.fb.group(choice)) || []);
 
     let parameters = {};
     let defaultParameters = {
@@ -245,22 +230,29 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
     };
 
     this.types
-      .find(type => type.type === command.type)
+      .find(type => type.type === this.command.type)
       .parameters
       .forEach(parameter => parameters[parameter] = defaultParameters[parameter]);
 
     this.form.setControl('parameters', this.fb.group(parameters));
   }
 
-  private formatOutputValue(value: Command): Command {
+  get value() {
+    return this.command;
+  }
 
-    const formattedValue = deepCopy(value);
-    formattedValue.id = this.command.id;
-    Object.keys(formattedValue.parameters).forEach(parameter =>
-      this.selectedType().parameters.includes(parameter) || delete formattedValue.parameters[parameter]
-    );
+  set value(value) {
+    this.command = value;
+    this.updateParametersForm();
+    this.form.setValue(value);
+  }
 
-    return formattedValue;
+  private updateReferences(references) {
+
+    this.selectableReferences = Object.keys(references)
+      .filter(commandId => commandId !== this.command.id.toString())
+      .map(commandId => ({commandId: Number(commandId), text: references[Number(commandId)]}))
+      .sort((a, b) => a.text.localeCompare(b.text));
   }
 
   private referenceValidator() {

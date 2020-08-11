@@ -8,7 +8,7 @@
 
     <mat-form-field class="type">
       <mat-label>Command</mat-label>
-      <mat-select formControlName="type" (selectionChange)="onTypeChange()">
+      <mat-select formControlName="type" (selectionChange)="updateParametersForm()">
 
         <mat-option *ngFor="let type of types" [value]="type.type">
           <mat-icon [svgIcon]="type.icon"></mat-icon>
@@ -51,11 +51,11 @@
 
   </div>
 
-  <div *ngIf="value.displayedSections.includes('condition')" class="condition">
+  <div *ngIf="command.displayedSections.includes('condition')" class="condition">
     Not implemented yet
   </div>
 
-  <div *ngIf="value.displayedSections.includes('body')" class="body" [formGroup]="form.get('parameters')">
+  <div *ngIf="command.displayedSections.includes('body')" class="body" [formGroup]="form.get('parameters')">
 
     <mat-checkbox *ngIf="selectedType().parameters.includes('waitForPlayer')" formControlName="waitForPlayer">
       Wait for player click to continue

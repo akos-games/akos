@@ -18,7 +18,6 @@
 
   <div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)" cdkDropListAutoScrollDisabled=0>
     <ak-command cdkDrag *ngFor="let command of commands.controls; let i = index"
-                [command]="command.value"
                 [formControl]="$any(command)"
                 [references]="references"
                 [referenced]="referencedCommands.includes(command.value.id)"
