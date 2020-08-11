@@ -4,11 +4,11 @@ export interface Command {
     | 'displayText'
     | 'hideText'
     | 'startScene'
-    | 'jumpToMarker'
+    | 'jumpToCommand'
     | 'playerChoice';
   displayedSections: ('body' | 'condition')[]
   condition: any;
-  marker?: string;
+  reference?: number;
   parameters?: {
 
     // Commons
@@ -24,10 +24,10 @@ export interface Command {
     // startScene
     sceneId?: number;
 
-    // jumpToMarker
-    toMarker?: string;
+    // jumpToCommand
+    toCommand?: number;
 
     // playerChoice
-    choices?: {marker: string; text: string;}[]
+    choices?: {toCommand: number; text: string;}[]
   }
 }

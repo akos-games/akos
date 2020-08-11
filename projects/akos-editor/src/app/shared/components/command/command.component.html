@@ -18,13 +18,17 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="marker">
+    <mat-form-field class="reference">
 
-      <mat-label>Marker</mat-label>
-      <input matInput formControlName="marker">
+      <mat-label>Reference</mat-label>
+      <input matInput formControlName="reference" [required]="referenced">
 
-      <mat-error *ngIf="form.get('marker').hasError('marker')">
-        This marker is already used in another command
+      <mat-error *ngIf="form.get('reference').hasError('alreadyUsed')">
+        Another command already use this reference name
+      </mat-error>
+
+      <mat-error *ngIf="form.get('reference').hasError('required')">
+        Command is referenced for a jump, reference can't be removed
       </mat-error>
 
     </mat-form-field>
@@ -73,30 +77,31 @@
       Scene
     </ak-select-entity>
 
-    <mat-form-field *ngIf="selectedType().parameters.includes('toMarker')" class="toMarker">
-      <mat-label>Marker</mat-label>
-      <mat-select formControlName="toMarker">
+    <mat-form-field *ngIf="selectedType().parameters.includes('toCommand')" class="toCommand">
+
+      <mat-label>Command</mat-label>
+      <mat-select formControlName="toCommand">
         <mat-option>None</mat-option>
-        <mat-option *ngFor="let marker of markers()" [value]="marker">
-          {{marker}}
+        <mat-option *ngFor="let reference of selectableReferences" [value]="reference.commandId">
+          {{reference.text}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <div *ngIf="selectedType().parameters.includes('choices')" class="choices">
 
-      <form *ngFor="let choice of choices.controls; let i = index" [formGroup]="choice" class="choice">
+      <div *ngFor="let choice of choices.controls; let i = index" [formGroup]="choice" class="choice">
 
         <mat-form-field class="choice-text">
           <textarea matInput matTextareaAutosize placeholder="Text" formControlName="text"></textarea>
         </mat-form-field>
 
-        <mat-form-field class="toMarker">
-          <mat-label>Jump to marker</mat-label>
-          <mat-select formControlName="marker">
+        <mat-form-field class="toCommand">
+          <mat-label>Jump to command</mat-label>
+          <mat-select formControlName="toCommand">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let marker of markers()" [value]="marker">
-              {{marker}}
+            <mat-option *ngFor="let reference of selectableReferences" [value]="reference.commandId">
+              {{reference.text}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -117,7 +122,7 @@
 
         </div>
 
-      </form>
+      </div>
 
       <button mat-raised-button color="primary" (click)="onAddChoice()">
         <mat-icon svgIcon="plus"></mat-icon>

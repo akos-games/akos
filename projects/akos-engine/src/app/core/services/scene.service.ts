@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 export class SceneService {
 
   private scene: Scene;
-  private markers: {[marker: string]: number};
 
   constructor(
     private router: Router,
@@ -50,8 +49,8 @@ export class SceneService {
           nextSceneId = command.parameters.sceneId;
           break;
 
-        case 'jumpToMarker':
-          jumpToIndex = this.markers[command.parameters.toMarker];
+        case 'jumpToCommand':
+          jumpToIndex = this.scene.commands.findIndex(c => c.id === command.parameters.toCommand);
           break;
       }
 
@@ -75,10 +74,7 @@ export class SceneService {
 
   startScene(sceneId: number) {
 
-    this.markers = {};
     this.scene = this.gameDescriptorState.getScene(sceneId);
-    this.scene.commands.forEach((command,index) => command.marker && (this.markers[command.marker] = index));
-
     let game = this.gameState.get();
     game.scene = {
       sceneId,

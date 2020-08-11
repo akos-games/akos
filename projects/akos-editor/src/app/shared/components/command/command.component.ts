@@ -4,24 +4,16 @@ import {
   Component,
   EventEmitter,
   forwardRef,
-  Input,
+  Input, OnChanges,
   OnInit,
-  Output
+  Output, SimpleChanges
 } from '@angular/core';
 import { Command, deepCopy } from 'akos-common';
-import { ControlValueAccessor, FormArray, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MoveCommandDialogComponent } from '../move-command-dialog/move-command-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
-
-const defaultParameters = {
-  waitForPlayer: false,
-  picture: '',
-  fullscreen: false,
-  text: '',
-  sceneId: null,
-  toMarker: null
-};
+import { UiService } from '../../../core/services/ui.service';
 
 interface CommandType {
   type: string;
@@ -30,6 +22,15 @@ interface CommandType {
   header: 'green' | 'blue' | 'yellow' | 'red';
   parameters?: string[];
 }
+
+const defaultParameters = {
+  waitForPlayer: false,
+  picture: '',
+  fullscreen: false,
+  text: '',
+  sceneId: null,
+  toCommand: null
+};
 
 @Component({
   selector: 'ak-command',
@@ -42,10 +43,11 @@ interface CommandType {
     multi: true
   }]
 })
-export class CommandComponent implements OnInit, ControlValueAccessor {
+export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor {
 
   @Input() command: Command;
-  @Input() usedMarkers: any;
+  @Input() references: any;
+  @Input() referenced: boolean;
   @Input() index: number;
   @Output() moveToStart = new EventEmitter<Command>();
   @Output() moveToEnd = new EventEmitter<Command>();
@@ -53,14 +55,9 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   @Output() duplicate = new EventEmitter<Command>();
   @Output() delete = new EventEmitter<Command>();
 
-  choices = this.fb.array([]);
-  form = this.fb.group({
-    id: null,
-    type: '',
-    displayedSections: '',
-    marker: new FormControl('', this.markerValidator()),
-    parameters: this.fb.group({...defaultParameters, choices: this.choices})
-  });
+  choices: FormArray;
+  form: FormGroup;
+  selectableReferences: {commandId: number; text: string;}[];
 
   types: CommandType[] = [{
     type: 'displayText',
@@ -87,11 +84,11 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
     header: 'red',
     parameters: ['sceneId']
   }, {
-    type: 'jumpToMarker',
+    type: 'jumpToCommand',
     icon: 'debug-step-over',
-    text: 'Jump to marker',
+    text: 'Jump to command',
     header: 'yellow',
-    parameters: ['toMarker']
+    parameters: ['toCommand']
   }, {
     type: 'playerChoice',
     icon: 'arrow-decision',
@@ -105,13 +102,37 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private fb: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private uiService: UiService
   ) {
     this.types = this.types.sort((a, b) => a.text.localeCompare(b.text));
   }
 
   ngOnInit() {
-    this.form.valueChanges.subscribe(value => this.propagateChange(this.formatOutputValue(value)));
+    this.initForm();
+    this.form.valueChanges.subscribe(value => {
+
+      this.form.updateValueAndValidity({
+        emitEvent: false
+      });
+
+      if (this.form.valid) {
+        this.propagateChange(this.formatOutputValue(value))
+      }
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (changes.references) {
+
+      let references = changes.references.currentValue;
+
+      this.selectableReferences = Object.keys(references)
+        .filter(commandId => commandId !== this.command.id.toString())
+        .map(commandId => ({commandId: Number(commandId), text: references[Number(commandId)]}))
+        .sort((a, b) => a.text.localeCompare(b.text));
+    }
   }
 
   writeValue(value) {
@@ -152,6 +173,11 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
 
   onDelete() {
 
+    if (this.referenced) {
+      this.uiService.notify('Command is referenced for a jump and cannot be removed');
+      return;
+    }
+
     const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
       disableClose: true
     });
@@ -163,36 +189,37 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
     return this.types.find(type => this.form.getRawValue().type === type.type);
   }
 
-  markers() {
-    return Object.keys(this.usedMarkers)
-      .filter(commandId => this.usedMarkers[commandId] && commandId !== this.command.id.toString())
-      .map(commandId => this.usedMarkers[commandId])
-      .sort((a, b) => a.text.localeCompare(b.text));
-  }
-
-  isMarkerReferenced() {
-
-  }
-
   onAddChoice() {
     this.choices.push(this.fb.group({
-      marker: null,
+      toCommand: null,
       text: ''
     }));
   }
 
   onDeleteChoice(index: number) {
     this.choices.removeAt(index);
+    this.form.updateValueAndValidity();
   }
 
   onMoveChoiceUp(index: number) {
     let controls = this.choices.controls;
     [controls[index - 1], controls[index]] = [controls[index], controls[index - 1]];
+    this.form.updateValueAndValidity();
   }
 
   onMoveChoiceDown(index: number) {
     let controls = this.choices.controls;
     [controls[index], controls[index + 1]] = [controls[index + 1], controls[index]];
+    this.form.updateValueAndValidity();
+  }
+
+  get value() {
+    return this.formatOutputValue(this.form.getRawValue());
+  }
+
+  set value(value) {
+    this.form.setValue({...value, parameters: Object.assign(defaultParameters, value.parameters)});
+    this.propagateChange(this.formatOutputValue(value));
   }
 
   private formatOutputValue(value: Command): Command {
@@ -206,30 +233,39 @@ export class CommandComponent implements OnInit, ControlValueAccessor {
     return formattedValue;
   }
 
-  get value() {
-    return this.formatOutputValue(this.form.getRawValue());
+  private initForm() {
+
+    let config = {
+      id: null,
+      type: '',
+      displayedSections: '',
+      reference: new FormControl('', this.referenceValidator()),
+      parameters: this.fb.group(defaultParameters)
+    }
+
+    if (this.command.type === 'playerChoice') {
+      this.choices = this.fb.array(this.command.parameters.choices?.map(choice => this.fb.group(choice)) || []);
+      config.parameters.addControl('choices', this.choices);
+    }
+
+    this.form = this.fb.group(config);
   }
 
-  set value(value) {
-    this.form.setValue({...value, parameters: Object.assign(defaultParameters, {...value.parameters, choices: []})});
-    this.propagateChange(this.formatOutputValue(value));
-  }
-
-  private markerValidator() {
+  private referenceValidator() {
     return (control: FormControl) => {
 
-      if (!this.usedMarkers) {
+      if (!this.references) {
         return null;
       }
 
-      let used = false;
-      Object.keys(this.usedMarkers).forEach(id => {
-        if (control?.value !== '' && control?.value === this.usedMarkers[id] && Number(id) !== this.command.id) {
-          used = true;
+      let alreadyUsed = false;
+      Object.keys(this.references).forEach(id => {
+        if (control?.value !== '' && control?.value === this.references[id] && id !== this.command.id.toString()) {
+          alreadyUsed = true;
         }
       });
 
-      return used ? {marker: true} : null;
+      return alreadyUsed ? {alreadyUsed} : null;
     };
   }
 }

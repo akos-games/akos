@@ -4,9 +4,9 @@ import { ScenesService } from '../../core/services/scenes.service';
 import { FormBuilder } from '@angular/forms';
 import { generateId } from '../../shared/utils/entity.util';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Command, deepCopy, Scene } from 'akos-common';
+import { Command, deepCopy } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
-import { debounceTime, filter, takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -17,8 +17,8 @@ import { Subject } from 'rxjs';
 })
 export class ScenePage implements OnInit, OnDestroy {
 
-  usedMarkers = {};
-
+  references: any;
+  referencedCommands: number[];
   commands = this.fb.array([]);
   sceneForm = this.fb.group({
     id: null,
@@ -54,7 +54,7 @@ export class ScenePage implements OnInit, OnDestroy {
           emitEvent: false
         });
 
-        this.indexMarkers(scene.commands);
+        this.updateReferences(scene.commands);
       });
 
     this.sceneForm.valueChanges
@@ -63,9 +63,9 @@ export class ScenePage implements OnInit, OnDestroy {
         debounceTime(500)
       )
       .subscribe(value => {
-        this.indexMarkers(value.commands);
-        this.cleanScene(value);
+        this.updateReferences(value.commands);
         this.scenesService.updateScene(value);
+        this.changeDetectorRef.detectChanges();
       });
 
     this.scenesState
@@ -92,7 +92,7 @@ export class ScenePage implements OnInit, OnDestroy {
       id: generateId(),
       type: 'displayText',
       displayedSections: ['body'],
-      marker: '',
+      reference: '',
       parameters: {
         waitForPlayer: true,
         text: ''
@@ -132,27 +132,34 @@ export class ScenePage implements OnInit, OnDestroy {
     this.commands.updateValueAndValidity();
   }
 
-  private indexMarkers(commands: Command[]) {
-    this.usedMarkers = {}
-    commands.forEach(command => this.usedMarkers[command.id] = command.marker);
+  private updateReferences(commands: Command[]) {
+
+    this.references = {};
+    this.referencedCommands = [];
+
+    commands.forEach(command => {
+
+      if (command.reference) {
+        this.references[command.id] = command.reference;
+      }
+
+      if (command.parameters.toCommand) {
+        this.referencedCommands.push(command.parameters.toCommand);
+      }
+
+      if (command.parameters.choices) {
+
+        Array.prototype.push.apply(
+          this.referencedCommands,
+          command.parameters.choices
+            .filter(choice => choice.toCommand)
+            .map(choice => choice.toCommand)
+        );
+      }
+    });
   }
 
   private getCommandIndex(command: Command): number {
     return this.commands.getRawValue().findIndex(c => c.id === command.id);
-  }
-
-  private cleanScene(scene: Scene) {
-
-    scene.commands.forEach(command => {
-
-      if (command.type === 'jumpToMarker'
-        && !Object.keys(this.usedMarkers).some(commandId => this.usedMarkers[commandId] === command.parameters.toMarker)) {
-
-        command.parameters.toMarker = null;
-        this.sceneForm.setValue(scene, {
-          emitEvent: false
-        });
-      }
-    });
   }
 }
