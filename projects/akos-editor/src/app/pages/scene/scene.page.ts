@@ -6,7 +6,7 @@ import { generateId } from '../../shared/utils/entity.util';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Command, deepCopy } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -28,6 +28,7 @@ export class ScenePage implements OnInit, OnDestroy {
 
   private sceneId: number;
   private unsubscribe$ = new Subject();
+  private preventUpdate = false;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -48,18 +49,24 @@ export class ScenePage implements OnInit, OnDestroy {
         const scene = this.scenesState.getById(params.id);
         this.sceneId = scene.id;
 
+        this.preventUpdate = true;
+
         this.commands.clear();
         scene.commands.forEach(() => this.commands.push(this.fb.control({})));
         this.sceneForm.setValue(scene, {
           emitEvent: false
         });
 
+        this.preventUpdate = false;
+
         this.updateReferences(scene.commands);
+        this.changeDetectorRef.detectChanges();
       });
 
     this.sceneForm.valueChanges
       .pipe(
         takeUntil(this.unsubscribe$),
+        filter(() => !this.preventUpdate),
         debounceTime(500)
       )
       .subscribe(value => {

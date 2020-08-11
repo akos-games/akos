@@ -118,7 +118,7 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
       });
 
       if (this.form.valid) {
-        this.propagateChange(this.formatOutputValue(value))
+        this.propagateChange(this.formatOutputValue(value));
       }
     });
   }
