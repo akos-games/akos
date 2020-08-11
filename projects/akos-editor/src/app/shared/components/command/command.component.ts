@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MoveCommandDialogComponent } from '../move-command-dialog/move-command-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import { UiService } from '../../../core/services/ui.service';
+import { filter } from 'rxjs/operators';
 
 interface CommandType {
   type: string;
@@ -22,15 +23,6 @@ interface CommandType {
   header: 'green' | 'blue' | 'yellow' | 'red';
   parameters?: string[];
 }
-
-const defaultParameters = {
-  waitForPlayer: false,
-  picture: '',
-  fullscreen: false,
-  text: '',
-  sceneId: null,
-  toCommand: null
-};
 
 @Component({
   selector: 'ak-command',
@@ -109,8 +101,17 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
   }
 
   ngOnInit() {
-    this.initForm();
-    this.form.valueChanges.subscribe(value => {
+
+    this.form = this.fb.group({
+      id: null,
+      type: '',
+      displayedSections: '',
+      reference: new FormControl('', this.referenceValidator())
+    });
+
+    this.form.valueChanges
+      .pipe(filter(value => value.id))
+      .subscribe(value => {
 
       this.form.updateValueAndValidity({
         emitEvent: false
@@ -146,6 +147,10 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
   registerOnTouched(fn) {
   }
 
+  onTypeChange() {
+    this.updateParametersForm(this.form.getRawValue());
+  }
+
   onMoveToStart() {
     this.moveToStart.emit(this.value);
   }
@@ -174,7 +179,7 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
   onDelete() {
 
     if (this.referenced) {
-      this.uiService.notify('Command is referenced for a jump and cannot be removed');
+      this.uiService.notify('Command is referenced for a jump and can\'t be deleted');
       return;
     }
 
@@ -194,6 +199,7 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
       toCommand: null,
       text: ''
     }));
+    this.form.updateValueAndValidity();
   }
 
   onDeleteChoice(index: number) {
@@ -218,8 +224,32 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
   }
 
   set value(value) {
-    this.form.setValue({...value, parameters: Object.assign(defaultParameters, value.parameters)});
+    this.updateParametersForm(value);
+    this.form.setValue(value);
     this.propagateChange(this.formatOutputValue(value));
+  }
+
+  private updateParametersForm(command: Command) {
+
+    this.choices = this.fb.array(command.parameters.choices?.map(choice => this.fb.group(choice)) || []);
+
+    let parameters = {};
+    let defaultParameters = {
+      waitForPlayer: false,
+      picture: '',
+      fullscreen: false,
+      text: '',
+      sceneId: null,
+      toCommand: null,
+      choices: this.choices
+    };
+
+    this.types
+      .find(type => type.type === command.type)
+      .parameters
+      .forEach(parameter => parameters[parameter] = defaultParameters[parameter]);
+
+    this.form.setControl('parameters', this.fb.group(parameters));
   }
 
   private formatOutputValue(value: Command): Command {
@@ -231,24 +261,6 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
     );
 
     return formattedValue;
-  }
-
-  private initForm() {
-
-    let config = {
-      id: null,
-      type: '',
-      displayedSections: '',
-      reference: new FormControl('', this.referenceValidator()),
-      parameters: this.fb.group(defaultParameters)
-    }
-
-    if (this.command.type === 'playerChoice') {
-      this.choices = this.fb.array(this.command.parameters.choices?.map(choice => this.fb.group(choice)) || []);
-      config.parameters.addControl('choices', this.choices);
-    }
-
-    this.form = this.fb.group(config);
   }
 
   private referenceValidator() {
