@@ -1,8 +1,20 @@
+.scene-loading {
+  opacity: 0.5;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
 form {
   display: flex;
   flex-direction: column;
   margin: 30px 50px;
 }
+
 
 mat-form-field {
   width: 500px;
@@ -16,6 +28,10 @@ mat-form-field {
 
 ak-command {
   margin-bottom: 30px;
+}
+
+ak-command.draggable {
+  cursor: move;
 }
 
 .add-command {

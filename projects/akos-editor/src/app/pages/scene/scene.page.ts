@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ScenesService } from '../../core/services/scenes.service';
 import { FormBuilder } from '@angular/forms';
 import { generateId } from '../../shared/utils/entity.util';
-import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Command, deepCopy } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
 import { concatMap, debounceTime, delay, filter, takeUntil } from 'rxjs/operators';
@@ -19,8 +19,9 @@ import { fromArray } from 'rxjs/internal/observable/fromArray';
 })
 export class ScenePage implements OnInit, OnDestroy {
 
-  references: any;
-  referencedCommands: number[];
+  references = {};
+  referencedCommands: number[] = [];
+  sceneLoading = false;
   commands = this.fb.array([]);
   sceneForm = this.fb.group({
     id: null,
@@ -29,8 +30,6 @@ export class ScenePage implements OnInit, OnDestroy {
   });
 
   private sceneId: number;
-  private preventUpdate = false;
-
   private unsubscribe$ = new Subject();
   private sceneChange$ = new Subject();
 
@@ -40,7 +39,6 @@ export class ScenePage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private scenesService: ScenesService,
-    private uiService: UiService,
     private scenesState: ScenesState
   ) {
   }
@@ -49,43 +47,11 @@ export class ScenePage implements OnInit, OnDestroy {
 
     this.route.params
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(params => {
-
-        this.sceneChange$.next();
-        this.uiService.startLoading();
-
-        let scene = this.scenesState.getById(params.id);
-        let commands = scene.commands;
-
-        scene.commands = [];
-        this.sceneId = scene.id;
-        this.preventUpdate = true;
-
-        this.commands.clear();
-        this.sceneForm.setValue(scene, {
-          emitEvent: false
-        });
-
-        this.changeDetectorRef.detectChanges();
-
-        fromArray(commands)
-          .pipe(
-            concatMap(command => of(command).pipe(delay(10))),
-            takeUntil(this.sceneChange$)
-          )
-          .subscribe(command => {
-            this.commands.push(this.fb.control(command));
-            this.changeDetectorRef.detectChanges();
-          });
-
-        this.preventUpdate = false;
-        this.updateReferences(scene.commands);
-        this.uiService.stopLoading();
-      });
+      .subscribe(params => this.loadScene(params.id));
 
     this.sceneForm.valueChanges
       .pipe(
-        filter(() => !this.preventUpdate),
+        filter(() => !this.sceneLoading),
         debounceTime(500),
         takeUntil(this.unsubscribe$)
       )
@@ -158,6 +124,36 @@ export class ScenePage implements OnInit, OnDestroy {
   onDropCommand(event: CdkDragDrop<Command[]>) {
     moveItemInArray(this.commands.controls, event.previousIndex, event.currentIndex);
     this.commands.updateValueAndValidity();
+  }
+
+  private loadScene(sceneId: number) {
+
+    this.sceneChange$.next();
+
+    let scene = this.scenesState.getById(sceneId);
+    let commands = scene.commands;
+
+    scene.commands = [];
+    this.sceneId = scene.id;
+    this.sceneLoading = true;
+
+    this.commands.clear();
+    this.sceneForm.setValue(scene);
+    this.changeDetectorRef.detectChanges();
+
+    fromArray(commands)
+      .pipe(
+        concatMap(command => of(command).pipe(delay(10))),
+        takeUntil(this.sceneChange$)
+      )
+      .subscribe(command => {
+        this.commands.push(this.fb.control(command));
+        this.changeDetectorRef.detectChanges();
+      })
+      .add(() => {
+        this.updateReferences(commands);
+        this.sceneLoading = false;
+      });
   }
 
   private updateReferences(commands: Command[]) {

@@ -1,5 +1,6 @@
 <mat-toolbar>
 
+  <span *ngIf="sceneLoading" class="scene-loading">Scene is loading...</span>
   <span class="spacer"></span>
 
   <button mat-raised-button color="warn" (click)="onDeleteScene()">
@@ -18,6 +19,8 @@
 
   <div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)" cdkDropListAutoScrollDisabled=0>
     <ak-command cdkDrag *ngFor="let command of commands.controls; let i = index"
+                [cdkDragDisabled]="sceneLoading"
+                [class.draggable]="!sceneLoading"
                 [formControl]="$any(command)"
                 [references]="references"
                 [referenced]="referencedCommands.includes(command.value.id)"
