@@ -4,8 +4,9 @@
 
 ### Added
 
-- Command references.
+- _Player choices_ command.
 - _Jump to command_ command.
+- Command references.
 - Display a popup when an error occurred in the editor.
 - Display a popup when an error occurred in game.
 - Open editor documentation from menu.
