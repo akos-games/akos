@@ -7,13 +7,13 @@ $border-radius: 4px;
 $param-width: 500px;
 $placeholder-color: rgba(0, 0, 0, 0.54);
 
-:host {
+.wrapper {
   border: solid #636363 1px;
   border-radius: $border-radius;
   max-width: 1080px;
   cursor: move;
 
-  > *:not(mat-menu) {
+  > * {
     padding: $padding;
     border-radius: 0 0 $border-radius $border-radius;
   }

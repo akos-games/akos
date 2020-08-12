@@ -1,6 +1,6 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   forwardRef,
@@ -15,6 +15,7 @@ import { MoveCommandDialogComponent } from '../move-command-dialog/move-command-
 import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import { UiService } from '../../../core/services/ui.service';
 import { filter } from 'rxjs/operators';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 interface CommandType {
   type: string;
@@ -28,6 +29,19 @@ interface CommandType {
   selector: 'ak-command',
   templateUrl: './command.component.html',
   styleUrls: ['./command.component.scss'],
+  animations: [
+    trigger('fadeIn', [
+      state('notVisible', style({
+        opacity: 0
+      })),
+      state('visible', style({
+        opacity: 1
+      })),
+      transition('notVisible => visible', [
+        animate('1s')
+      ]),
+    ])
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
@@ -35,7 +49,7 @@ interface CommandType {
     multi: true
   }]
 })
-export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class CommandComponent implements OnInit, AfterViewInit, OnChanges, ControlValueAccessor {
 
   @Input() references: any;
   @Input() referenced: boolean;
@@ -50,6 +64,7 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
   choices: FormArray;
   form: FormGroup;
   selectableReferences: {commandId: number; text: string;}[];
+  animationState = 'notVisible';
 
   types: CommandType[] = [{
     type: 'displayText',
@@ -92,7 +107,6 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
   private propagateChange = _ => {};
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private uiService: UiService
@@ -123,6 +137,10 @@ export class CommandComponent implements OnInit, OnChanges, ControlValueAccessor
         this.propagateChange(value);
       }
     });
+  }
+
+  ngAfterViewInit() {
+    this.animationState = 'visible';
   }
 
   ngOnChanges(changes: SimpleChanges) {

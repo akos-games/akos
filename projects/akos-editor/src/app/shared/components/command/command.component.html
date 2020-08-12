@@ -1,4 +1,4 @@
-<ng-container [formGroup]="form">
+<div class="wrapper" [@fadeIn]="animationState" [formGroup]="form">
 
   <div class="header" [class]="selectedType().header">
 
@@ -133,7 +133,7 @@
 
   </div>
 
-</ng-container>
+</div>
 
 <mat-menu #commandMenu="matMenu">
 

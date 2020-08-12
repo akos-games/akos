@@ -3,11 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ScenesService } from '../../core/services/scenes.service';
 import { FormBuilder } from '@angular/forms';
 import { generateId } from '../../shared/utils/entity.util';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Command, deepCopy } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
-import { debounceTime, filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { concatMap, debounceTime, delay, filter, takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { UiService } from '../../core/services/ui.service';
+import { fromArray } from 'rxjs/internal/observable/fromArray';
 
 @Component({
   selector: 'page-scene',
@@ -27,8 +29,10 @@ export class ScenePage implements OnInit, OnDestroy {
   });
 
   private sceneId: number;
-  private unsubscribe$ = new Subject();
   private preventUpdate = false;
+
+  private unsubscribe$ = new Subject();
+  private sceneChange$ = new Subject();
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -36,6 +40,7 @@ export class ScenePage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private scenesService: ScenesService,
+    private uiService: UiService,
     private scenesState: ScenesState
   ) {
   }
@@ -46,28 +51,43 @@ export class ScenePage implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(params => {
 
-        const scene = this.scenesState.getById(params.id);
-        this.sceneId = scene.id;
+        this.sceneChange$.next();
+        this.uiService.startLoading();
 
+        let scene = this.scenesState.getById(params.id);
+        let commands = scene.commands;
+
+        scene.commands = [];
+        this.sceneId = scene.id;
         this.preventUpdate = true;
 
         this.commands.clear();
-        scene.commands.forEach(() => this.commands.push(this.fb.control({})));
         this.sceneForm.setValue(scene, {
           emitEvent: false
         });
 
-        this.preventUpdate = false;
-
-        this.updateReferences(scene.commands);
         this.changeDetectorRef.detectChanges();
+
+        fromArray(commands)
+          .pipe(
+            concatMap(command => of(command).pipe(delay(10))),
+            takeUntil(this.sceneChange$)
+          )
+          .subscribe(command => {
+            this.commands.push(this.fb.control(command));
+            this.changeDetectorRef.detectChanges();
+          });
+
+        this.preventUpdate = false;
+        this.updateReferences(scene.commands);
+        this.uiService.stopLoading();
       });
 
     this.sceneForm.valueChanges
       .pipe(
-        takeUntil(this.unsubscribe$),
         filter(() => !this.preventUpdate),
-        debounceTime(500)
+        debounceTime(500),
+        takeUntil(this.unsubscribe$)
       )
       .subscribe(value => {
         this.updateReferences(value.commands);
@@ -88,6 +108,7 @@ export class ScenePage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.sceneChange$.complete();
   }
 
   onDeleteScene() {
