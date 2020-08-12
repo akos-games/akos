@@ -19,6 +19,7 @@ export class ScenePage implements OnInit, OnDestroy {
   fullscreen: boolean;
   textContent: string;
   textVisible: boolean;
+  playerChoices: any[];
 
   showPauseMenu = false;
   shortcuts: ShortcutInput[] = [];
@@ -40,11 +41,7 @@ export class ScenePage implements OnInit, OnDestroy {
     this.shortcuts.push({
       key: 'space',
       preventDefault: true,
-      command: () => {
-        if (!this.showPauseMenu) {
-          this.sceneService.nextCommand();
-        }
-      }
+      command: () => this.nextCommand()
     }, {
       key: 'esc',
       preventDefault: true,
@@ -65,6 +62,7 @@ export class ScenePage implements OnInit, OnDestroy {
         this.fullscreen = game.scene.picture.fullscreen;
         this.textContent = game.scene.text.content?.replace(/\n/g, '<br>');
         this.textVisible = game.scene.text.visible;
+        this.playerChoices = game.scene.playerChoices;
         this.cdRef.detectChanges();
       });
   }
@@ -74,11 +72,14 @@ export class ScenePage implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  @HostListener('click')
-  onClick() {
-    if (!this.showPauseMenu) {
+  nextCommand() {
+    if (!this.showPauseMenu && !this.playerChoices) {
       this.sceneService.nextCommand();
     }
+  }
+
+  onChoiceClick(choice) {
+    this.sceneService.selectChoice(choice);
   }
 
   onPauseMenuClosed() {

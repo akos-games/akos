@@ -3,10 +3,16 @@
 <div class="wrapper">
 
   <div class="canva">
-    <img *ngIf="pictureUrl" src="{{pictureUrl}}" [class.fullscreen]="fullscreen"/>
+    <img *ngIf="pictureUrl" src="{{pictureUrl}}" [class.fullscreen]="fullscreen" (click)="nextCommand()"/>
   </div>
 
-  <div *ngIf="textVisible" class="text-container" [innerHTML]="textContent"></div>
+  <div *ngIf="textVisible" class="text-container" [innerHTML]="textContent" (click)="nextCommand()"></div>
+
+  <div *ngIf="playerChoices" class="choice-container">
+    <div *ngFor="let choice of playerChoices" class="choice" (click)="onChoiceClick(choice)">
+      {{choice.text}}
+    </div>
+  </div>
 
 </div>
 

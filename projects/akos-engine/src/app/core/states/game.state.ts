@@ -12,7 +12,11 @@ export interface Game {
     text: {
       content: string;
       visible: boolean;
-    }
+    },
+    playerChoices: {
+      text: string;
+      toCommand: number;
+    }[]
   }
 }
 

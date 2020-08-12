@@ -37,3 +37,29 @@ ak-pause-menu {
   background-color: rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
+
+.choice-container {
+  position: absolute;
+  top: 5%;
+  left: 20%;
+  right: 20%;
+  height: 65%;
+  box-sizing: border-box;
+  overflow: scroll;
+
+  .choice {
+    padding: 0.1em 4em;
+    margin: 2em 0;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .choice:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.choice-container::-webkit-scrollbar {
+  display: none;
+}

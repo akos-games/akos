@@ -20,6 +20,7 @@ export class SceneService {
 
     let command: Command;
     let nextSceneId = null;
+    let playerChoices = false;
 
     do {
 
@@ -50,7 +51,12 @@ export class SceneService {
           break;
 
         case 'jumpToCommand':
-          jumpToIndex = this.scene.commands.findIndex(c => c.id === command.parameters.toCommand);
+          jumpToIndex = this.findCommandIndex(command.parameters.toCommand);
+          break;
+
+        case 'playerChoice':
+          this.displayChoices(command.parameters.choices);
+          playerChoices = true;
           break;
       }
 
@@ -63,7 +69,7 @@ export class SceneService {
 
       this.gameState.set(game);
 
-    } while (!command.parameters.waitForPlayer && !nextSceneId);
+    } while (!command.parameters.waitForPlayer && !playerChoices && !nextSceneId);
 
     if (nextSceneId) {
       this.startScene(nextSceneId);
@@ -86,29 +92,54 @@ export class SceneService {
       text: {
         content: null,
         visible: false
-      }
+      },
+      playerChoices: null
     };
     this.gameState.set(game);
     this.nextCommand();
   }
 
-  displayPicture(asset: string, fullscreen: boolean) {
+  selectChoice(choice) {
+
+    let game = this.gameState.get();
+
+    if (choice.toCommand) {
+      game.scene.commandIndex = this.findCommandIndex(choice.toCommand);
+    }
+
+    game.scene.playerChoices = null;
+    this.gameState.set(game)
+
+    this.nextCommand();
+  }
+
+  private findCommandIndex(commandId: number): number {
+    return this.scene.commands.findIndex(command => command.id === commandId);
+  }
+
+  private displayPicture(asset: string, fullscreen: boolean) {
     let game = this.gameState.get();
     game.scene.picture.asset = asset;
     game.scene.picture.fullscreen = fullscreen;
     this.gameState.set(game);
   }
 
-  displayText(content: string) {
+  private displayText(content: string) {
     let game = this.gameState.get();
     game.scene.text.content = content;
     game.scene.text.visible = true;
     this.gameState.set(game);
   }
 
-  hideText() {
+  private hideText() {
     let game = this.gameState.get();
     game.scene.text.visible = false;
+    this.gameState.set(game);
+  }
+
+  private displayChoices(choices: any[]) {
+    let game = this.gameState.get();
+    game.scene.playerChoices = choices;
     this.gameState.set(game);
   }
 }
