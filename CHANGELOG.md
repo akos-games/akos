@@ -22,6 +22,7 @@
 
 - Deleting a scene shows welcome page.
 - _Esc_ shortcut broken during game after opening settings.
+- Loading a scene with a large amount a commands in editor takes time.
 
 ### Removed
 
