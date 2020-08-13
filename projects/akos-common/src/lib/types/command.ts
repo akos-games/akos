@@ -6,7 +6,7 @@ export interface Command {
     | 'startScene'
     | 'jumpToCommand'
     | 'playerChoice';
-  displayedSections: ('body' | 'condition')[]
+  displayedSections?: ('body' | 'condition')[]
   condition: any;
   reference?: number;
   parameters?: {

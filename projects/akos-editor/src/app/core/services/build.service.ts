@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NativeService, NativeState } from 'akos-common';
+import { GameDescriptor, NativeService, NativeState } from 'akos-common';
 import { ProjectState } from '../states/project.state';
 import { ProjectService } from './project.service';
 import { UiService } from './ui.service';
@@ -46,10 +46,27 @@ export class BuildService {
 
     let projectSate = this.projectState.get();
     let distDir = projectSate.distDir;
+    let gameDescriptorFile = `${distDir}/${platform}/game-descriptor.akg`;
 
     if (await this.nativeService.exists(`${distDir}/${platform}`)) {
-      await this.nativeService.copy(projectSate.file, `${distDir}/${platform}/game-descriptor.akg`);
+      await this.nativeService.copy(projectSate.file, gameDescriptorFile);
       await this.nativeService.copy(projectSate.assetsDir, `${distDir}/${platform}/assets`);
+      await this.sanitizeGameDescriptor(gameDescriptorFile);
     }
+  }
+
+  private async sanitizeGameDescriptor(gameDescriptorFile: string) {
+
+    let gameDescriptor: GameDescriptor = JSON.parse(await this.nativeService.readFile(gameDescriptorFile));
+
+    gameDescriptor.scenes.forEach(scene => {
+      delete scene.comments;
+      scene.commands.forEach(command => {
+        delete command.displayedSections;
+        !command.reference && delete command.reference;
+      });
+    });
+
+    await this.nativeService.writeFile(gameDescriptorFile, JSON.stringify(gameDescriptor));
   }
 }
