@@ -3,6 +3,6 @@ import { Command } from './command';
 export interface Scene {
   id: number;
   name?: string;
-  comment?: string;
+  comments?: string;
   commands: Command[];
 }

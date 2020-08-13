@@ -26,6 +26,7 @@ export class ScenePage implements OnInit, OnDestroy {
   sceneForm = this.fb.group({
     id: null,
     name: '',
+    comments: '',
     commands: this.commands
   });
 

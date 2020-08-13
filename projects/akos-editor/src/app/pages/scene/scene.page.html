@@ -17,6 +17,10 @@
     <input matInput formControlName="name" required>
   </mat-form-field>
 
+  <mat-form-field class="comments">
+    <textarea matInput matTextareaAutosize [matAutosizeMaxRows]="4" placeholder="Comments" formControlName="comments"></textarea>
+  </mat-form-field>
+
   <div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)" cdkDropListAutoScrollDisabled=0>
     <ak-command cdkDrag *ngFor="let command of commands.controls; let i = index"
                 [cdkDragDisabled]="sceneLoading"
