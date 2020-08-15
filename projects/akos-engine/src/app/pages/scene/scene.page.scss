@@ -40,26 +40,40 @@ ak-pause-menu {
 
 .choice-container {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  align-content: center;
   top: 5%;
   left: 20%;
   right: 20%;
-  height: 65%;
+  height: 90%;
   box-sizing: border-box;
-  overflow: scroll;
 
-  .choice {
-    padding: 0.1em 4em;
-    margin: 2em 0;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.5);
+  ::-webkit-scrollbar {
+    display: none;
   }
 
-  .choice:hover {
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.25);
+  .choice-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: scroll;
+
+    .choice {
+      padding: 0.1em 4em;
+      margin: 1em 0;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .choice:hover {
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.25);
+    }
   }
 }
 
-.choice-container::-webkit-scrollbar {
-  display: none;
+.choice-container.reduced {
+  height: 65%;
 }

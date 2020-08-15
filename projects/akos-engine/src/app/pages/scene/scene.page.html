@@ -8,9 +8,11 @@
 
   <div *ngIf="textVisible" class="text-container" [innerHTML]="textContent" (click)="nextCommand()"></div>
 
-  <div *ngIf="playerChoices" class="choice-container">
-    <div *ngFor="let choice of playerChoices" class="choice" (click)="onChoiceClick(choice)">
-      {{choice.text}}
+  <div *ngIf="playerChoices" class="choice-container" [class.reduced]="textVisible">
+    <div class="choice-wrapper">
+      <div *ngFor="let choice of playerChoices" class="choice" (click)="onChoiceClick(choice)">
+        {{choice.text}}
+      </div>
     </div>
   </div>
 
