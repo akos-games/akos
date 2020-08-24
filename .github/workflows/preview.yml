@@ -37,7 +37,6 @@ jobs:
           key: npm-cache
       - name: Build engine
         run: npm run build:engine
-        shell: bash
       - name: Upload engine artifact
         uses: actions/upload-artifact@v2
         with:
