@@ -43,11 +43,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: develop
-      - name: Retrieve dependencies
+      - name: Retrieve cached dependencies
         uses: actions/cache@v2
         with:
           path:  ~/.npm
           key: dep
+      - name: Install dependencies
+        run: npm install
       - name: Download engine artifacts
         uses: actions/download-artifact@v2
         with:
