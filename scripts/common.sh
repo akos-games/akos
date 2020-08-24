@@ -4,8 +4,8 @@ function build_electron() {
   local project
   project="$1"
 
-  ng build akos-common
-  ng build "$project" --prod --base-href ./
-  tsc -p projects/"$project"/tsconfig.electron.json
-  electron-builder -c projects/"$project"/electron-builder.yml
+  ng build akos-common || exit 1
+  ng build "$project" --prod --base-href ./ || exit 1
+  tsc -p projects/"$project"/tsconfig.electron.json || exit 1
+  electron-builder -c projects/"$project"/electron-builder.yml || exit 1
 }
