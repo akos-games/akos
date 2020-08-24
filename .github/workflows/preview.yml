@@ -1,5 +1,4 @@
 # TODO
-# Fix Windows build
 # Fix engine artifact path
 # Fix editor artifact
 # Fix engine exec permission
@@ -8,8 +7,8 @@
 name: Preview channel
 on:
   workflow_dispatch:
-env:
-  NODE_VERSION: 14.x
+#env:
+ # NODE_VERSION: 14.x
 defaults:
   run:
     shell: bash
@@ -24,52 +23,52 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: develop
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.NODE_VERSION }}
+  #    - name: Use Node.js ${{ env.NODE_VERSION }}
+   #     uses: actions/setup-node@v1
+    #    with:
+     #     node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
         run: npm install
-      - name: Cache dependencies
+      - name: Cache sources and dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: npm-cache
+          path: |
+            ~/.npm
+            .
+          key: src-dep
       - name: Build engine
         run: npm run build:engine
       - name: Upload engine artifact
         uses: actions/upload-artifact@v2
         with:
+          name: akos-engine
           path: dist/build/akos-engine/*
   build_editor:
     runs-on: ${{ matrix.os }}
     needs: [build_engine]
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
     steps:
-      - name: Checkout branch develop
-        uses: actions/checkout@v2
-        with:
-          ref: develop
-      - name: Cache dependencies
+      - name: Cache sources and dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: npm-cache
-      - name: Install dependencies
-        run: npm install
-      - name: Prepare engine directory
-        run: mkdir -p dist/build/akos-engine
+          path: |
+            ~/.npm
+            .
+          key: src-dep
+     # - name: Prepare engine directory
+      #  run: mkdir -p dist/build/akos-engine
       - name: Download engine artifacts
         uses: actions/download-artifact@v2
         with:
-          path: dist/build/akos-engine
+          path: dist/build
       - name: Build editor
         run: npm run build:editor
       - name: Upload editor
         uses: actions/upload-artifact@v2
         with:
+          name: release
           path: dist/release/*
           
         
