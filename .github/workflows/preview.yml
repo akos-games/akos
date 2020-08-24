@@ -51,6 +51,7 @@ jobs:
       - name: Download engine artifacts
         uses: actions/download-artifact@v2
         with:
+          name: akos-engine
           path: dist/build
       - name: Clean engine directory
         run: rm -rf dist/build/akos-engine/.icon-ico
