@@ -136,7 +136,10 @@ export class ScenePage implements OnInit, OnDestroy {
 
     scene.commands = [];
     this.sceneId = scene.id;
-    this.sceneLoading = true;
+
+    if(commands.length > 0) {
+      this.sceneLoading = true;
+    }
 
     this.commands.clear();
     this.sceneForm.setValue(scene);
