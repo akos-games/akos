@@ -18,19 +18,19 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: develop
-      - name: Install dependencies
-        run: npm install
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path:  ~/.npm
-          key: dep
+          key: cache-${{ matrix.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
       - name: Build engine
         run: npm run build:engine
       - name: Upload engine artifact
         uses: actions/upload-artifact@v2
         with:
-          name: akos-engine
+          name: engine
           path: dist/build/akos-engine/*
   build_editor:
     runs-on: ${{ matrix.os }}
@@ -39,26 +39,11 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     steps:
-      - name: Checkout branch develop
-        uses: actions/checkout@v2
-        with:
-          ref: develop
-      - name: Retrieve cached dependencies
-        uses: actions/cache@v2
-        with:
-          path:  ~/.npm
-          key: dep
-      - name: Install dependencies
-        run: npm install
       - name: Download engine artifacts
         uses: actions/download-artifact@v2
         with:
-          name: akos-engine
-          path: dist/build
-      - name: temp
-        run: ls dist/build
-      - name: Clean engine directory
-        run: rm -rf dist/build/akos-engine/.icon-ico
+          name: engine
+          path: dist/build/akos-engine
       - name: Build editor
         run: npm run build:editor
       - name: Upload editor
