@@ -39,6 +39,17 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     steps:
+      - name: Checkout branch develop
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path:  ~/.npm
+          key: cache-${{ matrix.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
       - name: Download engine artifacts
         uses: actions/download-artifact@v2
         with:
