@@ -15,9 +15,10 @@ export class ScenesService {
 
   createScene(): Scene {
 
-    let scene = {
+    let scene: Scene = {
       id: generateId(),
       name: 'New scene',
+      comments: '',
       commands: []
     };
 
