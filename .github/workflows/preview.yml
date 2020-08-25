@@ -1,3 +1,6 @@
+# TODO
+# Fix NPM cache on Windows
+
 name: Preview channel
 on:
   workflow_dispatch:
@@ -18,7 +21,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          path:  ~/.npm
+          path: ~/.npm
           key: cache-${{ matrix.os }}-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
         run: npm install
@@ -43,7 +46,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          path:  ~/.npm
+          path: ~/.npm
           key: cache-${{ matrix.os }}-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
         run: npm install
@@ -52,6 +55,8 @@ jobs:
         with:
           name: engine
           path: dist/build/akos-engine
+      - name: Clean engine directory
+        run: rm -rf dist/build/akos-engine/.icon-ico
       - name: Build editor
         run: npm run build:editor
       - name: Rename artifact
