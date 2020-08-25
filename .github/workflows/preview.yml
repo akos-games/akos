@@ -1,6 +1,3 @@
-# TODO
-# Fix NPM cache on Windows
-
 name: Preview channel
 on:
   workflow_dispatch:
@@ -21,7 +18,9 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.npm
+          path: |
+            ~/.npm
+            $APPDATA/npm-cache
           key: cache-${{ matrix.os }}-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
         run: npm install
@@ -46,7 +45,9 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.npm
+          path: |
+            ~/.npm
+            $APPDATA/npm-cache
           key: cache-${{ matrix.os }}-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
         run: npm install
