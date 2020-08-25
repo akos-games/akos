@@ -55,6 +55,8 @@ jobs:
         with:
           name: akos-engine
           path: dist/build
+      - name: temp
+        run: ls dist/build
       - name: Clean engine directory
         run: rm -rf dist/build/akos-engine/.icon-ico
       - name: Build editor
