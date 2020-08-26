@@ -1,4 +1,4 @@
-name: Preview channel
+name: Release channel
 on:
   workflow_dispatch:
 defaults:
@@ -14,7 +14,7 @@ jobs:
       - name: Checkout branch develop
         uses: actions/checkout@v2
         with:
-          ref: develop
+          ref: master
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
@@ -41,7 +41,7 @@ jobs:
       - name: Checkout branch develop
         uses: actions/checkout@v2
         with:
-          ref: develop
+          ref: master
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
@@ -60,12 +60,10 @@ jobs:
         run: rm -rf dist/build/akos-engine/.icon-ico
       - name: Build editor
         run: npm run build:editor
-      - name: Rename artifact
-        run: mv dist/release/* dist/release/$(lsOutput=$(ls dist/release); today=$(printf '%(%Y%m%d)T\n' -1); echo ${lsOutput/.zip/-preview-$today.zip})
       - name: Upload editor
         uses: actions/upload-artifact@v2
         with:
-          name: preview
+          name: release
           path: dist/release/*
-          
-        
+
+
