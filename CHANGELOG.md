@@ -4,6 +4,7 @@
 
 ### Added
 
+- Linux support.
 - _Player choices_ command.
 - _Jump to command_ command.
 - Command references.
