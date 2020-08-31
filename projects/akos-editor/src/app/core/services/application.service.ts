@@ -16,9 +16,9 @@ export class ApplicationService {
     private projectState: ProjectState,
     private gameState: GameState
   ) {
-    this.gameState.observe().subscribe(game => {
+    this.gameState.observe().subscribe(game =>
       this.nativeService.setWindowTitle(`${game?.name && game.name + ' - ' || ''}Akos Editor`)
-    });
+    );
   }
 
   async closeApp() {

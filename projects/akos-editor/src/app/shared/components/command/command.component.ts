@@ -261,6 +261,7 @@ export class CommandComponent implements OnInit, AfterViewInit, OnChanges, Contr
 
   set value(value) {
     this.command = value;
+    this.command.parameters?.choices?.forEach(choice => choice.toCommand = choice.toCommand || null);
     this.updateParametersForm();
     this.form.setValue(value);
   }
