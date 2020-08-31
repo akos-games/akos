@@ -87,10 +87,11 @@ function createMainWindow() {
 
   (async () => {
 
-    await mainWindow.loadURL(loadUrl);
-
+    mainWindow.setTitle('Akos Editor');
     mainWindow.setMenuBarVisibility(false);
     mainWindow.maximize();
+
+    await mainWindow.loadURL(loadUrl);
 
     if (args.serve) {
       mainWindow.webContents.openDevTools();

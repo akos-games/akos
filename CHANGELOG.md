@@ -20,6 +20,7 @@
 
 - Editor visual theme.
 - Use game name for build directory and executable.
+- Use game name as editor window title. 
 
 ### Fixed
 

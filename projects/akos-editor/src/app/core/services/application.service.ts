@@ -4,6 +4,7 @@ import { NativeService } from 'akos-common';
 import { ProjectState } from '../states/project.state';
 import { UiService } from './ui.service';
 import { version } from  '../../../../../../package.json';
+import { GameState } from '../states/game.state';
 
 @Injectable()
 export class ApplicationService {
@@ -12,8 +13,12 @@ export class ApplicationService {
     private projectService: ProjectService,
     private nativeService: NativeService,
     private uiService: UiService,
-    private projectState: ProjectState
+    private projectState: ProjectState,
+    private gameState: GameState
   ) {
+    this.gameState.observe().subscribe(game => {
+      this.nativeService.setWindowTitle(`${game?.name && game.name + ' - ' || ''}Akos Editor`)
+    });
   }
 
   async closeApp() {
