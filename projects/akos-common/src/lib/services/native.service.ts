@@ -56,6 +56,13 @@ export class NativeService {
     }));
   }
 
+  async move(source: string, destination: string) {
+    return new Promise<void>((resolve, reject) => this.fs.move(source, destination, error => {
+      error && reject(error);
+      resolve();
+    }));
+  }
+
   async remove(fileOrDir: string) {
     return new Promise<void>((resolve, reject) => this.fs.remove(fileOrDir, error => {
       error && reject(error);

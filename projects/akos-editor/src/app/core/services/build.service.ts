@@ -3,6 +3,8 @@ import { GameDescriptor, NativeService, NativeState } from 'akos-common';
 import { ProjectState } from '../states/project.state';
 import { ProjectService } from './project.service';
 import { UiService } from './ui.service';
+import sanitize from 'sanitize-filename';
+import { GameState } from '../states/game.state';
 
 @Injectable()
 export class BuildService {
@@ -14,7 +16,8 @@ export class BuildService {
     private projectService: ProjectService,
     private uiService: UiService,
     private nativeState: NativeState,
-    private projectState: ProjectState
+    private projectState: ProjectState,
+    private gameState: GameState
   ) {
     nativeState.observe().subscribe(nativeContext =>
       this.engineDir = nativeContext.serveDistDir ? `${nativeContext.serveDistDir}/build/akos-engine` : `${nativeContext.workingDir}/engine`
@@ -33,7 +36,7 @@ export class BuildService {
     await this.nativeService.ensureDir(distDir);
     await this.nativeService.copy(this.engineDir, distDir);
 
-    await this.buildDesktop('win');
+    await this.buildDesktop('win', '.exe');
     await this.buildDesktop('mac');
     await this.buildDesktop('linux');
 
@@ -42,15 +45,20 @@ export class BuildService {
     this.uiService.stopLoading();
   }
 
-  private async buildDesktop(platform: string) {
+  private async buildDesktop(platform: string, extension = '') {
 
     let projectSate = this.projectState.get();
-    let distDir = projectSate.distDir;
-    let gameDescriptorFile = `${distDir}/${platform}/game-descriptor.akg`;
+    let gameState = this.gameState.get();
 
-    if (await this.nativeService.exists(`${distDir}/${platform}`)) {
+    let executableName = sanitize(gameState.name.replace(/ /gi, ''));
+    let gameDir = `${projectSate.distDir}/${executableName}-${gameState.version}-${platform}`
+    let gameDescriptorFile = `${gameDir}/game-descriptor.akg`;
+
+    if (await this.nativeService.exists(`${projectSate.distDir}/${platform}`)) {
+      await this.nativeService.move(`${projectSate.distDir}/${platform}`, gameDir);
+      await this.nativeService.move(`${gameDir}/Game${extension}`, `${gameDir}/${executableName}${extension}`);
       await this.nativeService.copy(projectSate.file, gameDescriptorFile);
-      await this.nativeService.copy(projectSate.assetsDir, `${distDir}/${platform}/assets`);
+      await this.nativeService.copy(projectSate.assetsDir, `${gameDir}/assets`);
       await this.sanitizeGameDescriptor(gameDescriptorFile);
     }
   }

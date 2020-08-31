@@ -19,6 +19,7 @@
 ### Changed
 
 - Editor visual theme.
+- Use game name for build directory and executable.
 
 ### Fixed
 

@@ -1,4 +1,4 @@
-productName: "Akos Engine"
+productName: "Game"
 directories:
   buildResources: "projects/akos-engine/build"
   output: "dist/build/akos-engine"
@@ -13,4 +13,4 @@ win:
   target: dir
 linux:
   target: dir
-  executableName: "Akos Engine"
+  executableName: "Game"
