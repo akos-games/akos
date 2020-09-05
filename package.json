@@ -20,7 +20,7 @@
     "test": "ng test"
   },
   "dependencies": {
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.1",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
@@ -39,13 +39,13 @@
     "@angular/platform-browser": "^10.1.0",
     "@angular/platform-browser-dynamic": "^10.1.0",
     "@angular/router": "^10.1.0",
-    "@mdi/angular-material": "^5.3.45",
+    "@mdi/angular-material": "^5.5.55",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.12.44",
-    "codelyzer": "^5.2.2",
-    "electron": "^8.3.1",
-    "electron-builder": "^22.7.0",
+    "@types/node": "^12.12.55",
+    "codelyzer": "^6.0.0",
+    "electron": "^10.1.1",
+    "electron-builder": "^22.8.0",
     "electron-reload": "^1.5.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -58,13 +58,13 @@
     "ng-packagr": "^10.1.0",
     "npm-run-all": "^4.1.5",
     "protractor": "~7.0.0",
-    "rxjs": "^6.5.5",
+    "rxjs": "^6.6.2",
     "sanitize-filename": "^1.6.3",
     "ts-node": "~7.0.0",
     "tslint": "~6.1.0",
     "typeface-roboto": "0.0.75",
     "typescript": "~4.0.2",
-    "wait-on": "^3.3.0",
+    "wait-on": "^5.2.0",
     "zone.js": "~0.10.3"
   }
 }
