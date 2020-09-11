@@ -81,7 +81,9 @@ function createMainWindow() {
   mainWindow = new BrowserWindow({
     webPreferences: {
       // Allows NodeJS API from render process
-      nodeIntegration: true
+      nodeIntegration: true,
+      // Allows Remote API from render process
+      enableRemoteModule: true
     }
   });
 

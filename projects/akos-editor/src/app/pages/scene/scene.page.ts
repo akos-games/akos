@@ -8,7 +8,6 @@ import { Command, deepCopy } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
 import { concatMap, debounceTime, delay, filter, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
-import { UiService } from '../../core/services/ui.service';
 import { fromArray } from 'rxjs/internal/observable/fromArray';
 
 @Component({

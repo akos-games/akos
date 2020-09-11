@@ -38,7 +38,7 @@ function setExecutionContext() {
 
   global.executionContext = {
     args: args,
-    workingDir: args.serve ? `${__dirname}/../../game/dist/win` : process.cwd(),
+    workingDir: args.serve ? `${__dirname}/../../game/dist/TestGame-1.0-win` : process.cwd(),
     serveDistDir: args.serve ? `${__dirname}/../..` : null
   }
 }
@@ -68,7 +68,9 @@ function createMainWindow() {
       // Allows render process to access local files
       webSecurity: false,
       // Allows NodeJS API from render process
-      nodeIntegration: true
+      nodeIntegration: true,
+      // Allows Remote API from render process
+      enableRemoteModule: true
     }
   });
 
