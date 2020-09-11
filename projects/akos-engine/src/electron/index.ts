@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, protocol } from 'electron';
 import { format } from 'url';
 import * as fs from 'fs-extra';
 
@@ -86,4 +86,9 @@ function createMainWindow() {
     }
 
   })();
+
+  protocol.registerFileProtocol('file', (request, callback) => {
+    const pathname = decodeURI(request.url.replace('file:///', ''));
+    callback(pathname);
+  });
 }
