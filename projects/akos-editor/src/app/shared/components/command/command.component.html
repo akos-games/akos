@@ -2,6 +2,8 @@
 
   <div class="header" [class]="selectedType().header">
 
+    <ng-content select="[slot=drag-handle]"></ng-content>
+
     <span class="index">#{{index}}</span>
 
     <mat-icon [svgIcon]="selectedType().icon" class="type-icon"></mat-icon>

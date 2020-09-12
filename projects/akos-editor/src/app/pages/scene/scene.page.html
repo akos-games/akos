@@ -24,7 +24,6 @@
   <div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)" cdkDropListAutoScrollDisabled=0>
     <ak-command cdkDrag *ngFor="let command of commands.controls; let i = index"
                 [cdkDragDisabled]="sceneLoading"
-                [class.draggable]="!sceneLoading"
                 [formControl]="$any(command)"
                 [references]="references"
                 [referenced]="referencedCommands.includes(command.value.id)"
@@ -34,6 +33,7 @@
                 (moveToPosition)="onMoveCommandToPosition($event.command, $event.index)"
                 (duplicate)="onDuplicate($event)"
                 (delete)="onDeleteCommand($event)">
+      <mat-icon svgIcon="drag-vertical" cdkDragHandle slot="drag-handle" class="drag-handle"></mat-icon>
     </ak-command>
   </div>
 

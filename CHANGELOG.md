@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0
+
+### Changed
+
+- Commands can only be dragged using the handle.
+
+### Fixed
+
+- Selecting text inside a command drags the command.
+
 ## 0.3.0 - 2020-09-04
 
 ### Added

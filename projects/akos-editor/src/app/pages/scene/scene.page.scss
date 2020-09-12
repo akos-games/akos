@@ -34,10 +34,6 @@ ak-command {
   margin-bottom: 30px;
 }
 
-ak-command.draggable {
-  cursor: move;
-}
-
 .add-command {
   align-self: flex-start;
 }
@@ -63,4 +59,8 @@ ak-command.draggable {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.drag-handle {
+  cursor: move;
 }

@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MoveCommandDialogComponent } from './components/move-command-dialog/move-command-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog/confirm-delete-dialog.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -26,21 +27,22 @@ import { ConfirmDeleteDialogComponent } from './components/confirm-delete-dialog
     MoveCommandDialogComponent,
     ConfirmDeleteDialogComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonToggleModule,
-    MatMenuModule,
-    MatDialogModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonToggleModule,
+        MatMenuModule,
+        MatDialogModule,
+        DragDropModule
+    ],
   exports: [
     AssetSelectorComponent,
     CommandComponent,
