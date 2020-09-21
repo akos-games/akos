@@ -1,4 +1,4 @@
-<img  align="left" width="80" height="80" src=".readme/akos.png"/>
+<img  align="left" width="80" height="80" src=".readme/akos.svg"/>
 
 # Akos - Visual novel engine
 
