@@ -27,6 +27,9 @@ export class SaveComponent implements OnInit {
     });
   }
 
+  newSave() {
+  }
+
   close() {
     this.mode === 'save' && this.saveService.hideSaveMenu();
     this.mode === 'load' && this.saveService.hideLoadMenu();

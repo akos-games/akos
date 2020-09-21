@@ -1,3 +1,13 @@
 <ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
 
-{{ mode }}
+<div class="saves">
+</div>
+
+<div class="no-saves">
+  No game saves
+</div>
+
+<div class="buttons">
+  <div *ngIf="mode === 'save'" class="button" (click)="newSave()">New save</div>
+  <div class="button" (click)="close()">Back</div>
+</div>
