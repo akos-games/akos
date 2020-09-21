@@ -5,6 +5,7 @@
 ### Changed
 
 - Commands can only be dragged using the handle.
+- Improved logo quality.
 
 ### Fixed
 
