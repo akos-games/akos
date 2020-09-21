@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { GameService } from '../../../../core/services/game.service';
 import { ApplicationService } from '../../../../core/services/application.service';
 import { SettingsService } from '../../../../core/services/settings.service';
+import { SaveService } from '../../../../core/services/save.service';
 
 @Component({
   selector: 'ak-pause-menu',
@@ -15,7 +16,8 @@ export class PauseMenuComponent implements OnInit {
   constructor(
     private applicationService: ApplicationService,
     private gameService: GameService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private saveService: SaveService
   ) {
   }
 
@@ -25,6 +27,14 @@ export class PauseMenuComponent implements OnInit {
   closeMenu(clickEvent) {
     clickEvent.stopPropagation();
     this.close.emit();
+  }
+
+  saveGame() {
+    this.saveService.showSaveMenu();
+  }
+
+  loadGame() {
+    this.saveService.showLoadMenu();
   }
 
   showSettings() {

@@ -4,11 +4,13 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorComponent } from './components/error/error.component';
 import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
+import { SaveComponent } from './components/save/save.component';
 
 @NgModule({
   declarations: [
-    SettingsComponent,
-    ErrorComponent
+    ErrorComponent,
+    SaveComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,
@@ -16,8 +18,9 @@ import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
     KeyboardShortcutsModule
   ],
   exports: [
-    SettingsComponent,
-    ErrorComponent
+    ErrorComponent,
+    SaveComponent,
+    SettingsComponent
   ]
 })
 export class LayoutModule {

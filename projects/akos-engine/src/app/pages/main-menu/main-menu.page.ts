@@ -6,6 +6,7 @@ import { GameService } from '../../core/services/game.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SettingsService } from '../../core/services/settings.service';
+import { SaveService } from '../../core/services/save.service';
 
 @Component({
   selector: 'ak-main-menu',
@@ -24,7 +25,8 @@ export class MainMenuPage implements OnInit, OnDestroy {
     private assetService: AssetService,
     private gameDescriptorState: GameDescriptorState,
     private gameService: GameService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private saveService: SaveService
   ) {
   }
 
@@ -46,6 +48,10 @@ export class MainMenuPage implements OnInit, OnDestroy {
 
   newGame() {
     this.gameService.newGame();
+  }
+
+  loadGame() {
+    this.saveService.showLoadMenu();
   }
 
   showSettings() {

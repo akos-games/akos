@@ -13,6 +13,8 @@ export class AppComponent implements OnInit {
 
   shortcuts: ShortcutInput[] = [];
 
+  displayLoadMenu$ = this.uiState.observe().pipe(map(ui => ui.displayLoadMenu));
+  displaySaveMenu$ = this.uiState.observe().pipe(map(ui => ui.displaySaveMenu));
   displaySettings$ = this.uiState.observe().pipe(map(ui => ui.displaySettings));
   displayError$ = this.uiState.observeError();
   windowOpen$ = this.uiState.observeWindowOpen();

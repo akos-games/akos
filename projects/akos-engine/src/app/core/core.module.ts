@@ -11,6 +11,7 @@ import { SettingsService } from './services/settings.service';
 import { SettingsState } from './states/settings.state';
 import { GlobalErrorHandler } from './global-error.handler';
 import { UiService } from './services/ui.service';
+import { SaveService } from './services/save.service';
 
 @NgModule({
   providers: [
@@ -26,7 +27,8 @@ import { UiService } from './services/ui.service';
     UiService,
     GameService,
     AssetService,
-    SceneService
+    SceneService,
+    SaveService
   ]
 })
 export class CoreModule {

@@ -4,6 +4,14 @@
   <router-outlet></router-outlet>
 </div>
 
+<div class="overlay" *ngIf="displaySaveMenu$ | async">
+  <ak-save mode="save"></ak-save>
+</div>
+
+<div class="overlay" *ngIf="displayLoadMenu$ | async">
+  <ak-save mode="load"></ak-save>
+</div>
+
 <div class="overlay" *ngIf="displaySettings$ | async">
   <ak-settings></ak-settings>
 </div>
