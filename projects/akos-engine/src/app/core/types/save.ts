@@ -1,5 +1,7 @@
+import { Game } from './game';
+
 export interface Save {
   id: string;
   date: number;
-  gameTime: number;
+  game: Game;
 }

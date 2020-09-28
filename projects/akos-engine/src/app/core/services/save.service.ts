@@ -3,6 +3,8 @@ import { UiState } from '../states/ui.state';
 import { GameState } from '../states/game.state';
 import { NativeService } from 'akos-common';
 import { ApplicationService } from './application.service';
+import { Save } from '../types/save';
+import { SaveState } from '../states/save.state';
 
 @Injectable()
 export class SaveService {
@@ -10,6 +12,7 @@ export class SaveService {
   constructor(
     private gameState: GameState,
     private uiState: UiState,
+    private saveState: SaveState,
     private applicationService: ApplicationService,
     private nativeService: NativeService
   ) {
@@ -17,13 +20,23 @@ export class SaveService {
 
   async saveGame(saveId?: string) {
 
-    let id = '0';
-    let saveFile = `${this.applicationService.getSavesDir()}/${id}.aks`;
-    let thumbFile = `${this.applicationService.getSavesDir()}/${id}.png`;
+    let saves = this.saveState.get();
+    let lastId = Number(saves.length ? saves[saves.length - 1].id : '0');
+
+    let save: Save = {
+      id: saveId ? saveId : (lastId + 1).toString(),
+      date: new Date().getTime(),
+      game: this.gameState.get()
+    };
+
+    let saveFile = `${this.applicationService.getSavesDir()}/${save.id}.aks`;
+    let thumbFile = `${this.applicationService.getSavesDir()}/${save.id}.png`;
     let tempThumbFile = `${this.applicationService.getTempDir()}/thumb.png`;
 
-    await this.nativeService.writeFile(saveFile, JSON.stringify(this.gameState.get()));
+    await this.nativeService.writeFile(saveFile, JSON.stringify(save));
     await this.nativeService.copy(tempThumbFile, thumbFile);
+
+    await this.refreshSaveState();
   }
 
   async captureSaveThumb() {
@@ -34,7 +47,8 @@ export class SaveService {
     await this.nativeService.writeFile(file, img.resize({height: 300}).toPNG());
   }
 
-  showSaveMenu() {
+  async showSaveMenu() {
+    await this.refreshSaveState();
     this.uiState.displaySaveMenu(true);
   }
 
@@ -42,11 +56,25 @@ export class SaveService {
     this.uiState.displaySaveMenu(false);
   }
 
-  showLoadMenu() {
+  async showLoadMenu() {
+    await this.refreshSaveState();
     this.uiState.displayLoadMenu(true);
   }
 
   hideLoadMenu() {
     this.uiState.displayLoadMenu(false);
+  }
+
+  private async refreshSaveState() {
+
+    let files = await this.nativeService.readDir(this.applicationService.getSavesDir());
+    let saves = await Promise.all(
+      files
+      .filter(file => file.endsWith('.aks'))
+      .map(file => `${this.applicationService.getSavesDir()}/${file}`)
+      .map(async file => JSON.parse(await this.nativeService.readFile(file)) as Save)
+    );
+
+    this.saveState.set(saves.sort((a, b) => Number(a.id) - Number(b.id)));
   }
 }

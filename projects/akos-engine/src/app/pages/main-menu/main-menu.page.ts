@@ -50,8 +50,8 @@ export class MainMenuPage implements OnInit, OnDestroy {
     this.gameService.newGame();
   }
 
-  loadGame() {
-    this.saveService.showLoadMenu();
+  async loadGame() {
+    await this.saveService.showLoadMenu();
   }
 
   showSettings() {

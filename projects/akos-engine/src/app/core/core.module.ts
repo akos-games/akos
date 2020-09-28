@@ -12,6 +12,7 @@ import { SettingsState } from './states/settings.state';
 import { GlobalErrorHandler } from './global-error.handler';
 import { UiService } from './services/ui.service';
 import { SaveService } from './services/save.service';
+import { SaveState } from './states/save.state';
 
 @NgModule({
   providers: [
@@ -21,6 +22,7 @@ import { SaveService } from './services/save.service';
     UiState,
     SettingsState,
     GameState,
+    SaveState,
     ApplicationService,
     NativeService,
     SettingsService,

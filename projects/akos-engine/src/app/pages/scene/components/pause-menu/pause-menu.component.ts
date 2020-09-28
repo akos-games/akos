@@ -29,8 +29,8 @@ export class PauseMenuComponent implements OnInit {
     this.close.emit();
   }
 
-  saveGame() {
-    this.saveService.showSaveMenu();
+  async saveGame() {
+    await this.saveService.showSaveMenu();
   }
 
   loadGame() {
