@@ -26,8 +26,13 @@ export class ApplicationService {
         first()
       )
       .subscribe(async () => {
+
         let gameDescriptor = await this.loadGameDescriptor();
         this.nativeService.setAppName(gameDescriptor.game.name);
+
+        await this.nativeService.ensureDir(this.getTempDir());
+        await this.nativeService.ensureDir(this.getSavesDir());
+
         await this.settingsService.loadSettings();
       });
   }
@@ -37,7 +42,15 @@ export class ApplicationService {
   }
 
   getGameDir() {
-    return `${this.nativeService.getAppDataDir()}/Akos Engine/${sanitizeGameName(this.gameDescriptorState.get().game.name)}`;
+    return `${this.nativeService.getAppDataDir()}/Akos Engine/${this.getSanitizedGameName()}`;
+  }
+
+  getSavesDir() {
+    return `${this.getGameDir()}/saves`;
+  }
+
+  getTempDir() {
+    return `${this.nativeService.getTempDir()}/Akos Engine/${this.getSanitizedGameName()}`;
   }
 
   private async loadGameDescriptor(): Promise<GameDescriptor> {
@@ -47,5 +60,9 @@ export class ApplicationService {
 
     this.gameDescriptorState.set(gameDescriptor);
     return gameDescriptor;
+  }
+
+  private getSanitizedGameName() {
+    return sanitizeGameName(this.gameDescriptorState.get().game.name);
   }
 }

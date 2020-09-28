@@ -6,6 +6,7 @@ import { GameState } from '../../core/states/game.state';
 import { Subject } from 'rxjs';
 import { UiState } from '../../core/states/ui.state';
 import { ShortcutInput } from 'ng-keyboard-shortcuts';
+import { SaveService } from '../../core/services/save.service';
 
 @Component({
   selector: 'page-scene',
@@ -32,6 +33,7 @@ export class ScenePage implements OnInit, OnDestroy {
     private uiState: UiState,
     private sceneService: SceneService,
     private assetService: AssetService,
+    private saveService: SaveService,
     private cdRef: ChangeDetectorRef
   ) {
   }
@@ -47,6 +49,7 @@ export class ScenePage implements OnInit, OnDestroy {
       preventDefault: true,
       command: () => {
         this.showPauseMenu = !this.showPauseMenu;
+        this.showPauseMenu && this.saveService.captureSaveThumb();
         this.cdRef.detectChanges();
       }
     });

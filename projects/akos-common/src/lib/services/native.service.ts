@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FileFilter } from 'electron';
+import { FileFilter, NativeImage } from 'electron';
 import { NativeState } from '../states/native.state';
 import sanitize from 'sanitize-filename';
 
@@ -72,6 +72,10 @@ export class NativeService {
 
   async desktopOpen(fileOrDir: string): Promise<string> {
     return this.remote.shell.openPath(fileOrDir);
+  }
+
+  async takeScreenshot(): Promise<NativeImage> {
+    return this.remote.getCurrentWebContents().capturePage();
   }
 
   async showOpenDialog(filters?: FileFilter[], options?: {create?: boolean, defaultPath?: string, directory?: boolean}): Promise<string> {
