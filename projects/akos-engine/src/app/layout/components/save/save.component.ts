@@ -28,6 +28,7 @@ export class SaveComponent implements OnInit {
   }
 
   newSave() {
+    this.saveService.saveGame();
   }
 
   close() {

@@ -117,4 +117,12 @@ export class NativeService {
   setWindowTitle(title: string) {
     this.remote.getCurrentWindow().setTitle(title);
   }
+
+  getAppDataDir() {
+    return this.remote.app.getPath('appData');
+  }
+
+  getTempDir() {
+    return this.remote.app.getPath('temp');
+  }
 }

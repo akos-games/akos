@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { GameDescriptor, NativeService, NativeState } from 'akos-common';
+import { GameDescriptor, NativeService, NativeState, sanitizeGameName } from 'akos-common';
 import { filter, first } from 'rxjs/operators';
 import { GameDescriptorState } from '../states/game-descriptor.state';
 import { GameService } from './game.service';
 import { SettingsService } from './settings.service';
+import sanitize from 'sanitize-filename';
 
 @Injectable()
 export class ApplicationService {
@@ -33,6 +34,10 @@ export class ApplicationService {
 
   exit() {
     this.nativeService.exit();
+  }
+
+  getGameDir() {
+    return `${this.nativeService.getAppDataDir()}/Akos Engine/${sanitizeGameName(this.gameDescriptorState.get().game.name)}`;
   }
 
   private async loadGameDescriptor(): Promise<GameDescriptor> {
