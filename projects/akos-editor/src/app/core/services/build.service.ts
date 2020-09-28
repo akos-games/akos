@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { GameDescriptor, NativeService, NativeState } from 'akos-common';
+import { GameDescriptor, NativeService, NativeState, sanitizeGameName } from 'akos-common';
 import { ProjectState } from '../states/project.state';
 import { ProjectService } from './project.service';
 import { UiService } from './ui.service';
-import sanitize from 'sanitize-filename';
 import { GameState } from '../states/game.state';
 
 @Injectable()
@@ -50,7 +49,7 @@ export class BuildService {
     let projectSate = this.projectState.get();
     let gameState = this.gameState.get();
 
-    let executableName = sanitize(gameState.name.replace(/ /gi, ''));
+    let executableName = sanitizeGameName(gameState.name);
     let gameDir = `${projectSate.distDir}/${executableName}-${gameState.version}-${platform}`
     let gameDescriptorFile = `${gameDir}/game-descriptor.akg`;
 
