@@ -65,6 +65,10 @@ export class SaveService {
     this.uiState.displayLoadMenu(false);
   }
 
+  getThumbUrl(saveId: string) {
+    return `file://${this.applicationService.getSavesDir()}/${saveId}.png`;
+  }
+
   private async refreshSaveState() {
 
     let files = await this.nativeService.readDir(this.applicationService.getSavesDir());

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ShortcutInput } from 'ng-keyboard-shortcuts';
 import { SaveService } from '../../../core/services/save.service';
+import { SaveState } from '../../../core/states/save.state';
 
 @Component({
   selector: 'ak-save',
@@ -12,8 +13,10 @@ export class SaveComponent implements OnInit {
   @Input() mode: 'save' | 'load';
 
   shortcuts: ShortcutInput[] = [];
+  saves$ = this.saveState.observe();
 
   constructor(
+    private saveState: SaveState,
     private saveService: SaveService
   ) {
   }
@@ -27,12 +30,20 @@ export class SaveComponent implements OnInit {
     });
   }
 
-  newSave() {
-    this.saveService.saveGame();
+  async newSave() {
+    await this.saveService.saveGame();
   }
 
   close() {
     this.mode === 'save' && this.saveService.hideSaveMenu();
     this.mode === 'load' && this.saveService.hideLoadMenu();
+  }
+
+  getSaveDate(timestamp) {
+    return new Date(timestamp).toLocaleString('en-GB');
+  }
+
+  getThumbUrl(saveId) {
+    return this.saveService.getThumbUrl(saveId);
   }
 }
