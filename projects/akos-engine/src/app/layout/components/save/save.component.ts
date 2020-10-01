@@ -30,8 +30,8 @@ export class SaveComponent implements OnInit {
     });
   }
 
-  async newSave() {
-    await this.saveService.createSave();
+  async saveGame(saveId?) {
+    await this.saveService.createSave(saveId);
   }
 
   async deleteSave(saveId) {

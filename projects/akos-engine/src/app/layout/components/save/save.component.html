@@ -1,7 +1,7 @@
 <ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
 
 <div class="saves">
-  <div *ngFor="let save of saves$ | async" class="save">
+  <div *ngFor="let save of saves$ | async" class="save" (click)="saveGame(save.id)">
 
     <img [src]="getThumbUrl(save.id)" class="thumb"/>
 
@@ -10,7 +10,7 @@
     </div>
 
     <div class="buttons">
-      <div class="button delete" (click)="deleteSave(save.id)">Delete</div>
+      <div class="button delete" (click)="deleteSave(save.id); $event.stopPropagation()">Delete</div>
     </div>
 
   </div>
@@ -21,6 +21,6 @@
 </div>
 
 <div class="buttons">
-  <div *ngIf="mode === 'save'" class="button" (click)="newSave()">New save</div>
+  <div *ngIf="mode === 'save'" class="button" (click)="saveGame()">New save</div>
   <div class="button" (click)="close()">Back</div>
 </div>
