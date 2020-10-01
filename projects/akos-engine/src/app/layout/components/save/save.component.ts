@@ -34,6 +34,10 @@ export class SaveComponent implements OnInit {
     await this.saveService.saveGame();
   }
 
+  async removeSave(saveId) {
+
+  }
+
   close() {
     this.mode === 'save' && this.saveService.hideSaveMenu();
     this.mode === 'load' && this.saveService.hideLoadMenu();

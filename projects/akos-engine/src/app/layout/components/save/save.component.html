@@ -2,8 +2,17 @@
 
 <div class="saves">
   <div *ngFor="let save of saves$ | async" class="save">
+
     <img [src]="getThumbUrl(save.id)" class="thumb"/>
-    <div>{{getSaveDate(save.date)}}</div>
+
+    <div class="details">
+      <div>{{getSaveDate(save.date)}}</div>
+    </div>
+
+    <div class="buttons">
+      <div class="button delete" (click)="removeSave(save.id)">Delete</div>
+    </div>
+
   </div>
 </div>
 

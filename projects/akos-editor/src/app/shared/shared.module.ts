@@ -27,22 +27,22 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MoveCommandDialogComponent,
     ConfirmDeleteDialogComponent
   ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatSelectModule,
-        MatButtonToggleModule,
-        MatMenuModule,
-        MatDialogModule,
-        DragDropModule
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonToggleModule,
+    MatMenuModule,
+    MatDialogModule,
+    DragDropModule
+  ],
   exports: [
     AssetSelectorComponent,
     CommandComponent,
@@ -51,7 +51,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 })
 export class SharedModule {
 
-  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer){
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('assets/mdi.svg'));
   }
 }

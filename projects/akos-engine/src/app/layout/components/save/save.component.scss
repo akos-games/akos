@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 20em;
+  width: 75%;
   padding: 1em;
 }
 
@@ -21,8 +21,9 @@
 .saves {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   overflow: scroll;
+  width: 100%;
 }
 
 .save {
@@ -31,7 +32,20 @@
   padding: 1em;
 
   .thumb {
+    flex: 1;
     height: 6em;
+  }
+
+  .details {
+    padding: 1em;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .buttons {
+    flex: 1;
   }
 }
 
@@ -48,11 +62,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .button {
   text-align: center;
   padding: 0.3em 3em;
+}
+
+.button.delete:hover {
+  color: red;
 }
 
 .button:hover {
