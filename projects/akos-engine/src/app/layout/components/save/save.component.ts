@@ -31,11 +31,11 @@ export class SaveComponent implements OnInit {
   }
 
   async newSave() {
-    await this.saveService.saveGame();
+    await this.saveService.createSave();
   }
 
-  async removeSave(saveId) {
-
+  async deleteSave(saveId) {
+    await this.saveService.deleteSave(saveId);
   }
 
   close() {

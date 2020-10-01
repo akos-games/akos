@@ -18,7 +18,7 @@ export class SaveService {
   ) {
   }
 
-  async saveGame(saveId?: string) {
+  async createSave(saveId?: string) {
 
     let saves = this.saveState.get();
     let lastId = Number(saves.length ? saves[saves.length - 1].id : '0');
@@ -36,6 +36,12 @@ export class SaveService {
     await this.nativeService.writeFile(saveFile, JSON.stringify(save));
     await this.nativeService.copy(tempThumbFile, thumbFile);
 
+    await this.refreshSaveState();
+  }
+
+  async deleteSave(saveId: string) {
+    await this.nativeService.remove(`${this.applicationService.getSavesDir()}/${saveId}.aks`);
+    await this.nativeService.remove(`${this.applicationService.getSavesDir()}/${saveId}.png`);
     await this.refreshSaveState();
   }
 

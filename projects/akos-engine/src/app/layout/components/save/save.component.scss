@@ -1,4 +1,5 @@
 :host {
+  height: 90%;
   max-height: 90%;
   background: rgba(0, 0, 0, 0.75);
   display: flex;
@@ -6,6 +7,10 @@
   position: relative;
   width: 75%;
   padding: 1em;
+
+  > .buttons {
+    margin-top: auto;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -16,6 +21,7 @@
   color: grey;
   padding: 0.3em 3em;
   text-align: center;
+  margin-top: auto;
 }
 
 .saves {
