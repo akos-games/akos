@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ShortcutInput } from 'ng-keyboard-shortcuts';
 import { SaveService } from '../../../core/services/save.service';
 import { SaveState } from '../../../core/states/save.state';
+import moment from 'moment';
+import 'moment-duration-format';
 
 @Component({
   selector: 'ak-save',
@@ -43,8 +45,12 @@ export class SaveComponent implements OnInit {
     this.mode === 'load' && this.saveService.hideLoadMenu();
   }
 
-  getSaveDate(timestamp) {
+  formatSaveDate(timestamp) {
     return new Date(timestamp).toLocaleString('en-GB');
+  }
+
+  formatPlayTime(duration) {
+    return moment.duration(duration, 'ms').format('hh:mm:ss', {trim: false});
   }
 
   getThumbUrl(saveId) {

@@ -18,6 +18,8 @@ export class GameService {
   newGame() {
 
     this.gameState.set({
+      sessionStart: new Date().getTime(),
+      playTime: 0,
       scene: null
     });
 
@@ -31,6 +33,8 @@ export class GameService {
     this.router.navigateByUrl('/main-menu');
 
     this.gameState.set({
+      sessionStart: null,
+      playTime: 0,
       scene: null
     });
     this.gameState.applyChanges();

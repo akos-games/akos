@@ -6,7 +6,9 @@
     <img [src]="getThumbUrl(save.id)" class="thumb"/>
 
     <div class="details">
-      <div>{{getSaveDate(save.date)}}</div>
+      <div>{{formatSaveDate(save.date)}}</div>
+      <br>
+      <div>Play time {{formatPlayTime(save.playTime)}}</div>
     </div>
 
     <div class="buttons">

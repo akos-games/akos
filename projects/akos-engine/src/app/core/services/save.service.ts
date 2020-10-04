@@ -5,6 +5,7 @@ import { NativeService } from 'akos-common';
 import { ApplicationService } from './application.service';
 import { Save } from '../types/save';
 import { SaveState } from '../states/save.state';
+import moment from 'moment';
 
 @Injectable()
 export class SaveService {
@@ -22,11 +23,13 @@ export class SaveService {
 
     let saves = this.saveState.get();
     let lastId = Number(saves.length ? saves[saves.length - 1].id : '0');
+    let game = this.gameState.get();
 
     let save: Save = {
       id: saveId ? saveId : (lastId + 1).toString(),
       date: new Date().getTime(),
-      game: this.gameState.get()
+      playTime: moment.duration(game.playTime).add(moment().diff(moment(game.sessionStart))).asMilliseconds(),
+      game
     };
 
     let saveFile = `${this.applicationService.getSavesDir()}/${save.id}.aks`;
