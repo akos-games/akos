@@ -1,0 +1,25 @@
+:host {
+  background: rgba(0, 0, 0, 0.90);
+  padding: 1em;
+}
+
+.message {
+  box-sizing: border-box;
+  padding: 1em;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+
+  .button {
+    width: 100%;
+    text-align: center;
+    padding: 0.3em 3em;
+  }
+
+  .button:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.25);
+  }
+}

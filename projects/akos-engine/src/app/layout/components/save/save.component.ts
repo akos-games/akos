@@ -4,6 +4,8 @@ import { SaveService } from '../../../core/services/save.service';
 import { SaveState } from '../../../core/states/save.state';
 import moment from 'moment';
 import 'moment-duration-format';
+import { UiState } from '../../../core/states/ui.state';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'ak-save',
@@ -15,10 +17,13 @@ export class SaveComponent implements OnInit {
   @Input() mode: 'save' | 'load';
 
   shortcuts: ShortcutInput[] = [];
+
   saves$ = this.saveState.observe();
+  displayConfirm$ = this.uiState.observe().pipe(map(ui => !!ui.confirm));
 
   constructor(
     private saveState: SaveState,
+    private uiState: UiState,
     private saveService: SaveService
   ) {
   }

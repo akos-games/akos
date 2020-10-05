@@ -1,10 +1,21 @@
 import { Injectable } from '@angular/core';
-import { UiState } from '../states/ui.state';
+import { Confirm, UiState } from '../states/ui.state';
+import { take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class UiService {
 
   constructor(private uiState: UiState) {
+  }
+
+  async confirm(confirm: Confirm = {}): Promise<boolean> {
+    this.uiState.displayConfirm(confirm);
+    return this.uiState.observeConfirm()
+      .pipe(
+        take(1),
+        tap(() => this.uiState.displayConfirm(null))
+      )
+      .toPromise();
   }
 
   clearError() {

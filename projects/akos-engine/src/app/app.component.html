@@ -16,6 +16,10 @@
   <ak-settings></ak-settings>
 </div>
 
+<div class="overlay" *ngIf="displayConfirm$ | async">
+  <ak-confirm></ak-confirm>
+</div>
+
 <div class="overlay" *ngIf="displayError$ | async">
   <ak-error></ak-error>
 </div>

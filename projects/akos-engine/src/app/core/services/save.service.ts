@@ -6,6 +6,7 @@ import { ApplicationService } from './application.service';
 import { Save } from '../types/save';
 import { SaveState } from '../states/save.state';
 import moment from 'moment';
+import { UiService } from './ui.service';
 
 @Injectable()
 export class SaveService {
@@ -15,11 +16,23 @@ export class SaveService {
     private uiState: UiState,
     private saveState: SaveState,
     private applicationService: ApplicationService,
-    private nativeService: NativeService
+    private nativeService: NativeService,
+    private uiService: UiService
   ) {
   }
 
   async createSave(saveId?: string) {
+
+    if (saveId) {
+
+      let confirm = await this.uiService.confirm({
+        message: 'Overwrite this save?'
+      });
+
+      if (!confirm) {
+        return;
+      }
+    }
 
     let saves = this.saveState.get();
     let lastId = Number(saves.length ? saves[saves.length - 1].id : '0');
@@ -43,6 +56,15 @@ export class SaveService {
   }
 
   async deleteSave(saveId: string) {
+
+    let confirm = await this.uiService.confirm({
+      message: 'Delete this save?'
+    });
+
+    if (!confirm) {
+      return;
+    }
+
     await this.nativeService.remove(`${this.applicationService.getSavesDir()}/${saveId}.aks`);
     await this.nativeService.remove(`${this.applicationService.getSavesDir()}/${saveId}.png`);
     await this.refreshSaveState();

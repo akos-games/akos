@@ -1,0 +1,11 @@
+<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
+
+<div class="message">
+  {{message$ | async}}
+</div>
+
+<div class="buttons">
+  <div class="button" (click)="yes()">{{yesText$ | async}}</div>
+  <div class="button" (click)="no()">{{noText$ | async}}</div>
+</div>
+
