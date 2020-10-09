@@ -1,7 +1,7 @@
 <ng-keyboard-shortcuts [shortcuts]="shortcuts" [disabled]="displayConfirm$ | async"></ng-keyboard-shortcuts>
 
 <div class="saves">
-  <div *ngFor="let save of saves$ | async" class="save" (click)="saveGame(save.id)">
+  <div *ngFor="let save of saves$ | async" class="save" (click)="onSaveClick(save.id)">
 
     <img [src]="getThumbUrl(save.id)" class="thumb"/>
 

@@ -7,17 +7,22 @@ import { Save } from '../types/save';
 import { SaveState } from '../states/save.state';
 import moment from 'moment';
 import { UiService } from './ui.service';
+import { Router } from '@angular/router';
+import { SceneService } from './scene.service';
+import { Game } from '../types/game';
 
 @Injectable()
 export class SaveService {
 
   constructor(
+    private router: Router,
     private gameState: GameState,
     private uiState: UiState,
     private saveState: SaveState,
     private applicationService: ApplicationService,
     private nativeService: NativeService,
-    private uiService: UiService
+    private uiService: UiService,
+    private sceneService: SceneService
   ) {
   }
 
@@ -53,6 +58,30 @@ export class SaveService {
     await this.nativeService.copy(tempThumbFile, thumbFile);
 
     await this.refreshSaveState();
+  }
+
+  async loadSave(saveId: string) {
+
+    if (this.gameState.get()?.sessionStart) {
+
+      let confirm = await this.uiService.confirm({
+        message: 'Quit the current game?'
+      });
+
+      if (!confirm) {
+        return;
+      }
+    }
+
+    let saveFile = `${this.applicationService.getSavesDir()}/${saveId}.aks`;
+    let game: Game = JSON.parse(await this.nativeService.readFile(saveFile)).game;
+
+    this.sceneService.loadScene(game.scene.sceneId);
+    this.gameState.set(game);
+    this.gameState.applyChanges();
+
+    await this.router.navigateByUrl('/scene');
+    this.hideLoadMenu();
   }
 
   async deleteSave(saveId: string) {

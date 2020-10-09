@@ -3,6 +3,7 @@ import { Command, Scene } from 'akos-common';
 import { GameDescriptorState } from '../states/game-descriptor.state';
 import { GameState } from '../states/game.state';
 import { Router } from '@angular/router';
+import { GameService } from './game.service';
 
 @Injectable()
 export class SceneService {
@@ -28,6 +29,8 @@ export class SceneService {
       let commandIndex = this.gameState.get().scene.commandIndex;
       if (this.scene.commands.length <= commandIndex) {
         this.router.navigateByUrl('/main-menu');
+        this.gameState.reset();
+        this.gameState.applyChanges();
         return;
       }
 
@@ -80,8 +83,9 @@ export class SceneService {
 
   startScene(sceneId: number) {
 
-    this.scene = this.gameDescriptorState.getScene(sceneId);
     let game = this.gameState.get();
+    this.loadScene(sceneId);
+
     game.scene = {
       sceneId,
       commandIndex: 0,
@@ -95,8 +99,13 @@ export class SceneService {
       },
       playerChoices: null
     };
+
     this.gameState.set(game);
     this.nextCommand();
+  }
+
+  loadScene(sceneId: number) {
+    this.scene = this.gameDescriptorState.getScene(sceneId);
   }
 
   selectChoice(choice) {

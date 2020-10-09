@@ -37,6 +37,11 @@ export class SaveComponent implements OnInit {
     });
   }
 
+  onSaveClick(saveId) {
+    this.mode === 'save' && this.saveGame(saveId);
+    this.mode === 'load' && this.saveService.loadSave(saveId);
+  }
+
   async saveGame(saveId?) {
     await this.saveService.createSave(saveId);
   }

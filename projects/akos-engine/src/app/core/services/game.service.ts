@@ -32,11 +32,7 @@ export class GameService {
 
     this.router.navigateByUrl('/main-menu');
 
-    this.gameState.set({
-      sessionStart: null,
-      playTime: 0,
-      scene: null
-    });
+    this.gameState.reset();
     this.gameState.applyChanges();
   }
 }

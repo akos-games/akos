@@ -23,4 +23,12 @@ export class GameState extends State<Game> {
   applyChanges() {
     super.set(this.unpublishedState);
   }
+
+  reset() {
+    this.set({
+      sessionStart: null,
+      playTime: 0,
+      scene: null
+    });
+  }
 }
