@@ -42,11 +42,11 @@ export class SaveService {
     let saves = this.saveState.get();
     let lastId = Number(saves.length ? saves[saves.length - 1].id : '0');
     let game = this.gameState.get();
+    game.playTime = moment.duration(game.playTime).add(moment().diff(moment(game.sessionStart))).asMilliseconds();
 
     let save: Save = {
       id: saveId ? saveId : (lastId + 1).toString(),
       date: new Date().getTime(),
-      playTime: moment.duration(game.playTime).add(moment().diff(moment(game.sessionStart))).asMilliseconds(),
       game
     };
 
@@ -75,10 +75,12 @@ export class SaveService {
 
     let saveFile = `${this.applicationService.getSavesDir()}/${saveId}.aks`;
     let game: Game = JSON.parse(await this.nativeService.readFile(saveFile)).game;
+    game.sessionStart = new Date().getTime();
 
     this.sceneService.loadScene(game.scene.sceneId);
     this.gameState.set(game);
     this.gameState.applyChanges();
+    this.gameState.load();
 
     await this.router.navigateByUrl('/scene');
     this.hideLoadMenu();

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { deepCopy, State } from 'akos-common';
 import { Game } from '../types/game';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class GameState extends State<Game> {
 
   private unpublishedState: Game;
+  private loaded$ = new Subject();
 
   constructor() {
     super();
@@ -30,5 +32,13 @@ export class GameState extends State<Game> {
       playTime: 0,
       scene: null
     });
+  }
+
+  load() {
+    this.loaded$.next();
+  }
+
+  observeLoaded() {
+    return this.loaded$.asObservable();
   }
 }

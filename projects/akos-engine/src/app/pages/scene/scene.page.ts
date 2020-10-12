@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { SceneService } from '../../core/services/scene.service';
 import { AssetService } from '../../core/services/asset.service';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -53,6 +53,11 @@ export class ScenePage implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
       }
     });
+
+    this.gameState
+      .observeLoaded()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => this.showPauseMenu = false);
 
     this.gameState
       .observe()
