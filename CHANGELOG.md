@@ -2,8 +2,11 @@
 
 ## 0.4.0
 
-### Changed
+### Added
 
+- Save / Load game.
+
+### Changed
 - Commands can only be dragged using the handle.
 - Improved logo quality.
 
