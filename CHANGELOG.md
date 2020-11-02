@@ -14,6 +14,12 @@
 
 - Selecting text inside a command drags the command.
 
+### Known issues
+
+- In some cases, when editor / game is broken due to an error, the error popup may be broken too.
+- There is no project integrity check implemented yet, so it is 
+possible to build an inconsistent game. 
+
 ## 0.3.0 - 2020-09-04
 
 ### Added
