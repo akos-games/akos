@@ -5,6 +5,7 @@
 ### Added
 
 - Save / Load game.
+- Contributors and sponsors page.
 
 ### Changed
 - Commands can only be dragged using the handle.

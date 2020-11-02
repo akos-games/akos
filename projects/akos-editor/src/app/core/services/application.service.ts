@@ -42,4 +42,8 @@ export class ApplicationService {
   async openDocumentation() {
     this.nativeService.desktopOpen(`https://github.com/grimwred/akos/blob/v${version}/docs/quickstart.md`);
   }
+
+  async openContributors() {
+    this.nativeService.desktopOpen('https://github.com/akosgames/akos/blob/master/CONTRIBUTORS.md');
+  }
 }

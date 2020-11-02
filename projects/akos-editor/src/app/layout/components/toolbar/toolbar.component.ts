@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../../core/services/project.service';
-import { NativeService } from 'akos-common';
 import { ProjectState } from '../../../core/states/project.state';
 import { BuildService } from '../../../core/services/build.service';
 import { UiState } from '../../../core/states/ui.state';
@@ -49,6 +48,10 @@ export class ToolbarComponent implements OnInit {
 
   onOpenDocumentation() {
     this.applicationService.openDocumentation();
+  }
+
+  onOpenContributors() {
+    this.applicationService.openContributors();
   }
 
   onQuit() {
