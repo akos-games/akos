@@ -11,11 +11,11 @@ As for now, it should be considered as a technical preview.**_
 ## Features
 
 :monkey_face: **Nocode and user-friendly editor**  
+:floppy_disk: **Built-in game saves management**  
 
 _Planned: :twisted_rightwards_arrows: Create rich stories with complex game logic_  
 _Planned: :film_strip: Animations_  
 _Planned: :musical_note: Dynamic music and sound effects_  
-_Planned: :floppy_disk: Built-in game saves management_  
 _Planned: :heavy_check_mark: Guaranteed game saves compatibility between your game versions_  
 _Planned: :point_up_2: Point'n'Click capabilities_  
 _Planned: :crossed_swords: RPG elements (characters, locations, inventory, quests, fights, ...)_  
@@ -39,6 +39,8 @@ Under these conditions, they quickly run out of a valuable resource that is impo
 Time needed to learn all the required skills to make a professional quality video game can be a source of discouragement for many creators. Akos has been designed to drastically reduce this time by **eliminating coding**, which is one of the most difficult game dev skills to master.
 
 In this way, we hope to help novice game devs focus their creativity and **stay motivated** throughout their project.
+
+## [Contributors](CONTRIBUTORS.md)
 
 ## License
 
