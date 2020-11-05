@@ -3,7 +3,8 @@ import { Command, Scene } from 'akos-common';
 import { GameDescriptorState } from '../states/game-descriptor.state';
 import { GameState } from '../states/game.state';
 import { Router } from '@angular/router';
-import { GameService } from './game.service';
+import { SaveService } from './save.service';
+import { timer } from 'rxjs';
 
 @Injectable()
 export class SceneService {
@@ -13,8 +14,11 @@ export class SceneService {
   constructor(
     private router: Router,
     private gameState: GameState,
-    private gameDescriptorState: GameDescriptorState
+    private gameDescriptorState: GameDescriptorState,
+    private saveService: SaveService
   ) {
+    gameState.observeLoaded()
+      .subscribe(game => this.loadScene(game.scene.sceneId));
   }
 
   nextCommand() {
@@ -77,7 +81,13 @@ export class SceneService {
     if (nextSceneId) {
       this.startScene(nextSceneId);
     } else {
+
       this.gameState.applyChanges();
+
+      timer(100).subscribe(async () => {
+        await this.saveService.captureSaveThumb();
+        await this.saveService.createSave('autosave');
+      });
     }
   }
 

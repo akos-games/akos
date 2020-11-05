@@ -2,33 +2,31 @@ import { Injectable } from '@angular/core';
 import { UiState } from '../states/ui.state';
 import { GameState } from '../states/game.state';
 import { NativeService } from 'akos-common';
-import { ApplicationService } from './application.service';
 import { Save } from '../types/save';
 import { SaveState } from '../states/save.state';
 import moment from 'moment';
 import { UiService } from './ui.service';
 import { Router } from '@angular/router';
-import { SceneService } from './scene.service';
 import { Game } from '../types/game';
+import { ApplicationState } from '../states/application.state';
 
 @Injectable()
 export class SaveService {
 
   constructor(
     private router: Router,
+    private applicationState: ApplicationState,
     private gameState: GameState,
     private uiState: UiState,
     private saveState: SaveState,
-    private applicationService: ApplicationService,
     private nativeService: NativeService,
-    private uiService: UiService,
-    private sceneService: SceneService
+    private uiService: UiService
   ) {
   }
 
   async createSave(saveId?: string) {
 
-    if (saveId) {
+    if (saveId && saveId !== 'autosave' && saveId !== 'quicksave') {
 
       let confirm = await this.uiService.confirm({
         message: 'Overwrite this save?'
@@ -39,6 +37,7 @@ export class SaveService {
       }
     }
 
+    let application = this.applicationState.get();
     let saves = this.saveState.get();
     let lastId = Number(saves.length ? saves[saves.length - 1].id : '0');
     let game = this.gameState.get();
@@ -50,9 +49,9 @@ export class SaveService {
       game
     };
 
-    let saveFile = `${this.applicationService.getSavesDir()}/${save.id}.aks`;
-    let thumbFile = `${this.applicationService.getSavesDir()}/${save.id}.png`;
-    let tempThumbFile = `${this.applicationService.getTempDir()}/thumb.png`;
+    let saveFile = `${application.savesDir}/${save.id}.aks`;
+    let thumbFile = `${application.savesDir}/${save.id}.png`;
+    let tempThumbFile = `${application.tempDir}/thumb.png`;
 
     await this.nativeService.writeFile(saveFile, JSON.stringify(save));
     await this.nativeService.copy(tempThumbFile, thumbFile);
@@ -73,11 +72,10 @@ export class SaveService {
       }
     }
 
-    let saveFile = `${this.applicationService.getSavesDir()}/${saveId}.aks`;
+    let saveFile = `${this.applicationState.get().savesDir}/${saveId}.aks`;
     let game: Game = JSON.parse(await this.nativeService.readFile(saveFile)).game;
     game.sessionStart = new Date().getTime();
 
-    this.sceneService.loadScene(game.scene.sceneId);
     this.gameState.set(game);
     this.gameState.applyChanges();
     this.gameState.load();
@@ -96,15 +94,17 @@ export class SaveService {
       return;
     }
 
-    await this.nativeService.remove(`${this.applicationService.getSavesDir()}/${saveId}.aks`);
-    await this.nativeService.remove(`${this.applicationService.getSavesDir()}/${saveId}.png`);
+    let savesDir = this.applicationState.get().savesDir;
+
+    await this.nativeService.remove(`${savesDir}/${saveId}.aks`);
+    await this.nativeService.remove(`${savesDir}/${saveId}.png`);
     await this.refreshSaveState();
   }
 
   async captureSaveThumb() {
 
     let img = await this.nativeService.takeScreenshot();
-    let file = `${this.applicationService.getTempDir()}/thumb.png`
+    let file = `${this.applicationState.get().tempDir}/thumb.png`
 
     await this.nativeService.writeFile(file, img.resize({height: 300}).toPNG());
   }
@@ -128,19 +128,40 @@ export class SaveService {
   }
 
   getThumbUrl(saveId: string) {
-    return `file://${this.applicationService.getSavesDir()}/${saveId}.png`;
+    return `file://${this.applicationState.get().savesDir}/${saveId}.png`;
   }
 
   private async refreshSaveState() {
 
-    let files = await this.nativeService.readDir(this.applicationService.getSavesDir());
+    let savesDir = this.applicationState.get().savesDir;
+    let files = await this.nativeService.readDir(savesDir);
     let saves = await Promise.all(
       files
       .filter(file => file.endsWith('.aks'))
-      .map(file => `${this.applicationService.getSavesDir()}/${file}`)
+      .map(file => `${savesDir}/${file}`)
       .map(async file => JSON.parse(await this.nativeService.readFile(file)) as Save)
     );
 
-    this.saveState.set(saves.sort((a, b) => Number(a.id) - Number(b.id)));
+    this.saveState.set(saves.sort((a, b) => {
+
+      if (a.id === 'autosave') {
+        return -1;
+      }
+
+      if (b.id === 'autosave') {
+        return 1;
+      }
+
+      if (a.id === 'quicksave') {
+        return -1;
+      }
+
+      if (b.id === 'quicksave') {
+        return 1;
+      }
+
+      return Number(a.id) - Number(b.id);
+
+    }));
   }
 }

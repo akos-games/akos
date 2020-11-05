@@ -1,21 +1,29 @@
 <ng-keyboard-shortcuts [shortcuts]="shortcuts" [disabled]="displayConfirm$ | async"></ng-keyboard-shortcuts>
 
 <div class="saves">
-  <div *ngFor="let save of saves$ | async" class="save" (click)="onSaveClick(save.id)">
+
+  <div *ngFor="let save of saves$ | async"
+       class="save"
+       [class.hidden]="!isVisible(save.id)"
+       (click)="onSaveClick(save.id)">
 
     <img [src]="getThumbUrl(save.id)" class="thumb"/>
 
     <div class="details">
-      <div>{{formatSaveDate(save.date)}}</div>
-      <br>
+      <div class="date">{{formatSaveDate(save.date)}}</div>
       <div>Play time {{formatPlayTime(save.game.playTime)}}</div>
     </div>
 
     <div class="buttons">
-      <div class="button delete" (click)="deleteSave(save.id); $event.stopPropagation()">Delete</div>
+      <div *ngIf="save.id === 'autosave'">Autosave</div>
+      <div *ngIf="save.id === 'quicksave'">Quicksave</div>
+      <div *ngIf="save.id !== 'autosave' && save.id !== 'quicksave'"
+        class="button delete"
+        (click)="deleteSave(save.id); $event.stopPropagation()">Delete</div>
     </div>
 
   </div>
+
 </div>
 
 <div *ngIf="(saves$ | async).length === 0" class="no-saves">

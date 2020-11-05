@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 export class GameState extends State<Game> {
 
   private unpublishedState: Game;
-  private loaded$ = new Subject();
+  private loaded$ = new Subject<Game>();
 
   constructor() {
     super();
@@ -35,7 +35,7 @@ export class GameState extends State<Game> {
   }
 
   load() {
-    this.loaded$.next();
+    this.loaded$.next(this.get());
   }
 
   observeLoaded() {

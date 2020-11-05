@@ -13,10 +13,12 @@ import { GlobalErrorHandler } from './global-error.handler';
 import { UiService } from './services/ui.service';
 import { SaveService } from './services/save.service';
 import { SaveState } from './states/save.state';
+import { ApplicationState } from './states/application.state';
 
 @NgModule({
   providers: [
     {provide: ErrorHandler, useClass: GlobalErrorHandler},
+    ApplicationState,
     NativeState,
     GameDescriptorState,
     UiState,

@@ -49,9 +49,16 @@ export class ScenePage implements OnInit, OnDestroy {
       preventDefault: true,
       command: () => {
         this.showPauseMenu = !this.showPauseMenu;
-        this.showPauseMenu && this.saveService.captureSaveThumb();
         this.cdRef.detectChanges();
       }
+    }, {
+      key: 'ctrl + s',
+      preventDefault: true,
+      command: () => this.saveService.createSave('quicksave')
+    }, {
+      key: 'ctrl + l',
+      preventDefault: true,
+      command: () => this.saveService.loadSave('quicksave')
     });
 
     this.gameState

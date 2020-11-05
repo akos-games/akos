@@ -66,4 +66,8 @@ export class SaveComponent implements OnInit {
   getThumbUrl(saveId) {
     return this.saveService.getThumbUrl(saveId);
   }
+
+  isVisible(saveId) {
+    return this.mode === 'load' || saveId !== 'autosave' && saveId !== 'quicksave';
+  }
 }

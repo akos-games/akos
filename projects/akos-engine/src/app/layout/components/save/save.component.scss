@@ -48,11 +48,19 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    .date {
+      margin-bottom: 1em;
+    }
   }
 
   .buttons {
     flex: 1;
   }
+}
+
+.save.hidden {
+  display: none;
 }
 
 .save:hover {

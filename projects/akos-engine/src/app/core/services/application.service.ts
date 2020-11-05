@@ -4,12 +4,13 @@ import { filter, first } from 'rxjs/operators';
 import { GameDescriptorState } from '../states/game-descriptor.state';
 import { GameService } from './game.service';
 import { SettingsService } from './settings.service';
-import sanitize from 'sanitize-filename';
+import { ApplicationState } from '../states/application.state';
 
 @Injectable()
 export class ApplicationService {
 
   constructor(
+    private applicationState: ApplicationState,
     private nativeState: NativeState,
     private nativeService: NativeService,
     private gameService: GameService,
@@ -28,10 +29,19 @@ export class ApplicationService {
       .subscribe(async () => {
 
         let gameDescriptor = await this.loadGameDescriptor();
+        let sanitizedGameName = sanitizeGameName(this.gameDescriptorState.get().game.name);
+        let gameDir = `${this.nativeService.getAppDataDir()}/Akos Engine/${sanitizedGameName}`;
+        let application = {
+          gameDir,
+          savesDir: `${gameDir}/saves`,
+          tempDir: `${this.nativeService.getTempDir()}/Akos Engine/${sanitizedGameName}`
+        }
+
+        this.applicationState.set(application);
         this.nativeService.setAppName(gameDescriptor.game.name);
 
-        await this.nativeService.ensureDir(this.getTempDir());
-        await this.nativeService.ensureDir(this.getSavesDir());
+        await this.nativeService.ensureDir(application.tempDir);
+        await this.nativeService.ensureDir(application.savesDir);
 
         await this.settingsService.loadSettings();
       });
@@ -41,18 +51,6 @@ export class ApplicationService {
     this.nativeService.exit();
   }
 
-  getGameDir() {
-    return `${this.nativeService.getAppDataDir()}/Akos Engine/${this.getSanitizedGameName()}`;
-  }
-
-  getSavesDir() {
-    return `${this.getGameDir()}/saves`;
-  }
-
-  getTempDir() {
-    return `${this.nativeService.getTempDir()}/Akos Engine/${this.getSanitizedGameName()}`;
-  }
-
   private async loadGameDescriptor(): Promise<GameDescriptor> {
 
     let file = `${this.nativeState.get().workingDir}/game-descriptor.akg`;
@@ -60,9 +58,5 @@ export class ApplicationService {
 
     this.gameDescriptorState.set(gameDescriptor);
     return gameDescriptor;
-  }
-
-  private getSanitizedGameName() {
-    return sanitizeGameName(this.gameDescriptorState.get().game.name);
   }
 }
