@@ -10,16 +10,14 @@
     <img [src]="getThumbUrl(save.id)" class="thumb"/>
 
     <div class="details">
+      <div *ngIf="save.id === 'autosave'">Autosave</div>
+      <div *ngIf="save.id === 'quicksave'">Quicksave</div>
       <div class="date">{{formatSaveDate(save.date)}}</div>
       <div>Play time {{formatPlayTime(save.game.playTime)}}</div>
     </div>
 
     <div class="buttons">
-      <div *ngIf="save.id === 'autosave'">Autosave</div>
-      <div *ngIf="save.id === 'quicksave'">Quicksave</div>
-      <div *ngIf="save.id !== 'autosave' && save.id !== 'quicksave'"
-        class="button delete"
-        (click)="deleteSave(save.id); $event.stopPropagation()">Delete</div>
+      <div class="button delete" (click)="deleteSave(save.id); $event.stopPropagation()">Delete</div>
     </div>
 
   </div>

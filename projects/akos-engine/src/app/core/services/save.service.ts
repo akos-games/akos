@@ -56,7 +56,7 @@ export class SaveService {
     await this.nativeService.writeFile(saveFile, JSON.stringify(save));
     await this.nativeService.copy(tempThumbFile, thumbFile);
 
-    await this.refreshSaveState();
+    await this.updateSaveState();
   }
 
   async loadSave(saveId: string) {
@@ -98,7 +98,7 @@ export class SaveService {
 
     await this.nativeService.remove(`${savesDir}/${saveId}.aks`);
     await this.nativeService.remove(`${savesDir}/${saveId}.png`);
-    await this.refreshSaveState();
+    await this.updateSaveState();
   }
 
   async captureSaveThumb() {
@@ -110,7 +110,7 @@ export class SaveService {
   }
 
   async showSaveMenu() {
-    await this.refreshSaveState();
+    await this.updateSaveState();
     this.uiState.displaySaveMenu(true);
   }
 
@@ -119,7 +119,7 @@ export class SaveService {
   }
 
   async showLoadMenu() {
-    await this.refreshSaveState();
+    await this.updateSaveState();
     this.uiState.displayLoadMenu(true);
   }
 
@@ -131,7 +131,7 @@ export class SaveService {
     return `file://${this.applicationState.get().savesDir}/${saveId}.png`;
   }
 
-  private async refreshSaveState() {
+  async updateSaveState() {
 
     let savesDir = this.applicationState.get().savesDir;
     let files = await this.nativeService.readDir(savesDir);

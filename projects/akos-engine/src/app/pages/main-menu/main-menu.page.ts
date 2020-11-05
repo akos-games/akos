@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SettingsService } from '../../core/services/settings.service';
 import { SaveService } from '../../core/services/save.service';
+import { SaveState } from '../../core/states/save.state';
 
 @Component({
   selector: 'ak-main-menu',
@@ -17,10 +18,12 @@ export class MainMenuPage implements OnInit, OnDestroy {
 
   backgroundUrl: string;
   gameVersion: string;
+  showContinue: boolean;
 
   private unsubscribe$ = new Subject();
 
   constructor(
+    private saveState: SaveState,
     private applicationService: ApplicationService,
     private assetService: AssetService,
     private gameDescriptorState: GameDescriptorState,
@@ -31,6 +34,11 @@ export class MainMenuPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.saveState
+      .observe()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(saves => this.showContinue = !!saves.find(save => save.id === 'autosave'))
 
     this.gameDescriptorState
       .observe()
@@ -44,6 +52,10 @@ export class MainMenuPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  continue() {
+    this.saveService.loadSave('autosave');
   }
 
   newGame() {

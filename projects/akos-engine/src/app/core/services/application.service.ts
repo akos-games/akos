@@ -5,6 +5,7 @@ import { GameDescriptorState } from '../states/game-descriptor.state';
 import { GameService } from './game.service';
 import { SettingsService } from './settings.service';
 import { ApplicationState } from '../states/application.state';
+import { SaveService } from './save.service';
 
 @Injectable()
 export class ApplicationService {
@@ -12,10 +13,11 @@ export class ApplicationService {
   constructor(
     private applicationState: ApplicationState,
     private nativeState: NativeState,
+    private gameDescriptorState: GameDescriptorState,
     private nativeService: NativeService,
     private gameService: GameService,
     private settingsService: SettingsService,
-    private gameDescriptorState: GameDescriptorState
+    private saveService: SaveService
   ) {
   }
 
@@ -44,6 +46,7 @@ export class ApplicationService {
         await this.nativeService.ensureDir(application.savesDir);
 
         await this.settingsService.loadSettings();
+        await this.saveService.updateSaveState();
       });
   }
 
