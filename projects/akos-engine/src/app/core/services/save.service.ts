@@ -39,12 +39,15 @@ export class SaveService {
 
     let application = this.applicationState.get();
     let saves = this.saveState.get();
-    let lastId = Number(saves.length ? saves[saves.length - 1].id : '0');
+
+    let lastId = saves.length ? saves[saves.length - 1].id : '0';
+    lastId = (lastId === 'autosave' || lastId === 'quicksave') ? '0' : lastId;
+
     let game = this.gameState.get();
     game.playTime = moment.duration(game.playTime).add(moment().diff(moment(game.sessionStart))).asMilliseconds();
 
     let save: Save = {
-      id: saveId ? saveId : (lastId + 1).toString(),
+      id: saveId ? saveId : (Number(lastId) + 1).toString(),
       date: new Date().getTime(),
       game
     };
