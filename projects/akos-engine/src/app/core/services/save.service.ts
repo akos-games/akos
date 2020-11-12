@@ -53,11 +53,16 @@ export class SaveService {
     };
 
     let saveFile = `${application.savesDir}/${save.id}.aks`;
-    let thumbFile = `${application.savesDir}/${save.id}.png`;
+    let thumbFile = `${application.savesDir}/${save.id}-${save.date}.png`;
     let tempThumbFile = `${application.tempDir}/thumb.png`;
 
     await this.nativeService.writeFile(saveFile, JSON.stringify(save));
     await this.nativeService.copy(tempThumbFile, thumbFile);
+
+    let files = await this.nativeService.readDir(application.savesDir);
+    files
+      .filter(file => file.startsWith(`${save.id}-`) && file !== `${save.id}-${save.date}.png`)
+      .forEach(async file => await this.nativeService.remove(`${application.savesDir}/${file}`));
 
     await this.updateSaveState();
   }
@@ -98,9 +103,10 @@ export class SaveService {
     }
 
     let savesDir = this.applicationState.get().savesDir;
+    let save = this.saveState.get().find(save => save.id === saveId);
 
     await this.nativeService.remove(`${savesDir}/${saveId}.aks`);
-    await this.nativeService.remove(`${savesDir}/${saveId}.png`);
+    await this.nativeService.remove(`${savesDir}/${saveId}-${save}.png`);
     await this.updateSaveState();
   }
 
@@ -131,7 +137,8 @@ export class SaveService {
   }
 
   getThumbUrl(saveId: string) {
-    return `file://${this.applicationState.get().savesDir}/${saveId}.png`;
+    let save = this.saveState.get().find(save => save.id === saveId);
+    return `file://${this.applicationState.get().savesDir}/${saveId}-${save.date}.png`;
   }
 
   async updateSaveState() {
