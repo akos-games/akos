@@ -1,4 +1,4 @@
-import { app, BrowserWindow, protocol } from 'electron';
+import { app, BrowserWindow, ipcMain, protocol } from 'electron';
 import { format } from 'url';
 import * as fs from 'fs-extra';
 
@@ -84,6 +84,11 @@ function createMainWindow() {
     if (args.serve) {
       mainWindow.webContents.openDevTools();
     }
+
+    mainWindow.on('close', event => {
+      ipcMain.emit('close');
+      event.preventDefault();
+    });
 
   })();
 

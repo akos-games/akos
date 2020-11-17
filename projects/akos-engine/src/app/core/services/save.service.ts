@@ -69,15 +69,8 @@ export class SaveService {
 
   async loadSave(saveId: string) {
 
-    if (this.gameState.get()?.sessionStart) {
-
-      let confirm = await this.uiService.confirm({
-        message: 'Quit the current game?'
-      });
-
-      if (!confirm) {
-        return;
-      }
+    if (!await this.uiService.confirmQuitGame()) {
+      return;
     }
 
     let saveFile = `${this.applicationState.get().savesDir}/${saveId}.aks`;
@@ -113,7 +106,7 @@ export class SaveService {
   async captureSaveThumb() {
 
     let img = await this.nativeService.takeScreenshot();
-    let file = `${this.applicationState.get().tempDir}/thumb.png`
+    let file = `${this.applicationState.get().tempDir}/thumb.png`;
 
     await this.nativeService.writeFile(file, img.resize({height: 300}).toPNG());
   }
@@ -147,9 +140,9 @@ export class SaveService {
     let files = await this.nativeService.readDir(savesDir);
     let saves = await Promise.all(
       files
-      .filter(file => file.endsWith('.aks'))
-      .map(file => `${savesDir}/${file}`)
-      .map(async file => JSON.parse(await this.nativeService.readFile(file)) as Save)
+        .filter(file => file.endsWith('.aks'))
+        .map(file => `${savesDir}/${file}`)
+        .map(async file => JSON.parse(await this.nativeService.readFile(file)) as Save)
     );
 
     this.saveState.set(saves.sort((a, b) => {

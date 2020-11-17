@@ -5,9 +5,15 @@
 ### Added
 
 - Save / Load game.
+- Auto save at every story step.
+- _Continue_ last auto save from main menu.
+- Quick save by pressing Ctrl+S.
+- Quick load by pressing Ctrl+L.
+- Ask confirmation to exit game.
 - Contributors and sponsors page.
 
 ### Changed
+
 - Commands can only be dragged using the handle.
 - Improved logo quality.
 
@@ -19,7 +25,9 @@
 
 - In some cases, when editor / game is broken due to an error, the error popup may be broken too.
 - There is no project integrity check implemented yet, so it is 
-possible to build an inconsistent game. 
+possible to build an inconsistent game.
+- Sometimes pictures may take some time to load.
+- Sometimes save thumbnails may be wrong.
 
 ## 0.3.0 - 2020-09-04
 

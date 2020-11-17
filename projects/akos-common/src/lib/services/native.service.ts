@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FileFilter, NativeImage } from 'electron';
+import { Event, FileFilter, NativeImage } from 'electron';
 import { NativeState } from '../states/native.state';
 import sanitize from 'sanitize-filename';
 
@@ -11,6 +11,15 @@ export class NativeService {
 
   constructor(private nativeState: NativeState) {
     this.nativeState.set(this.remote.getGlobal('executionContext'));
+  }
+
+  beforeExit(listener: () => Promise<boolean>) {
+
+    this.remote.ipcMain.addListener('close', async () => {
+      if (await listener()) {
+        this.remote.getCurrentWindow().destroy();
+      }
+    });
   }
 
   exit() {

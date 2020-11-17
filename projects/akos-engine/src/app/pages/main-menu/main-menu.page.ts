@@ -54,8 +54,8 @@ export class MainMenuPage implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  continue() {
-    this.saveService.loadSave('autosave');
+  async continue() {
+    await this.saveService.loadSave('autosave');
   }
 
   newGame() {

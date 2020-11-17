@@ -6,6 +6,7 @@ import { GameService } from './game.service';
 import { SettingsService } from './settings.service';
 import { ApplicationState } from '../states/application.state';
 import { SaveService } from './save.service';
+import { UiService } from './ui.service';
 
 @Injectable()
 export class ApplicationService {
@@ -17,7 +18,8 @@ export class ApplicationService {
     private nativeService: NativeService,
     private gameService: GameService,
     private settingsService: SettingsService,
-    private saveService: SaveService
+    private saveService: SaveService,
+    private uiService: UiService
   ) {
   }
 
@@ -47,6 +49,8 @@ export class ApplicationService {
 
         await this.settingsService.loadSettings();
         await this.saveService.updateSaveState();
+
+        this.nativeService.beforeExit(() => this.uiService.confirmQuitApp());
       });
   }
 

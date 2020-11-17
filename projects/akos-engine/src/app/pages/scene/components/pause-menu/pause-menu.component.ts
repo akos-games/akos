@@ -3,6 +3,7 @@ import { GameService } from '../../../../core/services/game.service';
 import { ApplicationService } from '../../../../core/services/application.service';
 import { SettingsService } from '../../../../core/services/settings.service';
 import { SaveService } from '../../../../core/services/save.service';
+import { UiService } from '../../../../core/services/ui.service';
 
 @Component({
   selector: 'ak-pause-menu',
@@ -17,7 +18,8 @@ export class PauseMenuComponent implements OnInit {
     private applicationService: ApplicationService,
     private gameService: GameService,
     private settingsService: SettingsService,
-    private saveService: SaveService
+    private saveService: SaveService,
+    private uiService: UiService
   ) {
   }
 
@@ -41,8 +43,10 @@ export class PauseMenuComponent implements OnInit {
     this.settingsService.showSettings();
   }
 
-  exitToMainMenu() {
-    this.gameService.exitGame();
+  async exitToMainMenu() {
+    if (await this.uiService.confirmQuitGame()) {
+      this.gameService.exitGame();
+    }
   }
 
   exitToDesktop() {

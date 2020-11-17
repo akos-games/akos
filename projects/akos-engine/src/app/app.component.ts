@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ApplicationService } from './core/services/application.service';
 import { UiState } from './core/states/ui.state';
 import { map } from 'rxjs/operators';
@@ -21,17 +21,22 @@ export class AppComponent implements OnInit {
   windowOpen$ = this.uiState.observeWindowOpen();
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private applicationService: ApplicationService,
     private uiState: UiState
   ) {
   }
 
   ngOnInit() {
+
     this.applicationService.start();
+    this.changeDetectorRef.detectChanges()
 
     this.shortcuts.push({
       key: 'alt + enter',
       command: () => {}
-    })
+    });
+
+    this.windowOpen$.subscribe(() => this.changeDetectorRef.detectChanges());
   }
 }

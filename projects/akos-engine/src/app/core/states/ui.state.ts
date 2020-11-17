@@ -1,7 +1,7 @@
 import { State } from 'akos-common';
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 export interface Ui {
   displayLoadMenu: boolean;
