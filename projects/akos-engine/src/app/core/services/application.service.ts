@@ -33,16 +33,18 @@ export class ApplicationService {
       .subscribe(async () => {
 
         let gameDescriptor = await this.loadGameDescriptor();
-        let sanitizedGameName = sanitizeGameName(this.gameDescriptorState.get().game.name);
-        let gameDir = `${this.nativeService.getAppDataDir()}/Akos Engine/${sanitizedGameName}`;
+        let sanitizedGameName = sanitizeGameName(gameDescriptor.game.name);
+
+        this.nativeService.setAppName(gameDescriptor.game.name);
+
+        let gameDir = this.nativeState.get().appDataDir;
         let application = {
           gameDir,
           savesDir: `${gameDir}/saves`,
-          tempDir: `${this.nativeService.getTempDir()}/Akos Engine/${sanitizedGameName}`
+          tempDir: `${this.nativeService.getTempDir()}/${sanitizedGameName}`
         }
 
         this.applicationState.set(application);
-        this.nativeService.setAppName(gameDescriptor.game.name);
 
         await this.nativeService.ensureDir(application.tempDir);
         await this.nativeService.ensureDir(application.savesDir);

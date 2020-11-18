@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Event, FileFilter, NativeImage } from 'electron';
+import { FileFilter, NativeImage } from 'electron';
 import { NativeState } from '../states/native.state';
-import sanitize from 'sanitize-filename';
+import { sanitizeGameName } from '../utils/game';
 
 @Injectable()
 export class NativeService {
@@ -119,7 +119,7 @@ export class NativeService {
     this.setWindowTitle(name);
     this.nativeState.set({
       ...this.nativeState.get(),
-      appDataDir: `${this.remote.app.getPath('appData')}/${sanitize(name)}`
+      appDataDir: `${this.remote.app.getPath('appData')}/${sanitizeGameName(name)}`
     });
   }
 
@@ -129,10 +129,6 @@ export class NativeService {
 
   setWindowTitle(title: string) {
     this.remote.getCurrentWindow().setTitle(title);
-  }
-
-  getAppDataDir() {
-    return this.remote.app.getPath('appData');
   }
 
   getTempDir() {

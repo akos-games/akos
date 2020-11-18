@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { UiState } from '../states/ui.state';
 import { Settings, SettingsState } from '../states/settings.state';
-import { NativeService, NativeState } from 'akos-common';
+import { NativeService } from 'akos-common';
 import { KeyboardShortcutsSelectService } from 'ng-keyboard-shortcuts';
+import { ApplicationState } from '../states/application.state';
 
 @Injectable()
 export class SettingsService {
@@ -10,7 +11,7 @@ export class SettingsService {
   constructor(
     private nativeService: NativeService,
     private shortcutService: KeyboardShortcutsSelectService,
-    private nativeState: NativeState,
+    private applicationState: ApplicationState,
     private settingsState: SettingsState,
     private uiState: UiState,
   ) {
@@ -21,7 +22,7 @@ export class SettingsService {
 
   async loadSettings() {
 
-    let settingsFile = `${this.nativeState.get().appDataDir}/settings.json`;
+    let settingsFile = `${this.applicationState.get().gameDir}/settings.json`;
     if (await this.nativeService.exists(settingsFile)) {
       this.setSettings(JSON.parse(await this.nativeService.readFile(settingsFile)));
     } else {
@@ -33,9 +34,9 @@ export class SettingsService {
 
     this.setSettings(settings);
 
-    let appDataDir = this.nativeState.get().appDataDir;
-    await this.nativeService.ensureDir(appDataDir);
-    await this.nativeService.writeFile(`${appDataDir}/settings.json`, JSON.stringify(settings, null, 2));
+    let gameDir = this.applicationState.get().gameDir;
+    await this.nativeService.ensureDir(gameDir);
+    await this.nativeService.writeFile(`${gameDir}/settings.json`, JSON.stringify(settings, null, 2));
   }
 
   async restoreDefaults() {
