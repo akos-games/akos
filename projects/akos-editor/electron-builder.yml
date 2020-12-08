@@ -20,3 +20,5 @@ win:
 linux:
   target: zip
   executableName: "Akos Editor"
+mac:
+  target: zip

@@ -14,3 +14,5 @@ win:
 linux:
   target: dir
   executableName: "Game"
+mac:
+  target: dir
