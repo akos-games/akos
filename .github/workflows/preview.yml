@@ -1,11 +1,11 @@
 name: Preview channel
 on:
   workflow_dispatch:
+env:
+  CSC_IDENTITY_AUTO_DISCOVERY: false
 defaults:
   run:
     shell: bash
-    env:
-      CSC_IDENTITY_AUTO_DISCOVERY: false
 jobs:
   build_engine:
     runs-on: ${{ matrix.os }}
