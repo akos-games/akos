@@ -63,7 +63,7 @@ jobs:
       - name: Build editor
         run: npm run build:editor
       - name: Rename artifact
-        run: mv dist/release/* dist/release/$(lsOutput=$(ls dist/release); today=$(printf '%(%Y%m%d)T\n' -1); echo ${lsOutput/.zip/-preview-$today.zip})
+        run: mv dist/release/* dist/release/$(lsOutput=$(ls dist/release); today=$(date +%Y%m%d); echo ${lsOutput/.zip/-preview-$today.zip})
       - name: Upload editor
         uses: actions/upload-artifact@v2
         with:
