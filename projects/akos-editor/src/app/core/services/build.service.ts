@@ -36,7 +36,7 @@ export class BuildService {
     await this.nativeService.copy(this.engineDir, distDir);
 
     await this.buildDesktop('win', '.exe');
-    await this.buildDesktop('mac');
+    await this.buildDesktop('mac', '.app');
     await this.buildDesktop('linux');
 
     this.uiService.notify('Build success');
