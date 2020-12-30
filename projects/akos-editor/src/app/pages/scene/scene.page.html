@@ -18,23 +18,54 @@
   </mat-form-field>
 
   <mat-form-field class="comments">
-    <textarea matInput matTextareaAutosize [matAutosizeMaxRows]="4" placeholder="Comments" formControlName="comments"></textarea>
+    <textarea matInput
+              matTextareaAutosize
+              [matAutosizeMaxRows]="4"
+              placeholder="Comments"
+              formControlName="comments">
+    </textarea>
   </mat-form-field>
 
-  <div class="command-list" cdkDropList (cdkDropListDropped)="onDropCommand($event)" cdkDropListAutoScrollDisabled=0>
-    <ak-command cdkDrag *ngFor="let command of commands.controls; let i = index"
-                [cdkDragDisabled]="sceneLoading"
-                [formControl]="$any(command)"
-                [references]="references"
-                [referenced]="referencedCommands.includes(command.value.id)"
-                [index]="i"
-                (moveToStart)="onMoveCommandToStart($event)"
-                (moveToEnd)="onMoveCommandToEnd($event)"
-                (moveToPosition)="onMoveCommandToPosition($event.command, $event.index)"
-                (duplicate)="onDuplicate($event)"
-                (delete)="onDeleteCommand($event)">
-      <mat-icon svgIcon="drag-vertical" cdkDragHandle slot="drag-handle" class="drag-handle"></mat-icon>
-    </ak-command>
+  <div class="scene-design">
+
+    <div class="scene-commands"
+         cdkDropList
+         (cdkDropListDropped)="onDropCommand($event)"
+         cdkDropListAutoScrollDisabled=false>
+
+      <ak-command cdkDrag *ngFor="let command of commands.controls; let i = index"
+                  [cdkDragDisabled]="sceneLoading"
+                  [formControl]="$any(command)"
+                  [references]="references"
+                  [referenced]="referencedCommands.includes(command.value.id)"
+                  [index]="i"
+                  (moveToStart)="onMoveCommandToStart($event)"
+                  (moveToEnd)="onMoveCommandToEnd($event)"
+                  (moveToPosition)="onMoveCommandToPosition($event.command, $event.index)"
+                  (duplicate)="onDuplicate($event)"
+                  (delete)="onDeleteCommand($event)">
+        <mat-icon svgIcon="drag-vertical" cdkDragHandle slot="drag-handle" class="drag-handle"></mat-icon>
+      </ak-command>
+
+      <div *ngIf="commands.controls.length === 0" class="emptyMessage">
+        Drag & drop commands here
+      </div>
+
+    </div>
+
+    <div class="palette">
+
+      Available commands
+
+      <div *ngFor="let command of availableCommands"
+           [class]="'command ' + command.header">
+
+        <mat-icon [svgIcon]="command.icon"></mat-icon>
+        <div class="text">{{ command.text }}</div>
+
+      </div>
+    </div>
+
   </div>
 
   <button mat-raised-button color="primary" class="add-command" (click)="onAddCommand()">

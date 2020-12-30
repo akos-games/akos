@@ -29,6 +29,38 @@ export class ScenePage implements OnInit, OnDestroy {
     commands: this.commands
   });
 
+  availableCommands = [{
+    type: 'displayText',
+    icon: 'text-box',
+    text: 'Display text',
+    header: 'green'
+  }, {
+    type: 'hideText',
+    icon: 'text-box-remove',
+    text: 'Hide text',
+    header: 'green'
+  }, {
+    type: 'displayPicture',
+    icon: 'image',
+    text: 'Display picture',
+    header: 'green'
+  }, {
+    type: 'playerChoice',
+    icon: 'arrow-decision',
+    text: 'Player choice',
+    header: 'yellow'
+  }, {
+    type: 'jumpToCommand',
+    icon: 'debug-step-over',
+    text: 'Jump to command',
+    header: 'yellow'
+  }, {
+    type: 'startScene',
+    icon: 'movie-open',
+    text: 'Start scene',
+    header: 'red'
+  }];
+
   private sceneId: number;
   private unsubscribe$ = new Subject();
   private sceneChange$ = new Subject();

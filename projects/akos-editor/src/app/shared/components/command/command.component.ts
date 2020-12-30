@@ -100,7 +100,7 @@ export class CommandComponent implements OnInit, AfterViewInit, OnChanges, Contr
     type: 'playerChoice',
     icon: 'arrow-decision',
     text: 'Player choice',
-    header: 'green',
+    header: 'yellow',
     parameters: ['choices']
   }];
 
