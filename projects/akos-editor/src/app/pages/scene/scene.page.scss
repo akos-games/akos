@@ -36,6 +36,7 @@ mat-form-field {
 
 .scene-commands {
   flex: 1;
+  justify-self: stretch;
   display: flex;
   flex-direction: column;
   margin-top: 10px;
@@ -48,23 +49,24 @@ mat-form-field {
   flex-direction: column;
   align-items: center;
   top: 0;
-  width: 300px;
+  width: 250px;
   padding: 30px 0 30px 50px;
+}
 
-  .command {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    margin-top: 20px;
-    padding: 5px;
-    border: solid 1px grey;
-    cursor: move;
+.available-command {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  padding: 5px;
+  border: solid 1px grey;
+  cursor: move;
+  user-select: none;
 
-    .text {
-      flex: 1;
-      margin-left: 10px;
-    }
+  .text {
+    flex: 1;
+    margin-left: 10px;
   }
 }
 

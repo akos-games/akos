@@ -28,12 +28,15 @@
 
   <div class="scene-design">
 
-    <div class="scene-commands"
+    <div id="scene-commands"
+         class="scene-commands"
          cdkDropList
-         (cdkDropListDropped)="onDropCommand($event)"
-         cdkDropListAutoScrollDisabled=false>
+         #sceneCommands="cdkDropList"
+         (cdkDropListDropped)="onDropCommand($event)">
 
-      <ak-command cdkDrag *ngFor="let command of commands.controls; let i = index"
+      <ak-command *ngFor="let command of commands.controls; let i = index"
+                  cdkDrag
+                  [cdkDragData]="null"
                   [cdkDragDisabled]="sceneLoading"
                   [formControl]="$any(command)"
                   [references]="references"
@@ -53,12 +56,25 @@
 
     </div>
 
-    <div class="palette">
+    <div id="palette"
+         class="palette"
+         cdkDropList
+         cdkDropListSortingDisabled
+         [cdkDropListConnectedTo]="[sceneCommands]">
 
       Available commands
 
-      <div *ngFor="let command of availableCommands"
-           [class]="'command ' + command.header">
+      <div *ngFor="let command of availableCommands; let i = index"
+           cdkDrag
+           [cdkDragData]="{
+             index: i,
+             type: command.type
+           }"
+           [class]="'available-command ' + command.header"
+           (cdkDragMoved)="onAvailableCommandDragMoved($event)"
+           (cdkDragEntered)="onAvailableCommandDragEntered($event)"
+           (cdkDragDropped)="onAvailableCommandDragDropped($event)"
+           (cdkDragEnded)="onAvailableCommandDragEnded($event)">
 
         <mat-icon [svgIcon]="command.icon"></mat-icon>
         <div class="text">{{ command.text }}</div>
@@ -67,10 +83,5 @@
     </div>
 
   </div>
-
-  <button mat-raised-button color="primary" class="add-command" (click)="onAddCommand()">
-    <mat-icon svgIcon="plus"></mat-icon>
-    Add command
-  </button>
 
 </form>

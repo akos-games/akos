@@ -3,12 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ScenesService } from '../../core/services/scenes.service';
 import { FormBuilder } from '@angular/forms';
 import { generateId } from '../../shared/utils/entity.util';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragEnd, CdkDragEnter, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Command, deepCopy } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
 import { concatMap, debounceTime, delay, filter, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { fromArray } from 'rxjs/internal/observable/fromArray';
+import { Constants } from '../../core/constants';
 
 @Component({
   selector: 'page-scene',
@@ -29,41 +30,12 @@ export class ScenePage implements OnInit, OnDestroy {
     commands: this.commands
   });
 
-  availableCommands = [{
-    type: 'displayText',
-    icon: 'text-box',
-    text: 'Display text',
-    header: 'green'
-  }, {
-    type: 'hideText',
-    icon: 'text-box-remove',
-    text: 'Hide text',
-    header: 'green'
-  }, {
-    type: 'displayPicture',
-    icon: 'image',
-    text: 'Display picture',
-    header: 'green'
-  }, {
-    type: 'playerChoice',
-    icon: 'arrow-decision',
-    text: 'Player choice',
-    header: 'yellow'
-  }, {
-    type: 'jumpToCommand',
-    icon: 'debug-step-over',
-    text: 'Jump to command',
-    header: 'yellow'
-  }, {
-    type: 'startScene',
-    icon: 'movie-open',
-    text: 'Start scene',
-    header: 'red'
-  }];
+  availableCommands = Constants.commandTypes;
 
   private sceneId: number;
   private unsubscribe$ = new Subject();
   private sceneChange$ = new Subject();
+  private dragPlaceholder: Node;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -73,6 +45,7 @@ export class ScenePage implements OnInit, OnDestroy {
     private scenesService: ScenesService,
     private scenesState: ScenesState
   ) {
+    console.log(this.availableCommands);
   }
 
   ngOnInit() {
@@ -113,19 +86,6 @@ export class ScenePage implements OnInit, OnDestroy {
     this.scenesService.deleteScene(this.sceneId);
   }
 
-  onAddCommand() {
-    this.commands.push(this.fb.control({
-      id: generateId(),
-      type: 'displayText',
-      displayedSections: ['body'],
-      reference: '',
-      parameters: {
-        waitForPlayer: true,
-        text: ''
-      }
-    }));
-  }
-
   onMoveCommandToStart(command: Command) {
     moveItemInArray(this.commands.controls, this.getCommandIndex(command), 0);
     this.commands.updateValueAndValidity();
@@ -154,8 +114,60 @@ export class ScenePage implements OnInit, OnDestroy {
   }
 
   onDropCommand(event: CdkDragDrop<Command[]>) {
-    moveItemInArray(this.commands.controls, event.previousIndex, event.currentIndex);
-    this.commands.updateValueAndValidity();
+    if (event.item.dropContainer.id === 'scene-commands') {
+      moveItemInArray(this.commands.controls, event.previousIndex, event.currentIndex);
+      this.commands.updateValueAndValidity();
+    }
+  }
+
+  onAvailableCommandDragMoved(event: CdkDragStart) {
+    if (!this.dragPlaceholder) {
+      this.dragPlaceholder = event.source._dragRef.getPlaceholderElement().cloneNode(true);
+    }
+  }
+
+  onAvailableCommandDragEntered(event: CdkDragEnter) {
+
+    let placeholderIndex = event.item.data.index;
+    let startListElement = event.item.dropContainer.element.nativeElement;
+
+    if (event.container.id === 'palette') {
+      this.removePaletteDragPlaceholder(startListElement);
+      return;
+    }
+
+    if (placeholderIndex >= startListElement.children.length) {
+      startListElement.appendChild(this.dragPlaceholder);
+    } else {
+      startListElement.insertBefore(this.dragPlaceholder, startListElement.children[placeholderIndex]);
+    }
+  }
+
+  onAvailableCommandDragDropped(event: CdkDragDrop<any>) {
+    if (event.container.id === 'scene-commands') {
+      this.addCommand(event.currentIndex, event.item.data.type);
+    }
+  }
+
+  onAvailableCommandDragEnded(event: CdkDragEnd) {
+    this.removePaletteDragPlaceholder(event.source.dropContainer.element.nativeElement);
+  }
+
+  private removePaletteDragPlaceholder(element: Node) {
+    if (this.dragPlaceholder && this.dragPlaceholder.parentNode === element) {
+      this.dragPlaceholder && element.removeChild(this.dragPlaceholder);
+      this.dragPlaceholder = null;
+    }
+  }
+
+  private addCommand(index: number, type: string) {
+    this.commands.insert(index, this.fb.control({
+      id: generateId(),
+      type: type,
+      displayedSections: ['body'],
+      reference: '',
+      parameters: Constants.commandTypes.find(commandType => commandType.type === type).defaults
+    }));
   }
 
   private loadScene(sceneId: number) {

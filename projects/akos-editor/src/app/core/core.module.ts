@@ -13,10 +13,12 @@ import { ApplicationService } from './services/application.service';
 import { ThemeState } from './states/theme.state';
 import { ThemeService } from './services/theme.service';
 import { GlobalErrorHandler } from './global-error.handler';
+import { Constants } from './constants';
 
 @NgModule({
   providers: [
     {provide: ErrorHandler, useClass: GlobalErrorHandler},
+    Constants,
     ApplicationService,
     NativeService,
     ProjectService,
