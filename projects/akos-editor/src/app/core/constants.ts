@@ -1,6 +1,15 @@
+export interface CommandType {
+  type: string;
+  icon: string;
+  text: string;
+  header: 'green' | 'blue' | 'yellow' | 'red';
+  parameters?: string[];
+  defaults?: any
+}
+
 export class Constants {
 
-  static readonly commandTypes = [{
+  static readonly commandTypes: CommandType[] = [{
     type: 'displayText',
     icon: 'text-box',
     text: 'Display text',

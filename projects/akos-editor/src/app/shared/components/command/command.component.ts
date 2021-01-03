@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   EventEmitter,
   forwardRef,
@@ -8,7 +8,7 @@ import {
   OnInit,
   Output, SimpleChanges
 } from '@angular/core';
-import { Command } from 'akos-common';
+import { Command, deepCopy } from 'akos-common';
 import { ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MoveCommandDialogComponent } from '../move-command-dialog/move-command-dialog.component';
@@ -16,14 +16,7 @@ import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-d
 import { UiService } from '../../../core/services/ui.service';
 import { filter } from 'rxjs/operators';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-
-interface CommandType {
-  type: string;
-  icon: string;
-  text: string;
-  header: 'green' | 'blue' | 'yellow' | 'red';
-  parameters?: string[];
-}
+import { CommandType, Constants } from '../../../core/constants';
 
 @Component({
   selector: 'ak-command',
@@ -66,52 +59,17 @@ export class CommandComponent implements OnInit, AfterViewInit, OnChanges, Contr
   selectableReferences: {commandId: number; text: string;}[];
   animationState = 'notVisible';
 
-  types: CommandType[] = [{
-    type: 'displayText',
-    icon: 'text-box',
-    text: 'Display text',
-    header: 'green',
-    parameters: ['waitForPlayer', 'text']
-  }, {
-    type: 'hideText',
-    icon: 'text-box-remove',
-    text: 'Hide text',
-    header: 'green',
-    parameters: ['waitForPlayer']
-  }, {
-    type: 'displayPicture',
-    icon: 'image',
-    text: 'Display picture',
-    header: 'green',
-    parameters: ['waitForPlayer', 'picture', 'fullscreen']
-  }, {
-    type: 'startScene',
-    icon: 'movie-open',
-    text: 'Start scene',
-    header: 'red',
-    parameters: ['sceneId']
-  }, {
-    type: 'jumpToCommand',
-    icon: 'debug-step-over',
-    text: 'Jump to command',
-    header: 'yellow',
-    parameters: ['toCommand']
-  }, {
-    type: 'playerChoice',
-    icon: 'arrow-decision',
-    text: 'Player choice',
-    header: 'yellow',
-    parameters: ['choices']
-  }];
+  type: CommandType;
 
-  private propagateChange = _ => {};
+  private propagateChange = _ => {
+  };
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private uiService: UiService
   ) {
-    this.types = this.types.sort((a, b) => a.text.localeCompare(b.text));
   }
 
   ngOnInit() {
@@ -127,20 +85,21 @@ export class CommandComponent implements OnInit, AfterViewInit, OnChanges, Contr
       .pipe(filter(value => value.id))
       .subscribe(value => {
 
-      this.form.updateValueAndValidity({
-        emitEvent: false
+        this.form.updateValueAndValidity({
+          emitEvent: false
+        });
+
+        this.command = value;
+
+        if (this.form.valid) {
+          this.propagateChange(value);
+        }
       });
-
-      this.command = value;
-
-      if (this.form.valid) {
-        this.propagateChange(value);
-      }
-    });
   }
 
   ngAfterViewInit() {
     this.animationState = 'visible';
+    this.changeDetectorRef.detectChanges();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -203,10 +162,6 @@ export class CommandComponent implements OnInit, AfterViewInit, OnChanges, Contr
     dialogRef.afterClosed().subscribe(result => result && this.delete.emit(this.command));
   }
 
-  selectedType() {
-    return this.types.find(type => this.command.type === type.type);
-  }
-
   onAddChoice() {
     this.choices.push(this.fb.group({
       toCommand: null,
@@ -234,23 +189,12 @@ export class CommandComponent implements OnInit, AfterViewInit, OnChanges, Contr
 
   updateParametersForm() {
 
+    let parameters = deepCopy(this.type.defaults);
+
     this.choices = this.fb.array(this.command.parameters.choices?.map(choice => this.fb.group(choice)) || []);
-
-    let parameters = {};
-    let defaultParameters = {
-      waitForPlayer: false,
-      picture: '',
-      fullscreen: false,
-      text: '',
-      sceneId: null,
-      toCommand: null,
-      choices: this.choices
-    };
-
-    this.types
-      .find(type => type.type === this.command.type)
-      .parameters
-      .forEach(parameter => parameters[parameter] = defaultParameters[parameter]);
+    if (this.choices.length > 0) {
+      parameters.choices = this.choices;
+    }
 
     this.form.setControl('parameters', this.fb.group(parameters));
   }
@@ -261,9 +205,11 @@ export class CommandComponent implements OnInit, AfterViewInit, OnChanges, Contr
 
   set value(value) {
     this.command = value;
+    this.type = Constants.commandTypes.find(type => type.type === value.type);
     this.command.parameters?.choices?.forEach(choice => choice.toCommand = choice.toCommand || null);
     this.updateParametersForm();
     this.form.setValue(value);
+    this.changeDetectorRef.detectChanges();
   }
 
   private updateReferences(references) {

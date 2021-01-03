@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+
+### Changed
+
+- Add scene commands using a palette instead of a button. 
+
 ## 0.4.0 - 2020-11-18
 
 ### Added

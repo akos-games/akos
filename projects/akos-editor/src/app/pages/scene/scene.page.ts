@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScenesService } from '../../core/services/scenes.service';
 import { FormBuilder } from '@angular/forms';
@@ -45,7 +45,6 @@ export class ScenePage implements OnInit, OnDestroy {
     private scenesService: ScenesService,
     private scenesState: ScenesState
   ) {
-    console.log(this.availableCommands);
   }
 
   ngOnInit() {
@@ -200,6 +199,7 @@ export class ScenePage implements OnInit, OnDestroy {
       .add(() => {
         this.updateReferences(commands);
         this.sceneLoading = false;
+        this.changeDetectorRef.detectChanges();
       });
   }
 

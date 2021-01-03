@@ -1,24 +1,14 @@
 <div class="wrapper" [@fadeIn]="animationState" [formGroup]="form">
 
-  <div class="header" [class]="selectedType().header">
+  <div class="header" [class]="type.header">
 
     <ng-content select="[slot=drag-handle]"></ng-content>
 
     <span class="index">#{{index}}</span>
 
-    <mat-icon [svgIcon]="selectedType().icon" class="type-icon"></mat-icon>
+    <mat-icon [svgIcon]="type.icon" class="type-icon"></mat-icon>
 
-    <mat-form-field class="type">
-      <mat-label>Command</mat-label>
-      <mat-select formControlName="type" (selectionChange)="updateParametersForm()">
-
-        <mat-option *ngFor="let type of types" [value]="type.type">
-          <mat-icon [svgIcon]="type.icon"></mat-icon>
-          {{type.text}}
-        </mat-option>
-
-      </mat-select>
-    </mat-form-field>
+    <mat-label class="type">{{type.text}}</mat-label>
 
     <mat-form-field class="reference">
 
@@ -59,27 +49,27 @@
 
   <div *ngIf="command.displayedSections.includes('body')" class="body" [formGroup]="form.get('parameters')">
 
-    <mat-checkbox *ngIf="selectedType().parameters.includes('waitForPlayer')" formControlName="waitForPlayer">
+    <mat-checkbox *ngIf="type.parameters.includes('waitForPlayer')" formControlName="waitForPlayer">
       Wait for player click to continue
     </mat-checkbox>
 
-    <mat-checkbox *ngIf="selectedType().parameters.includes('fullscreen')" formControlName="fullscreen">
+    <mat-checkbox *ngIf="type.parameters.includes('fullscreen')" formControlName="fullscreen">
       Fullscreen
     </mat-checkbox>
 
-    <ak-select-asset required *ngIf="selectedType().parameters.includes('picture')" type="image" formControlName="picture">
+    <ak-select-asset required *ngIf="type.parameters.includes('picture')" type="image" formControlName="picture">
       Image file
     </ak-select-asset>
 
-    <mat-form-field *ngIf="selectedType().parameters.includes('text')">
+    <mat-form-field *ngIf="type.parameters.includes('text')">
       <textarea matInput matTextareaAutosize [matAutosizeMaxRows]="4" placeholder="Text" formControlName="text"></textarea>
     </mat-form-field>
 
-    <ak-select-entity *ngIf="selectedType().parameters.includes('sceneId')" type="scene" formControlName="sceneId">
+    <ak-select-entity *ngIf="type.parameters.includes('sceneId')" type="scene" formControlName="sceneId">
       Scene
     </ak-select-entity>
 
-    <mat-form-field *ngIf="selectedType().parameters.includes('toCommand')" class="toCommand">
+    <mat-form-field *ngIf="type.parameters.includes('toCommand')" class="toCommand">
 
       <mat-label>Command</mat-label>
       <mat-select formControlName="toCommand">
@@ -90,7 +80,7 @@
       </mat-select>
     </mat-form-field>
 
-    <div *ngIf="selectedType().parameters.includes('choices')" class="choices">
+    <div *ngIf="type.parameters.includes('choices')" class="choices">
 
       <div *ngFor="let choice of choices.controls; let i = index" [formGroup]="choice" class="choice">
 
