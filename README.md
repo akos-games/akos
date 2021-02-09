@@ -44,4 +44,4 @@ In this way, we hope to help novice game devs focus their creativity and **stay 
 
 [![License](https://img.shields.io/badge/license-MIT-green)](/LICENSE)
 
-Copyright :copyright: 2020 Sébastien Roux
+Copyright :copyright: 2021 Sébastien Roux
