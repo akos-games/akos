@@ -34,16 +34,16 @@ export class ApplicationService {
       if (!await this.nativeService.exists(distDir)) {
         this.uiService.notify('Game has not been built yet');
       } else {
-        this.nativeService.desktopOpen(distDir);
+        await this.nativeService.desktopOpen(distDir);
       }
     }
   }
 
   async openDocumentation() {
-    this.nativeService.desktopOpen(`https://github.com/grimwred/akos/blob/v${version}/docs/quickstart.md`);
+    await this.nativeService.desktopOpen(`https://github.com/grimwred/akos/blob/v${version}/docs/quickstart.md`);
   }
 
   async openContributors() {
-    this.nativeService.desktopOpen('https://github.com/akosgames/akos/blob/master/CONTRIBUTORS.md');
+    await this.nativeService.desktopOpen('https://github.com/akosgames/akos/blob/master/CONTRIBUTORS.md');
   }
 }

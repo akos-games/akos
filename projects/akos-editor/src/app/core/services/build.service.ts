@@ -74,6 +74,10 @@ export class BuildService {
       });
     });
 
-    await this.nativeService.writeFile(gameDescriptorFile, JSON.stringify(gameDescriptor));
+    gameDescriptor.soundtrack.forEach(track => {
+      delete track.name;
+    });
+
+    await this.nativeService.writeFile(gameDescriptorFile, JSON.stringify(gameDescriptor, null, 2));
   }
 }

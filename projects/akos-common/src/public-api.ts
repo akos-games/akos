@@ -8,6 +8,7 @@ export * from './lib/types/game-descriptor';
 export * from './lib/types/native-context';
 export * from './lib/types/theme';
 export * from './lib/types/scene';
+export * from './lib/types/track';
 export * from './lib/services/native.service';
 export * from './lib/states/native.state';
 export * from './lib/utils/game';

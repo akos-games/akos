@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class AssetSelectorComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
 
-  @Input() type: 'image';
+  @Input() type: 'image' | 'sound';
   @Input() required: boolean;
 
   form = new FormGroup({
@@ -52,6 +52,10 @@ export class AssetSelectorComponent implements OnInit, OnChanges, OnDestroy, Con
 
       case 'image':
         this.fileFilter = {name: 'Image', extensions: ['apng', 'bmp', 'gif', 'jpeg', 'jpg', 'png', 'svg', 'webp']};
+        break;
+
+      case 'sound':
+        this.fileFilter = {name: 'Sound', extensions: ['3gp', 'aac', 'flac', 'mpg', 'mpeg', 'mp3', 'mp4', 'm4a', 'oga', 'ogg', 'wav', 'webm']};
         break;
     }
   }

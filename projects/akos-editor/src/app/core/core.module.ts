@@ -14,6 +14,8 @@ import { ThemeState } from './states/theme.state';
 import { ThemeService } from './services/theme.service';
 import { GlobalErrorHandler } from './global-error.handler';
 import { Constants } from './constants';
+import { SoundtrackState } from './states/soundtrack.state';
+import { SoundtrackService } from './services/soundtrack.service';
 
 @NgModule({
   providers: [
@@ -27,12 +29,14 @@ import { Constants } from './constants';
     GameService,
     ThemeService,
     ScenesService,
+    SoundtrackService,
     NativeState,
     ProjectState,
     UiState,
     GameState,
     ThemeState,
-    ScenesState
+    ScenesState,
+    SoundtrackState
   ]
 })
 export class CoreModule {

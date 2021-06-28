@@ -1,0 +1,20 @@
+<mat-toolbar>
+
+  <button mat-raised-button color="primary" (click)="onAddTrack()">
+    <mat-icon svgIcon="plus"></mat-icon>
+    Add track
+  </button>
+
+</mat-toolbar>
+
+<div class="page-body" cdkDropList (cdkDropListDropped)="onDropTrack($event)">
+
+  <ak-track *ngFor="let track of tracks$ | async"
+            cdkDrag
+            [track]="track"
+            (update)="onUpdateTrack($event)"
+            (delete)="onDeleteTrack(track)">
+    <mat-icon svgIcon="drag-vertical" cdkDragHandle slot="drag-handle" class="drag-handle"></mat-icon>
+  </ak-track>
+
+</div>

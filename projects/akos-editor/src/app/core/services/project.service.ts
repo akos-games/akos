@@ -11,6 +11,8 @@ import { debounceTime, filter } from 'rxjs/operators';
 import { version } from  '../../../../../../package.json';
 import { ThemeState } from '../states/theme.state';
 import { ThemeService } from './theme.service';
+import { SoundtrackState } from '../states/soundtrack.state';
+import { SoundtrackService } from './soundtrack.service';
 
 @Injectable()
 export class ProjectService {
@@ -23,16 +25,19 @@ export class ProjectService {
     private gameService: GameService,
     private themeService: ThemeService,
     private scenesService: ScenesService,
+    private soundtrackService: SoundtrackService,
     private projectState: ProjectState,
     private gameState: GameState,
     private themeState: ThemeState,
-    private scenesState: ScenesState
+    private scenesState: ScenesState,
+    private soundtrackState: SoundtrackState
   ) {
 
     merge(
       gameState.observe(),
-      themeState.observe(),
-      scenesState.observe()
+      scenesState.observe(),
+      soundtrackState.observe(),
+      themeState.observe()
     )
       .pipe(filter(() => !!projectState.get()))
       .subscribe(() => projectState.setSaved(false));
@@ -49,14 +54,14 @@ export class ProjectService {
   async createProject(file?: string) {
 
     if (!file) {
-      this.router.navigateByUrl('/create-project');
+      await this.router.navigateByUrl('/create-project');
       this.resetProject()
       return;
     }
 
     await this.buildProjectState(file);
     await this.saveProject();
-    this.router.navigateByUrl('/game');
+    await this.router.navigateByUrl('/game');
   }
 
   closeProject() {
@@ -66,7 +71,7 @@ export class ProjectService {
 
   async saveProject() {
     if (this.projectState.get() && !this.projectState.get().saved) {
-      await this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor()));
+      await this.nativeService.writeFile(this.projectState.get().file, JSON.stringify(this.getGameDescriptor(), null, 2));
       this.projectState.setSaved(true);
     }
   }
@@ -77,12 +82,13 @@ export class ProjectService {
 
     if (file) {
 
-      let data = JSON.parse(await this.nativeService.readFile(file));
-      data.game.akosVersion = version;
+      let gameDescriptor: GameDescriptor = JSON.parse(await this.nativeService.readFile(file));
+      gameDescriptor.game.akosVersion = version;
 
-      this.gameState.set(data.game);
-      this.themeState.set(data.theme);
-      this.scenesState.set(data.scenes);
+      this.gameState.set(gameDescriptor.game);
+      this.scenesState.set(gameDescriptor.scenes);
+      this.soundtrackState.set(gameDescriptor.soundtrack);
+      this.themeState.set(gameDescriptor.theme);
       await this.buildProjectState(file);
       await this.router.navigateByUrl('/game');
     }
@@ -95,14 +101,16 @@ export class ProjectService {
   private resetProject() {
     this.projectState.set(null);
     this.gameService.resetGame();
-    this.themeService.resetTheme();
     this.scenesService.resetScenes();
+    this.soundtrackService.resetSoundtrack();
+    this.themeService.resetTheme();
   }
 
   private getGameDescriptor(): GameDescriptor {
     return {
       game: this.gameState.get(),
       scenes: this.scenesState.get(),
+      soundtrack: this.soundtrackState.get(),
       theme: this.themeState.get()
     };
   }

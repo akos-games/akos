@@ -10,6 +10,7 @@ import { ScenesService } from '../../../core/services/scenes.service';
 import { Scene } from 'akos-common';
 import { ScenesState } from '../../../core/states/scenes.state';
 import { ThemeNode } from '../../types/nodes/theme.node';
+import { SoundtrackNode } from '../../types/nodes/soundtrack.node';
 
 @Component({
   selector: 'ak-sidebar',
@@ -23,6 +24,7 @@ export class SidebarComponent implements OnInit {
 
   private readonly game: GameNode;
   private readonly theme: ThemeNode;
+  private readonly soundtrack: SoundtrackNode;
   private readonly scenes: ScenesNode;
 
   constructor(
@@ -36,6 +38,7 @@ export class SidebarComponent implements OnInit {
 
     this.game = new GameNode();
     this.theme = new ThemeNode();
+    this.soundtrack = new SoundtrackNode();
     this.scenes = new ScenesNode(this.sceneService);
   }
 
@@ -44,6 +47,7 @@ export class SidebarComponent implements OnInit {
     this.dataSource.data = [
       this.game,
       this.theme,
+      this.soundtrack,
       this.scenes
     ];
 

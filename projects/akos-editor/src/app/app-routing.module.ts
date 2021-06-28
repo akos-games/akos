@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/scene/scene.module').then(m => m.SceneModule)
   },
   {
+    path: 'soundtrack',
+    loadChildren: () => import('./pages/soundtrack/soundtrack.module').then(m => m.SoundtrackModule)
+  },
+  {
     path: 'theme',
     loadChildren: () => import('./pages/theme/theme.module').then(m => m.ThemeModule)
   },
