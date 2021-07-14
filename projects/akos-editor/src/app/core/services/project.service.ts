@@ -8,7 +8,7 @@ import { ScenesState } from '../states/scenes.state';
 import { ProjectState } from '../states/project.state';
 import { merge } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
-import { version } from  '../../../../../../package.json';
+import packageInfo from  '../../../../../../package.json';
 import { ThemeState } from '../states/theme.state';
 import { ThemeService } from './theme.service';
 import { SoundtrackState } from '../states/soundtrack.state';
@@ -83,7 +83,7 @@ export class ProjectService {
     if (file) {
 
       let gameDescriptor: GameDescriptor = JSON.parse(await this.nativeService.readFile(file));
-      gameDescriptor.game.akosVersion = version;
+      gameDescriptor.game.akosVersion = packageInfo.version;
 
       this.gameState.set(gameDescriptor.game);
       this.scenesState.set(gameDescriptor.scenes);

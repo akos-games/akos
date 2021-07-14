@@ -3,7 +3,7 @@ import { ProjectService } from './project.service';
 import { NativeService } from 'akos-common';
 import { ProjectState } from '../states/project.state';
 import { UiService } from './ui.service';
-import { version } from  '../../../../../../package.json';
+import packageInfo from  '../../../../../../package.json';
 import { GameState } from '../states/game.state';
 
 @Injectable()
@@ -40,7 +40,7 @@ export class ApplicationService {
   }
 
   async openDocumentation() {
-    await this.nativeService.desktopOpen(`https://github.com/grimwred/akos/blob/v${version}/docs/quickstart.md`);
+    await this.nativeService.desktopOpen(`https://github.com/grimwred/akos/blob/v${packageInfo.version}/docs/quickstart.md`);
   }
 
   async openContributors() {

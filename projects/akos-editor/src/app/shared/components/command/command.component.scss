@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 @import '../../../../assets/styles/theme';
 
@@ -119,5 +120,5 @@ header.grey {
 }
 
 .menu-delete {
-  color: mat-color($candy-app-warn);
+  color: mat.get-color-from-palette($candy-app-warn);
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../core/services/project.service';
-import { version } from  '../../../../../../package.json';
+import packageInfo from  '../../../../../../package.json';
 
 @Component({
   selector: 'page-welcome',
@@ -9,7 +9,7 @@ import { version } from  '../../../../../../package.json';
 })
 export class WelcomePage implements OnInit {
 
-  akosVersion = version;
+  akosVersion = packageInfo.version;
 
   constructor(private projectService: ProjectService) {
   }
