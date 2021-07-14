@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
-import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
 
 @NgModule({
   declarations: [
@@ -12,7 +11,6 @@ import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
   ],
   imports: [
     BrowserModule,
-    KeyboardShortcutsModule.forRoot(),
     CoreModule,
     LayoutModule,
     AppRoutingModule

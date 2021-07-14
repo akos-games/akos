@@ -5,8 +5,8 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { GameState } from '../../core/states/game.state';
 import { Subject } from 'rxjs';
 import { UiState } from '../../core/states/ui.state';
-import { ShortcutInput } from 'ng-keyboard-shortcuts';
 import { SaveService } from '../../core/services/save.service';
+import { UiService } from '../../core/services/ui.service';
 
 @Component({
   selector: 'page-scene',
@@ -23,13 +23,13 @@ export class ScenePage implements OnInit, OnDestroy {
   playerChoices: any[];
 
   showPauseMenu = false;
-  shortcuts: ShortcutInput[] = [];
 
   windowOpen$ = this.uiState.observeWindowOpen();
   private unsubscribe$ = new Subject();
 
   constructor(
     private gameState: GameState,
+    private uiService: UiService,
     private uiState: UiState,
     private sceneService: SceneService,
     private assetService: AssetService,
@@ -40,25 +40,14 @@ export class ScenePage implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.shortcuts.push({
-      key: 'space',
-      preventDefault: true,
-      command: () => this.nextCommand()
-    }, {
-      key: 'esc',
-      preventDefault: true,
-      command: () => {
+    this.uiService.bindHotkeys('scene', {
+      'esc': () => {
         this.showPauseMenu = !this.showPauseMenu;
         this.cdRef.detectChanges();
-      }
-    }, {
-      key: 'ctrl + s',
-      preventDefault: true,
-      command: () => this.saveService.createSave('quicksave')
-    }, {
-      key: 'ctrl + l',
-      preventDefault: true,
-      command: () => this.saveService.loadSave('quicksave')
+      },
+      'space': () => this.nextCommand(),
+      'ctrl+s': () => this.saveService.createSave('quicksave'),
+      'ctrl+l': () => this.saveService.loadSave('quicksave')
     });
 
     this.gameState
@@ -83,6 +72,7 @@ export class ScenePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.uiService.unbindHotkeys();
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

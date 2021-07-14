@@ -1,35 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { ShortcutInput } from 'ng-keyboard-shortcuts';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UiState } from '../../../core/states/ui.state';
 import { map } from 'rxjs/operators';
+import { UiService } from '../../../core/services/ui.service';
 
 @Component({
   selector: 'ak-confirm',
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.scss']
 })
-export class ConfirmComponent implements OnInit {
-
-  shortcuts: ShortcutInput[] = [];
+export class ConfirmComponent implements OnInit, OnDestroy {
 
   message$ = this.uiState.observe().pipe(map(ui => ui.confirm?.message || 'Are you sure?'));
   yesText$ = this.uiState.observe().pipe(map(ui => ui.confirm?.yesText || 'Yes'));
   noText$ = this.uiState.observe().pipe(map(ui => ui.confirm?.noText || 'Cancel'));
 
-  constructor(private uiState: UiState) {
+  constructor(
+    private uiService: UiService,
+    private uiState: UiState
+  ) {
   }
 
   ngOnInit() {
-
-    this.shortcuts.push({
-      key: 'esc',
-      preventDefault: true,
-      command: () => this.no()
-    }, {
-      key: 'enter',
-      preventDefault: true,
-      command: () => this.yes()
+    this.uiService.bindHotkeys('confirm', {
+      'esc': () => this.no(),
+      'enter': () => this.yes()
     });
+  }
+
+  ngOnDestroy() {
+    this.uiService.unbindHotkeys();
   }
 
   yes() {

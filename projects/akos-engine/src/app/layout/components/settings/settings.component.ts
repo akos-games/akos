@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { SettingsState } from '../../../core/states/settings.state';
 import { takeUntil } from 'rxjs/operators';
-import { ShortcutInput } from 'ng-keyboard-shortcuts';
+import { UiService } from '../../../core/services/ui.service';
 
 @Component({
   selector: 'ak-settings',
@@ -13,7 +13,6 @@ import { ShortcutInput } from 'ng-keyboard-shortcuts';
 })
 export class SettingsComponent implements OnInit, OnDestroy {
 
-  shortcuts: ShortcutInput[] = [];
   settingsForm = this.fb.group({
     fullscreen: false
   });
@@ -23,16 +22,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private settingsService: SettingsService,
-    private settingsState: SettingsState
+    private settingsState: SettingsState,
+    private uiService: UiService
   ) {
   }
 
   async ngOnInit() {
 
-    this.shortcuts.push({
-      key: 'esc',
-      preventDefault: true,
-      command: () => this.settingsService.hideSettings()
+    this.uiService.bindHotkeys('settings', {
+      'esc': () => this.settingsService.hideSettings()
     });
 
     this.settingsState
@@ -49,6 +47,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.uiService.unbindHotkeys();
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

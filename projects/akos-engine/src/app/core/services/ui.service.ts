@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { Confirm, UiState } from '../states/ui.state';
 import { take, tap } from 'rxjs/operators';
 import { GameState } from '../states/game.state';
+import hotkeys from 'hotkeys-js';
 
 @Injectable()
 export class UiService {
+
+  private previousHotkeysScope = 'all';
 
   constructor(
     private gameState: GameState,
@@ -48,6 +51,31 @@ export class UiService {
   error(error) {
     if (!this.uiState.get().error) {
       this.uiState.setError(error);
+    }
+  }
+
+  bindHotkeys(scope: string, keys: {[hotkey: string]: any}) {
+
+    Object.keys(keys).forEach(key => {
+      hotkeys(key, scope || 'all', event => {
+        event.preventDefault();
+        keys[key]();
+      });
+    });
+
+    if (scope) {
+      this.previousHotkeysScope = hotkeys.getScope();
+      hotkeys.setScope(scope);
+    }
+  }
+
+  unbindHotkeys() {
+
+    const scope = hotkeys.getScope();
+
+    if (scope !== 'all') {
+      hotkeys.deleteScope(scope);
+      hotkeys.setScope(this.previousHotkeysScope);
     }
   }
 }

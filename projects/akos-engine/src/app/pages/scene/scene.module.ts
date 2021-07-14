@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ScenePage } from './scene.page';
 import { SceneRoutingModule } from './scene-routing.module';
 import { PauseMenuComponent } from './components/pause-menu/pause-menu.component';
-import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
 
 @NgModule({
   declarations: [
@@ -12,8 +11,7 @@ import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
   ],
   imports: [
     CommonModule,
-    SceneRoutingModule,
-    KeyboardShortcutsModule
+    SceneRoutingModule
   ]
 })
 export class SceneModule {

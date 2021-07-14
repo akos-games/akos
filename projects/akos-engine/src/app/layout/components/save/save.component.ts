@@ -1,40 +1,40 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ShortcutInput } from 'ng-keyboard-shortcuts';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { SaveService } from '../../../core/services/save.service';
 import { SaveState } from '../../../core/states/save.state';
 import moment from 'moment';
 import 'moment-duration-format';
 import { UiState } from '../../../core/states/ui.state';
 import { map } from 'rxjs/operators';
+import { UiService } from '../../../core/services/ui.service';
 
 @Component({
   selector: 'ak-save',
   templateUrl: './save.component.html',
   styleUrls: ['./save.component.scss']
 })
-export class SaveComponent implements OnInit {
+export class SaveComponent implements OnInit, OnDestroy {
 
   @Input() mode: 'save' | 'load';
-
-  shortcuts: ShortcutInput[] = [];
 
   saves$ = this.saveState.observe();
   displayConfirm$ = this.uiState.observe().pipe(map(ui => !!ui.confirm));
 
   constructor(
+    private saveService: SaveService,
     private saveState: SaveState,
-    private uiState: UiState,
-    private saveService: SaveService
+    private uiService: UiService,
+    private uiState: UiState
   ) {
   }
 
   ngOnInit() {
-
-    this.shortcuts.push({
-      key: 'esc',
-      preventDefault: true,
-      command: () => this.close()
+    this.uiService.bindHotkeys('save', {
+      'esc': () => this.close()
     });
+  }
+
+  ngOnDestroy() {
+    this.uiService.unbindHotkeys()
   }
 
   onSaveClick(saveId) {
