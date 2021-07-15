@@ -1,6 +1,8 @@
 name: Preview channel
 on:
   workflow_dispatch:
+env:
+  CSC_IDENTITY_AUTO_DISCOVERY: false
 defaults:
   run:
     shell: bash
@@ -9,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout branch develop
         uses: actions/checkout@v2
@@ -36,7 +38,7 @@ jobs:
     needs: [build_engine]
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout branch develop
         uses: actions/checkout@v2
@@ -61,7 +63,7 @@ jobs:
       - name: Build editor
         run: npm run build:editor
       - name: Rename artifact
-        run: mv dist/release/* dist/release/$(lsOutput=$(ls dist/release); today=$(printf '%(%Y%m%d)T\n' -1); echo ${lsOutput/.zip/-preview-$today.zip})
+        run: mv dist/release/* dist/release/$(lsOutput=$(ls dist/release); today=$(date +%Y%m%d); echo ${lsOutput/.zip/-preview-$today.zip})
       - name: Upload editor
         uses: actions/upload-artifact@v2
         with:
