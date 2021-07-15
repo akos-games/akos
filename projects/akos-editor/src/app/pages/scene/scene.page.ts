@@ -7,8 +7,7 @@ import { CdkDragDrop, CdkDragEnd, CdkDragEnter, CdkDragStart, moveItemInArray } 
 import { Command, deepCopy } from 'akos-common';
 import { ScenesState } from '../../core/states/scenes.state';
 import { concatMap, debounceTime, delay, filter, takeUntil } from 'rxjs/operators';
-import { of, Subject } from 'rxjs';
-import { fromArray } from 'rxjs/internal/observable/fromArray';
+import { from, of, Subject } from 'rxjs';
 import { Constants } from '../../core/constants';
 
 @Component({
@@ -187,7 +186,7 @@ export class ScenePage implements OnInit, OnDestroy {
     this.sceneForm.setValue(scene);
     this.changeDetectorRef.detectChanges();
 
-    fromArray(commands)
+    from(commands)
       .pipe(
         concatMap(command => of(command).pipe(delay(10))),
         takeUntil(this.sceneChange$)

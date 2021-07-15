@@ -69,6 +69,7 @@ function createMainWindow() {
       webSecurity: false,
       // Allows NodeJS API from render process
       nodeIntegration: true,
+      contextIsolation: false,
       // Allows Remote API from render process
       enableRemoteModule: true
     }
