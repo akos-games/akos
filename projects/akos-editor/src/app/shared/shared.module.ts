@@ -50,8 +50,4 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   ]
 })
 export class SharedModule {
-
-  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-    matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('assets/mdi.svg'));
-  }
 }

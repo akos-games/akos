@@ -4,7 +4,7 @@
   <span class="spacer"></span>
 
   <button mat-raised-button color="warn" (click)="onDeleteScene()">
-    <mat-icon svgIcon="delete-forever"></mat-icon>
+    <mat-icon class="mdi mdi-delete-forever"></mat-icon>
     Delete scene
   </button>
 
@@ -47,7 +47,7 @@
                   (moveToPosition)="onMoveCommandToPosition($event.command, $event.index)"
                   (duplicate)="onDuplicate($event)"
                   (delete)="onDeleteCommand($event)">
-        <mat-icon svgIcon="drag-vertical" cdkDragHandle slot="drag-handle" class="drag-handle"></mat-icon>
+        <mat-icon class="mdi mdi-drag-vertical drag-handle" cdkDragHandle slot="drag-handle"></mat-icon>
       </ak-command>
 
       <div *ngIf="commands.controls.length === 0" class="emptyMessage">
@@ -76,7 +76,7 @@
            (cdkDragDropped)="onAvailableCommandDragDropped($event)"
            (cdkDragEnded)="onAvailableCommandDragEnded($event)">
 
-        <mat-icon [svgIcon]="command.icon"></mat-icon>
+        <mat-icon [class]="'mdi mdi-' + command.icon"></mat-icon>
         <div class="text">{{ command.text }}</div>
 
       </div>

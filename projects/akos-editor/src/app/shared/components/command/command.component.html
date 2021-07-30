@@ -6,7 +6,7 @@
 
     <span class="index">#{{index}}</span>
 
-    <mat-icon [svgIcon]="type.icon" class="type-icon"></mat-icon>
+    <mat-icon [class]="'type-icon mdi mdi-' + type.icon"></mat-icon>
 
     <mat-label class="type">{{type.text}}</mat-label>
 
@@ -28,17 +28,17 @@
     <mat-button-toggle-group multiple="true" formControlName="displayedSections">
 
       <mat-button-toggle value="condition">
-        <mat-icon svgIcon="square-root"></mat-icon>
+        <mat-icon class="mdi mdi-square-root"></mat-icon>
       </mat-button-toggle>
 
       <mat-button-toggle value="body">
-        <mat-icon svgIcon="card-bulleted"></mat-icon>
+        <mat-icon class="mdi mdi-card-bulleted"></mat-icon>
       </mat-button-toggle>
 
     </mat-button-toggle-group>
 
     <button mat-icon-button [matMenuTriggerFor]="commandMenu">
-      <mat-icon svgIcon="dots-vertical"></mat-icon>
+      <mat-icon class="mdi mdi-dots-vertical"></mat-icon>
     </button>
 
   </div>
@@ -101,15 +101,15 @@
         <div class="buttons">
 
           <button mat-icon-button color="warn" (click)="onDeleteChoice(i)">
-            <mat-icon svgIcon="delete-forever"></mat-icon>
+            <mat-icon class="mdi mdi-delete-forever"></mat-icon>
           </button>
 
           <button mat-icon-button *ngIf="i > 0" (click)="onMoveChoiceUp(i)">
-            <mat-icon svgIcon="chevron-up"></mat-icon>
+            <mat-icon class="mdi mdi-chevron-up"></mat-icon>
           </button>
 
           <button mat-icon-button *ngIf="i < choices.controls.length - 1" (click)="onMoveChoiceDown(i)">
-            <mat-icon svgIcon="chevron-down"></mat-icon>
+            <mat-icon class="mdi mdi-chevron-down"></mat-icon>
           </button>
 
         </div>
@@ -117,7 +117,7 @@
       </div>
 
       <button mat-raised-button color="primary" (click)="onAddChoice()">
-        <mat-icon svgIcon="plus"></mat-icon>
+        <mat-icon class="mdi mdi-plus"></mat-icon>
         Add choice
       </button>
 
@@ -130,27 +130,27 @@
 <mat-menu #commandMenu="matMenu">
 
   <button mat-menu-item (click)="onMoveToStart()">
-    <mat-icon svgIcon="chevron-double-up"></mat-icon>
+    <mat-icon class="mdi mdi-chevron-double-up"></mat-icon>
     Move to start
   </button>
 
   <button mat-menu-item (click)="onMoveToPosition()">
-    <mat-icon svgIcon="unfold-more-horizontal"></mat-icon>
+    <mat-icon class="mdi mdi-unfold-more-horizontal"></mat-icon>
     Move to position...
   </button>
 
   <button mat-menu-item (click)="onMoveToEnd()">
-    <mat-icon svgIcon="chevron-double-down"></mat-icon>
+    <mat-icon class="mdi mdi-chevron-double-down"></mat-icon>
     Move to end
   </button>
 
   <button mat-menu-item (click)="onDuplicate()">
-    <mat-icon svgIcon="plus-circle-multiple-outline"></mat-icon>
+    <mat-icon class="mdi mdi-plus-circle-multiple-outline"></mat-icon>
     Duplicate
   </button>
 
   <button mat-menu-item (click)="onDelete()">
-    <mat-icon svgIcon="delete-forever" color="warn"></mat-icon>
+    <mat-icon class="mdi mdi-delete-forever" color="warn"></mat-icon>
     <span class="menu-delete">Delete command</span>
   </button>
 

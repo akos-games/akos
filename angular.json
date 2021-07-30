@@ -23,17 +23,13 @@
             "polyfills": "projects/akos-editor/src/polyfills.ts",
             "tsConfig": "projects/akos-editor/tsconfig.app.json",
             "assets": [
-              "projects/akos-editor/src/assets",
-              {
-                "glob": "mdi.svg",
-                "input": "node_modules/@mdi/angular-material",
-                "output": "assets"
-              }
+              "projects/akos-editor/src/assets"
             ],
             "styles": [
-              "projects/akos-editor/src/assets/styles/theme.scss",
+              "node_modules/@mdi/font/css/materialdesignicons.css",
               "node_modules/primeng/resources/themes/saga-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
+              "projects/akos-editor/src/assets/styles/theme.scss",
               "projects/akos-editor/src/styles.scss"
             ],
             "scripts": [],
@@ -107,7 +103,7 @@
               "projects/akos-editor/src/assets"
             ],
             "styles": [
-              "projects/akos-editor/src/assets/styles/theme.scss",
+              "node_modules/@mdi/font/css/materialdesignicons.css",
               "node_modules/primeng/resources/themes/saga-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "projects/akos-editor/src/styles.scss"
