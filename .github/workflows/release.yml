@@ -1,0 +1,71 @@
+name: Release channel
+on:
+  workflow_dispatch:
+env:
+  CSC_IDENTITY_AUTO_DISCOVERY: false
+defaults:
+  run:
+    shell: bash
+jobs:
+  build_engine:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout branch develop
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            $APPDATA/npm-cache
+          key: cache-${{ matrix.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
+      - name: Build engine
+        run: npm run build:engine
+      - name: Upload engine artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: engine
+          path: dist/build/akos-engine/*
+  build_editor:
+    runs-on: ${{ matrix.os }}
+    needs: [build_engine]
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout branch develop
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            $APPDATA/npm-cache
+          key: cache-${{ matrix.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
+      - name: Download engine artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: engine
+          path: dist/build/akos-engine
+      - name: Clean engine directory
+        run: rm -rf dist/build/akos-engine/.icon-ico
+      - name: Build editor
+        run: npm run build:editor
+      - name: Upload editor
+        uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: dist/release/*
+
+
