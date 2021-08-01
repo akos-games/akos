@@ -3,79 +3,104 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "akos-common": {
+      "projectType": "library",
+      "root": "projects/akos-common",
+      "sourceRoot": "projects/akos-common/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/akos-common/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/akos-common/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/akos-common/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/akos-common/src/test.ts",
+            "tsConfig": "projects/akos-common/tsconfig.spec.json",
+            "karmaConfig": "projects/akos-common/karma.conf.js"
+          }
+        }
+      }
+    },
     "akos-editor": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
         }
       },
       "root": "projects/akos-editor",
       "sourceRoot": "projects/akos-editor/src",
-      "prefix": "ak",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/compile/akos-editor",
+            "outputPath": "dist/akos-editor",
             "index": "projects/akos-editor/src/index.html",
             "main": "projects/akos-editor/src/main.ts",
             "polyfills": "projects/akos-editor/src/polyfills.ts",
             "tsConfig": "projects/akos-editor/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
+              "projects/akos-editor/src/favicon.ico",
               "projects/akos-editor/src/assets"
             ],
             "styles": [
-              "node_modules/@mdi/font/css/materialdesignicons.css",
-              "node_modules/primeng/resources/themes/saga-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css",
-              "projects/akos-editor/src/assets/styles/theme.scss",
               "projects/akos-editor/src/styles.scss"
             ],
-            "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "scripts": []
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/akos-editor/src/environments/environment.ts",
                   "with": "projects/akos-editor/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "150kb",
-                  "maximumError": "200kb"
-                }
-              ]
+              "outputHashing": "all"
             },
-            "development": {}
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-          },
           "configurations": {
             "production": {
               "browserTarget": "akos-editor:build:production"
@@ -99,45 +124,16 @@
             "polyfills": "projects/akos-editor/src/polyfills.ts",
             "tsConfig": "projects/akos-editor/tsconfig.spec.json",
             "karmaConfig": "projects/akos-editor/karma.conf.js",
+            "inlineStyleLanguage": "scss",
             "assets": [
+              "projects/akos-editor/src/favicon.ico",
               "projects/akos-editor/src/assets"
             ],
             "styles": [
-              "node_modules/@mdi/font/css/materialdesignicons.css",
-              "node_modules/primeng/resources/themes/saga-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css",
               "projects/akos-editor/src/styles.scss"
             ],
             "scripts": []
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/akos-editor/tsconfig.app.json",
-              "projects/akos-editor/tsconfig.spec.json",
-              "projects/akos-editor/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/akos-editor/e2e/protractor.conf.js"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "akos-editor:serve:production"
-            },
-            "development": {
-              "devServerTarget": "akos-editor:serve:development"
-            }
-          },
-          "defaultConfiguration": "development"
         }
       }
     },
@@ -146,70 +142,68 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
         }
       },
       "root": "projects/akos-engine",
       "sourceRoot": "projects/akos-engine/src",
-      "prefix": "ak",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/compile/akos-engine",
+            "outputPath": "dist/akos-engine",
             "index": "projects/akos-engine/src/index.html",
             "main": "projects/akos-engine/src/main.ts",
             "polyfills": "projects/akos-engine/src/polyfills.ts",
             "tsConfig": "projects/akos-engine/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
+              "projects/akos-engine/src/favicon.ico",
               "projects/akos-engine/src/assets"
             ],
             "styles": [
               "projects/akos-engine/src/styles.scss"
             ],
-            "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "scripts": []
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/akos-engine/src/environments/environment.ts",
                   "with": "projects/akos-engine/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
+              "outputHashing": "all"
             },
-            "development": {}
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-          },
           "configurations": {
             "production": {
               "browserTarget": "akos-engine:build:production"
@@ -233,7 +227,9 @@
             "polyfills": "projects/akos-engine/src/polyfills.ts",
             "tsConfig": "projects/akos-engine/tsconfig.spec.json",
             "karmaConfig": "projects/akos-engine/karma.conf.js",
+            "inlineStyleLanguage": "scss",
             "assets": [
+              "projects/akos-engine/src/favicon.ico",
               "projects/akos-engine/src/assets"
             ],
             "styles": [
@@ -241,79 +237,9 @@
             ],
             "scripts": []
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/akos-engine/tsconfig.app.json",
-              "projects/akos-engine/tsconfig.spec.json",
-              "projects/akos-engine/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/akos-engine/e2e/protractor.conf.js"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "akos-engine:serve:production"
-            },
-            "development": {
-              "devServerTarget": "akos-engine:serve:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        }
-      }
-    },
-    "akos-common": {
-      "projectType": "library",
-      "root": "projects/akos-common",
-      "sourceRoot": "projects/akos-common/src",
-      "prefix": "ak",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "tsConfig": "projects/akos-common/tsconfig.lib.json",
-            "project": "projects/akos-common/ng-package.json"
-          }
-        ,          "configurations": {
-            "production": {
-              "tsConfig": "projects/akos-common/tsconfig.lib.prod.json"
-            },
-            "development": {}
-          },
-          "defaultConfiguration": "production"
-},
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/akos-common/src/test.ts",
-            "tsConfig": "projects/akos-common/tsconfig.spec.json",
-            "karmaConfig": "projects/akos-common/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/akos-common/tsconfig.lib.json",
-              "projects/akos-common/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     }
   },
-  "defaultProject": "akos-editor"
+  "defaultProject": "akos-common"
 }
