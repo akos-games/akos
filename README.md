@@ -1,27 +1,47 @@
-# Akos
+<img  align="left" width="80" height="80" src=".readme/akos.svg"/>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.4.
+# Akos - Visual novel engine
 
-## Development server
+Akos is a no-code visual-novel engine. It features anything creators and artists needs to create professional quality games, focusing on art, script and game design, without wasting time and energy on coding.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+_**This project is at a very early stage of its development.  
+Most of planned features are still missing or not fully implemented.  
+As for now, it should be considered as a technical preview.**_
 
-## Code scaffolding
+## Features
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+:monkey_face: **No-code and user-friendly editor**  
+:floppy_disk: **Built-in game saves management**  
 
-## Build
+_Planned: :twisted_rightwards_arrows: Create rich stories with complex game logic_  
+_Planned: :film_strip: Animations_  
+_Planned: :musical_note: Dynamic music and sound effects_  
+_Planned: :heavy_check_mark: Guaranteed game saves compatibility between your game versions_  
+_Planned: :point_up_2: Point'n'Click capabilities_  
+_Planned: :crossed_swords: RPG elements (characters, locations, inventory, quests, fights, ...)_  
+_Planned: :boom: Procedural generation_   
+_Planned: :video_game: Steam integration_  
+_Planned: :computer: Build games for / from Windows, Mac and Linux_  
+_Planned: :iphone: Build games for mobile_  
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## [Download](https://github.com/akosgames/akos/releases/latest)
 
-## Running unit tests
+## [Quickstart and documentation](docs/quickstart.md)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## [Changelog](CHANGELOG.md)
 
-## Running end-to-end tests
+## Why Akos?
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Before being able to make a living from their passion, **indie game developers** usually start developing in their spare time, alongside a full-time job.
 
-## Further help
+Under these conditions, they quickly run out of a valuable resource that is impossible to capitalize on: **time**.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Time needed to learn all the required skills to make a professional quality video game can be a source of discouragement for many creators. Akos has been designed to drastically reduce this time by **eliminating coding**, which is one of the most difficult game dev skills to master.
+
+In this way, we hope to help novice game devs focus their creativity and **stay motivated** throughout their project.
+
+## License
+
+[![License](https://img.shields.io/badge/license-MIT-green)](/LICENSE)
+
+Copyright :copyright: 2021 Sébastien Roux
